@@ -59,17 +59,10 @@ public class TopicMapBuilder implements TopicMapBuilderIF, java.io.Serializable 
     if (value == null) throw new NullPointerException("Topic name value must not be null.");
     CrossTopicMapException.check(topic, this.tm);
     
-    // First check if the default name type has already been created
-    TopicIF nameType = tm.getTopicBySubjectIdentifier(PSI.getSAMNameType());
-		if (nameType == null) {
-		  nameType = makeTopic();
-		  nameType.addSubjectIdentifier(PSI.getSAMNameType());
-		}
-		
     TopicNameIF name = new TopicName(tm);
     ((Topic)topic).addTopicName(name);
     name.setValue(value);
-    name.setType(nameType);
+    name.setType(getDefaultNameType());
     return name;
   }
 
@@ -77,7 +70,13 @@ public class TopicMapBuilder implements TopicMapBuilderIF, java.io.Serializable 
 		if (topic == null) throw new NullPointerException("Topic must not be null.");
 		if (value == null) throw new NullPointerException("Topic name value must not be null.");
 		CrossTopicMapException.check(topic, this.tm);
-		if (bntype != null) CrossTopicMapException.check(bntype, this.tm);
+		// if not type has been specified, use the default name type
+		if (bntype == null) {
+	    bntype = getDefaultNameType();
+		} else {
+      CrossTopicMapException.check(bntype, this.tm);
+		}
+		
     TopicNameIF name = new TopicName(tm);
     ((Topic)topic).addTopicName(name);
     name.setType(bntype);
@@ -85,6 +84,15 @@ public class TopicMapBuilder implements TopicMapBuilderIF, java.io.Serializable 
     return name;
   }
 
+  private TopicIF getDefaultNameType() {
+    TopicIF nameType = tm.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+    if (nameType == null) {
+      nameType = makeTopic();
+      nameType.addSubjectIdentifier(PSI.getSAMNameType());
+    }
+    return nameType;
+  }
+  
   public VariantNameIF makeVariantName(TopicNameIF name, String variant_name) {
 		if (name == null) throw new NullPointerException("Topic name must not be null.");
 		if (variant_name == null) throw new NullPointerException("Variant value must not be null.");
