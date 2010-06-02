@@ -404,7 +404,7 @@ final class JTMStreamingParser {
     }
     if (requireParent) {
       if (!seenParent) {
-        throw new JTMException("The parent of the occurrence is undefined.");
+        throw new JTMException("The parent of the name is undefined.");
       } else {
         MergeUtils.mergeInto(topic, parent);
       }
