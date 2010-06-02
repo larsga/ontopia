@@ -6,9 +6,9 @@ package net.ontopia.topicmaps.impl.rdbms;
 import java.io.Reader;
 import java.util.*;
 import net.ontopia.topicmaps.core.*;
+import net.ontopia.topicmaps.utils.PSI;
 import net.ontopia.infoset.core.*;
 import net.ontopia.persistence.proxy.TransactionIF;
-import net.ontopia.utils.ObjectUtils;
 
 /**
  * INTERNAL: The default topic map builder implementation.
@@ -56,12 +56,21 @@ public class TopicMapBuilder implements TopicMapBuilderIF, java.io.Serializable 
   }
 
   public TopicNameIF makeTopicName(TopicIF topic, String value) {
-		if (topic == null) throw new NullPointerException("Topic must not be null.");
-		if (value == null) throw new NullPointerException("Topic name value must not be null.");
-		CrossTopicMapException.check(topic, this.tm);
+    if (topic == null) throw new NullPointerException("Topic must not be null.");
+    if (value == null) throw new NullPointerException("Topic name value must not be null.");
+    CrossTopicMapException.check(topic, this.tm);
+		
+    // First check if the default name type has already been created
+    TopicIF nameType = tm.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+    if (nameType == null) {
+      nameType = makeTopic();
+      nameType.addSubjectIdentifier(PSI.getSAMNameType());
+    }
+		
     TopicNameIF name = new TopicName(txn);
     ((Topic)topic).addTopicName(name);
     name.setValue(value);
+    name.setType(nameType);
     return name;
   }
 
