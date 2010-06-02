@@ -67,6 +67,23 @@ public class DuplicateSuppressionUtils {
       removeDuplicateAssociations(assocs);
   }
 
+  /**
+   * PUBLIC: Remove all unused default types in the entire topic map,
+   * e.g. default name type.
+   */
+  public static void removeUnusedDefaultTypes(TopicMapIF topicmap) {
+    ClassInstanceIndexIF cindex = (ClassInstanceIndexIF)topicmap.getIndex("net.ontopia.topicmaps.core.index.ClassInstanceIndexIF");
+    
+    TopicIF nameType = topicmap.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+    if (nameType != null) {
+      Collection<TopicNameIF> names = cindex.getTopicNames(nameType);
+      // if no topic names use the default name type -> remove the type
+      if (names == null || names.size() == 0) {
+        nameType.remove();
+      }
+    }
+  }
+  
   private static void prefetchTopics(TopicMapIF topicmap, Collection batch) {
     // TopicIF.basenames
     Prefetcher.prefetch(topicmap, batch,
