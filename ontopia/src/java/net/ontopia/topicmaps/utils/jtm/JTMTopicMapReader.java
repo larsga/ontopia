@@ -129,8 +129,6 @@ public class JTMTopicMapReader extends AbstractTopicMapReader {
 
     // Process class-instance associations
     ClassInstanceUtils.resolveAssociations2(topicmap);
-    // remove unused core subject types as defined in the TMDM
-    DuplicateSuppressionUtils.removeUnusedDefaultTypes(topicmap);
 
     return topicmap;
   }
