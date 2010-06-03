@@ -91,8 +91,8 @@ public class XTMReaderTest extends AbstractXMLTestCase {
     Iterator iter = tms.iterator();
     while (iter.hasNext()) {
       TopicMapIF tm = (TopicMapIF)iter.next();
-      assertTrue("topic map has't got exactly one topic" + tm.getItemIdentifiers(),
-             tm.getTopics().size() == 1);
+      assertTrue("topic map has't got exactly two topics" + tm.getItemIdentifiers(),
+             tm.getTopics().size() == 2);
     }
   }
 
@@ -113,15 +113,15 @@ public class XTMReaderTest extends AbstractXMLTestCase {
     importer2.importInto(tm);
 
     // Check the result
-    assertTrue("topic map has't got exactly three topics: " + tm.getTopics().size(),
-           tm.getTopics().size() == 3); 
+    assertTrue("topic map has't got exactly four topics: " + tm.getTopics().size(),
+           tm.getTopics().size() == 4); 
    
   }
 
   public void testTopicName() throws IOException {
     TopicMapIF tm = readTopicMap("basename.xtm");
     assertTrue("wrong number of topics after import",
-           tm.getTopics().size() == 5);
+           tm.getTopics().size() == 6);
     assertTrue("spurious topic map constructs found",
            tm.getAssociations().size() == 0);
 
@@ -132,7 +132,7 @@ public class XTMReaderTest extends AbstractXMLTestCase {
   public void testVariants() throws IOException {
     TopicMapIF tm = readTopicMap("variants.xtm");
     assertTrue("wrong number of topics after import",
-           tm.getTopics().size() == 2);
+           tm.getTopics().size() == 3);
     assertTrue("spurious topic map constructs found",
            tm.getAssociations().size() == 0);
 
@@ -162,7 +162,7 @@ public class XTMReaderTest extends AbstractXMLTestCase {
   public void testOccurrences() throws IOException {
     TopicMapIF tm = readTopicMap("occurrences.xtm");
     assertTrue("wrong number of topics after import",
-           tm.getTopics().size() == 4);
+           tm.getTopics().size() == 5);
     assertTrue("spurious topic map constructs found",
            tm.getAssociations().size() == 0);
 
@@ -218,7 +218,7 @@ public class XTMReaderTest extends AbstractXMLTestCase {
   public void testTopicNameScope() throws IOException {
     TopicMapIF tm = readTopicMap("basename-scope.xtm");
     assertTrue("wrong number of topics after import",
-           tm.getTopics().size() == 3);
+           tm.getTopics().size() == 4);
     assertTrue("spurious topic map constructs found",
            tm.getAssociations().size() == 0);
 
