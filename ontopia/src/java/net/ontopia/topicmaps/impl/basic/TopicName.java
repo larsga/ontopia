@@ -1,4 +1,3 @@
-
 // $Id: TopicName.java,v 1.29 2008/06/12 14:37:14 geir.gronmo Exp $
 
 package net.ontopia.topicmaps.impl.basic;
@@ -8,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.ConstraintViolationException;
 import net.ontopia.topicmaps.core.CrossTopicMapException;
@@ -15,8 +15,9 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.impl.utils.DeletionUtils;
 import net.ontopia.topicmaps.impl.utils.ObjectStrings;
+import net.ontopia.topicmaps.utils.PSI;
 import net.ontopia.utils.UniqueSet;
-  
+
 /**
  * INTERNAL: The basic topic name implementation.
  */
@@ -34,13 +35,13 @@ public class TopicName extends TMObject implements TopicNameIF {
   TopicName(TopicMap tm) {
     super(tm);
   }
-  
+
   // -----------------------------------------------------------------------------
   // NameIF implementation
   // -----------------------------------------------------------------------------
-  
+
   public TopicIF getTopic() {
-    return (TopicIF)parent;
+    return (TopicIF) parent;
   }
 
   /**
@@ -49,8 +50,9 @@ public class TopicName extends TMObject implements TopicNameIF {
   void setTopic(Topic parent) {
     // Validate topic map
     if (parent != null && parent.topicmap != this.topicmap)
-      throw new ConstraintViolationException("Cannot move objects across topic maps: "
-                                             + this.topicmap + " and " + parent.topicmap);
+      throw new ConstraintViolationException(
+          "Cannot move objects across topic maps: " + this.topicmap + " and "
+              + parent.topicmap);
 
     // (De)reference pooled sets
     if (scope != null) {
@@ -59,17 +61,18 @@ public class TopicName extends TMObject implements TopicNameIF {
       else
         scope = topicmap.setpool.get(scope);
     }
-    
+
     // Set parent
     this.parent = parent;
   }
-  
+
   public String getValue() {
     return value;
   }
-  
+
   public void setValue(String value) {
-    if (value == null) throw new NullPointerException("Topic name value must not be null.");
+    if (value == null)
+      throw new NullPointerException("Topic name value must not be null.");
     // Notify listeners
     fireEvent("TopicNameIF.setValue", value, getValue());
     this.value = value;
@@ -83,7 +86,7 @@ public class TopicName extends TMObject implements TopicNameIF {
   }
 
   void addVariant(VariantNameIF _variant) {
-    VariantName variant = (VariantName)_variant;
+    VariantName variant = (VariantName) _variant;
     if (variant == null)
       throw new NullPointerException("null is not a valid argument.");
     // Check to see if variant is already a member of this topic name
@@ -93,7 +96,7 @@ public class TopicName extends TMObject implements TopicNameIF {
     if (variant.parent != null)
       throw new ConstraintViolationException("Moving objects is not allowed.");
     // Notify listeners
-    fireEvent("TopicNameIF.addVariant", variant, null);    
+    fireEvent("TopicNameIF.addVariant", variant, null);
     // Set topic name property
     if (variants == null)
       variants = topicmap.cfactory.makeSmallSet();
@@ -104,13 +107,13 @@ public class TopicName extends TMObject implements TopicNameIF {
     // Add inherited themes to variant name
     if (scope != null && !scope.isEmpty()) {
       Iterator themes = scope.iterator();
-      while (themes.hasNext()) 
-        variant._addTheme((TopicIF)themes.next(), false);
-    }    
+      while (themes.hasNext())
+        variant._addTheme((TopicIF) themes.next(), false);
+    }
   }
 
   void removeVariant(VariantNameIF _variant) {
-    VariantName variant = (VariantName)_variant;
+    VariantName variant = (VariantName) _variant;
     if (variant == null)
       throw new NullPointerException("null is not a valid argument.");
     // Check to see if variant is not a member of this topic name
@@ -122,22 +125,22 @@ public class TopicName extends TMObject implements TopicNameIF {
     // Remove inherited themes from variant name
     if (scope != null && !scope.isEmpty()) {
       Iterator themes = scope.iterator();
-      while (themes.hasNext()) 
-        variant._removeTheme((TopicIF)themes.next(), false);
-    }    
-    
+      while (themes.hasNext())
+        variant._removeTheme((TopicIF) themes.next(), false);
+    }
+
     // Unset topic name property
     variant.setTopicName(null);
     // Remove variant from list of variants
     if (variants == null)
       return;
-    variants.remove(variant);    
+    variants.remove(variant);
   }
 
   public void remove() {
     if (parent != null) {
       DeletionUtils.removeDependencies(this);
-      ((Topic)parent).removeTopicName(this);
+      ((Topic) parent).removeTopicName(this);
     }
   }
 
@@ -149,7 +152,7 @@ public class TopicName extends TMObject implements TopicNameIF {
     // Return scope defined on this object
     return (scope == null ? Collections.EMPTY_SET : scope);
   }
-  
+
   public void addTheme(TopicIF theme) {
     if (theme == null)
       throw new NullPointerException("null is not a valid argument.");
@@ -165,12 +168,12 @@ public class TopicName extends TMObject implements TopicNameIF {
     if (variants != null && !variants.isEmpty()) {
       Iterator iter = variants.iterator();
       while (iter.hasNext()) {
-        VariantName v = (VariantName)iter.next();
+        VariantName v = (VariantName) iter.next();
         v._addTheme(theme, false);
       }
-    }      
+    }
   }
-  
+
   public void removeTheme(TopicIF theme) {
     if (theme == null)
       throw new NullPointerException("null is not a valid argument.");
@@ -179,18 +182,18 @@ public class TopicName extends TMObject implements TopicNameIF {
     fireEvent("TopicNameIF.removeTheme", null, theme);
 
     // remove theme from variants
-    if (variants != null && !variants.isEmpty()) {      
+    if (variants != null && !variants.isEmpty()) {
       Iterator iter = variants.iterator();
       while (iter.hasNext()) {
-        VariantName v = (VariantName)iter.next();
+        VariantName v = (VariantName) iter.next();
         v._removeTheme(theme, false);
       }
     }
-    
+
     // Remove theme from scope
     if (scope == null)
       return;
-    scope = topicmap.setpool.remove(scope, theme, true);    
+    scope = topicmap.setpool.remove(scope, theme, true);
   }
 
   // -----------------------------------------------------------------------------
@@ -200,15 +203,29 @@ public class TopicName extends TMObject implements TopicNameIF {
   public TopicIF getType() {
     return type;
   }
-  
+
   public void setType(TopicIF type) {
-    if (type != null)
+    if (type == null) {
+      type = getDefaultNameType();
+    } else {
       CrossTopicMapException.check(type, this);
+    }
+
     // Notify listeners
     fireEvent("TopicNameIF.setType", type, getType());
     this.type = type;
   }
-  
+
+  private TopicIF getDefaultNameType() {
+    TopicMapIF tm = getTopicMap();
+    TopicIF nameType = tm.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+    if (nameType == null) {
+      nameType = tm.getBuilder().makeTopic();
+      nameType.addSubjectIdentifier(PSI.getSAMNameType());
+    }
+    return nameType;
+  }
+
   // -----------------------------------------------------------------------------
   // ReifiableIF implementation
   // -----------------------------------------------------------------------------
@@ -216,16 +233,19 @@ public class TopicName extends TMObject implements TopicNameIF {
   public TopicIF getReifier() {
     return reifier;
   }
-  
+
   public void setReifier(TopicIF _reifier) {
-    if (_reifier != null) CrossTopicMapException.check(_reifier, this);
+    if (_reifier != null)
+      CrossTopicMapException.check(_reifier, this);
     // Notify listeners
-    Topic reifier = (Topic)_reifier;
-    Topic oldReifier = (Topic)getReifier();
+    Topic reifier = (Topic) _reifier;
+    Topic oldReifier = (Topic) getReifier();
     fireEvent("ReifiableIF.setReifier", reifier, oldReifier);
     this.reifier = reifier;
-    if (oldReifier != null) oldReifier.setReified(null);
-    if (reifier != null) reifier.setReified(this);
+    if (oldReifier != null)
+      oldReifier.setReified(null);
+    if (reifier != null)
+      reifier.setReified(this);
   }
 
   // -----------------------------------------------------------------------------
@@ -235,7 +255,8 @@ public class TopicName extends TMObject implements TopicNameIF {
   protected void fireEvent(String event, Object new_value, Object old_value) {
     if (parent == null || parent.parent == null)
       return;
-    else topicmap.processEvent(this, event, new_value, old_value);
+    else
+      topicmap.processEvent(this, event, new_value, old_value);
   }
 
   protected boolean isConnected() {
@@ -246,7 +267,7 @@ public class TopicName extends TMObject implements TopicNameIF {
   }
 
   public String toString() {
-    return ObjectStrings.toString("basic.TopicName", (TopicNameIF)this);
+    return ObjectStrings.toString("basic.TopicName", (TopicNameIF) this);
   }
 
 }
