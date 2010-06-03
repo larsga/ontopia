@@ -2,8 +2,6 @@
 
 package net.ontopia.topicmaps.core.test;
 
-import junit.framework.*;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.PSI;
 
@@ -36,7 +34,11 @@ public abstract class AbstractTypedScopedTest extends AbstractScopedTest {
 
     if (typed instanceof TopicNameIF) {
       typed.setType(null);
-      assertTrue("type could not be set to null", typed.getType() == null);
+      TopicMapIF tm = typed.getTopicMap();
+      TopicIF defaultNameType = tm.getTopicBySubjectIdentifier(PSI
+          .getSAMNameType());
+      assertTrue("type is not equal to the default name type when set to null",
+          typed.getType().equals(defaultNameType));
     } else {
       try {
         typed.setType(null);
