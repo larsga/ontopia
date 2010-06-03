@@ -65,6 +65,7 @@ public class QueryProcessor extends AbstractQueryProcessor implements
   protected Collator collator;
   protected TologOptions options;
   protected TologParser parser; // the default parser (may have state)
+  protected TopicIF defnametype;
 
   // --- initialize logging facility.
   static Logger logger = LoggerFactory.getLogger(QueryProcessor.class.getName());
@@ -88,6 +89,8 @@ public class QueryProcessor extends AbstractQueryProcessor implements
         topicmap, base), topicmap, base);
     context = new LocalParseContext(context);
     parser = new TologParser(context, options);
+
+    this.defnametype = topicmap.getTopicBySubjectIdentifier(PSI.getSAMNameType());
   }
 
   public TologOptions getOptions() {
@@ -613,7 +616,7 @@ public class QueryProcessor extends AbstractQueryProcessor implements
   /**
    * Returns the sort name used to sort the given topic.
    */
-  public static String getSortName(TopicIF topic, TopicIF sort) {
+  public String getSortName(TopicIF topic, TopicIF sort) {
     // 0: verify that we have a topic at all
     if (topic == null)
       return "[No name]";
@@ -628,8 +631,9 @@ public class QueryProcessor extends AbstractQueryProcessor implements
       while (it.hasNext()) {
         TopicNameIF candidate = (TopicNameIF) it.next();
         int score = candidate.getScope().size() * 10;
-        if (candidate.getType() != null)
+        if (candidate.getType() != defnametype)
           score++;
+
         if (score < least) {
           bn = candidate;
           least = score;
