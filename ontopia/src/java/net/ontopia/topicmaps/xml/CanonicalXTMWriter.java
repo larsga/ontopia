@@ -111,7 +111,6 @@ public class CanonicalXTMWriter implements TopicMapWriterIF {
   
   public void write(TopicMapIF topicmap) {
     DuplicateSuppressionUtils.removeDuplicates(topicmap);
-    DuplicateSuppressionUtils.removeUnusedDefaultTypes(topicmap);
     tmForFake = topicmap;
   
     base = topicmap.getStore().getBaseAddress().getAddress();
