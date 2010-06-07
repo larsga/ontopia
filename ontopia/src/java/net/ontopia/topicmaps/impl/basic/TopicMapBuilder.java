@@ -67,8 +67,10 @@ public class TopicMapBuilder implements TopicMapBuilderIF, java.io.Serializable 
   }
 
   public TopicNameIF makeTopicName(TopicIF topic, TopicIF bntype, String value) {
-    if (topic == null) throw new NullPointerException("Topic must not be null.");
-    if (value == null) throw new NullPointerException("Topic name value must not be null.");
+    if (topic == null)
+      throw new NullPointerException("Topic must not be null.");
+    if (value == null)
+      throw new NullPointerException("Topic name value must not be null.");
     CrossTopicMapException.check(topic, this.tm);
     // if not type has been specified, use the default name type
     if (bntype == null)
