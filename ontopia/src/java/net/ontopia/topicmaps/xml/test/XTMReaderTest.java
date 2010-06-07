@@ -356,8 +356,8 @@ public class XTMReaderTest extends AbstractXMLTestCase {
     // do some testing verifying that the XTM was interpreted correctly
     assertTrue("wrong number of topics", tm.getTopics().size() == 2);
     assertTrue("topic map is reified", tm.getReifier() != null);
-    assertTrue("topic has no name", !((TopicIF) tm.getTopics().iterator()
-        .next()).getTopicNames().isEmpty());
+    TopicIF reifier = getTopicById(tm, "reifier");
+    assertTrue("topic has no name", !reifier.getTopicNames().isEmpty());
   }
 
   // --- Supporting methods

@@ -1,8 +1,7 @@
 
-// $Id: MergeCopyTest.java,v 1.9 2008/06/13 08:36:29 geir.gronmo Exp $
-
 package net.ontopia.topicmaps.utils.test;
 
+import java.util.Iterator;
 import java.util.Collection;
 import net.ontopia.topicmaps.test.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
@@ -167,7 +166,16 @@ public class MergeCopyTest extends AbstractTopicMapTestCase {
     
     assertTrue("topic map has wrong number of topics after merge",
                topicmap1.getTopics().size() == 2);
-    topic = (TopicIF) topicmap1.getTopics().iterator().next();
+
+    // a bit tricky, but of the two topics in the TM (the copied one
+    // and default name type) we have to pick the copied one, which
+    // has no identifier
+    TopicIF defnametype = topicmap1.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+    Iterator it = topicmap1.getTopics().iterator();
+    topic = (TopicIF) it.next();
+    if (topic == defnametype)
+      topic = (TopicIF) it.next();
+      
     assertTrue("empty topic suddenly has source locators",
                topic.getItemIdentifiers().isEmpty());
     assertTrue("empty topic suddenly has subject indicators",
