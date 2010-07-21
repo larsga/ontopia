@@ -26,7 +26,7 @@ public abstract class BaseScopedTag extends BaseValueProducingAndAcceptingTag
    * Default is to use the <code>IntersectionOfContextDecider</code>.
    *
    * @see net.ontopia.topicmaps.utils.IntersectionOfContextDecider
-   * @see net.ontopia.topicmaps.nav.utils.deciders.WithinScopeDecider
+   * @see net.ontopia.topicmaps.utils.deciders.WithinScopeDecider
    */
   public DeciderIF getScopeDecider(int scopeType) {
     return ScopeUtils.getScopeDecider(pageContext, contextTag, scopeType);

@@ -16,7 +16,7 @@ import net.ontopia.topicmaps.utils.ApplicableInContextDecider;
 import net.ontopia.topicmaps.utils.IntersectionOfContextDecider;
 import net.ontopia.topicmaps.utils.SupersetOfContextDecider;
 import net.ontopia.topicmaps.utils.SubsetOfContextDecider;
-import net.ontopia.topicmaps.nav.utils.deciders.WithinScopeDecider;
+import net.ontopia.topicmaps.utils.deciders.WithinScopeDecider;
 
 import net.ontopia.topicmaps.nav2.core.UserIF;
 import net.ontopia.topicmaps.nav2.core.NavigatorApplicationIF;
@@ -44,7 +44,7 @@ public final class ScopeUtils implements ScopeSupportIF {
    * Default is to use the <code>IntersectionOfContextDecider</code>.
    *
    * @see net.ontopia.topicmaps.utils.IntersectionOfContextDecider
-   * @see net.ontopia.topicmaps.nav.utils.deciders.WithinScopeDecider
+   * @see net.ontopia.topicmaps.utils.deciders.WithinScopeDecider
    */
   public static DeciderIF getScopeDecider(PageContext pageContext,
                                           ContextTag contextTag,

@@ -4,8 +4,8 @@
 
 	<parent>
 		<artifactId>ontopia-parent</artifactId>
-		<groupId>net.ontopia</groupId>
-		<version>5.1.0-b1</version>
+		<groupId>net.ontopia.maven</groupId>
+		<version>5.2.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>ontopia-navigator</artifactId>
@@ -235,38 +235,42 @@
 					<configuration>
 						<source>1.5</source>
 						<target>1.5</target>
+
+<!--
 						<includes>
 
-							<!--patternset id="sources.navigator"-->
-							<include>**/net/ontopia/utils/ontojsp/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/core/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/utils/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/impl/basic/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/impl/framework/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/logic/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/output/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/value/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/TMvalue/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/framework/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/taglibs/tolog/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/plugins/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/servlets/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/appservers/**/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/webapps/**/*.java</include>
+							<!- -patternset id="sources.navigator"- ->
+DONE						<include>**/net/ontopia/utils/ontojsp/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/core/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/utils/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/impl/basic/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/impl/framework/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/logic/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/output/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/value/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/TMvalue/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/framework/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/taglibs/tolog/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/plugins/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/servlets/*.java</include>
+MISSING!!!!					<include>**/net/ontopia/topicmaps/nav2/appservers/**/*.java</include>
+OTHER MODULE				<include>**/net/ontopia/topicmaps/nav2/webapps/**/*.java</include>
 
-							<!-- Using packages from old nav framework -->
-							<include>**/net/ontopia/topicmaps/nav/context/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav/taglibs/template/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav/utils/comparators/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav/utils/deciders/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav/utils/stringifiers/ComparatorNameStringifier.java</include>
+							<!- - Using packages from old nav framework - ->
+DONE						<include>**/net/ontopia/topicmaps/nav/context/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav/taglibs/template/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav/utils/comparators/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav/utils/deciders/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav/utils/stringifiers/ComparatorNameStringifier.java</include>
 
-							<!-- New portal toolkit packages -->
-							<include>**/net/ontopia/topicmaps/nav2/portlets/taglib/*.java</include>
-							<include>**/net/ontopia/topicmaps/nav2/portlets/pojos/*.java</include>
+							<!- - New portal toolkit packages - ->
+DONE						<include>**/net/ontopia/topicmaps/nav2/portlets/taglib/*.java</include>
+DONE						<include>**/net/ontopia/topicmaps/nav2/portlets/pojos/*.java</include>
 
-							<!-- added by hand to comply -->
+							<!- - added by hand to comply - ->
 							<include>**/net/ontopia/topicmaps/webed/impl/basic/Constants.java</include>
+							
+NOT INCLUDED			nav/conf
 							
 						</includes>
 						<excludes>
@@ -274,12 +278,12 @@
 							<exclude>**/net/ontopia/topicmaps/nav2/**/test/*.java</exclude>
 
 							<exclude>**/net/ontopia/topicmaps/nav2/portlets/taglib/RelatedTag.java</exclude>
-								<!-- requires net.ontopia.topicmaps.webed.impl.utils.TagUtils, requires too much -->
+								<!- - requires net.ontopia.topicmaps.webed.impl.utils.TagUtils, requires too much - ->
 							
 						</excludes>
 						<testIncludes>
 
-						  	<!--patternset id="sources.test.navigator"-->
+						  	<!- -patternset id="sources.test.navigator"- ->
 						    <include>**/net/ontopia/utils/fakeJSP/*.java</include>
 						    <include>**/net/ontopia/topicmaps/nav2/impl/basic/test/*.java</include>
 						    <include>**/net/ontopia/topicmaps/nav2/impl/framework/test/*.java</include>
@@ -288,6 +292,8 @@
 						    <include>**/net/ontopia/topicmaps/nav2/portlets/pojos/test/*.java</include>
 
 						</testIncludes>
+-->
+
 					</configuration>
 				</plugin>
 				<plugin>
