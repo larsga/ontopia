@@ -1,6 +1,6 @@
 // $Id: WithinScopeDecider.java,v 1.11 2008/01/10 11:08:48 geir.gronmo Exp $
 
-package net.ontopia.topicmaps.nav.utils.deciders;
+package net.ontopia.topicmaps.utils.deciders;
 
 import java.util.Collection;
 

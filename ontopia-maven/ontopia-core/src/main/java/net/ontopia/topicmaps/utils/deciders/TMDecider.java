@@ -1,7 +1,7 @@
 
 // $Id: TMDecider.java,v 1.6 2008/07/07 11:49:06 lars.garshol Exp $
 
-package net.ontopia.topicmaps.nav.utils.deciders;
+package net.ontopia.topicmaps.utils.deciders;
 
 import net.ontopia.utils.DeciderIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;

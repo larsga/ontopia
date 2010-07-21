@@ -20,7 +20,7 @@ import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.nav.utils.deciders.TMExporterDecider;
+import net.ontopia.topicmaps.utils.deciders.TMExporterDecider;
 import net.ontopia.topicmaps.query.core.*;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import com.hp.hpl.jena.rdf.arp.AResource;

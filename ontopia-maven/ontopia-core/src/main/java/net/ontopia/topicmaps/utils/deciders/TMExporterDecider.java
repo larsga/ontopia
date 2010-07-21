@@ -1,7 +1,7 @@
 
 // $Id: TMExporterDecider.java,v 1.7 2008/11/03 12:24:58 lars.garshol Exp $
 
-package net.ontopia.topicmaps.nav.utils.deciders;
+package net.ontopia.topicmaps.utils.deciders;
 
 import java.util.ArrayList;
 import java.util.Collection;

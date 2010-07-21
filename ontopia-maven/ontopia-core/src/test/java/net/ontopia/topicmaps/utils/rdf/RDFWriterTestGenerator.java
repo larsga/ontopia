@@ -11,7 +11,7 @@ import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapReaderIF;
-import net.ontopia.topicmaps.nav.utils.deciders.TMDecider;
+import net.ontopia.topicmaps.utils.deciders.TMDecider;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.utils.ltm.test.LTMTopicMapWriterTestGenerator.FilterTestCase;

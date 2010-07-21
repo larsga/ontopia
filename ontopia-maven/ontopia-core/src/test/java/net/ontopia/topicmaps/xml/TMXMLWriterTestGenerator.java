@@ -14,7 +14,7 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapWriterIF;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.xml.TMXMLWriter;
-import net.ontopia.topicmaps.nav.utils.deciders.TMDecider;
+import net.ontopia.topicmaps.utils.deciders.TMDecider;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
