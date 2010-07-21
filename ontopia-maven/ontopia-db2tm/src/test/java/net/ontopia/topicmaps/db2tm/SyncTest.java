@@ -1,7 +1,7 @@
 
 // $Id: SyncTest.java,v 1.2 2009/01/23 13:13:48 lars.garshol Exp $
 
-package net.ontopia.topicmaps.db2tm.test;
+package net.ontopia.topicmaps.db2tm;
 
 import java.util.Map;
 import java.io.File;
@@ -89,7 +89,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -115,7 +115,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -143,7 +143,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -178,7 +178,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -203,7 +203,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -227,7 +227,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -248,7 +248,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -276,7 +276,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     conn.commit();
 
     // read data into TM
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/SyncTest-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/SyncTest-mapping.xml");
     Processor.addRelations(mapping, null, topicmap,
                            topicmap.getStore().getBaseAddress());
 
@@ -314,7 +314,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     assertTrue("t1 was found", t1 == null);
 
     // synchronize
-    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/association-mapping.xml");
+    mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/association-mapping.xml");
     Processor.synchronizeRelations(mapping, null, topicmap,
                                    topicmap.getStore().getBaseAddress());
     t1 = topicmap.getTopicBySubjectIdentifier(URIUtils.getURILocator("http://example.org/test/1"));

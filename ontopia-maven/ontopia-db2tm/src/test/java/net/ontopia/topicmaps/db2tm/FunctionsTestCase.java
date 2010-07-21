@@ -1,5 +1,5 @@
 
-package net.ontopia.topicmaps.db2tm.test;
+package net.ontopia.topicmaps.db2tm;
 
 import net.ontopia.topicmaps.db2tm.*;
 import net.ontopia.test.AbstractOntopiaTestCase;

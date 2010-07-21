@@ -1,5 +1,5 @@
 
-package net.ontopia.topicmaps.db2tm.test;
+package net.ontopia.topicmaps.db2tm;
 
 import java.io.File;
 import java.io.IOException;

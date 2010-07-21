@@ -1,5 +1,5 @@
 
-package net.ontopia.topicmaps.db2tm.test;
+package net.ontopia.topicmaps.db2tm;
 
 import net.ontopia.topicmaps.db2tm.*;
 import net.ontopia.topicmaps.core.*;
@@ -50,7 +50,7 @@ public class JDBCDataSourceTest extends AbstractOntopiaTestCase {
       conn.commit();
       
       // read mapping
-      RelationMapping mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/JDBCDataSourceTest-readers.xml");
+      RelationMapping mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/JDBCDataSourceTest-readers.xml");
       JDBCDataSource ds = (JDBCDataSource)mapping.getDataSource("jdbc");
       Relation relation = mapping.getRelation("jdst");
       
@@ -168,7 +168,7 @@ public class JDBCDataSourceTest extends AbstractOntopiaTestCase {
       conn.commit();
       
       // read mapping
-      RelationMapping mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/test/JDBCDataSourceTest-secondary.xml");
+      RelationMapping mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/JDBCDataSourceTest-secondary.xml");
 
       TopicMapStoreIF store = new InMemoryTopicMapStore();
       LocatorIF baseloc = URIUtils.getURILocator("base:foo");
