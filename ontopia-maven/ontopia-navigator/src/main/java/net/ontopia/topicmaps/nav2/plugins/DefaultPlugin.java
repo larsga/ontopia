@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.topicmaps.nav2.taglibs.logic.ContextTag;
-import net.ontopia.topicmaps.webed.impl.basic.Constants;
 
 /** 
  * INTERNAL: This is the plugin implementation that is used if no
@@ -35,6 +34,9 @@ public class DefaultPlugin implements PluginIF {
   protected String directory;
   protected Map params;
   protected List groups;
+
+  public static final String RP_TOPICMAP_ID    = "tm";
+  public static final String RP_TOPIC_ID       = "id";
   
   public DefaultPlugin() {
     params = new HashMap();
@@ -55,9 +57,9 @@ public class DefaultPlugin implements PluginIF {
     
     String tm = context.getTopicMapId();
     String tmParam = context.getTmparam();
-    if (tmParam == null) tmParam = Constants.RP_TOPICMAP_ID;
+    if (tmParam == null) tmParam = RP_TOPICMAP_ID;
     String objidParam = context.getObjparam();
-    if (objidParam == null) objidParam = Constants.RP_TOPIC_ID;
+    if (objidParam == null) objidParam = RP_TOPIC_ID;
     String[] objids = context.getObjectIDs();
     if (objids == null) objids = new String[] {context.getPageContext().getRequest().getParameter(objidParam)};
 
