@@ -1,5 +1,5 @@
 
-package net.ontopia.topicmaps.classify.test;
+package net.ontopia.topicmaps.classify;
 
 import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.classify.JunkNormalizer;
