@@ -1,7 +1,7 @@
 
 // $Id$
 
-package net.ontopia.topicmaps.viz.test;
+package net.ontopia.topicmaps.viz;
 
 import java.io.InputStream;
 import java.io.IOException;
