@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.*;
+import junit.framework.TestCase;
 
-
-public class FormatModuleTests extends AbstractOntopiaTestCase {
+public class FormatModuleTests extends TestCase {
   
   public FormatModuleTests(String name) {
     super(name);

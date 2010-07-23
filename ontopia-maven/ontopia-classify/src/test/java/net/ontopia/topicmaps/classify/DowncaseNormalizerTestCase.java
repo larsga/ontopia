@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.DowncaseNormalizer;
+import junit.framework.TestCase;
 
-
-public class DowncaseNormalizerTestCase extends AbstractOntopiaTestCase {
+public class DowncaseNormalizerTestCase extends TestCase {
   
   public DowncaseNormalizerTestCase(String name) {
     super(name);

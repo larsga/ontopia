@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.JunkNormalizer;
+import junit.framework.TestCase;
 
-
-public class JunkNormalizerTestCase extends AbstractOntopiaTestCase {
+public class JunkNormalizerTestCase extends TestCase {
   
   public JunkNormalizerTestCase(String name) {
     super(name);

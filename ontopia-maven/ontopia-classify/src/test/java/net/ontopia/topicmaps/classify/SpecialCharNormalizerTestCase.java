@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.SpecialCharNormalizer;
+import junit.framework.TestCase;
 
-
-public class SpecialCharNormalizerTestCase extends AbstractOntopiaTestCase {
+public class SpecialCharNormalizerTestCase extends TestCase {
   
   public SpecialCharNormalizerTestCase(String name) {
     super(name);

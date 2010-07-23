@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.SnowballStemmer;
+import junit.framework.TestCase;
 
-
-public class SnowballStemmerTestCase extends AbstractOntopiaTestCase {
+public class SnowballStemmerTestCase extends TestCase {
   
   public SnowballStemmerTestCase(String name) {
     super(name);

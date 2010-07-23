@@ -1,11 +1,9 @@
 
 package net.ontopia.topicmaps.classify;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.classify.DefaultTokenizer;
+import junit.framework.TestCase;
 
-
-public class DefaultTokenizerTestCase extends AbstractOntopiaTestCase {
+public class DefaultTokenizerTestCase extends TestCase {
   
   public DefaultTokenizerTestCase(String name) {
     super(name);
