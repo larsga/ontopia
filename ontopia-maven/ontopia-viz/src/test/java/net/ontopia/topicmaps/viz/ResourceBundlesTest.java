@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.StringUtils;
-import net.ontopia.topicmaps.viz.VizController;
 
-public class ResourceBundlesTest extends AbstractOntopiaTestCase {
+import junit.framework.TestCase;
+
+public class ResourceBundlesTest extends TestCase {
 
   public ResourceBundlesTest(String name) {
     super(name);
