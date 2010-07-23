@@ -124,235 +124,32 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>../../../ontopia/src/</sourceDirectory>
-		<testSourceDirectory>../../../ontopia/src/</testSourceDirectory>
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.0.2</version>
 					<configuration>
-						<source>1.5</source>
-						<target>1.5</target>
-						<includes>
-
-							<!--patternset refid="sources.engine" /-->
-							<include>**/net/ontopia/Ontopia.java</include>
-							<include>**/net/ontopia/product/*.java</include>
-							<include>**/net/ontopia/net/*.java</include>
-							<include>**/net/ontopia/net/data/*.java</include>
-							<include>**/net/ontopia/utils/*.java</include>
-							<include>**/net/ontopia/xml/*.java</include>
-							<include>**/net/ontopia/infoset/core/*.java</include>
-							<include>**/net/ontopia/infoset/utils/*.java</include>
-							<include>**/net/ontopia/infoset/impl/basic/*.java</include>
-							<include>**/net/ontopia/topicmaps/core/*.java</include>
-							<include>**/net/ontopia/topicmaps/core/index/*.java</include>
-							<include>**/net/ontopia/topicmaps/core/events/*.java</include>
-							<include>**/net/ontopia/topicmaps/entry/*.java</include>
-							<include>**/net/ontopia/topicmaps/helpers/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/ltm/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/ctm/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/rdf/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/xfml/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/tmrap/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/utils/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/basic/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/remote/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/basic/index/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/xml/*.java</include>
-							<include>**/net/ontopia/topicmaps/cmdlineutils/**/*.java
-							</include>
-
-							<!--patternset refid="sources.tmapi" /-->
-							<include>**/net/ontopia/topicmaps/impl/tmapi2/**/*.java</include>
-
-							<!--patternset refid="sources.query" /-->
-							<include>**/net/ontopia/topicmaps/query/core/*.java</include>
-							<include>**/net/ontopia/topicmaps/query/parser/*.java</include>
-							<include>**/net/ontopia/topicmaps/query/utils/*.java</include>
-							<include>**/net/ontopia/topicmaps/query/impl/utils/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/query/impl/basic/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/query/impl/rdbms/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/query/spi/*.java</include>
-
-							<!--patternset refid="sources.schema" /-->
-							<include>**/net/ontopia/topicmaps/schema/**/*.java</include>
-
-							<!--patternset refid="sources.fulltext" /-->
-							<include>**/net/ontopia/infoset/fulltext/core/*.java</include>
-							<include>**/net/ontopia/infoset/fulltext/impl/lucene/*.java
-							</include>
-							<include>**/net/ontopia/infoset/fulltext/impl/rdbms/*.java
-							</include>
-							<include>**/net/ontopia/infoset/fulltext/topicmaps/*.java
-							</include>
-							<include>**/net/ontopia/infoset/fulltext/topicmaps/nav/plugins/*.java
-							</include>
-							<include>**/net/ontopia/infoset/fulltext/utils/*.java</include>
-
-							<!--patternset refid="sources.rdbms" /-->
-							<include>**/net/ontopia/persistence/proxy/*.java</include>
-							<include>**/net/ontopia/persistence/query/sql/*.java</include>
-							<include>**/net/ontopia/persistence/query/jdo/*.java</include>
-							<include>**/net/ontopia/persistence/rdbms/*.java</include>
-							<include>**/net/ontopia/persistence/jdbcspy/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/rdbms/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/rdbms/index/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/cmdlineutils/rdbms/*.java
-							</include>
-
-							<!-- added by hand because these modules are needed by other modules -->
-							<include>**/net/ontopia/infoset/content/*.java</include>
-
-							<!-- added by hand to comply -->
-							<include>**/net/ontopia/topicmaps/nav/utils/deciders/TMExporterDecider.java
-							</include>
-							<!--
-								referenced from
-								net/ontopia/topicmaps/utils/rdf/RDFTopicMapWriter,
-								/ltm/LTMTopicMapWriter
-							-->
-							<include>**/net/ontopia/topicmaps/webed/impl/basic/ActionValidationException.java
-							</include>
-							<!--
-								referenced from
-								net/ontopia/topicmaps/utils/ltm/LTMTopicMapWriter
-							-->
-
-							<!-- references from references -->
-							<include>**/net/ontopia/topicmaps/webed/core/ActionRuntimeException.java
-							</include>
-							<!--
-								referenced from
-								net/ontopia/topicmaps/webed/impl/basic/ActionValidationException
-							-->
-
-						</includes>
 						<excludes>
-							<exclude>**/net/ontopia/topicmaps/cmdlineutils/test/*.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/impl/tmapi2/test/**/*.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/schema/**/test/*.java</exclude>
-
-							<exclude>**/net/ontopia/infoset/fulltext/topicmaps/nav/plugins/FulltextPlugin.java
-							</exclude>
-							<!--
-								requires sources.ontopia.aux / sources.navigator /
-								net.ontopia.topicmaps.nav2.plugins
-							-->
-							<!--
-								nav2/plugins/DefaultPlugin requires
-								nav2/taglibs/logic/ContextTag requires too much! (reason enough
-								to exclude)
-							-->
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/RAPServlet.java
-							</exclude>
-							<!-- requires net.ontopia.topicmaps.nav2.core -->
-							<!--
-								requires NavigatorApplicationIF, NavigatorRuntimeException, see
-								earlier
-							-->
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPImplementation.java
-							</exclude>
-							<!-- requires net.ontopia.topicmaps.nav2.core -->
-							<!--
-								requires NavigatorApplicationIF requires ModuleIF requires too
-								much!
-							-->
-							<!--
-								requires NavigatorRuntimeException requires
-								NavigatorTagException requires servlet.jsp
-							-->
-							<exclude>**/net/ontopia/topicmaps/schema/impl/osl/nav/plugins/ValidationPlugin.java
-							</exclude>
-							<!-- requires net.ontopia.topicmaps.nav2.utils -->
-							<!-- requires net.ontopia.topicmaps.nav2.plugins -->
-							<!-- requires net.ontopia.topicmaps.nav2.taglibs.logic -->
-							<exclude>**/net/ontopia/infoset/content/ContentStoreServlet.java
-							</exclude>
-
+							<exclude>**/net/ontopia/infoset/fulltext/topicmaps/nav/plugins/FulltextPlugin.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/RAPServlet.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPImplementation.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/schema/impl/osl/nav/plugins/ValidationPlugin.java</exclude>
+							<exclude>**/net/ontopia/infoset/content/ContentStoreServlet.java</exclude>
 						</excludes>
-						<testIncludes>
-							<include>**/net/ontopia/test/*.java</include>
-							<include>**/net/ontopia/net/data/test/*.java</include>
-							<include>**/net/ontopia/test/threads/*.java</include>
-							<include>**/net/ontopia/test/threads/action/*.java</include>
-							<include>**/net/ontopia/test/threads/target/*.java</include>
-							<include>**/net/ontopia/utils/test/*.java</include>
-							<include>**/net/ontopia/xml/test/*.java</include>
-							<include>**/net/ontopia/infoset/impl/basic/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/test/AbstractTopicMapTestCase.java
-							</include>
-							<include>**/net/ontopia/topicmaps/core/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/core/index/test/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/core/events/test/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/entry/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/xml/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/impl/basic/test/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/impl/basic/index/test/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/impl/utils/test/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/utils/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/rdf/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/ltm/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/ctm/test/*.java</include>
-							<include>**/net/ontopia/topicmaps/utils/tmrap/test/**/*.java
-							</include>
-							<include>**/net/ontopia/topicmaps/cmdlineutils/test/*.java
-							</include>
-							<include>**/net/ontopia/test/perf/*.java</include>
-							<include>**/net/ontopia/net/data/test/*.java</include>
-
-							<!-- added by hand because these modules are needed by other modules -->
-							<include>**/net/ontopia/infoset/content/test/*.java</include>
-
-							<!-- added by hand to comply -->
-							<include>**/net/ontopia/topicmaps/nav/utils/deciders/TMDecider.java
-							</include>
-
-						</testIncludes>
 						<testExcludes>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestRemoteTopicIndex.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TMRAPTestGenerator.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestTMRAPOperation.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestDeleteTopic.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestGetTopic.java
-							</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestAddFragment.java
-							</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestRemoteTopicIndex.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TMRAPTestGenerator.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestTMRAPOperation.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestDeleteTopic.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestGetTopic.java</exclude>
+							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestAddFragment.java</exclude>
 							<!-- all require net/ontopia/topicmaps/utils/tmrap/RAPServlet -->
 							<!-- some require net.ontopia.utils.ontojsp -->
 						</testExcludes>
 					</configuration>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<configuration>
-						<argLine>-Dnet.ontopia.test.root=../test-data</argLine>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 
-		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>

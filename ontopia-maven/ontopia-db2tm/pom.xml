@@ -43,41 +43,4 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<sourceDirectory>../../../ontopia/src/</sourceDirectory>
-		<testSourceDirectory>../../../ontopia/src/</testSourceDirectory>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.0.2</version>
-					<configuration>
-						<source>1.5</source>
-						<target>1.5</target>
-						<includes>
-
-						  	<!--patternset id="sources.db2tm"-->
-						    <include>**/net/ontopia/topicmaps/db2tm/*.java</include>
-						
-						</includes>
-						<testIncludes>
-
-						  	<!--patternset id="sources.test.db2tm"-->
-						    <include>**/net/ontopia/topicmaps/db2tm/test/**/*.java</include>
-
-						</testIncludes>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<configuration>
-						<argLine>-Dnet.ontopia.test.root=../test-data</argLine>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
 </project>
