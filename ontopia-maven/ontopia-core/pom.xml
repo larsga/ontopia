@@ -124,88 +124,58 @@
 	</dependencies>
 
 	<build>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.0.2</version>
-					<configuration>
-						<excludes>
-							<exclude>**/net/ontopia/infoset/fulltext/topicmaps/nav/plugins/FulltextPlugin.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/RAPServlet.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPImplementation.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/schema/impl/osl/nav/plugins/ValidationPlugin.java</exclude>
-							<exclude>**/net/ontopia/infoset/content/ContentStoreServlet.java</exclude>
-						</excludes>
-						<testExcludes>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestRemoteTopicIndex.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TMRAPTestGenerator.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestTMRAPOperation.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestDeleteTopic.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestGetTopic.java</exclude>
-							<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestAddFragment.java</exclude>
-							<!-- all require net/ontopia/topicmaps/utils/tmrap/RAPServlet -->
-							<!-- some require net.ontopia.utils.ontojsp -->
-						</testExcludes>
-					</configuration>
-				</plugin>
-
+		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>antlr-maven-plugin</artifactId>
+				<configuration>
+					<grammars>
+						net/ontopia/topicmaps/query/parser/tolog.g,
+						net/ontopia/topicmaps/utils/ltm/ltm.g,
+						net/ontopia/topicmaps/utils/ctm/ctm.g
+					</grammars>
+				</configuration>
 				<executions>
 					<execution>
-						<phase>generate-sources</phase>
-						<configuration>
-							<tasks>
-								<property name="project.classpath" refid="maven.compile.classpath" />
-								<property name="java.path" value="${project.build.sourceDirectory}/java" />
-								<property name="build.root" value="${project.build.outputDirectory}" />
-
-								<taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
-									classpath="${project.classpath}" />
-
-								<echo>Compiling LTM grammar...</echo>
-								<java classname="antlr.Tool"
-									dir="${java.path}/net/ontopia/topicmaps/utils/ltm"
-									classpath="${project.classpath}" fork="true"
-									output="${build.root}/antlr.ltm.log">
-									<arg line="ltm.g" />
-								</java>
-
-								<echo>Compiling CTM grammar...</echo>
-								<jflex file="${java.path}/net/ontopia/topicmaps/utils/ctm/ctm.flex"
-									destdir="${java.path}" />
-								<java classname="antlr.Tool"
-									dir="${java.path}/net/ontopia/topicmaps/utils/ctm"
-									classpath="${project.classpath}" fork="true"
-									output="${build.root}/antlr.ctm.log">
-									<arg line="ctm.g" />
-								</java>
-
-								<echo>Compiling tolog grammar...</echo>
-								<jflex
-									file="${java.path}/net/ontopia/topicmaps/query/parser/tolog.flex"
-									destdir="${java.path}" />
-								<java classname="antlr.Tool"
-									dir="${java.path}/net/ontopia/topicmaps/query/parser"
-									classpath="${project.classpath}" fork="true"
-									output="${build.root}/antlr.tolog.log">
-									<arg line="tolog.g" />
-								</java>
-
-								<echo>Compiling TMAPI code...</echo>
-								<mkdir dir="${build.root}/META-INF/services" />
-								<copy
-									file="${java.path}/net/ontopia/topicmaps/impl/tmapi2/tmsf.service"
-									tofile="${build.root}/META-INF/services/org.tmapi.core.TopicMapSystemFactory" />
-							</tasks>
-						</configuration>
 						<goals>
-							<goal>run</goal>
+							<goal>generate</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>de.jflex</groupId>
+				<artifactId>maven-jflex-plugin</artifactId>
+				<version>1.4.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<excludes>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/RAPServlet.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPImplementation.java</exclude>
+						<exclude>**/net/ontopia/infoset/content/ContentStoreServlet.java</exclude>
+					</excludes>
+					<testExcludes>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestRemoteTopicIndex.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TMRAPTestGenerator.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestTMRAPOperation.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestDeleteTopic.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestGetTopic.java</exclude>
+						<exclude>**/net/ontopia/topicmaps/utils/tmrap/test/TestAddFragment.java</exclude>
+						<!-- all require net/ontopia/topicmaps/utils/tmrap/RAPServlet -->
+						<!-- some require net.ontopia.utils.ontojsp -->
+					</testExcludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
