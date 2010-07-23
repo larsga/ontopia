@@ -2,30 +2,34 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.ontopia</groupId>
+	<parent>
+		<artifactId>ontopia-parent</artifactId>
+		<groupId>net.ontopia.maven</groupId>
+		<version>5.2.0-SNAPSHOT</version>
+	</parent>
+
 	<artifactId>ontopia-classify</artifactId>
 	<packaging>jar</packaging>
-	<version>5.1.0-b1</version>
 	<name>Ontopia Classify</name>
 	<description>Ontopia Classify.</description>
 	<url>http://todo</url>
 
 	<dependencies>
 		<dependency>
-			<groupId>net.ontopia</groupId>
+			<groupId>net.ontopia.maven</groupId>
 			<artifactId>ontopia-core</artifactId>
-			<version>5.1.0-b1</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.ontopia</groupId>
+			<groupId>net.ontopia.maven</groupId>
 			<artifactId>ontopia-test-bootstrap</artifactId>
-			<version>5.1.0-b1</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.ontopia</groupId>
+			<groupId>net.ontopia.maven</groupId>
 			<artifactId>ontopia-navigator</artifactId>
-			<version>5.1.0-b1</version>
+			<version>${project.version}</version>
 		</dependency>
 		<!--dependency>
 			<groupId>org.apache.ant</groupId>
