@@ -44,12 +44,17 @@
 			<artifactId>java-getopt</artifactId>
 			<version>1.0.9</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.11</version>
+		</dependency>
 		<!-- Keep Log4J as standard logger -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.11</version>
-			<scope>test</scope>
 		</dependency>
 		<!-- Delegate all projects which use Commons Logging to SLF4J -->
 		<dependency>
@@ -123,8 +128,32 @@
 		</dependency>
 	</dependencies>
 
-	<build>
+  <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources/ontopia-version/</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+		<plugin>
+		  <groupId>org.codehaus.mojo</groupId>
+		  <artifactId>maven-buildnumber-plugin</artifactId>
+			  <configuration>
+				<format>{0,date,yyyy-MM-dd-HH-mm}</format>
+				<items>
+				  <item>timestamp</item>
+				</items>
+			  </configuration>
+			  <executions>
+				<execution>
+				  <phase>validate</phase>
+				  <goals>
+					<goal>create</goal>
+				  </goals>
+				</execution>
+			  </executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>antlr-maven-plugin</artifactId>
@@ -191,4 +220,11 @@
         </repository>
     </repositories>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
