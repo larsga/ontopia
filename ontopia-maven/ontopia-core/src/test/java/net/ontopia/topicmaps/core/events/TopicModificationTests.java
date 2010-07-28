@@ -3,16 +3,14 @@
 
 package net.ontopia.topicmaps.core.events;
 
-import java.io.File;
 import java.util.*;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.*;
+import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
-import net.ontopia.topicmaps.core.events.*;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
+import net.ontopia.utils.TestUtils;
   
 public class TopicModificationTests extends AbstractTopicMapTest {
 
@@ -28,13 +26,17 @@ public class TopicModificationTests extends AbstractTopicMapTest {
   
   public void setUp() {
     // get a new topic map object from the factory.
+    factory = TestUtils.getFactory(this.getClass());
     topicmapRef = factory.makeTopicMapReference();
     listener = new TesterListener();
     TopicMapEvents.addTopicListener(topicmapRef, listener);
     try {
       // load topic map
       topicmap = topicmapRef.createStore(false).getTopicMap();
-      ImportExportUtils.getImporter(resolveFileName("various", "bart.ltm")).importInto(topicmap);
+
+      LTMTopicMapReader reader = new LTMTopicMapReader(TestUtils.getTestReader("net.ontopia.topicmaps.core.events", "bart.ltm"), URILocator.create("test:various/bart.ltm"));
+      reader.importInto(topicmap);
+
       topicmap.getStore().commit();
       
       // get the builder of that topic map.

@@ -7,10 +7,8 @@ import java.util.*;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
-import net.ontopia.topicmaps.core.events.*;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import net.ontopia.utils.TestUtils;
 
 public class TopicMapListenerTests extends AbstractTopicMapTest {
 
@@ -33,6 +31,7 @@ public class TopicMapListenerTests extends AbstractTopicMapTest {
 
   public void setUp() {
     // Get a new topic map object from the factory.
+    factory = TestUtils.getFactory(this.getClass());
     topicmapRef = factory.makeTopicMapReference();
     listener = new TesterListener();
     TopicMapEvents.addTopicListener(topicmapRef, listener);
