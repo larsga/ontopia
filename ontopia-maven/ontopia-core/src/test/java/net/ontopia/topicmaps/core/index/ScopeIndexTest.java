@@ -7,7 +7,6 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
-import net.ontopia.topicmaps.core.index.ScopeIndexIF;
 
 public class ScopeIndexTest extends AbstractIndexTest {
 

@@ -5,13 +5,17 @@ package net.ontopia.topicmaps.core.index;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
+import org.junit.Ignore;
+
+@Ignore
 public class AbstractIndexTest extends AbstractTopicMapTest {
   
   protected TopicMapReferenceIF topicmapRef;
@@ -28,6 +32,9 @@ public class AbstractIndexTest extends AbstractTopicMapTest {
   }
 
   protected Object setUp(String indexInterface) {
+
+    factory = TestUtils.getFactory(this.getClass());
+
     topicmapRef = factory.makeTopicMapReference();
     try {
       topicMap = topicmapRef.createStore(false).getTopicMap();

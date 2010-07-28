@@ -6,8 +6,6 @@ package net.ontopia.topicmaps.core.index;
 import net.ontopia.topicmaps.core.DataTypes;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.core.index.OccurrenceIndexIF;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.infoset.impl.basic.GenericLocator;

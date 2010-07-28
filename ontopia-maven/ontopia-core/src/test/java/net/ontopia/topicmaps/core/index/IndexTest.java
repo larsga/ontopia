@@ -2,21 +2,12 @@
 
 package net.ontopia.topicmaps.core.index;
 
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Iterator;
-
-import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.AssociationIF;
-import net.ontopia.topicmaps.core.AssociationRoleIF;
-import net.ontopia.topicmaps.core.OccurrenceIF;
-import net.ontopia.topicmaps.core.TopicIF;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 /**
  * Performs a series of tests on the index interfaces.
@@ -33,6 +24,9 @@ public class IndexTest extends AbstractTopicMapTest {
   }
 
   protected void setUp() {
+
+    factory = TestUtils.getFactory(this.getClass());
+
     topicmapRef = factory.makeTopicMapReference();
     try {
       topicmap = topicmapRef.createStore(false).getTopicMap();
