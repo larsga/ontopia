@@ -4,12 +4,11 @@
 package net.ontopia.xml;
 
 import java.io.StringWriter;
+import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributeListImpl;
-import net.ontopia.test.*;
-import net.ontopia.xml.PrettyPrinter;
 
-public class PrettyPrinterTest extends AbstractOntopiaTestCase {
+public class PrettyPrinterTest extends TestCase {
   private static final String NL = System.getProperty("line.separator");
     
   public PrettyPrinterTest(String name) {
