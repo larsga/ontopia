@@ -6,17 +6,14 @@ package net.ontopia.topicmaps.core;
 
 import java.io.*;
 import java.net.MalformedURLException;
-import junit.framework.*;
 import net.ontopia.net.Base64;
-import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.StreamUtils;
 import net.ontopia.utils.ObjectUtils;
 import net.ontopia.utils.ReaderInputStream;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.GenericLocator;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import net.ontopia.utils.TestUtils;
 
 public class OccurrenceTest extends AbstractTypedScopedTest {
   protected OccurrenceIF occurrence;
@@ -127,8 +124,13 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
   public void testReader() throws Exception {
     // read file and store in object
-    File filein = new File(resolveFileName("various", "clob.xml"));
-    File fileout = new File(resolveFileName("various", "clob.xml.out"));
+    TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "various");
+
+    // set test data to file
+    File filein = new File(TestUtils.resolveFileName("various", "clob.xml"));
+    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), new FileOutputStream(filein));
+
+    File fileout = new File(TestUtils.resolveFileName("various", "clob.xml.out"));
     
 		long inlen = filein.length();
     Reader ri = new FileReader(filein);
@@ -169,7 +171,7 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
   public void _testBinaryReader() throws Exception {
     // read file and store in occurrence
-    File file = new File(resolveFileName("various", "blob.gif"));
+    File file = new File(TestUtils.resolveFileName("various", "blob.gif"));
     Reader ri = new InputStreamReader(new Base64.InputStream(new FileInputStream(file), Base64.ENCODE), "utf-8");
     occurrence.setReader(ri, file.length(), DataTypes.TYPE_BINARY);
 

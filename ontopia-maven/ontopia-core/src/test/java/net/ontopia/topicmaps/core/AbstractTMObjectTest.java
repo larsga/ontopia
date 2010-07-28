@@ -3,13 +3,14 @@
 
 package net.ontopia.topicmaps.core;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
-import junit.framework.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
+import net.ontopia.utils.TestUtils;
 
 public abstract class AbstractTMObjectTest extends AbstractTopicMapTest {
   protected static final String MSG_NULL_ARGUMENT = "null is not a valid argument.";
@@ -26,6 +27,8 @@ public abstract class AbstractTMObjectTest extends AbstractTopicMapTest {
 
 
   public void setUp() {
+    factory = TestUtils.getFactory(this.getClass());
+
     // Get a new topic map object from the factory.
     topicmapRef = factory.makeTopicMapReference();
     try {

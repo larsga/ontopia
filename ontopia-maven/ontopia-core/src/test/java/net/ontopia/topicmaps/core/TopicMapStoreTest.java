@@ -7,6 +7,7 @@ import net.ontopia.topicmaps.core.*;
 import net.ontopia.utils.OntopiaUnsupportedException;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 /**
  * This class tests a TopicMapStoreIF implementation.
@@ -24,6 +25,9 @@ public class TopicMapStoreTest extends AbstractTopicMapTest {
   }
 
   protected void setUp() {
+
+    factory = TestUtils.getFactory(this.getClass());
+
     // Get a new topic map object from the factory.
     topicmapRef = factory.makeTopicMapReference();
     try {
