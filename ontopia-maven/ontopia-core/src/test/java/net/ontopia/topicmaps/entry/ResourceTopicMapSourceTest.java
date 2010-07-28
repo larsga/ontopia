@@ -5,7 +5,6 @@ import java.util.*;
 
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
-import net.ontopia.topicmaps.entry.*;
 import net.ontopia.topicmaps.utils.ltm.*;
 
 public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
@@ -20,7 +19,7 @@ public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
 
   public void testLTM1() {
     ResourceTopicMapSource source = new ResourceTopicMapSource(
-        "net/ontopia/topicmaps/db2tm/mondial.ltm");
+        "net/ontopia/topicmaps/core/events/bart.ltm");
     source.setId("fooid");
     source.setTitle("footitle");
     source.setSyntax("LTM");
@@ -29,7 +28,7 @@ public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
 
   public void testLTM2() {
     ResourceTopicMapSource source = new ResourceTopicMapSource();
-    source.setResourceName("net/ontopia/topicmaps/db2tm/mondial.ltm");
+    source.setResourceName("net/ontopia/topicmaps/core/events/bart.ltm");
     source.setId("fooid");
     source.setTitle("footitle");
     verifyLTMSource(source);
@@ -55,7 +54,7 @@ public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
       assertTrue("tm.getTopics() == null", topics != null);
       assertTrue("tm.getTopics().size() == 0", topics.size() > 0);
     } catch (IOException e) {
-      fail("Could not create TopicMapStoreIF", e);
+      fail("Could not create TopicMapStoreIF: + " + e.getMessage());
     }
   }
 }

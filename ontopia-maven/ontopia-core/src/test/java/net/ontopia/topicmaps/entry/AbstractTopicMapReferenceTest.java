@@ -5,17 +5,13 @@ package net.ontopia.topicmaps.entry;
 
 import junit.framework.*;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
-import net.ontopia.topicmaps.entry.TopicMapSourceIF;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.entry.AbstractTopicMapReference;
-import net.ontopia.topicmaps.entry.ReferenceNotOpenException;
+import org.junit.Ignore;
 
-public abstract class AbstractTopicMapReferenceTest extends AbstractOntopiaTestCase {
+@Ignore
+public abstract class AbstractTopicMapReferenceTest extends TestCase {
 
   public AbstractTopicMapReferenceTest(String name) {
     super(name);

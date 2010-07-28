@@ -3,11 +3,7 @@
 
 package net.ontopia.topicmaps.entry;
 
-import junit.framework.*;
-
 import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.topicmaps.entry.*;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.utils.ltm.*;
 import net.ontopia.topicmaps.utils.rdf.*;

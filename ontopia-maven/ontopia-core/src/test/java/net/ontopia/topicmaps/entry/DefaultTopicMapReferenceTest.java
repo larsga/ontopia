@@ -2,11 +2,8 @@
 
 package net.ontopia.topicmaps.entry;
 
-import junit.framework.*;
-import net.ontopia.topicmaps.entry.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
 
 public class DefaultTopicMapReferenceTest extends AbstractTopicMapTest {
   TopicMapStoreIF store;

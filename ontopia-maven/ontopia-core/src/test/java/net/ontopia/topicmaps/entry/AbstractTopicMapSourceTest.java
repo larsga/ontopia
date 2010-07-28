@@ -3,11 +3,11 @@
 
 package net.ontopia.topicmaps.entry;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.entry.TopicMapSourceIF;
+import junit.framework.TestCase;
+import org.junit.Ignore;
 
-public abstract class AbstractTopicMapSourceTest extends AbstractOntopiaTestCase {
+@Ignore
+public abstract class AbstractTopicMapSourceTest extends TestCase {
   
   public AbstractTopicMapSourceTest(String name) {
     super(name);

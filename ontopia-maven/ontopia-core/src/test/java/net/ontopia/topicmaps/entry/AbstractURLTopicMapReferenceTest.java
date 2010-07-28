@@ -3,19 +3,15 @@
 
 package net.ontopia.topicmaps.entry;
 
-import junit.framework.*;
-
 import java.io.File;
-import java.net.URL;
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.topicmaps.entry.*;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.utils.NullResolvingExternalReferenceHandler;
 import net.ontopia.topicmaps.utils.ltm.*;
 import net.ontopia.topicmaps.utils.rdf.*;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.GenericLocator;
+import net.ontopia.topicmaps.xml.ExternalReferenceHandlerIF;
+import net.ontopia.topicmaps.xml.XTMTopicMapReference;
+import net.ontopia.utils.TestUtils;
 
 public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceTest {
 
@@ -66,7 +62,7 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testXTMRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "jill.xtm";
     String title = "XTMTM";
-    File file = new File(getTestDirectory() + File.separator + "various" + File.separator + id);
+    File file = new File(TestUtils.getTestDirectory() + File.separator + "various" + File.separator + id);
 
     XTMTopicMapReference ref = new XTMTopicMapReference(file.toURL(), id, title);
 
@@ -94,7 +90,7 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testLTMRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "small-test.ltm";
     String title = "LTMTM";
-    File file = new File(getTestDirectory() + File.separator + "various" + File.separator + id);
+    File file = new File(TestUtils.getTestDirectory() + File.separator + "various" + File.separator + id);
 
     LTMTopicMapReference ref = new LTMTopicMapReference(file.toURL(), id, title);
 
@@ -107,7 +103,7 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testRDFRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "instance-of.rdf";
     String title = "RDFTM";
-    File file = new File(getTestDirectory() + File.separator + "rdf" + File.separator + "in" + File.separator + id);
+    File file = new File(TestUtils.getTestDirectory() + File.separator + "rdf" + File.separator + "in" + File.separator + id);
 
     RDFTopicMapReference ref = new RDFTopicMapReference(file.toURL(), id, title);
     
