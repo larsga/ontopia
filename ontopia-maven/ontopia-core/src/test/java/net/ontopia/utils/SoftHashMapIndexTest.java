@@ -3,11 +3,9 @@
 
 package net.ontopia.utils;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.utils.LookupIndexIF;
-import net.ontopia.utils.SoftHashMapIndex;
+import junit.framework.TestCase;
 
-public class SoftHashMapIndexTest extends AbstractOntopiaTestCase {
+public class SoftHashMapIndexTest extends TestCase {
   protected LookupIndexIF index;
   
   public SoftHashMapIndexTest(String name) {

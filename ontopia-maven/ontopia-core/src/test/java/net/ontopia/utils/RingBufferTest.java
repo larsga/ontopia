@@ -4,11 +4,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
+import junit.framework.TestCase;
 
-import net.ontopia.utils.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
-
-public class RingBufferTest extends AbstractOntopiaTestCase {
+public class RingBufferTest extends TestCase {
 
   public RingBufferTest(String name) {
     super(name);

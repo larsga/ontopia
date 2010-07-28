@@ -3,10 +3,6 @@
 
 package net.ontopia.utils;
 
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
-
 public class CompactIdentityHashSetTest extends CompactHashSetTest {
   
   public CompactIdentityHashSetTest(String name) {

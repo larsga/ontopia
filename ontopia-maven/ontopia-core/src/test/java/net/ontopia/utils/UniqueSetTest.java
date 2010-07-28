@@ -4,10 +4,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class UniqueSetTest extends AbstractOntopiaTestCase {
+public class UniqueSetTest extends TestCase {
 
   // This class does not subclass CompactHashSetTest because the set
   // implementation is immutable.

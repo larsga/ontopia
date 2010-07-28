@@ -3,10 +3,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class StringTemplateUtilsTest extends AbstractOntopiaTestCase {
+public class StringTemplateUtilsTest extends TestCase {
   
   public StringTemplateUtilsTest(String name) {
     super(name);

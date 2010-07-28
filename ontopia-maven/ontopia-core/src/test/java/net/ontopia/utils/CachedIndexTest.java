@@ -2,11 +2,9 @@
 
 package net.ontopia.utils;
 
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class CachedIndexTest extends AbstractOntopiaTestCase {
+public class CachedIndexTest extends TestCase {
   private CachedIndex index;
   
   public CachedIndexTest(String name) {

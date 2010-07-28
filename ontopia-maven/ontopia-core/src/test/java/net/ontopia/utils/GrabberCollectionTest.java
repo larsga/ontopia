@@ -4,7 +4,6 @@ package net.ontopia.utils;
 
 import junit.framework.*;
 import java.util.*;
-import net.ontopia.utils.*;
 
 public class GrabberCollectionTest extends AbstractCollectionTest {
 

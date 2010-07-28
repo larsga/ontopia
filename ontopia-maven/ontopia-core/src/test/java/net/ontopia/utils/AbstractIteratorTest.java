@@ -3,10 +3,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
-import net.ontopia.utils.*;
-import net.ontopia.test.*;
+import junit.framework.TestCase;
 
-public abstract class AbstractIteratorTest extends AbstractOntopiaTestCase {
+public abstract class AbstractIteratorTest extends TestCase {
 
   public AbstractIteratorTest(String name) {
     super(name);

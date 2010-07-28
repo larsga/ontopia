@@ -4,10 +4,9 @@
 package net.ontopia.utils;
 
 import java.io.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class StreamUtilsTest extends AbstractOntopiaTestCase {
+public class StreamUtilsTest extends TestCase {
   
   public StreamUtilsTest(String name) {
     super(name);

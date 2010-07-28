@@ -4,10 +4,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class CompactHashSetTest extends AbstractOntopiaTestCase {
+public class CompactHashSetTest extends TestCase {
   protected Set set;
   
   public CompactHashSetTest(String name) {

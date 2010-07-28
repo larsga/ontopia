@@ -4,11 +4,9 @@
 package net.ontopia.utils;
 
 import java.io.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.OntopiaRuntimeException;
+import junit.framework.TestCase;
 
-public class FileUtilsTest extends AbstractOntopiaTestCase {
+public class FileUtilsTest extends TestCase {
 
   protected File testdir;
   
@@ -18,7 +16,7 @@ public class FileUtilsTest extends AbstractOntopiaTestCase {
   
   public void setUp() throws IOException {
     // Get test directory
-    testdir = new File(getTestDirectory());
+    testdir = new File(TestUtils.getTestDirectory());
   }
 
   protected void tearDown() throws IOException {

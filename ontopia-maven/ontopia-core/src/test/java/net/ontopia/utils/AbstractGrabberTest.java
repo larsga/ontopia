@@ -2,11 +2,9 @@
 
 package net.ontopia.utils;
 
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public abstract class AbstractGrabberTest extends AbstractOntopiaTestCase {
+public abstract class AbstractGrabberTest extends TestCase {
 
   protected int intended_size = 8;
   

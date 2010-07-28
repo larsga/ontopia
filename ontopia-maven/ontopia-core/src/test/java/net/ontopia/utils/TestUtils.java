@@ -17,6 +17,7 @@ import net.ontopia.topicmaps.core.AbstractCoreTestGenerator;
 import net.ontopia.topicmaps.core.TMObjectIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
+import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * TODO: rewrite this to get the test data from classpath
  * @author qs
  */
+@Ignore
 public class TestUtils {
 
   static Logger logger = LoggerFactory.getLogger(TestUtils.class.getName());

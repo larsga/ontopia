@@ -2,11 +2,9 @@
 
 package net.ontopia.utils;
 
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public abstract class AbstractComparatorTest extends AbstractOntopiaTestCase {
+public abstract class AbstractComparatorTest extends TestCase {
 
   protected int intended_size = 8;
   

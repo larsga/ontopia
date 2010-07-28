@@ -3,10 +3,9 @@
 
 package net.ontopia.utils;
 
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class URIUtilsTest extends AbstractOntopiaTestCase {
+public class URIUtilsTest extends TestCase {
   
   public URIUtilsTest(String name) {
     super(name);

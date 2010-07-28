@@ -2,10 +2,9 @@
 
 package net.ontopia.utils;
 
-import net.ontopia.utils.HistoryMap;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 
-public class HistoryMapTest extends AbstractOntopiaTestCase {
+public class HistoryMapTest extends TestCase {
 
   public HistoryMapTest(String name) {
     super(name);

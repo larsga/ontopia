@@ -3,10 +3,9 @@
 
 package net.ontopia.utils;
 
-import net.ontopia.utils.CharacterSet;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 
-public class CharacterSetTest extends AbstractOntopiaTestCase {
+public class CharacterSetTest extends TestCase {
 
   public CharacterSetTest(String name) {
     super(name);

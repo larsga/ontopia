@@ -4,10 +4,9 @@
 package net.ontopia.utils;
 
 import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.utils.*;
+import junit.framework.TestCase;
 
-public class CmdlineOptionsTest extends AbstractOntopiaTestCase {
+public class CmdlineOptionsTest extends TestCase {
   private CmdlineOptions options;
   private Listener listener;
   
