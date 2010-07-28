@@ -2,18 +2,13 @@
 
 package net.ontopia.topicmaps.impl.basic;
 
-import java.io.File;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.*;
 import junit.framework.*;
-import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.topicmaps.xml.*;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
+import net.ontopia.utils.TestUtils;
 
-public class PackageTest extends net.ontopia.topicmaps.impl.basic.test.TopicMapPackageTest {
+public class PackageTest extends TopicMapPackageTest {
   
   public PackageTest(String name) {
     super(name);
@@ -22,11 +17,10 @@ public class PackageTest extends net.ontopia.topicmaps.impl.basic.test.TopicMapP
   protected void setUp() {
     if (tm == null) {
       try {
+        base = URILocator.create("test:package-test.xtm");
         TopicMapReaderIF reader =
-          new XTMTopicMapReader(new java.io.File(getTestDirectory() + File.separator + "various" + File.separator + "package-test.xtm").toURL().toString());
+          new XTMTopicMapReader(TestUtils.getTestStream("net.ontopia.topicmaps.impl.basic", "package-test.xtm"), base);
         tm = reader.read();
-        // base = (LocatorIF) tm.getItemIdentifiers().iterator().next();
-        base = tm.getStore().getBaseAddress();
       }
       catch (java.io.IOException e) {
         e.printStackTrace();

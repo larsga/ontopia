@@ -3,18 +3,15 @@
 
 package net.ontopia.topicmaps.impl.basic;
 
-import java.net.MalformedURLException;
 import java.util.*;
 import net.ontopia.utils.*;
-import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.topicmaps.utils.*;
 import net.ontopia.infoset.core.*;
+import org.junit.Ignore;
 
-public abstract class TopicMapPackageTest extends AbstractTopicMapTestCase {
+@Ignore
+public abstract class TopicMapPackageTest extends AbstractTopicMapTest {
   public static TopicMapIF tm;
   public static LocatorIF base;
 

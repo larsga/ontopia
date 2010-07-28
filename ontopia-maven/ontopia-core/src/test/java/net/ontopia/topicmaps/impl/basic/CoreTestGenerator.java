@@ -3,9 +3,7 @@
 package net.ontopia.topicmaps.impl.basic;
 
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.core.test.*;
 import net.ontopia.topicmaps.entry.*;
-import net.ontopia.topicmaps.impl.basic.*;
 
 public class CoreTestGenerator extends AbstractCoreTestGenerator implements AbstractCoreTestGenerator.FactoryIF {
 
