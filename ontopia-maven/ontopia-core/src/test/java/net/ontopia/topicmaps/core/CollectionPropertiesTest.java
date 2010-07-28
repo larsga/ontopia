@@ -2,13 +2,10 @@
 
 package net.ontopia.topicmaps.core;
 
-
-import java.lang.*;
 import java.lang.reflect.*;
-
-import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 /**
  * This class is the base class for all test cases which test the collection properties
@@ -26,6 +23,9 @@ public class CollectionPropertiesTest extends AbstractTopicMapTest
   }
 
   protected void setUp() /*throws Exception*/ {
+
+    factory = TestUtils.getFactory(this.getClass());
+    
     // Get a new topic map object from the factory.
     topicmapRef = factory.makeTopicMapReference();
     try {

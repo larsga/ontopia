@@ -3,14 +3,8 @@
 
 package net.ontopia.topicmaps.core;
 
-
 import java.net.MalformedURLException;
-import junit.framework.*;
-import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 
 public class TopicTest extends AbstractTMObjectTest {
   protected TopicIF topic;

@@ -2,8 +2,6 @@
 
 package net.ontopia.topicmaps.core;
 
-
-import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.PSI;
 
 // PLEASE NOTE: this is a duplicate of AbstractTypedTest, but with

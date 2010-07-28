@@ -2,10 +2,9 @@
 
 package net.ontopia.topicmaps.core;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.core.*;
+import junit.framework.TestCase;
 
-public abstract class AbstractTopicMapTest extends AbstractOntopiaTestCase {
+public abstract class AbstractTopicMapTest extends TestCase {
 
   protected AbstractCoreTestGenerator.FactoryIF factory;
 

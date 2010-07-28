@@ -2,12 +2,6 @@
 
 package net.ontopia.topicmaps.core;
 
-
-import junit.framework.*;
-import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-
 public abstract class AbstractTypedTest extends AbstractTMObjectTest {
   protected TypedIF typed;
   

@@ -3,10 +3,6 @@
 
 package net.ontopia.topicmaps.core;
 
-import junit.framework.*;
-import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-
 public abstract class AbstractScopedTest extends AbstractTMObjectTest {
   protected ScopedIF scoped;
   

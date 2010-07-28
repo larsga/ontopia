@@ -3,17 +3,12 @@
 
 package net.ontopia.topicmaps.core;
 
-import java.util.*;
-import java.lang.reflect.*;
-import junit.framework.*;
-import net.ontopia.utils.*;
-import net.ontopia.test.TestCaseGeneratorIF;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.entry.*;
+import junit.framework.TestCase;
+import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 
-public abstract class AbstractCoreTestGenerator implements TestCaseGeneratorIF {
-
-  protected List tests = new ArrayList();
+public abstract class AbstractCoreTestGenerator extends TestCase {
+  /*  No longer needed
+   protected List tests = new ArrayList();
 
   public abstract FactoryIF getFactory();
   
@@ -51,7 +46,7 @@ public abstract class AbstractCoreTestGenerator implements TestCaseGeneratorIF {
     }
     return tests.iterator();
   }
-
+  */
   public static interface FactoryIF {
 
     public TopicMapStoreIF makeStandaloneTopicMapStore();
@@ -61,5 +56,5 @@ public abstract class AbstractCoreTestGenerator implements TestCaseGeneratorIF {
     public void releaseTopicMapReference(TopicMapReferenceIF topicmapRef);
 
   }
-  
+ 
 }

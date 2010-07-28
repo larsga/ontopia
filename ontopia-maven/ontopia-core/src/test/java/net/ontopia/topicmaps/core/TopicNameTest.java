@@ -3,9 +3,6 @@
 
 package net.ontopia.topicmaps.core;
 
-
-import net.ontopia.topicmaps.core.*;
-
 public class TopicNameTest extends AbstractTypedScopedTest {
   protected TopicNameIF basename;
   

@@ -2,23 +2,14 @@
 
 package net.ontopia.topicmaps.core;
 
-
 import java.io.*;
 import java.net.MalformedURLException;
-import junit.framework.*;
-import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.net.Base64;
-import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.StreamUtils;
 import net.ontopia.utils.ObjectUtils;
-import net.ontopia.utils.ReaderInputStream;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.GenericLocator;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
+import net.ontopia.utils.TestUtils;
 
 public class VariantNameTest extends AbstractScopedTest {
   protected VariantNameIF variant;
@@ -139,8 +130,10 @@ public class VariantNameTest extends AbstractScopedTest {
 
   public void testReader() throws Exception {
     // read file and store in object
-    File filein = new File(resolveFileName("various", "clob.xml"));
-    File fileout = new File(resolveFileName("various", "clob.xml.out"));
+    TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "various");
+    File filein = new File(TestUtils.resolveFileName("various", "clob.xml"));
+    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), new FileOutputStream(filein));
+    File fileout = new File(TestUtils.resolveFileName("various", "clob.xml.out"));
     
     Reader ri = new FileReader(filein);
 		long inlen = filein.length();
