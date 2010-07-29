@@ -1,5 +1,5 @@
 
-import "loop.tl" as sub
+import "classpath:net/ontopia/topicmaps/query/core/loop.tl" as sub
 
 grandchild($GF, $GM, $GC) :-
   parenthood($GF : father, $GM : mother, $C : child),

@@ -12,7 +12,6 @@ import java.util.Map;
 
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class TopicNamePredicateTest extends AbstractPredicateTest {
   

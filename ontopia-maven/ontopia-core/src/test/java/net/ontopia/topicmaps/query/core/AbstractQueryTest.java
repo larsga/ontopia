@@ -3,8 +3,8 @@
 
 package net.ontopia.topicmaps.query.core;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.net.MalformedURLException;
+import junit.framework.TestCase;
 
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.LocatorIF;
@@ -23,18 +24,17 @@ import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapImporterIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.query.core.DeclarationContextIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.ParsedQueryIF;
-import net.ontopia.topicmaps.query.core.QueryProcessorIF;
-import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.impl.basic.QueryProcessor;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
+import net.ontopia.topicmaps.xml.TMXMLReader;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
+import net.ontopia.utils.TestUtils;
+import org.junit.Ignore;
+import org.xml.sax.InputSource;
 
-public class AbstractQueryTest extends AbstractTopicMapTestCase {
+@Ignore
+public class AbstractQueryTest extends TestCase {
 
   protected static final String OPT_TYPECHECK_OFF =
     "/* #OPTION: compiler.typecheck = false */ ";
@@ -55,11 +55,11 @@ public class AbstractQueryTest extends AbstractTopicMapTestCase {
   }
   
   protected TopicIF getTopicById(String id) {
-    return getTopicById(topicmap, base, id);
+    return TestUtils.getTopicById(topicmap, base, id);
   }
 
   protected TMObjectIF getObjectById(String id) {
-    return getObjectById(topicmap, base, id);
+    return TestUtils.getObjectById(topicmap, base, id);
   }
 
   protected void closeStore() {
@@ -74,14 +74,19 @@ public class AbstractQueryTest extends AbstractTopicMapTestCase {
   protected void load(String filename) throws IOException {
     // IMPORTANT: This method is being overloaded by the RDBMS
     // implementation to provide the right object implementations.
-    File file = new File(resolveFileName("query", filename));    
+
+    InputStream in = TestUtils.getTestStream("net.ontopia.topicmaps.query.core", filename);
+
+    TopicMapImporterIF importer = null;
+    base = URILocator.create("classpath:net/ontopia/topicmaps/query/core/" + filename);
+    if (filename.endsWith(".ltm")) importer = new LTMTopicMapReader(in, base);
+    if (filename.endsWith(".xtm")) importer = new XTMTopicMapReader(in, base);
+    if (filename.endsWith(".tmx")) importer = new TMXMLReader(new InputSource(in), base);
 
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();
     builder = store.getTopicMap().getBuilder();
-    base = new URILocator(file.toURL());
     
-    TopicMapImporterIF importer = ImportExportUtils.getImporter(file.toString());
     if (importer instanceof XTMTopicMapReader)
       ((XTMTopicMapReader) importer).setValidation(false);
     importer.importInto(topicmap);

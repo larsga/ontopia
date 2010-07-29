@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.impl.basic.QueryMatches;
 
 public class QueryResultTest extends AbstractQueryTest {

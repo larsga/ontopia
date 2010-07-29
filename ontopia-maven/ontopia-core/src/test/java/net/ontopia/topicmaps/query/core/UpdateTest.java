@@ -5,12 +5,10 @@ import java.util.Map;
 import java.util.HashMap;
 import java.io.IOException;
 
-import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.DataTypes;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 // FIXME: value() with three parameters
 // FIXME: URLs which aren't really

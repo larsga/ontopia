@@ -15,7 +15,6 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class ObjectIdPredicateTest extends AbstractPredicateTest {
   

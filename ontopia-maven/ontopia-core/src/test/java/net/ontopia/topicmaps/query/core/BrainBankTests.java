@@ -7,13 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 /**
  * INTERNAL: A set of tests for the BrainBank project which exercises

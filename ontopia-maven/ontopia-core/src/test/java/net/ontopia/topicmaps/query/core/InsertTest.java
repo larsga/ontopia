@@ -2,7 +2,6 @@
 package net.ontopia.topicmaps.query.core;
 
 import java.util.Map;
-import java.util.Iterator;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -10,10 +9,6 @@ import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.core.TopicNameIF;
-import net.ontopia.topicmaps.core.AssociationIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.DeclarationContextIF;
 
 public class InsertTest extends AbstractQueryTest {
   

@@ -3,7 +3,6 @@
 
 package net.ontopia.topicmaps.query.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +13,8 @@ import java.util.Map;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TMObjectIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.impl.basic.QueryMatches;
+import net.ontopia.utils.TestUtils;
 
 // TODO:
 //  - move tests that are really tests of specific predicates out
@@ -1168,7 +1166,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     addMatch(matches, "GCC", getTopicById("lmg"));
     addMatch(matches, "GCC", getTopicById("silje"));
     
-    String url = new File(resolveFileName("query", "grandchild.tl")).toURL().toString();
+    String url = TestUtils.getTestLocator("net.ontopia.topicmaps.query.core", "grandchild.tl").getAddress();
 
     verifyQuery(matches,
                 "import \"" + url + "\" as fam " +
@@ -1187,7 +1185,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     addMatch(matches, "GCC", getTopicById("silje"));
     
     verifyQuery(matches,
-                "import \"grandchild.tl\" as fam " +
+                "import \"classpath:net/ontopia/topicmaps/query/core/grandchild.tl\" as fam " +
                 "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 

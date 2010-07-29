@@ -11,7 +11,6 @@ import java.util.List;
 
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
   

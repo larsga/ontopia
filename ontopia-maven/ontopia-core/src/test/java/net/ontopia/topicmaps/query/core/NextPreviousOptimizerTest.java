@@ -5,10 +5,7 @@ package net.ontopia.topicmaps.query.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class NextPreviousOptimizerTest extends AbstractQueryTest {
   

@@ -12,7 +12,6 @@ import java.util.Map;
 
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class OccurrencePredicateTest extends AbstractPredicateTest {
   

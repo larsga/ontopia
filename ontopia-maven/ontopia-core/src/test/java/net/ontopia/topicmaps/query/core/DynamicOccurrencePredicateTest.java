@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-
 public class DynamicOccurrencePredicateTest extends AbstractPredicateTest {
   
   public DynamicOccurrencePredicateTest(String name) {

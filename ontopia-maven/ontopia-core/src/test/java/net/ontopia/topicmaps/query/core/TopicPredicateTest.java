@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-
 public class TopicPredicateTest extends AbstractPredicateTest {
   
   public TopicPredicateTest(String name) {

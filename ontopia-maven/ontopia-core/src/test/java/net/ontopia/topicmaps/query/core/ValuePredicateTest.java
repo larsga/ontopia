@@ -13,7 +13,6 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 import net.ontopia.utils.ObjectUtils;
 
 public class ValuePredicateTest extends AbstractPredicateTest {

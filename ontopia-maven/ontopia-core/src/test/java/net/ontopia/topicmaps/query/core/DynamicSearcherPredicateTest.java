@@ -5,14 +5,8 @@ package net.ontopia.topicmaps.query.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import net.ontopia.topicmaps.core.TopicNameIF;
-import net.ontopia.topicmaps.core.OccurrenceIF;
-import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.core.VariantNameIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 import net.ontopia.topicmaps.query.spi.AbstractSearcher;
 import net.ontopia.topicmaps.query.spi.AbstractSearchResult;
 import net.ontopia.topicmaps.query.spi.SearcherIF;
@@ -20,7 +14,7 @@ import net.ontopia.topicmaps.query.spi.SearchResultIF;
 
 public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
 
-  private static final String DECL = "import \"urn:x-java:net.ontopia.topicmaps.query.core.test.DynamicSearcherPredicateTest$ExactSearcher\" as fulltext ";
+  private static final String DECL = "import \"urn:x-java:net.ontopia.topicmaps.query.core.DynamicSearcherPredicateTest$ExactSearcher\" as fulltext ";
   
   public DynamicSearcherPredicateTest(String name) {
     super(name);
@@ -138,7 +132,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
 
     load("fulltext.ltm");
         
-    findNothing("import \"urn:x-java:net.ontopia.topicmaps.query.core.test.DynamicSearcherPredicateTest$UnknownSearcher\" as fulltext " +
+    findNothing("import \"urn:x-java:net.ontopia.topicmaps.query.core.DynamicSearcherPredicateTest$UnknownSearcher\" as fulltext " +
                 "fulltext:unknown($T, \"don't find anything\")?");    
   }
     

@@ -10,7 +10,6 @@ import java.util.List;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class ValueLikePredicateTest extends AbstractPredicateTest {
   

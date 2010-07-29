@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.ParsedQueryIF;
-
 public class ParsedQueryTest extends AbstractQueryTest {
   
   public ParsedQueryTest(String name) {

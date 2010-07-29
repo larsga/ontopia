@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
-
 public class ComparisonPredicatesTest extends AbstractPredicateTest {
   
   public ComparisonPredicatesTest(String name) {

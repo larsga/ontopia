@@ -5,17 +5,9 @@ package net.ontopia.topicmaps.query.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
-import net.ontopia.topicmaps.core.AssociationIF;
-import net.ontopia.topicmaps.core.AssociationRoleIF;
-import net.ontopia.topicmaps.core.TopicNameIF;
-import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.core.VariantNameIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class CoalescePredicateTest extends AbstractPredicateTest {
   

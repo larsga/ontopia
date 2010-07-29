@@ -1,6 +1,6 @@
 /* starter data */
 
-#INCLUDE "bb-ontologi.ltm"
+#INCLUDE "classpath:net/ontopia/topicmaps/query/core/bb-ontologi.ltm"
 
 [gdm    : user = "Graham Moore" = "gdm" / username @ "urn:gdm"]
 {gdm, password, [[moore]]}

@@ -5,14 +5,11 @@ package net.ontopia.topicmaps.query.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class DatatypePredicateTest extends AbstractPredicateTest {
   static final String XTM_URITYPE = "http://www.w3.org/2001/XMLSchema#anyURI";

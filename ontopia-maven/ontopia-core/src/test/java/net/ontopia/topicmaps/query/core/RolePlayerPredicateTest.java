@@ -10,12 +10,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.core.TopicMapBuilderIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class RolePlayerPredicateTest extends AbstractPredicateTest {
   

@@ -12,7 +12,6 @@ import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 public class RolePredicateTest extends AbstractQueryTest {
   

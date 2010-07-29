@@ -4,9 +4,7 @@ package net.ontopia.topicmaps.query.core;
 import java.io.IOException;
 
 import java.util.Map;
-import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.InvalidQueryException;
 
 // FIXME: test merges of non-topics
 

@@ -10,8 +10,8 @@
 
 =================================================================================== */
 
-#INCLUDE "core.ltm"
-#INCLUDE "userman.ltm"
+#INCLUDE "classpath:net/ontopia/topicmaps/query/core/core.ltm"
+#INCLUDE "classpath:net/ontopia/topicmaps/query/core/userman.ltm"
 
 /* scope topics */
 [english = "English" @"http://www.topicmaps.org/xtm/1.0/language.xtm#en"]
