@@ -1,16 +1,15 @@
 
 // $Id: AbstractContentStoreTest.java,v 1.2 2004/01/28 13:32:17 larsga Exp $
 
-package net.ontopia.infoset.content.test;
+package net.ontopia.infoset.content;
 
 import java.io.*;
 import java.util.*;
-import net.ontopia.test.*;
 import net.ontopia.utils.StreamUtils;
 import net.ontopia.utils.StringUtils;
-import net.ontopia.infoset.content.*;
+import junit.framework.TestCase;
 
-public abstract class AbstractContentStoreTest extends AbstractOntopiaTestCase {
+public abstract class AbstractContentStoreTest extends TestCase {
   protected ContentStoreIF store;
   
   public AbstractContentStoreTest(String name) {

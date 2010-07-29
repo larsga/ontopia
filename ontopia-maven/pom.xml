@@ -22,6 +22,7 @@
 		<module>ontopia-test-bootstrap</module>
 		<module>ontopia-navigator</module>
 		<module>ontopia-webed</module>
+		<module>ontopia-contentstore</module>
 		<module>ontopia-db2tm</module>
 		<module>ontopia-viz</module>
 		<module>ontopia-classify</module>

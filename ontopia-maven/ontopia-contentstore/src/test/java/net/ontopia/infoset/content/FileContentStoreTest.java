@@ -1,13 +1,12 @@
 
 // $Id: FileContentStoreTest.java,v 1.2 2004/01/28 13:36:50 larsga Exp $
 
-package net.ontopia.infoset.content.test;
+package net.ontopia.infoset.content;
 
 import java.io.*;
 import java.util.*;
-import net.ontopia.test.*;
+import java.net.URL;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.infoset.content.*;
 
 public class FileContentStoreTest extends AbstractContentStoreTest {
   
@@ -16,7 +15,7 @@ public class FileContentStoreTest extends AbstractContentStoreTest {
   }
 
   public void setUp() throws IOException, ContentStoreException {
-    File tstdir = new File(getTestDirectory() + File.separator + "content");
+    File tstdir = getTestDirectory("content");
 
     if (tstdir.exists()) {
       File[] files = tstdir.listFiles();
@@ -38,7 +37,7 @@ public class FileContentStoreTest extends AbstractContentStoreTest {
     for (int ix = 0; ix < 3; ix++) {
       // close and reopen
       store.close();
-      File tstdir = new File(getTestDirectory() + File.separator + "content");
+      File tstdir = getTestDirectory("content");
       store = new FileContentStore(tstdir);
 
       // is the old entry OK?
@@ -52,4 +51,18 @@ public class FileContentStoreTest extends AbstractContentStoreTest {
       compare(key, CONTENT.getBytes());
     }
   }
+
+  public File getTestDirectory() {
+    String clsUri = getClass().getName().replace('.','/') + ".class";
+    URL url = getClass().getClassLoader().getResource(clsUri);
+    String clsPath = url.getPath().replaceAll("%20", " ");
+    File root = new File(clsPath.substring(0, clsPath.length() - clsUri.length()));
+    return new File(root.getParentFile(), "test-data");
+  }
+  public File getTestDirectory(String subDirectory) {
+    File testDirectory = getTestDirectory();
+    testDirectory.mkdir();
+    return new File(testDirectory, subDirectory);
+  }
+	
 }

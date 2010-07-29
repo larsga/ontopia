@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>ontopia-parent</artifactId>
+		<groupId>net.ontopia.maven</groupId>
+		<version>5.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>ontopia-contentstore</artifactId>
+	<packaging>jar</packaging>
+	<name>Ontopia Content Store</name>
+	<description>Ontopia Content Store.</description>
+	<url>http://todo</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.ontopia.maven</groupId>
+			<artifactId>ontopia-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.ontopia.maven</groupId>
+			<artifactId>ontopia-navigator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
