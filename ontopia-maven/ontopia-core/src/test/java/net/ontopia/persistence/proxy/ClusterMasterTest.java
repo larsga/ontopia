@@ -15,6 +15,7 @@ import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.MessageListener;
 import org.jgroups.blocks.PullPushAdapter;
+import org.junit.Ignore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,8 @@ import org.slf4j.LoggerFactory;
  * run master: java -Djava.net.preferIPv4Stack=true net.ontopia.persistence.proxy.test.ClusterMasterTest | grep -v UDP
  * run client: java -Djava.net.preferIPv4Stack=true net.ontopia.persistence.proxy.test.ClusterClientTest | grep -v UDP
  * 
- */  
+ */
+@Ignore //not to be ran by Maven's JUnit
 public class ClusterMasterTest extends AbstractClusterTest implements java.io.Serializable {
 
   // Define a logging category.

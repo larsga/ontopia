@@ -16,6 +16,7 @@ import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.MessageListener;
 import org.jgroups.blocks.PullPushAdapter;
+import org.junit.Ignore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * INTERNAL: Client test class that receives events from a master. The
  * tests each check an individual aspect of the object model api.
  */
+@Ignore //not to be ran by Maven's JUnit
 public class ClusterClientTest extends AbstractClusterTest {
 
   // Define a logging category.

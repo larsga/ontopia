@@ -3,11 +3,9 @@
 
 package net.ontopia.persistence.proxy;
 
-import net.ontopia.persistence.proxy.AbstractRWPersistent;
-import net.ontopia.persistence.proxy.PersistentIF;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 
-public class PersistentTest extends AbstractOntopiaTestCase {
+public class PersistentTest extends TestCase {
   
   public PersistentTest(String name) {
     super(name);

@@ -3,10 +3,9 @@
 
 package net.ontopia.persistence.proxy;
 
-import net.ontopia.persistence.proxy.TrackableCollectionIF;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 
-public abstract class TrackableCollectionTest extends AbstractOntopiaTestCase {
+public abstract class TrackableCollectionTest extends TestCase {
   
   public TrackableCollectionTest(String name) {
     super(name);
