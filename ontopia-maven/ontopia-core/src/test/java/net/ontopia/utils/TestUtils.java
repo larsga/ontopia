@@ -2,6 +2,7 @@ package net.ontopia.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,6 +67,10 @@ public class TestUtils {
                 + " Please set the 'net.ontopia.test.root'"
                 + " system property.");
       }
+
+      // verify the root
+      verifyDirectory(testRoot);
+
     }
     return testRoot;
   }
@@ -171,7 +176,12 @@ public class TestUtils {
   }
 
   public static LocatorIF getTestLocator(String category, String file) throws IOException {
-    return URILocator.create(StreamUtils.getResource(category.replaceAll("\\.", File.separator) + File.separator + file).toString());
+    String path = category.replaceAll("\\.", File.separator) + File.separator + file;
+    URL url = StreamUtils.getResource(path);
+    if (url == null) {
+      throw new FileNotFoundException("Test file not found on classpath: " + path);
+    }
+    return URILocator.create(url.toString());
   }
 
   public static InputStream getTestStream(String category, String file) throws IOException {
