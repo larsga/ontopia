@@ -2,16 +2,8 @@
 
 package net.ontopia.topicmaps.cmdlineutils;
 
-import junit.framework.*;
-import net.ontopia.topicmaps.cmdlineutils.*;
-import net.ontopia.topicmaps.cmdlineutils.sanity.*;
-import net.ontopia.topicmaps.cmdlineutils.statistics.*;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.infoset.impl.basic.*;
-
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.*;
+import java.io.IOException;
+import net.ontopia.utils.TestUtils;
 
 public class StatsTest extends CommandLineUtilsTest {
   
@@ -21,14 +13,8 @@ public class StatsTest extends CommandLineUtilsTest {
 
   protected void setUp() {
     
-    XTMTopicMapReader reader  = null;
-
-    String root = getTestDirectory();
-    String filename = root + File.separator + "various" + File.separator + "stats.xtm";
-
     try {
-      reader = new XTMTopicMapReader(new File(filename));
-      tm = reader.read();
+      tm = TestUtils.getTestReader("net.ontopia.topicmaps.cmdlineutils", "stats.xtm").read();
     } catch (IOException e) {
       fail("Error reading file\n" + e);
     }
@@ -38,20 +24,4 @@ public class StatsTest extends CommandLineUtilsTest {
   protected void tearDown() {
     tm = null;
   }
-  
-  
-
-  public static Test suite() {
-
-    TestSuite suite = new TestSuite(StatsTest.class);
-    
-    return suite;
-  }
-
-
 }
-
-
-
-
-

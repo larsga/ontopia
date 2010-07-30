@@ -2,15 +2,17 @@
 
 package net.ontopia.topicmaps.cmdlineutils;
 
-import java.util.*;
-import net.ontopia.test.*;
-import net.ontopia.topicmaps.cmdlineutils.*;
+import java.util.Collection;
+import java.util.HashMap;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.cmdlineutils.statistics.*;
 import net.ontopia.topicmaps.cmdlineutils.sanity.*;
 import net.ontopia.topicmaps.core.*;
+import org.junit.Ignore;
 //import net.ontopia.topicmaps.impl.basic.*;
 
-public abstract class CommandLineUtilsTest extends AbstractOntopiaTestCase {
+@Ignore
+public abstract class CommandLineUtilsTest extends TestCase {
 
   public static TopicMapIF tm;
 
@@ -59,7 +61,9 @@ public abstract class CommandLineUtilsTest extends AbstractOntopiaTestCase {
 
     assertTrue("checking (getnumberOfTopics)", 
            test.getNumberOfTopics() == tm.getTopics().size());
-    assertEquals(14, test.getNumberOfTopics());
+    //note: comparing with previous version:
+    //      +1 because names must have a type (thus a typing topic)
+    assertEquals(15, test.getNumberOfTopics());
 
     assertTrue("check (getNumberOfAssociations)", 
            test.getNumberOfAssociations() == tm.getAssociations().size());
@@ -125,7 +129,9 @@ public abstract class CommandLineUtilsTest extends AbstractOntopiaTestCase {
     assertTrue("check type (getNoTypeTopics)", 
            test.getNoTypeTopics() instanceof Collection);
 
-    assertEquals(10, test.getNoTypeTopics().size());
+    // note: comparing with previous version:
+    //       +1 because names must have a type since 5.1.0 and this type topic has no type
+    assertEquals(11, test.getNoTypeTopics().size());
 
     assertTrue("check type (getNoTypeAssociations)", 
            test.getNoTypeAssociations() instanceof Collection);
