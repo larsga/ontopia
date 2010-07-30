@@ -4,13 +4,12 @@ package net.ontopia.infoset.fulltext.topicmaps;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
+import junit.framework.TestCase;
 
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.fulltext.core.DocumentIF;
 import net.ontopia.infoset.fulltext.core.FieldIF;
-import net.ontopia.infoset.fulltext.topicmaps.DefaultTopicMapDocumentGenerator;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
@@ -23,7 +22,7 @@ import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 
-public class DefaultTMDocGeneratorTest extends AbstractOntopiaTestCase {
+public class DefaultTMDocGeneratorTest extends TestCase {
   protected TopicMapIF topicmap;       // topic map of object being tested
   protected TopicMapBuilderIF builder; // builder used for creating new objects
   protected DefaultTopicMapDocumentGenerator generator;
