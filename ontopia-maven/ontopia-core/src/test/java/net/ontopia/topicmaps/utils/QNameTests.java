@@ -4,16 +4,14 @@
 package net.ontopia.topicmaps.utils;
 
 import java.net.MalformedURLException;
+import junit.framework.TestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.*;
-import net.ontopia.topicmaps.utils.QNameLookup;
-import net.ontopia.topicmaps.utils.QNameRegistry;
 
-public class QNameTests extends AbstractTopicMapTestCase {
+public class QNameTests extends TestCase {
   protected TopicMapIF        topicmap; 
   protected TopicIF           topic; 
   protected TopicMapBuilderIF builder;

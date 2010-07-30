@@ -4,18 +4,15 @@ package net.ontopia.topicmaps.utils;
 
 import java.net.MalformedURLException;
 import java.util.*;
+import junit.framework.TestCase;
 
-import net.ontopia.utils.StringifierIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.utils.GrabberIF;
-import net.ontopia.topicmaps.utils.NameGrabber;
-import net.ontopia.topicmaps.utils.PSI;
 
-public class NameGrabberTest extends AbstractTopicMapTestCase {
+public class NameGrabberTest extends TestCase {
 
   InMemoryTopicMapStore store;
   TopicMapBuilderIF builder;

@@ -4,19 +4,15 @@
 package net.ontopia.topicmaps.utils;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
+import junit.framework.TestCase;
 
 import net.ontopia.infoset.core.*;
-import net.ontopia.infoset.impl.basic.*;
-import net.ontopia.topicmaps.test.*;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.topicmaps.utils.*;
+import net.ontopia.utils.TestUtils;
+import org.junit.Ignore;
 
-
-public class AbstractUtilsTestCase extends AbstractTopicMapTestCase {
+@Ignore
+public class AbstractUtilsTestCase extends TestCase {
 
   protected final static String FILE_SEPARATOR = System.getProperty("file.separator");
 
@@ -39,7 +35,7 @@ public class AbstractUtilsTestCase extends AbstractTopicMapTestCase {
 
   protected void readFile(String fileName) {
     try {
-      TopicMapReaderIF reader = ImportExportUtils.getReader(fileName);
+      TopicMapReaderIF reader = TestUtils.getTestReader("net.ontopia.topicmaps.utils", fileName);
       tm = reader.read();
       baseAddress = tm.getStore().getBaseAddress();
     } catch(IOException ex) {

@@ -3,19 +3,10 @@
 
 package net.ontopia.topicmaps.utils;
 
-import junit.framework.*;
-import java.io.*;
-import java.net.*;
 import java.util.*;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.infoset.core.*;
-import net.ontopia.infoset.impl.basic.*;
-
-import net.ontopia.topicmaps.utils.*;
 
 public class TypeHierarchyTest extends AbstractUtilsTestCase {
   public TypeHierarchyTest(String name) {
@@ -29,8 +20,7 @@ public class TypeHierarchyTest extends AbstractUtilsTestCase {
   }
 
   public void testOne() {
-    readFile(AbstractOntopiaTestCase.getTestDirectory() + File.separator
-             + "various" + File.separator + "types.xtm");
+    readFile("types.xtm");
         
     TopicIF kal = getTopic("kal");
     TopicIF musician = getTopic("musician");

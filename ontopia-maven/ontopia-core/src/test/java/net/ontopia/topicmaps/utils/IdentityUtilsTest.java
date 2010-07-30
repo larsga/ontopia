@@ -3,17 +3,13 @@
 
 package net.ontopia.topicmaps.utils;
 
-import java.util.*;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.core.Locators;
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.utils.*;
-import net.ontopia.utils.StringUtils;
-import net.ontopia.utils.DeciderIF;
 
-public class IdentityUtilsTest extends AbstractTopicMapTestCase {
+public class IdentityUtilsTest extends TestCase {
   protected TopicMapIF    topicmap; 
   protected TopicMapBuilderIF builder;
 

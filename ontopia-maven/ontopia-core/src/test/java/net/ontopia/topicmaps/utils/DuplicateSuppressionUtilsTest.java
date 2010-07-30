@@ -3,15 +3,13 @@
 
 package net.ontopia.topicmaps.utils;
 
-import java.util.*;
 import java.net.MalformedURLException;
+import junit.framework.TestCase;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.*;
-import net.ontopia.topicmaps.utils.DuplicateSuppressionUtils;
 
-public class DuplicateSuppressionUtilsTest extends AbstractTopicMapTestCase {
+public class DuplicateSuppressionUtilsTest extends TestCase {
   protected TopicMapIF        topicmap; 
   protected TopicMapBuilderIF builder;
 

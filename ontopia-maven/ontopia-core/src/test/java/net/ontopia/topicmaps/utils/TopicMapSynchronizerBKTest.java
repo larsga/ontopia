@@ -4,27 +4,25 @@
 package net.ontopia.topicmaps.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.ArrayList;
+import junit.framework.TestCase;
 
-import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.DeciderIF;
 import net.ontopia.utils.DeciderUtils;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.utils.TMDeciderUtils;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.topicmaps.utils.TopicMapSynchronizer;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
+import net.ontopia.utils.StreamUtils;
+import net.ontopia.utils.TestUtils;
 
-public class TopicMapSynchronizerBKTest extends AbstractTopicMapTestCase {
+public class TopicMapSynchronizerBKTest extends TestCase {
   private String ttopicq;
   private String stopicq;
   private DeciderIF tchard;
@@ -53,10 +51,11 @@ public class TopicMapSynchronizerBKTest extends AbstractTopicMapTestCase {
     psis.clear();
     schard = DeciderUtils.getTrueDecider();
 
-    String root = AbstractOntopiaTestCase.getTestDirectory();
+    String root = TestUtils.getTestDirectory();
     base = root + File.separator + "tmsync" + File.separator;
 
-    verifyDirectory(base + File.separator + "out");
+    TestUtils.verifyDirectory(root, "tmsync");
+    TestUtils.verifyDirectory(base + File.separator + "out");
   }
 
   public void testEmptyTM() throws InvalidQueryException, IOException {
@@ -180,24 +179,22 @@ public class TopicMapSynchronizerBKTest extends AbstractTopicMapTestCase {
   // ===== INTERNAL
 
   private TopicMapIF load(String filename) throws IOException {
-    filename = base + File.separator + "bk" + File.separator + filename;
-    return ImportExportUtils.getReader(filename).read();
+    return TestUtils.getTestReader("net.ontopia.topicmaps.utils.tmsync.bk", filename).read();
   }
 
   private void canonicalize(String filename, TopicMapIF tm) throws IOException {
     String out = base + File.separator + "out" + File.separator + filename;
-    FileOutputStream str = new FileOutputStream(out);
+    FileOutputStream str = new FileOutputStream(new File(out));
     new CanonicalXTMWriter(str).write(tm);
     str.close();
 
-    out += ".ltm";
-    ImportExportUtils.getWriter(out).write(tm);
+    /*out += ".ltm";
+    ImportExportUtils.getWriter(out).write(tm);*/
   }
 
   private void compare(String filename) throws IOException {
     String out = base + File.separator + "out" + File.separator + filename;
-    String other = base + File.separator + "baseline" + File.separator + filename;
     assertTrue("test file " + filename + " canonicalized wrongly",
-               FileUtils.compare(out, other));
+               StreamUtils.compare(new FileInputStream(new File(out)), TestUtils.getTestStream("net.ontopia.topicmaps.utils.tmsync.baseline", filename)));
   }
 }

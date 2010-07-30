@@ -6,15 +6,15 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import junit.framework.TestCase;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
-import net.ontopia.topicmaps.utils.MergeUtils;
+import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
+import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
+import net.ontopia.topicmaps.xml.XTMTopicMapWriter;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.TestUtils;
 
-public class MergeToXTMTestGenerator implements TestCaseGeneratorIF {
+public class MergeToXTMTestGenerator { // implements TestCaseGeneratorIF {
     
   public Iterator generateTests() {
     Set tests = new HashSet();
@@ -50,8 +50,8 @@ public class MergeToXTMTestGenerator implements TestCaseGeneratorIF {
     }
 
     public void testMergeToXTM() throws IOException {
-      verifyDirectory(base, "out");
-      verifyDirectory(base, "tmp");
+      TestUtils.verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "tmp");
 
       // load
       String in = base + File.separator + "in" + File.separator + filename;

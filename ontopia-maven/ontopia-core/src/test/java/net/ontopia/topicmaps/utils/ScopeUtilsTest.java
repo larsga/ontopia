@@ -4,16 +4,15 @@
 package net.ontopia.topicmaps.utils;
 
 import java.util.*;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.utils.*;
 import net.ontopia.utils.StringUtils;
 import net.ontopia.utils.DeciderIF;
 
-public class ScopeUtilsTest extends AbstractTopicMapTestCase {
+public class ScopeUtilsTest extends TestCase {
   protected TopicMapIF    topicmap; 
   protected TopicMapBuilderIF builder;
 

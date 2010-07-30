@@ -3,15 +3,13 @@ package net.ontopia.topicmaps.utils;
 
 import java.util.Iterator;
 import java.util.Collection;
-import net.ontopia.topicmaps.test.*;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.utils.DeciderUtils;
-import net.ontopia.topicmaps.utils.PSI;
-import net.ontopia.topicmaps.utils.MergeUtils;
 
-public class MergeCopyTest extends AbstractTopicMapTestCase {
+public class MergeCopyTest extends TestCase {
   protected TopicMapIF    topicmap1; 
   protected TopicMapIF    topicmap2; 
   protected TopicMapBuilderIF builder1;

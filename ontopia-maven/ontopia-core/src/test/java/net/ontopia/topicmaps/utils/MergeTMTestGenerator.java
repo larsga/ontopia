@@ -8,18 +8,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import junit.framework.TestCase;
-import net.ontopia.test.*;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
-import net.ontopia.topicmaps.utils.MergeUtils;
+import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
+import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.TestUtils;
 
-public class MergeTMTestGenerator implements TestCaseGeneratorIF {
+public class MergeTMTestGenerator {//implements TestCaseGeneratorIF {
     
   public Iterator generateTests() {
     Set tests = new HashSet();
-    String root = AbstractOntopiaTestCase.getTestDirectory();
+    String root = TestUtils.getTestDirectory();
     String base = root + File.separator + "merge" + File.separator;
         
     File indir = new File(base + "in" + File.separator);
@@ -55,7 +55,7 @@ public class MergeTMTestGenerator implements TestCaseGeneratorIF {
     }
 
     public void testMergeTM() throws IOException {
-      verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "out");
       
       // produce canonical output
       String in = base + File.separator + "in" + File.separator + filename;

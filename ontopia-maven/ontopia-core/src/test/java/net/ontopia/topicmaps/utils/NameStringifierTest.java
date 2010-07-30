@@ -2,16 +2,12 @@
 
 package net.ontopia.topicmaps.utils;
 
-import java.util.*;
+import junit.framework.TestCase;
 import net.ontopia.utils.StringifierIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.*;
-import net.ontopia.topicmaps.utils.NameStringifier;
-import net.ontopia.topicmaps.utils.PSI;
 
-public class NameStringifierTest extends AbstractTopicMapTestCase {
+public class NameStringifierTest extends TestCase {
   protected TopicMapIF        topicmap; 
   protected TopicIF           topic;
   protected TopicNameIF        basename;

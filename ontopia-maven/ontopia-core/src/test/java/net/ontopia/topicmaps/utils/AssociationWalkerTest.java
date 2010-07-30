@@ -2,17 +2,12 @@
 
 package net.ontopia.topicmaps.utils;
 
-import junit.framework.*;
-import java.io.*;
-import java.net.*;
+import java.io.File;
 import java.util.*;
 
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.infoset.core.*;
-import net.ontopia.infoset.impl.basic.*;
-import net.ontopia.topicmaps.utils.*;
+import net.ontopia.utils.TestUtils;
 
 
 public class AssociationWalkerTest extends AbstractUtilsTestCase {
@@ -21,8 +16,7 @@ public class AssociationWalkerTest extends AbstractUtilsTestCase {
   }
     
   public void testSimpleWalker() {
-    readFile(getTestDirectory()
-             + File.separator + "various" + File.separator + "transitive2.xtm");
+    readFile("transitive2.xtm");
 
     TopicIF at_greater_than = getTopic("at-greaterThan");
     TopicIF rt_smaller = getTopic("ar-smaller");
@@ -80,8 +74,7 @@ public class AssociationWalkerTest extends AbstractUtilsTestCase {
   }
 
   public void testSimpsons() {
-    readFile(getTestDirectory()
-             + File.separator + "various" + File.separator + "transitive3.xtm");
+    readFile("transitive3.xtm");
     TopicIF descendant_of = getTopic("descendant-of");
     TopicIF ancestor = getTopic("ancestor");
     TopicIF descendant = getTopic("descendant");

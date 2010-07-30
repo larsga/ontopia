@@ -5,16 +5,40 @@ package net.ontopia.topicmaps.utils;
 
 import java.io.*;
 import java.util.*;
+import junit.framework.TestCase;
 
-import net.ontopia.test.*;
 import net.ontopia.utils.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.*;
-import net.ontopia.topicmaps.utils.*;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 
-public class DeletionUtilsTest extends AbstractTopicMapTestCase {
+public class DeletionUtilsTest extends TestCase {
+
+  public static final String[] TEST_FILES = new String[] {
+    "assocdoublemember.xtm", "bug-57.xtm", "empty.xtm", "mergemap.xtm", "rolesubjindref.xtm",
+    "association-duplicate-reified2.xtm", "bug-59.xtm", "escape.xtm", "mergemap2.xtm",
+    "subjectindref.xtm", "association-unary.xtm", "bug-60.xtm", "indirectsubj2.xtm",
+    "multiple-tms-bug522-included.stm", "association.xtm", "bug-62.xtm",
+    "indirectsubjind.xtm", "multiple-tms-bug522.xtm.multi", "topic-as-subj-ind-1.xtm",
+    "assocscope.xtm", "bug660.xtm", "instanceof-equiv.xtm", "multiple-tms-importInfo.xtm",
+    "topic-as-subj-ind-2.xtm", "badref.xtm", "bug750.sub", "latin1.xtm",
+    "multiple-tms-read.xtm", "unicode.xtm", "basename-scope.xtm", "bug750.sub2",
+    "merge-indicator.xtm", "nonamespace.xtm", "variants.xtm", "basename.xtm", "bug750.sub3",
+    "merge-subject.xtm", "bug-1868.xtm", "bug750.xtm",
+    "merge-topicref-external.xtm", "occurrences.xtm", "xmlbase-problem.xtm", "bug-53.xtm",
+    "concmodexc.xtm", "merge-topicref.xtm", "xmlbase-problem2.xtm",
+    "bug-55.xtm", "eliots-xtm-test.xtm", "mergeloop.xtm", "resourcedata.xtm", "xmlbase.xtm",
+    "bug-56.xtm", "empty-member.xtm", "mergemap.stm", "rolespecsubjindref.xtm", "xmltools-tm.xml"
+  };
+
+  /* disabled test files:
+   *
+   * "templates.xtm"      : The markup declarations contained or pointed to by the document type declaration must be well-formed
+   * "noxlinkns.xtm"      : The prefix "xlink" for attribute "xlink:href" associated with an element type "resourceRef" is not bound.
+   * "whitespace.xtm"     : The markup declarations contained or pointed to by the document type declaration must be well-formed
+   * "program files.xtm"  : The markup declarations contained or pointed to by the document type declaration must be well-formed
+   */
+
 
   public DeletionUtilsTest(String name) {
     super(name);
@@ -26,22 +50,6 @@ public class DeletionUtilsTest extends AbstractTopicMapTestCase {
   protected TopicMapIF makeTopicMap() {
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     return store.getTopicMap();
-  }
-
-  public File[] getFiles() {
-    List filenames = new ArrayList();
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    String base = root + File.separator + "canonical" + File.separator;
-        
-    File indir = new File(base + "in" + File.separator);
-    if (!indir.exists())
-      throw new OntopiaRuntimeException("Directory '" + base + "in" + File.separator +
-                            "' does not exist!");
-    
-    File[] infiles = indir.listFiles();
-    if (infiles == null)
-      return new File[0];
-    return infiles;
   }
 
   protected boolean filter(String filename) {
@@ -56,15 +64,19 @@ public class DeletionUtilsTest extends AbstractTopicMapTestCase {
   // --- Test cases
 
   public void testTopicMapDeletion() throws Exception {
-    File[] infiles = getFiles();
-    for (int ix = 0; ix < infiles.length; ix++) {
-      String name = infiles[ix].getAbsolutePath();
+    for (int ix = 0; ix < TEST_FILES.length; ix++) {
+      String name = TEST_FILES[ix];
       if (filter(name)) {
         TopicMapIF tm = makeTopicMap();
-        TopicMapImporterIF importer = ImportExportUtils.getImporter(name);
+        TopicMapImporterIF importer = TestUtils.getTestImporter("net.ontopia.topicmaps.utils.canonical", name);
         if (name.endsWith(".xtm"))
           ((XTMTopicMapReader) importer).setValidation(false);
-        importer.importInto(tm);
+        try {
+          importer.importInto(tm);
+        } catch (OntopiaRuntimeException ore) {
+          // catch and re-throw to add filename to message
+          throw new OntopiaRuntimeException(ore.getMessage() + " in " + name, ore);
+        }
         clearTopicMap(tm);
         tm.getStore().close();
       }

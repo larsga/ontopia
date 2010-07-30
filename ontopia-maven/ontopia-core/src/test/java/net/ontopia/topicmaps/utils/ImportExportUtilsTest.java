@@ -3,10 +3,9 @@
 
 package net.ontopia.topicmaps.utils;
 
-import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 
-public class ImportExportUtilsTest extends AbstractOntopiaTestCase {
+public class ImportExportUtilsTest extends TestCase {
 
   public ImportExportUtilsTest(String name) {
     super(name);

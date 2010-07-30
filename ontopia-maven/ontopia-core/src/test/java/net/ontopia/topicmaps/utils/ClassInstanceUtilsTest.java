@@ -5,14 +5,12 @@ package net.ontopia.topicmaps.utils;
 
 import java.util.*;
 import java.io.*;
+import junit.framework.TestCase;
 import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
-import net.ontopia.topicmaps.utils.ClassInstanceUtils;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.utils.TestUtils;
 
-public class ClassInstanceUtilsTest extends AbstractTopicMapTestCase {
+public class ClassInstanceUtilsTest extends TestCase {
   protected TopicMapIF        topicmap; 
   protected LocatorIF         base;
 
@@ -20,9 +18,8 @@ public class ClassInstanceUtilsTest extends AbstractTopicMapTestCase {
     super(name);
   }
 
-  protected void load(String dir, String filename) throws IOException {
-    File file = new File(resolveFileName(dir, filename));
-    topicmap = ImportExportUtils.getReader(file).read();
+  protected void load(String filename) throws IOException {
+    topicmap = TestUtils.getTestReader("net.ontopia.topicmaps.utils", filename).read();
     base = topicmap.getStore().getBaseAddress();
   }
 
@@ -33,14 +30,14 @@ public class ClassInstanceUtilsTest extends AbstractTopicMapTestCase {
   // --- Test cases
 
   public void testGetInstancesOfEmpty() throws IOException {
-    load("various", "small-test.ltm");
+    load("small-test.ltm");
     Collection instances = ClassInstanceUtils.getInstancesOf(Collections.EMPTY_SET,
                                                              getTopicById("person"));
     assertTrue("found instances in empty set", instances.isEmpty());
   }
 
   public void testGetInstancesOfTopic() throws IOException {
-    load("various", "small-test.ltm");
+    load("small-test.ltm");
     Collection instances = ClassInstanceUtils.getInstancesOf(topicmap.getTopics(),
                                                              getTopicById("person"));
     assertTrue("wrong number of instances", instances.size() == 3);

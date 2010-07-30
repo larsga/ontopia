@@ -4,23 +4,20 @@
 package net.ontopia.topicmaps.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.net.MalformedURLException;
-import net.ontopia.utils.FileUtils;
-import net.ontopia.topicmaps.test.*;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.infoset.core.*;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
-import net.ontopia.topicmaps.utils.MergeUtils;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.ObjectUtils;
+import net.ontopia.utils.StreamUtils;
+import net.ontopia.utils.TestUtils;
 
-public class MergeTest extends AbstractTopicMapTestCase {
+public class MergeTest extends TestCase {
   protected TopicMapIF    topicmap1; 
   protected TopicMapIF    topicmap2; 
   protected TopicMapBuilderIF builder1;
@@ -48,7 +45,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
       return new URILocator(uri);
     }
     catch (java.net.MalformedURLException e) {
-      fail("malformed URL given", e);
+      fail("malformed URL given" + e.getMessage());
       return null; // never executed...
     }
   }
@@ -73,7 +70,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              !MergeUtils.shouldMerge(t1, t2));
     }
     catch (ConstraintViolationException e) {
-      fail("(INTERNAL) ", e);
+      fail("(INTERNAL) " + e.getMessage());
     }
   }
 
@@ -88,7 +85,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              MergeUtils.shouldMerge(t1, t2));
     }
     catch (ConstraintViolationException e) {
-      fail("(INTERNAL) ", e);
+      fail("(INTERNAL) " + e.getMessage());
     }
   }
 
@@ -103,7 +100,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              MergeUtils.shouldMerge(t1, t2));
     }
     catch (ConstraintViolationException e) {
-      fail("(INTERNAL) ", e);
+      fail("(INTERNAL) " + e.getMessage());
     }
   }
 
@@ -185,7 +182,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getSubjectLocators().contains(makeLocator("http://www.ontopia.net")));
     }
     catch (ConstraintViolationException e) {
-      fail("didn't accept merging when only one topic had a subject", e);
+      fail("didn't accept merging when only one topic had a subject" + e.getMessage());
     }
   }
 
@@ -200,7 +197,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getSubjectLocators().contains(makeLocator("http://www.ontopia.net")));
     }
     catch (ConstraintViolationException e) {
-      fail("didn't accept merging when only one topic had a subject", e);
+      fail("didn't accept merging when only one topic had a subject" + e.getMessage());
     }
   }
 
@@ -241,7 +238,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getSubjectIdentifiers().contains(loc3));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -260,7 +257,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getTopicNames().contains(bn1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -277,7 +274,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getTopicNames().size() == 1);
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
 
     try {
@@ -299,7 +296,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getTopicNames().size() == 1);
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -336,7 +333,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getOccurrences().contains(oc1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -355,7 +352,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getOccurrences().size() == 1);
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
 
     try {
@@ -379,7 +376,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getOccurrences().size() == 1);
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -403,7 +400,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getTypes().contains(tt2));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
     
@@ -430,7 +427,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t1.getRoles().contains(ar2));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -450,7 +447,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              t3.getTypes().contains(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -470,7 +467,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              ar1.getType().equals(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -487,7 +484,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              assoc1.getType().equals(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -504,7 +501,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              bn.getType().equals(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -521,7 +518,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              occ.getType().equals(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -542,7 +539,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              assoc.getScope().contains(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -562,7 +559,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              bn.getScope().contains(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -583,7 +580,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
              occ.getScope().contains(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
@@ -604,14 +601,14 @@ public class MergeTest extends AbstractTopicMapTestCase {
              vn.getScope().contains(t1));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
   }
 
   public void testMergeDuplicateAssociations() throws IOException {
-    TopicMapIF tm = ImportExportUtils.getReader(resolveFileName("various", "merge-duplicate-assoc.ltm")).read();
-    TopicIF puccini1 = getTopicById(tm, "puccini1");
-    TopicIF puccini2 = getTopicById(tm, "puccini2");
+    TopicMapIF tm = TestUtils.getTestReader("net.ontopia.topicmaps.utils", "merge-duplicate-assoc.ltm").read();
+    TopicIF puccini1 = TestUtils.getTopicById(tm, "puccini1");
+    TopicIF puccini2 = TestUtils.getTopicById(tm, "puccini2");
     
     MergeUtils.mergeInto(puccini1, puccini2);
 
@@ -625,8 +622,8 @@ public class MergeTest extends AbstractTopicMapTestCase {
   // FIXME: must test duplicates
 
   public void testMergeSelf() throws IOException {
-    TopicMapIF tm1 = ImportExportUtils.getReader(resolveFileName("various", "jill.xtm")).read();
-    TopicMapIF tm2 = ImportExportUtils.getReader(resolveFileName("various", "jill.xtm")).read();
+    TopicMapIF tm1 = TestUtils.getTestReader("net.ontopia.topicmaps.query.core", "jill.xtm").read();
+    TopicMapIF tm2 = TestUtils.getTestReader("net.ontopia.topicmaps.query.core", "jill.xtm").read();
 
     MergeUtils.mergeInto(tm1, tm2);
   }
@@ -888,10 +885,10 @@ public class MergeTest extends AbstractTopicMapTestCase {
       MergeUtils.mergeInto(topicmap1, t2);
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
     catch (java.net.MalformedURLException e) {
-      fail("URI literals malformed", e);
+      fail("URI literals malformed" + e.getMessage());
     }
   }
 
@@ -917,7 +914,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
     catch (ConstraintViolationException e) {
     }
     catch (java.net.MalformedURLException e) {
-      fail("URI literals malformed", e);
+      fail("URI literals malformed" + e.getMessage());
     }
   }
   
@@ -947,23 +944,23 @@ public class MergeTest extends AbstractTopicMapTestCase {
                  bn.getValue().equals("famous misspelling"));
     }
     catch (ConstraintViolationException e) {
-      fail("merge of topics unaccountably failed", e);
+      fail("merge of topics unaccountably failed" + e.getMessage());
     }
     catch (MalformedURLException e) {
-      fail("URI literals malformed", e);
+      fail("URI literals malformed" + e.getMessage());
     }
   }
 
   public void testMergeAllTopics() throws MalformedURLException, IOException {
     String sep = File.separator;
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    verifyDirectory(root + sep + "canonical", "out");
+    String root = TestUtils.getTestDirectory();
+    TestUtils.verifyDirectory(root + sep + "canonical");
+    TestUtils.verifyDirectory(root + sep + "canonical", "out");
       
-    String file = root + sep + "various" + sep + "houdini.xtm";
     String outfile = root + sep + "canonical" + sep + "out" + sep + "houdini.xtm";
-    String baseline = root + sep + "various" + sep + "baseline-houdini.xtm";
 
-    TopicMapIF topicmap = new XTMTopicMapReader(new File(file)).read();    
+    //TopicMapIF topicmap = new XTMTopicMapReader(new File(file)).read();
+    TopicMapIF topicmap = TestUtils.getTestReader("net.ontopia.topicmaps.utils", "houdini.xtm").read();
     
     // save
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
@@ -977,7 +974,7 @@ public class MergeTest extends AbstractTopicMapTestCase {
 
     new CanonicalTopicMapWriter(outfile).write(newtm);
     assertTrue("Topic map created by merging over topics not equal to original",
-               FileUtils.compare(new File(outfile), new File(baseline)));
+               StreamUtils.compare(new FileInputStream(new File(outfile)), TestUtils.getTestStream("net.ontopia.topicmaps.utils", "baseline-houdini.xtm")));
   }
 
   public void testMergeReifiedNames() {
