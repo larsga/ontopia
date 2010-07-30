@@ -3,6 +3,7 @@
 package net.ontopia.topicmaps.impl.basic.index;
 
 import java.util.Iterator;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
@@ -12,9 +13,8 @@ import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 
-public class ClassInstanceTest extends AbstractTopicMapTestCase {
+public class ClassInstanceTest extends AbstractTopicMapTest {
     protected ClassInstanceIndexIF index;
     protected TopicMapBuilderIF builder;
     protected TopicMapIF topicmap;

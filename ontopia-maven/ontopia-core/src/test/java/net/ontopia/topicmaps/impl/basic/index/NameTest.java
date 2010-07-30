@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
@@ -16,10 +17,9 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.core.index.NameIndexIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
 
-public class NameTest extends AbstractTopicMapTestCase {
+public class NameTest extends AbstractTopicMapTest {
   protected NameIndexIF index;
   protected TopicMapBuilderIF builder;
   protected TopicMapIF topicmap;
