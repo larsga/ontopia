@@ -6,17 +6,15 @@ package net.ontopia.infoset.fulltext.impl.lucene;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import junit.framework.TestCase;
 
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.fulltext.core.DocumentIF;
 import net.ontopia.infoset.fulltext.core.IndexerIF;
 import net.ontopia.infoset.fulltext.core.SearchResultIF;
 import net.ontopia.infoset.fulltext.core.SearcherIF;
-import net.ontopia.infoset.fulltext.impl.lucene.LuceneIndexer;
-import net.ontopia.infoset.fulltext.impl.lucene.LuceneSearcher;
 import net.ontopia.infoset.fulltext.topicmaps.DefaultTopicMapIndexer;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TMObjectIF;
@@ -26,15 +24,16 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import net.ontopia.utils.TestUtils;
 
 import org.apache.lucene.analysis.StopAnalyzer;
 
-public class LuceneTests extends AbstractOntopiaTestCase {
+public class LuceneTests extends TestCase {
   
   protected TopicMapIF topicmap;       // topic map of object being tested
   protected TopicMapBuilderIF builder; // builder used for creating new objects
   
-  protected String indexDir;  
+  protected String indexDir;
   protected SearcherIF searcher;
   
   public LuceneTests(String name) {
@@ -46,9 +45,9 @@ public class LuceneTests extends AbstractOntopiaTestCase {
     topicmap = store.getTopicMap();
     builder = topicmap.getBuilder();
 
-    String root = getTestDirectory();    
+    String root = TestUtils.getTestDirectory();
     indexDir = root + File.separator + "indexes" + File.separator;
-    verifyDirectory(root, "indexes");
+    TestUtils.verifyDirectory(root, "indexes");
   }
 
   protected void tearDown() throws IOException {
