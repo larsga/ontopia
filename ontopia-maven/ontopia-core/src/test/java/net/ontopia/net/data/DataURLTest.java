@@ -3,14 +3,10 @@
 
 package net.ontopia.net.data;
 
-import java.io.IOException;
-import net.ontopia.test.*;
-import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.net.data.*;
+import junit.framework.TestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
 
-public class DataURLTest extends AbstractOntopiaTestCase {
+public class DataURLTest extends TestCase {
   
   public DataURLTest(String name) {
     super(name);
@@ -28,15 +24,15 @@ public class DataURLTest extends AbstractOntopiaTestCase {
 
   public void testTrivial() {
     DataURL url = makeURI("data:,42");
-    assertTrue("contents of data URL not decoded correctly",
-               url.getContents().equals("42"));
+    assertEquals("Contents of data URL not decoded correctly",
+               "42", url.getContents());
   }
 
   // motivated by bug #1418
   public void testLatin1Chars() { 
     DataURL url = makeURI("data:,hei+p\u00E5+deg");
     String contents = url.getContents();
-    assertTrue("latin1 chars in data URL not decoded correctly: '" + contents + "'",
-               contents.equals("hei p\u00E5 deg"));
+    assertEquals("Latin1 chars in data URL not decoded correctly: '" + contents + "'",
+               "hei p\u00E5 deg", contents);
   }
 }
