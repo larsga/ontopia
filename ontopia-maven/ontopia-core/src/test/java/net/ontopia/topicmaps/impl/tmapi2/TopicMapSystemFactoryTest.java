@@ -3,6 +3,7 @@
 
 package net.ontopia.topicmaps.impl.tmapi2;
 
+import junit.framework.TestCase;
 import org.tmapi.core.TopicMapSystemFactory;
 import org.tmapi.core.TopicMapSystem;
 
@@ -10,7 +11,7 @@ import org.tmapi.core.TopicMapSystem;
  * INTERNAL.
  */
 public class TopicMapSystemFactoryTest 
-  extends net.ontopia.test.AbstractOntopiaTestCase {
+  extends TestCase {
 
   public TopicMapSystemFactoryTest(String name) {
     super(name);

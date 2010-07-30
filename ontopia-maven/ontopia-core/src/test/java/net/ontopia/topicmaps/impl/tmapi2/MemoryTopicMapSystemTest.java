@@ -1,5 +1,6 @@
 package net.ontopia.topicmaps.impl.tmapi2;
 
+import junit.framework.TestCase;
 import org.tmapi.core.Locator;
 import org.tmapi.core.TopicMap;
 import org.tmapi.core.TopicMapExistsException;
@@ -7,7 +8,7 @@ import org.tmapi.core.TopicMapSystem;
 import org.tmapi.core.TopicMapSystemFactory;
 
 public class MemoryTopicMapSystemTest 
-  extends net.ontopia.test.AbstractOntopiaTestCase {
+  extends TestCase {
 
   private TopicMapSystemFactory tmsf;
   private TopicMapSystem tms;

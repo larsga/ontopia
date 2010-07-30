@@ -1,6 +1,7 @@
 package net.ontopia.topicmaps.impl.tmapi2;
 
 import java.util.Set;
+import junit.framework.TestCase;
 
 import org.tmapi.core.Locator;
 import org.tmapi.core.TopicMap;
@@ -9,7 +10,7 @@ import org.tmapi.core.TopicMapSystem;
 import org.tmapi.core.TopicMapSystemFactory;
 
 public class RDBMSTopicMapSystemTest 
-extends net.ontopia.test.AbstractOntopiaTestCase {
+  extends TestCase {
 
   private TopicMapSystemFactory tmsf;
   private TopicMapSystem tms;
@@ -42,7 +43,7 @@ extends net.ontopia.test.AbstractOntopiaTestCase {
     tms.close();
   }
 
-  public void xtestAll() {
+  public void testAll() {
     
     // first clean all existing topic maps
     Set<Locator> locators = tms.getLocators();
