@@ -2,7 +2,6 @@
 package net.ontopia.infoset.impl.basic;
 
 import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.GenericLocator;
 
 public class GenericLocatorTest extends AbstractLocatorTest {
 
@@ -33,13 +32,11 @@ public class GenericLocatorTest extends AbstractLocatorTest {
 
   public void testEquals() {
     LocatorIF locator = createLocator(NOTATION, ADDRESS);
-    assertTrue("locator does not equal itself",
-	   locator.equals(locator));
+    assertEquals("locator does not equal itself", locator, locator);
     assertTrue("locator equals null",
 	   !locator.equals(null));
     
     LocatorIF locator2 = createLocator("generic", ADDRESS);
-    assertTrue("comparison of notation name not case-insensitive",
-	   locator.equals(locator2));
+    assertEquals("comparison of notation name not case-insensitive", locator2, locator);
   }
 }

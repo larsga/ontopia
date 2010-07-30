@@ -5,7 +5,6 @@ package net.ontopia.infoset.impl.basic;
 
 import java.io.File;
 import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.OntopiaRuntimeException;
 
 public class URILocatorTest extends AbstractLocatorTest {

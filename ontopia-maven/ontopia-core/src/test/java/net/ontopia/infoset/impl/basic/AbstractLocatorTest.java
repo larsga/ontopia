@@ -3,10 +3,12 @@
 
 package net.ontopia.infoset.impl.basic;
 
-import net.ontopia.test.*;
+import junit.framework.TestCase;
 import net.ontopia.infoset.core.LocatorIF;
+import org.junit.Ignore;
 
-public abstract class AbstractLocatorTest extends AbstractOntopiaTestCase {
+@Ignore
+public abstract class AbstractLocatorTest extends TestCase {
   
   public AbstractLocatorTest(String name) {
     super(name);
@@ -26,8 +28,8 @@ public abstract class AbstractLocatorTest extends AbstractOntopiaTestCase {
     LocatorIF locator1 = createLocator();
     LocatorIF locator2 = createLocator();
     
-    assertTrue("equal locators are not equal [1]", locator1.equals(locator2));
-    assertTrue("equal locators are not equal [2]", locator2.equals(locator1));    
+    assertEquals("equal locators are not equal [1]", locator2, locator1);
+    assertEquals("equal locators are not equal [2]", locator1, locator2);
   }
   
 }

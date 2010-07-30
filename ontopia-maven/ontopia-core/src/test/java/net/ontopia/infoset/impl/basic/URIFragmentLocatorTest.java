@@ -3,11 +3,10 @@
 
 package net.ontopia.infoset.impl.basic;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
+import junit.framework.TestCase;
 import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 
-public class URIFragmentLocatorTest extends AbstractOntopiaTestCase {
+public class URIFragmentLocatorTest extends TestCase {
   
   public URIFragmentLocatorTest(String name) {
     super(name);

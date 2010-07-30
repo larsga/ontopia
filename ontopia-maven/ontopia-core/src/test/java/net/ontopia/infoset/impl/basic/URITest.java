@@ -4,12 +4,11 @@
 package net.ontopia.infoset.impl.basic;
 
 import java.net.MalformedURLException;
-import net.ontopia.test.*;
+import junit.framework.TestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.LocatorIF;
-import net.ontopia.infoset.impl.basic.URILocator;
 
-public class URITest extends AbstractOntopiaTestCase {
+public class URITest extends TestCase {
 
   public URITest(String name) {
     super(name);
