@@ -6,10 +6,8 @@ package net.ontopia.topicmaps.core.events;
 import java.util.*;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.core.*;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
 import net.ontopia.utils.TestUtils;
   
 public class TopicModificationTests extends AbstractTopicMapTest {
@@ -34,7 +32,7 @@ public class TopicModificationTests extends AbstractTopicMapTest {
       // load topic map
       topicmap = topicmapRef.createStore(false).getTopicMap();
 
-      LTMTopicMapReader reader = new LTMTopicMapReader(TestUtils.getTestReader("net.ontopia.topicmaps.core.events", "bart.ltm"), URILocator.create("test:various/bart.ltm"));
+      TopicMapImporterIF reader = TestUtils.getTestImporter("net.ontopia.topicmaps.core.events", "bart.ltm");
       reader.importInto(topicmap);
 
       topicmap.getStore().commit();

@@ -75,13 +75,9 @@ public class AbstractQueryTest extends TestCase {
     // IMPORTANT: This method is being overloaded by the RDBMS
     // implementation to provide the right object implementations.
 
-    InputStream in = TestUtils.getTestStream("net.ontopia.topicmaps.query.core", filename);
-
-    TopicMapImporterIF importer = null;
     base = URILocator.create("classpath:net/ontopia/topicmaps/query/core/" + filename);
-    if (filename.endsWith(".ltm")) importer = new LTMTopicMapReader(in, base);
-    if (filename.endsWith(".xtm")) importer = new XTMTopicMapReader(in, base);
-    if (filename.endsWith(".tmx")) importer = new TMXMLReader(new InputSource(in), base);
+    TopicMapImporterIF importer = TestUtils.getTestImporter("net.ontopia.topicmaps.query.core",
+            filename, base);
 
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();

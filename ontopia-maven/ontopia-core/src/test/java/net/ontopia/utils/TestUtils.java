@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.ontopia.utils;
 
 import java.io.BufferedReader;
@@ -10,42 +5,69 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.HashMap;
+import java.util.Map;
 import net.ontopia.infoset.core.LocatorIF;
+import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.AbstractCoreTestGenerator;
 import net.ontopia.topicmaps.core.TMObjectIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
+import net.ontopia.topicmaps.core.TopicMapImporterIF;
+import net.ontopia.topicmaps.core.TopicMapReaderIF;
+import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
+import net.ontopia.topicmaps.xml.TMXMLReader;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 /**
- * TODO: rewrite this to get the test data from classpath
- * @author qs
+ * Utility class assisting Ontopia tests with resource handling
  */
 @Ignore
 public class TestUtils {
 
   static Logger logger = LoggerFactory.getLogger(TestUtils.class.getName());
-  // Test directory
+  private static String testRoot = null;
 
+  static {
+
+    // allow for classpath URL's to be used in topicmap includes
+    URL.setURLStreamHandlerFactory(new ConfigurableStreamHandlerFactory("classpath", new URLStreamHandler() {
+
+      protected URLConnection openConnection(URL u) throws IOException {
+        final URL resourceUrl = StreamUtils.getResource(u.getPath());
+        return resourceUrl.openConnection();
+      }
+    }));
+  }
+
+  // Test directory
   /**
    * Returns the folder used for test output files
    * @return the folder used for test output files
    */
   public static String getTestDirectory() {
-    String testroot = System.getProperty("net.ontopia.test.root");
-    // Fall back to the user home directory
-    if (testroot == null)
-      testroot = System.getProperty("user.dir") + File.separator + "target" + File.separator + "test-data";
-    // Complain if the directory couldn't be found.
-    if (testroot == null)
-      throw new OntopiaRuntimeException("Could not find test root directory." +
-                                        " Please set the 'net.ontopia.test.root'" +
-                                        " system property.");
-    return testroot;
+    if (testRoot == null) {
+      testRoot = System.getProperty("net.ontopia.test.root");
+      // Fall back to the user home directory
+      if (testRoot == null) {
+        testRoot = System.getProperty("user.dir") + File.separator + "target" + File.separator + "test-data";
+      }
+      // Complain if the directory couldn't be found.
+      if (testRoot == null) {
+        throw new OntopiaRuntimeException("Could not find test root directory."
+                + " Please set the 'net.ontopia.test.root'"
+                + " system property.");
+      }
+    }
+    return testRoot;
   }
 
 
@@ -148,13 +170,59 @@ public class TestUtils {
 
   }
 
-  public static Reader getTestReader(String category, String file) throws IOException {
-    return new InputStreamReader(getTestStream(category, file));
+  public static LocatorIF getTestLocator(String category, String file) throws IOException {
+    return URILocator.create(StreamUtils.getResource(category.replaceAll("\\.", File.separator) + File.separator + file).toString());
   }
 
   public static InputStream getTestStream(String category, String file) throws IOException {
     //logger.info(category.replaceAll("\\.", File.separator) + File.separator + file);
     InputStream stream = StreamUtils.getInputStream(category.replaceAll("\\.", File.separator) + File.separator + file);
+    if (stream == null) {
+      logger.error("File not found " + category.replaceAll("\\.", File.separator) + File.separator + file);
+    }
     return stream;
+  }
+
+  public static TopicMapReaderIF getTestReader(String category, String file) throws IOException {
+    LocatorIF base = getTestLocator(category, file);
+    return getTestReader(category, file, base);
+  }
+
+  public static TopicMapReaderIF getTestReader(String category, String file, LocatorIF base) throws IOException {
+
+    InputStream in = TestUtils.getTestStream(category, file);
+
+    TopicMapReaderIF importer = null;
+    if (file.endsWith(".ltm")) importer = new LTMTopicMapReader(in, base);
+    if (file.endsWith(".xtm")) importer = new XTMTopicMapReader(in, base);
+    if (file.endsWith(".tmx")) importer = new TMXMLReader(new InputSource(in), base);
+
+    return importer;
+  }
+
+  public static TopicMapImporterIF getTestImporter(String category, String file) throws IOException {
+    return (TopicMapImporterIF) getTestReader(category, file);
+  }
+
+  public static TopicMapImporterIF getTestImporter(String category, String file, LocatorIF base) throws IOException {
+    return (TopicMapImporterIF) getTestReader(category, file, base);
+  }
+
+  static class ConfigurableStreamHandlerFactory implements URLStreamHandlerFactory {
+
+    private final Map<String, URLStreamHandler> protocolHandlers;
+
+    public ConfigurableStreamHandlerFactory(String protocol, URLStreamHandler urlHandler) {
+      protocolHandlers = new HashMap<String, URLStreamHandler>();
+      addHandler(protocol, urlHandler);
+    }
+
+    public void addHandler(String protocol, URLStreamHandler urlHandler) {
+      protocolHandlers.put(protocol, urlHandler);
+    }
+
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+      return protocolHandlers.get(protocol);
+    }
   }
 }
