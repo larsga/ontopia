@@ -11,8 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.query.core.test.AbstractQueryTest;
-import net.ontopia.topicmaps.query.utils.FlatQueryResultIterator;
+import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 
 public class FlatQueryResultIteratorTest extends AbstractQueryTest {
   
