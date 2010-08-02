@@ -201,28 +201,12 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0.2</version>
 				<configuration>
-					<excludes>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/RAPServlet.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPImplementation.java</exclude>
-						<exclude>**/net/ontopia/infoset/content/ContentStoreServlet.java</exclude>
-					</excludes>
+					
 					<testExcludes>
 
 						<!-- disable RDBMS TMAPI test -->
 						<exclude>**/net/ontopia/topicmaps/impl/tmapi2/RDBMSTopicMapSystemTest.java</exclude>
 
-						<!-- TMRAP, to be moved to seperate module -->
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPTestCaseContentHandler.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPTestDescriptor.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPTestGenerator.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TMRAPTestUtils.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TestAddFragment.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TestDeleteTopic.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TestGetTopic.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TestRemoteTopicIndex.java</exclude>
-						<exclude>**/net/ontopia/topicmaps/utils/tmrap/TestTMRAPOperation.java</exclude>
-						<!-- all require net/ontopia/topicmaps/utils/tmrap/RAPServlet -->
-						<!-- some require net.ontopia.utils.ontojsp -->
 					</testExcludes>
 				</configuration>
 			</plugin>

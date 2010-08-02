@@ -8,10 +8,11 @@
 		<version>5.2.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>ontopia-viz</artifactId>
+	<artifactId>ontopia-tmrap</artifactId>
 	<packaging>jar</packaging>
-	<name>Ontopia Vizigator</name>
-	<description>Ontopia Vizigator.</description>
+	<name>Ontopia TMRAP</name>
+	<description>Ontopia TMRAP.</description>
+	<url>http://todo</url>
 
 	<dependencies>
 		<dependency>
@@ -21,24 +22,20 @@
 		</dependency>
 		<dependency>
 			<groupId>net.ontopia.maven</groupId>
-			<artifactId>ontopia-test-bootstrap</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.ontopia.maven</groupId>
 			<artifactId>ontopia-navigator</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.ontopia.maven</groupId>
-			<artifactId>ontopia-tmrap</artifactId>
-			<version>${project.version}</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.touchgraph</groupId>
-			<artifactId>touchgraph</artifactId>
-			<version>unknown</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
