@@ -3,7 +3,7 @@
 
 package net.ontopia.topicmaps.entry;
 
-import java.io.File;
+import java.net.URL;
 import net.ontopia.topicmaps.utils.NullResolvingExternalReferenceHandler;
 import net.ontopia.topicmaps.utils.ltm.*;
 import net.ontopia.topicmaps.utils.rdf.*;
@@ -62,9 +62,10 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testXTMRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "jill.xtm";
     String title = "XTMTM";
-    File file = new File(TestUtils.getTestDirectory() + File.separator + "various" + File.separator + id);
 
-    XTMTopicMapReference ref = new XTMTopicMapReference(file.toURL(), id, title);
+    LocatorIF loc = TestUtils.getTestLocator("net.ontopia.topicmaps.query.core", id);
+    URL url = new URL(loc.getAddress());
+    XTMTopicMapReference ref = new XTMTopicMapReference(url, id, title);
 
     // test validation
     assertTrue("Validation default is not true", ref.getValidation());   
@@ -90,9 +91,10 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testLTMRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "small-test.ltm";
     String title = "LTMTM";
-    File file = new File(TestUtils.getTestDirectory() + File.separator + "various" + File.separator + id);
-
-    LTMTopicMapReference ref = new LTMTopicMapReference(file.toURL(), id, title);
+   
+    LocatorIF loc = TestUtils.getTestLocator("net.ontopia.topicmaps.utils", id);
+    URL url = new URL(loc.getAddress());
+    LTMTopicMapReference ref = new LTMTopicMapReference(url, id, title);
 
     // run abstract url topic map reference tests
     doAbstractURLTopicMapReferenceTests(ref);
@@ -103,9 +105,10 @@ public class AbstractURLTopicMapReferenceTest extends AbstractTopicMapReferenceT
   public void testRDFRef() throws java.net.MalformedURLException, java.io.IOException {
     String id = "instance-of.rdf";
     String title = "RDFTM";
-    File file = new File(TestUtils.getTestDirectory() + File.separator + "rdf" + File.separator + "in" + File.separator + id);
 
-    RDFTopicMapReference ref = new RDFTopicMapReference(file.toURL(), id, title);
+    LocatorIF loc = TestUtils.getTestLocator("net.ontopia.topicmaps.utils.rdf.in", id);
+    URL url = new URL(loc.getAddress());
+    RDFTopicMapReference ref = new RDFTopicMapReference(url, id, title);
     
     // test mapping file
     String mf = ref.getMappingFile();
