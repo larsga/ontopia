@@ -68,7 +68,7 @@ public class DeletionUtilsTest extends TestCase {
       String name = TEST_FILES[ix];
       if (filter(name)) {
         TopicMapIF tm = makeTopicMap();
-        TopicMapImporterIF importer = TestUtils.getTestImporter("net.ontopia.topicmaps.utils.canonical", name);
+        TopicMapImporterIF importer = TestUtils.getTestImporter("net.ontopia.topicmaps.utils.canonical.in", name);
         if (name.endsWith(".xtm"))
           ((XTMTopicMapReader) importer).setValidation(false);
         try {
