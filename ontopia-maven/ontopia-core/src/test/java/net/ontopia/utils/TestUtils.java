@@ -82,13 +82,13 @@ public class TestUtils {
   public static void verifyDirectory(String dir) {
     File thedir = new File(dir);
     if (!thedir.exists())
-      thedir.mkdir();
+      thedir.mkdirs();
   }
 
   public static void verifyDirectory(String base, String dir) {
     File thedir = new File(base + File.separator + dir);
     if (!thedir.exists())
-      thedir.mkdir();
+      thedir.mkdirs();
   }
 
   public static void verifyDirectory(String base, String sub1, String sub2) {
@@ -165,9 +165,16 @@ public class TestUtils {
 
     if (klass.getName().startsWith("net.ontopia.topicmaps.impl.rdbms")) {
       try {
-        return new net.ontopia.topicmaps.impl.rdbms.CoreTestGenerator();
-      } catch (IOException ex) {
-        throw new OntopiaRuntimeException(ex);
+        // load class through reflection, to avoid compile errors when
+        // rdbms tests are disabled
+        AbstractCoreTestGenerator.FactoryIF fact = (AbstractCoreTestGenerator.FactoryIF)Class.forName("net.ontopia.topicmaps.impl.rdbms.CoreTestGenerator").newInstance();
+        return fact;
+      } catch (ClassNotFoundException cnfe) {
+        logger.warn("RDBMS test topicmap factory not found, if rdbms tests are enabled, they will fail");
+      } catch (InstantiationException ie) {
+        throw new OntopiaRuntimeException("Could not instantiate RDBMS test topicmap factory", ie);
+      } catch (IllegalAccessException iae) {
+        throw new OntopiaRuntimeException("Could not instantiate RDBMS test topicmap factory", iae);
       }
     }
 
@@ -206,6 +213,8 @@ public class TestUtils {
     if (file.endsWith(".ltm")) importer = new LTMTopicMapReader(in, base);
     if (file.endsWith(".xtm")) importer = new XTMTopicMapReader(in, base);
     if (file.endsWith(".tmx")) importer = new TMXMLReader(new InputSource(in), base);
+    if (file.endsWith(".xml")) importer = new TMXMLReader(new InputSource(in), base);
+    if (file.endsWith(".xtm.multi")) importer = new XTMTopicMapReader(in, base);
 
     return importer;
   }
