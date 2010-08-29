@@ -10,6 +10,11 @@
   <description>This application is used to test the Webed taglib</description>
 
   <context-param>
+    <param-name>source_config</param-name>
+    <param-value>WEB-INF/config/tm-sources.xml</param-value>
+  </context-param>
+
+  <context-param>
     <param-name>action_config</param-name>
     <param-value>WEB-INF/config/actions.xml</param-value>
     <description>
