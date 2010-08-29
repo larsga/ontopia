@@ -21,8 +21,8 @@ The manual way of testing is as follows:
   
   observe that the action was not executed by making sure the text "testSubactionTopic" does not appear on the page. -->
 
-<%@ taglib uri='/WEB-INF/jsp/webed-form.tld'     prefix='webed'    %>
-<%@ taglib uri='/WEB-INF/jsp/tolog.tld'          prefix='tolog'    %>
+<%@ taglib uri='http://psi.ontopia.net/jsp/taglib/webed' prefix='webed' %>
+<%@ taglib uri='http://psi.ontopia.net/jsp/taglib/tolog' prefix='tolog' %>
 
 <tolog:context topicmap="test.ltm">
   <tolog:set query="topicmap($topicmap)?"/>

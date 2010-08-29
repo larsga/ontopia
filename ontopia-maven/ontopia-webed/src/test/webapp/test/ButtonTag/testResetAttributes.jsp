@@ -1,5 +1,5 @@
-<%@ taglib uri="/WEB-INF/jsp/webed-form.tld" prefix="webed" %>
-<%@ taglib uri="/WEB-INF/jsp/tolog.tld" prefix="tolog"     %>
+<%@ taglib uri="http://psi.ontopia.net/jsp/taglib/webed" prefix="webed" %>
+<%@ taglib uri="http://psi.ontopia.net/jsp/taglib/tolog" prefix="tolog" %>
 
 <tolog:context topicmap="test.ltm">
 <webed:form actiongroup="attributesTest">
