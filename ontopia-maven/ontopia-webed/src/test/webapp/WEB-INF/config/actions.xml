@@ -15,13 +15,13 @@
     <class shortcut="SetValue"
            fullname="net.ontopia.topicmaps.webed.impl.actions.basename.SetValue"/>
     <class shortcut="TestAction"
-           fullname="net.ontopia.topicmaps.webed.test.actions.TestAction"/>
+           fullname="net.ontopia.topicmaps.webed.actions.TestAction"/>
     <class shortcut="TestActionParams"
-           fullname="net.ontopia.topicmaps.webed.test.actions.TestActionParameters"/>
+           fullname="net.ontopia.topicmaps.webed.actions.TestActionParameters"/>
     <class shortcut="TestValueAction" 
-           fullname="net.ontopia.topicmaps.webed.test.actions.TestValueAction"/>
+           fullname="net.ontopia.topicmaps.webed.actions.TestValueAction"/>
     <class shortcut="TestPeakAction"
-           fullname="net.ontopia.topicmaps.webed.test.actions.TestPeakAction"/>
+           fullname="net.ontopia.topicmaps.webed.actions.TestPeakAction"/>
   </classMap>
 
   <buttonMap>
