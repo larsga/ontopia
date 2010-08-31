@@ -4,7 +4,6 @@
 package net.ontopia.topicmaps.webed.impl.actions;
 
 import java.util.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.ontojsp.FakeServletRequest;
 import net.ontopia.utils.ontojsp.FakeServletResponse;
 import net.ontopia.topicmaps.webed.core.*;
@@ -14,7 +13,6 @@ import net.ontopia.topicmaps.webed.impl.actions.tmobject.*;
 import net.ontopia.topicmaps.webed.impl.basic.Constants;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.*;
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.infoset.core.*;
 
 public class TestDelete extends AbstractWebedTestCase {
