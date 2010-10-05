@@ -13,7 +13,7 @@ import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.topicmaps.entry.TopicMapRepositoryIF;
 import net.ontopia.utils.ObjectUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
-import ontopoly.model.TopicMap;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.pages.ConvertPage;
 import ontopoly.pages.InternalErrorPageWithException;
 import ontopoly.pages.PageExpiredErrorPage;
@@ -36,7 +36,8 @@ public class OntopolyRequestCycle extends WebRequestCycle {
 
   //! private static final Logger log = LoggerFactory.getLogger(OntopolyRequestCycle.class);
   
-  private static ThreadLocal<Map<String,TopicMap>> topicmaps = new ThreadLocal<Map<String,TopicMap>>();
+  private static ThreadLocal<Map<String,OntopolyTopicMapIF>> topicmaps =
+    new ThreadLocal<Map<String,OntopolyTopicMapIF>>();
 
   private OntopolyRepository repository;
   
@@ -55,11 +56,11 @@ public class OntopolyRequestCycle extends WebRequestCycle {
   protected void onEndRequest() {
     //! log.info("OKS: onEndRequest: " + this);
     super.onEndRequest();
-    Map<String,TopicMap> tms = topicmaps.get();
+    Map<String,OntopolyTopicMapIF> tms = topicmaps.get();
     if (tms != null && !tms.isEmpty()) {
       Iterator iter = tms.values().iterator();
       while (iter.hasNext()) {
-        TopicMap topicmap = (TopicMap)iter.next();
+        OntopolyTopicMapIF topicmap = (OntopolyTopicMapIF)iter.next();
         TopicMapIF tm = topicmap.getTopicMapIF();
         TopicMapStoreIF store = tm.getStore();
         try {
@@ -89,11 +90,11 @@ public class OntopolyRequestCycle extends WebRequestCycle {
   public Page onRuntimeException(Page page, RuntimeException e) {
     
     //! log.info("OKS: onRuntimeException: " + this);
-    Map<String,TopicMap> tms = topicmaps.get();
+    Map<String,OntopolyTopicMapIF> tms = topicmaps.get();
     if (tms != null && !tms.isEmpty()) {
       Iterator iter = tms.values().iterator();
       while (iter.hasNext()) {
-        TopicMap topicmap = (TopicMap)iter.next();
+        OntopolyTopicMapIF topicmap = (OntopolyTopicMapIF)iter.next();
         TopicMapIF tm = topicmap.getTopicMapIF();
         TopicMapStoreIF store = tm.getStore();
         try {
@@ -150,13 +151,13 @@ public class OntopolyRequestCycle extends WebRequestCycle {
 
   // ---
 
-  public TopicMap getTopicMap(String topicMapId) {    
+  public OntopolyTopicMapIF getTopicMap(String topicMapId) {    
     // go ahead and hand out topic map
-    Map<String,TopicMap> tms = topicmaps.get();
-    TopicMap tm = (tms == null ? null : (TopicMap)tms.get(topicMapId));
+    Map<String,OntopolyTopicMapIF> tms = topicmaps.get();
+    OntopolyTopicMapIF tm = (tms == null ? null : tms.get(topicMapId));
     if (tm == null) {
       if (tms == null) {
-        tms = new HashMap<String,TopicMap>();
+        tms = new HashMap<String,OntopolyTopicMapIF>();
         topicmaps.set(tms);
       }
       

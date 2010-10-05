@@ -1,7 +1,7 @@
 package ontopoly;
 
 import net.ontopia.topicmaps.entry.TopicMaps;
-import ontopoly.model.TopicMap;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.pages.AdminPage;
 import ontopoly.pages.AssociationTransformPage;
 import ontopoly.pages.AssociationTypesPage;
@@ -92,7 +92,7 @@ public class OntopolyApplication extends WebApplication {
     return lockManager;
   }
   
-  public TopicMap getTopicMap(String topicMapId) {
+  public OntopolyTopicMapIF getTopicMap(String topicMapId) {
     OntopolyRequestCycle rc = (OntopolyRequestCycle)RequestCycle.get();
     return rc.getTopicMap(topicMapId);
   }

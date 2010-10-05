@@ -1,8 +1,8 @@
 package ontopoly;
 
 import ontopoly.OntopolyAccessStrategy.Privilege;
-import ontopoly.model.FieldInstance;
-import ontopoly.model.Topic;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.OntopolyTopicIF;
 import ontopoly.pages.AbstractProtectedOntopolyPage;
 import ontopoly.pages.SignInPage;
 
@@ -18,15 +18,14 @@ import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WebSession;
 
 public class OntopolySession extends WebSession {
-
-  private OntopolyAccessStrategy accessStrategy;
-  
+  private OntopolyAccessStrategy accessStrategy; 
   private boolean shortcutsEnabled = false;
   private boolean annotationEnabled = false;
   private boolean administrationEnabled = false;
   private User user;
   
-  protected OntopolySession(Request request, Response response, OntopolyApplication ontopolyApplication) {
+  protected OntopolySession(Request request, Response response,
+                            OntopolyApplication ontopolyApplication) {
     super(request);
 
     this.accessStrategy = ontopolyApplication.newAccessStrategy();
@@ -78,15 +77,15 @@ public class OntopolySession extends WebSession {
     this.user = user;
   }
 
-  public Privilege getPrivilege(Topic topic) {
-	  return accessStrategy.getPrivilege(getUser(), topic);
+  public Privilege getPrivilege(OntopolyTopicIF topic) {
+    return accessStrategy.getPrivilege(getUser(), topic);
   }
 
-  public Privilege getPrivilege(FieldInstance fieldInstance) {
-	  return accessStrategy.getPrivilege(getUser(), fieldInstance);
+  public Privilege getPrivilege(FieldInstanceIF fieldInstance) {
+    return accessStrategy.getPrivilege(getUser(), fieldInstance);
   }
   
-  public LockManager.Lock lock(Topic topic, String lockerId) {
+  public LockManager.Lock lock(OntopolyTopicIF topic, String lockerId) {
     // compose locker id and lock key
     String lockKey = getLockKey(topic);
     
@@ -102,7 +101,7 @@ public class OntopolySession extends WebSession {
     return lockerId;
   }
   
-  protected String getLockKey(Topic topic) {
+  protected String getLockKey(OntopolyTopicIF topic) {
     String topicMapId = topic.getTopicMap().getId();
     String topicId = topic.getId();
     return topicMapId + ":" + topicId;      
@@ -150,8 +149,6 @@ public class OntopolySession extends WebSession {
   
   /**
    * Authenticates a user given the username and password.
-   * @param username
-   * @param password
    * @return true if the user was authenticated.
    */
   public boolean authenticate(String username, String password) {
@@ -165,7 +162,7 @@ public class OntopolySession extends WebSession {
   }
   
   public String getSignInMessage() {
-	  return accessStrategy.getSignInMessage();
+    return accessStrategy.getSignInMessage();
   }
   
 }

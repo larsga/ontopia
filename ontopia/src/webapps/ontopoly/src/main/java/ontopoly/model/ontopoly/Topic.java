@@ -1,5 +1,5 @@
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.OntopolyTopicIF;
 import ontopoly.utils.TopicComparator;
 
 import net.ontopia.infoset.core.LocatorIF;
@@ -25,7 +26,7 @@ import net.ontopia.utils.OntopiaRuntimeException;
  * types, topic types, role types, etc. FIXME: Should there be another subtype
  * for isHidden, isReadOnly etc?
  */
-public class Topic {
+public class Topic implements OntopolyTopicIF {
   private TopicIF topicIF;
   private TopicMap tm;
 

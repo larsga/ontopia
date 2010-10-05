@@ -1,6 +1,6 @@
 package ontopoly;
 
-import ontopoly.model.TopicMap;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.sysmodel.OntopolyRepository;
 
 import org.apache.wicket.Application;
@@ -21,7 +21,7 @@ public class OntopolyContext {
     return app.getOntopolyRepository();
   }
   
-  public static TopicMap getTopicMap(String topicMapId) {
+  public static OntopolyTopicMapIF getTopicMap(String topicMapId) {
     OntopolyApplication app = (OntopolyApplication)Application.get();
     return app.getTopicMap(topicMapId);
   }
