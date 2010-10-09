@@ -14,7 +14,7 @@ public class EnterTopicPage extends AbstractProtectedOntopolyPage {
   public EnterTopicPage(PageParameters parameters) {
 	super(parameters);
 	
-    OntopolyTopicIF topic = new TopicModel(parameters.getString("topicMapId"), parameters.getString("topicId")).getTopic();
+    OntopolyTopicIF topic = new TopicModel<OntopolyTopicIF>(parameters.getString("topicMapId"), parameters.getString("topicId")).getTopic();
     
     Class<? extends Page> pageClass;
     if (topic.isTopicType())

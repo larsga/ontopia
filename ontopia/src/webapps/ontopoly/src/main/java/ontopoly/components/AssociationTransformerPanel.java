@@ -72,7 +72,7 @@ public class AssociationTransformerPanel extends Panel {
       TopicModel<RoleTypeIF> selectedModel = new TopicModel<RoleTypeIF>(null, OntopolyTopicMapIF.TYPE_ROLE_TYPE);
       selectedModels.add(selectedModel);
 
-      TopicDropDownChoice choice = new TopicDropDownChoice<RoleTypeIF>("newvalue", selectedModel, declaredRoleTypesModel);
+      TopicDropDownChoice<RoleTypeIF> choice = new TopicDropDownChoice<RoleTypeIF>("newvalue", selectedModel, declaredRoleTypesModel);
       choice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
         @Override
         protected void onUpdate(AjaxRequestTarget target) {
@@ -105,7 +105,7 @@ public class AssociationTransformerPanel extends Panel {
         if (validCombination && unusedRoleTypes.isEmpty()) {
           List<RoleTypeModel> roleTypesModels = roleTypesModel.getObject();
           List<RoleTypeIF> roleTypesFrom = new ArrayList<RoleTypeIF>(size);
-          List<OntopolyTopicIF> roleTypesTo = new ArrayList<OntopolyTopicIF>(size);
+          List<RoleTypeIF> roleTypesTo = new ArrayList<RoleTypeIF>(size);
           for (int i=0; i < size; i++) {
             roleTypesFrom.add(roleTypesModels.get(i).getRoleType());
             roleTypesTo.add(selectedModels.get(i).getObject());

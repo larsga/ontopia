@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import ontopoly.model.PSI;
 import ontopoly.model.TypingTopicIF;
+import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.infoset.core.LocatorIF;

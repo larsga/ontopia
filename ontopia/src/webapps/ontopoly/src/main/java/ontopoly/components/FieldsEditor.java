@@ -39,7 +39,7 @@ public class FieldsEditor extends Panel {
   TopicTypeModel topicTypeModel;
   boolean readonly;
   
-  ListView listView;
+  ListView<FieldAssignmentModel> listView;
   MutableLoadableDetachableModel<List<FieldAssignmentModel>> fieldAssignmentModels;
   WebMarkupContainer addFieldsContainer;
   
@@ -156,7 +156,7 @@ public class FieldsEditor extends Panel {
 
     // add empty listview
     List<FieldDefinitionModel> fields = Collections.emptyList();
-    ListView afListView = createListView(fields);
+    ListView<FieldDefinitionModel> afListView = createListView(fields);
     addFieldsContainer.add(afListView);
   }
 
@@ -171,8 +171,8 @@ public class FieldsEditor extends Panel {
     setRedirect(true);
   }
 
-  private ListView createListView(final List<FieldDefinitionModel> fieldDefinitionModels) {
-    ListView listView = new ListView<FieldDefinitionModel>("addFields", fieldDefinitionModels) {
+  private ListView<FieldDefinitionModel> createListView(final List<FieldDefinitionModel> fieldDefinitionModels) {
+    ListView<FieldDefinitionModel> listView = new ListView<FieldDefinitionModel>("addFields", fieldDefinitionModels) {
       public void populateItem(final ListItem<FieldDefinitionModel> item) {
         
         FieldDefinitionModel fieldDefinitionModel = item.getModelObject();
@@ -204,7 +204,7 @@ public class FieldsEditor extends Panel {
   
   private void replaceListView(FieldDefinitionTypeLink typeLink) {
     String typeLinkId = typeLink.getMarkupId();
-    ListView afListView;
+    ListView<FieldDefinitionModel> afListView;
     if (ObjectUtils.different(typeLinkId, selectedTypeLinkId)) {      
       // replaces the existing listview with a new one
       selectedTypeLinkId = typeLinkId;
@@ -217,20 +217,20 @@ public class FieldsEditor extends Panel {
     addFieldsContainer.replace(afListView);    
   }
   
-  private List<FieldDefinitionModel> filterAndWrapInFieldDefinitions(List fieldDefinitions) {
+  private List<FieldDefinitionModel> filterAndWrapInFieldDefinitions(List<? extends FieldDefinitionIF> fieldDefinitions) {
     // resolve existing field definitions
     List<FieldAssignmentModel> fams = fieldAssignmentModels.getObject();
     Set<FieldDefinitionIF> existingFieldDefinitions = new HashSet<FieldDefinitionIF>(fams.size());
-    Iterator iter = fams.iterator();
+    Iterator<FieldAssignmentModel> iter = fams.iterator();
     while (iter.hasNext()) {
-      FieldAssignmentModel fieldAssignmentModel = (FieldAssignmentModel)iter.next();
+      FieldAssignmentModel fieldAssignmentModel = iter.next();
       existingFieldDefinitions.add(fieldAssignmentModel.getFieldAssignment().getFieldDefinition());
     }
     // filter and sort field definitions
     List<FieldDefinitionModel> result = new ArrayList<FieldDefinitionModel>(fieldDefinitions.size());
-    iter = fieldDefinitions.iterator();
-    while (iter.hasNext()) {
-      FieldDefinitionIF fieldDefinition = (FieldDefinitionIF)iter.next();
+    Iterator<? extends FieldDefinitionIF> fditer = fieldDefinitions.iterator();
+    while (fditer.hasNext()) {
+      FieldDefinitionIF fieldDefinition = fditer.next();
       if (!existingFieldDefinitions.contains(fieldDefinition))
         result.add(new FieldDefinitionModel(fieldDefinition));
     }
@@ -244,7 +244,7 @@ public class FieldsEditor extends Panel {
     return result;
   }
   
-  private abstract class FieldDefinitionTypeLink extends AjaxFallbackLink implements IAjaxIndicatorAware {
+  private abstract class FieldDefinitionTypeLink extends AjaxFallbackLink<Object> implements IAjaxIndicatorAware {
     FieldDefinitionTypeLink(String id) {
       super(id);
     }

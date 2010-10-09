@@ -20,11 +20,10 @@ import ontopoly.utils.OntopolyUtils;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 
 public abstract class FieldInstanceAssociationBinaryField extends Panel {
 
-  private FormComponent formComponent;
+  private FormComponent<OntopolyTopicIF> formComponent;
   
   public FieldInstanceAssociationBinaryField(String id, 
       final RoleFieldModel valueFieldModel,
@@ -44,7 +43,7 @@ public abstract class FieldInstanceAssociationBinaryField extends Panel {
         // if no matching fields show link to topic instead
         if (fieldInstances.isEmpty()) {
           // player link
-          TopicLink playerLink = new TopicLink("player", new TopicModel<OntopolyTopicIF>(oPlayer), fieldsViewModel);
+          TopicLink<OntopolyTopicIF> playerLink = new TopicLink("player", new TopicModel<OntopolyTopicIF>(oPlayer), fieldsViewModel);
           playerLink.setEnabled(traversable);
           add(playerLink);          
         } else {
@@ -56,7 +55,7 @@ public abstract class FieldInstanceAssociationBinaryField extends Panel {
         }
       } else {
         // player link
-        TopicLink playerLink = new TopicLink("player", new TopicModel<OntopolyTopicIF>(oPlayer), fieldsViewModel);
+        TopicLink<OntopolyTopicIF> playerLink = new TopicLink<OntopolyTopicIF>("player", new TopicModel<OntopolyTopicIF>(oPlayer), fieldsViewModel);
         playerLink.setEnabled(traversable);
         add(playerLink);
       }
@@ -90,7 +89,7 @@ public abstract class FieldInstanceAssociationBinaryField extends Panel {
 
       } else if (interfaceControl.isAutoComplete()) {
         AssociationFieldAutoCompleteTextField autoCompleteField 
-          = new AssociationFieldAutoCompleteTextField("player", new Model<String>(null), valueFieldModel) {
+          = new AssociationFieldAutoCompleteTextField("player", new TopicModel<Topic>(null), valueFieldModel) {
           @Override
           protected void filterPlayers(List<OntopolyTopicIF> players) {
             AbstractOntopolyPage page = (AbstractOntopolyPage)getPage();
@@ -132,14 +131,14 @@ public abstract class FieldInstanceAssociationBinaryField extends Panel {
                                               OntopolyTopicIF selectedTopic);
   
   protected RoleFieldIF getOtherBinaryRoleField(RoleFieldIF thisField) {
-    Collection otherRoleFields = thisField.getFieldsForOtherRoles();
+    Collection<RoleFieldIF> otherRoleFields = thisField.getFieldsForOtherRoles();
     if (otherRoleFields.size() != 1)
       throw new RuntimeException("Binary association does not have two fields.");
-    RoleFieldIF otherField = (RoleFieldIF)otherRoleFields.iterator().next();
+    RoleFieldIF otherField = otherRoleFields.iterator().next();
     return otherField;
   }
   
-  public FormComponent getUpdateableComponent() {
+  public FormComponent<OntopolyTopicIF> getUpdateableComponent() {
     return formComponent;
   }
 

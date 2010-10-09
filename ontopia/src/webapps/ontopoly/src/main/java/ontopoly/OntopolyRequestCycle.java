@@ -58,9 +58,9 @@ public class OntopolyRequestCycle extends WebRequestCycle {
     super.onEndRequest();
     Map<String,OntopolyTopicMapIF> tms = topicmaps.get();
     if (tms != null && !tms.isEmpty()) {
-      Iterator iter = tms.values().iterator();
+      Iterator<TopicMap> iter = tms.values().iterator();
       while (iter.hasNext()) {
-        OntopolyTopicMapIF topicmap = (OntopolyTopicMapIF)iter.next();
+        OntopolyTopicMapIF topicmap = iter.next();
         TopicMapIF tm = topicmap.getTopicMapIF();
         TopicMapStoreIF store = tm.getStore();
         try {
@@ -92,9 +92,9 @@ public class OntopolyRequestCycle extends WebRequestCycle {
     //! log.info("OKS: onRuntimeException: " + this);
     Map<String,OntopolyTopicMapIF> tms = topicmaps.get();
     if (tms != null && !tms.isEmpty()) {
-      Iterator iter = tms.values().iterator();
+      Iterator<TopicMap> iter = tms.values().iterator();
       while (iter.hasNext()) {
-        OntopolyTopicMapIF topicmap = (OntopolyTopicMapIF)iter.next();
+        OntopolyTopicMapIF topicmap = iter.next();
         TopicMapIF tm = topicmap.getTopicMapIF();
         TopicMapStoreIF store = tm.getStore();
         try {
@@ -168,7 +168,7 @@ public class OntopolyRequestCycle extends WebRequestCycle {
       tms.put(topicMapId, tm);
     }    
     // check if topic map contains ontopoly ontology
-    Class pageClass = this.getResponsePageClass();
+    Class<? extends Page> pageClass = this.getResponsePageClass();
     if (pageClass != null) {
       boolean performingUpgrade = ObjectUtils.equals(ConvertPage.class, pageClass);
       boolean performingConvert = ObjectUtils.equals(UpgradePage.class, pageClass);

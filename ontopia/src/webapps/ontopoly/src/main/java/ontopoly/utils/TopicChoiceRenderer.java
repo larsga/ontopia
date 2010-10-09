@@ -1,7 +1,5 @@
 package ontopoly.utils;
 
-import net.ontopia.topicmaps.utils.TopicStringifiers;
-
 import ontopoly.model.OntopolyTopicIF;
 
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -9,8 +7,9 @@ import org.apache.wicket.model.IModel;
 
 public class TopicChoiceRenderer<T extends OntopolyTopicIF> implements IChoiceRenderer<T> {
 
-  public static final TopicChoiceRenderer INSTANCE = new TopicChoiceRenderer();
+  public static final TopicChoiceRenderer<Topic> INSTANCE = new TopicChoiceRenderer<Topic>();
   
+  @SuppressWarnings("rawtypes")
   protected OntopolyTopicIF getTopic(Object object) {
     // model objects are supported
     return (OntopolyTopicIF)(object instanceof IModel ? ((IModel)object).getObject() : object);    

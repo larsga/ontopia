@@ -1,13 +1,16 @@
 
-// $Id: OccurrenceField.java,v 1.9 2009/04/30 09:53:41 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+import ontopoly.model.DataTypeIF;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.OccurrenceFieldIF;
+import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.infoset.core.LocatorIF;
@@ -19,7 +22,8 @@ import net.ontopia.utils.CollectionUtils;
 /**
  * Represents an occurrence type.
  */
-public class OccurrenceField extends FieldDefinition {
+public class OccurrenceField extends FieldDefinition
+  implements OccurrenceFieldIF {
   private OccurrenceType occurrenceType;
 
   public OccurrenceField(TopicIF topic, TopicMap tm) {
@@ -46,7 +50,7 @@ public class OccurrenceField extends FieldDefinition {
     if (!(obj instanceof OccurrenceField))
       return false;
 		
-    OccurrenceField other = (OccurrenceField)obj;
+    OccurrenceFieldIF other = (OccurrenceFieldIF)obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
@@ -55,7 +59,7 @@ public class OccurrenceField extends FieldDefinition {
    * 
    * @return the occurrence type.
    */
-  public OccurrenceType getOccurrenceType() {
+  public OccurrenceTypeIF getOccurrenceType() {
     if (occurrenceType == null) {
       TopicMap tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-occurrence-type");
@@ -72,7 +76,7 @@ public class OccurrenceField extends FieldDefinition {
   /**
    * Returns the data type of the occurrence type.
    */
-  public DataType getDataType() {
+  public DataTypeIF getDataType() {
     String query = "select $datatype from on:has-datatype(%FD% : on:field-definition, $datatype : on:datatype)?";
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
 
@@ -101,7 +105,7 @@ public class OccurrenceField extends FieldDefinition {
   }
 
   @Override
-  public Collection getValues(Topic topic) {
+  public Collection getValues(OntopolyTopicIF topic) {
     TopicIF topicIf = topic.getTopicIF();
     OccurrenceType otype = getOccurrenceType();
     if (otype == null) return Collections.EMPTY_SET;
@@ -116,7 +120,8 @@ public class OccurrenceField extends FieldDefinition {
   }
 
   @Override
-  public void addValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void addValue(FieldInstanceIF fieldInstance, Object _value,
+                       LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (String) _value;
     LocatorIF datatype = getDataType().getLocator();
@@ -146,7 +151,8 @@ public class OccurrenceField extends FieldDefinition {
   }
 
   @Override
-  public void removeValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void removeValue(FieldInstanceIF fieldInstance, Object _value,
+                          LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (_value instanceof OccurrenceIF ? ((OccurrenceIF) _value)
         .getValue() : (String) _value);

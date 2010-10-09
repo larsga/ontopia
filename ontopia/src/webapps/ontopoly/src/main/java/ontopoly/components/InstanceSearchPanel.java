@@ -1,6 +1,5 @@
 package ontopoly.components;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,10 +30,10 @@ import org.apache.wicket.model.ResourceModel;
 public class InstanceSearchPanel extends Panel {
   private boolean errorInSearch = false;
   
-  public InstanceSearchPanel(String id, IModel model) {
+  public InstanceSearchPanel(String id, TopicTypeModel model) {
     super(id, model);
     
-    final TopicTypeModel topicTypeModel = (TopicTypeModel) model; 
+    final TopicTypeModel topicTypeModel = model; 
         
     final AjaxOntopolyTextField searchField = new AjaxOntopolyTextField("searchField", new Model<String>("")); 
     add(searchField);
@@ -55,7 +54,7 @@ public class InstanceSearchPanel extends Panel {
     
     final WebMarkupContainer searchResultContainer = new WebMarkupContainer("searchResultContainer") {
       public boolean isVisible() {
-        return ((Collection)searchResultModel.getObject()).isEmpty() ? false : true;      
+        return searchResultModel.getObject().isEmpty() ? false : true;      
       }
     };
     searchResultContainer.setOutputMarkupPlaceholderTag(true);
@@ -63,7 +62,7 @@ public class InstanceSearchPanel extends Panel {
     
     final WebMarkupContainer unsuccessfulSearchContainer = new WebMarkupContainer("unsuccessfulSearchContainer") {
       public boolean isVisible() {
-        return !searchField.getDefaultModelObjectAsString().equals("") && ((Collection)searchResultModel.getObject()).isEmpty() ? true : false;      
+        return !searchField.getDefaultModelObjectAsString().equals("") && searchResultModel.getObject().isEmpty() ? true : false;      
       }
     };
     unsuccessfulSearchContainer.setOutputMarkupPlaceholderTag(true);
@@ -84,7 +83,7 @@ public class InstanceSearchPanel extends Panel {
     Label message = new Label("message", new ResourceModel(errorInSearch ? "search.error" : "search.empty"));
     unsuccessfulSearchContainer.add(message);
     
-    ListView searchResult = new ListView<OntopolyTopicIF>("searchResult", searchResultModel) {
+    ListView<OntopolyTopicIF> searchResult = new ListView<OntopolyTopicIF>("searchResult", searchResultModel) {
       @Override
       protected void populateItem(ListItem<OntopolyTopicIF> item) {
         OntopolyTopicIF topic = item.getModelObject();
@@ -99,9 +98,9 @@ public class InstanceSearchPanel extends Panel {
         item.add(new OntopolyBookmarkablePageLink("topic", InstancePage.class, new PageParameters(pageParametersMap), topic.getName()));
         
         // link to type
-        Iterator it = topic.getTopicIF().getTypes().iterator();
+        Iterator<TopicIF> it = topic.getTopicIF().getTypes().iterator();
         if (it.hasNext()) {
-          TopicIF tmp = (TopicIF)it.next();
+          TopicIF tmp = it.next();
           OntopolyTopicIF tt = topicMap.findTopic(tmp.getObjectId());
           if(!tt.isSystemTopic()) {
             pageParametersMap.put("topicId", tt.getId());            

@@ -1,5 +1,5 @@
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.PSI;
+import ontopoly.model.TopicTypeIF;
+import ontopoly.model.FieldsViewIF;
+import ontopoly.model.CardinalityIF;
+import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.topicmaps.core.AssociationIF;
@@ -18,7 +26,8 @@ import net.ontopia.utils.CollectionUtils;
  * identity field, or a combination of an association role and an association
  * type.
  */
-public abstract class FieldDefinition extends Topic {
+public abstract class FieldDefinition extends Topic
+  implements FieldDefinitionIF {
   public static final int FIELD_TYPE_ROLE = 1;
   public static final int FIELD_TYPE_OCCURRENCE = 2;
   public static final int FIELD_TYPE_NAME = 4;
@@ -41,7 +50,7 @@ public abstract class FieldDefinition extends Topic {
    */
   public abstract String getFieldName();
 
-  public boolean isReadOnly(FieldsView view) {
+  public boolean isReadOnly(FieldsViewIF view) {
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -53,7 +62,7 @@ public abstract class FieldDefinition extends Topic {
     return players.contains(OntopolyModelUtils.getTopicIF(tm, PSI.ON, "view-mode-readonly"));
   }
 
-  public boolean isHidden(FieldsView view) {
+  public boolean isHidden(FieldsViewIF view) {
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -65,7 +74,7 @@ public abstract class FieldDefinition extends Topic {
     return players.contains(OntopolyModelUtils.getTopicIF(tm, PSI.ON, "view-mode-hidden"));
   }
 
-  public boolean isNotTraversable(FieldsView view) {
+  public boolean isNotTraversable(FieldsViewIF view) {
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -77,7 +86,7 @@ public abstract class FieldDefinition extends Topic {
     return players.contains(OntopolyModelUtils.getTopicIF(tm, PSI.ON, "view-mode-not-traversable"));
   }
 
-  public boolean isEmbedded(FieldsView view) {
+  public boolean isEmbedded(FieldsViewIF view) {
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -89,7 +98,7 @@ public abstract class FieldDefinition extends Topic {
     return players.contains(OntopolyModelUtils.getTopicIF(tm, PSI.ON, "view-mode-embedded"));
   }
 
-  public FieldsView getValueView(FieldsView view) {
+  public FieldsView getValueView(FieldsViewIF view) {
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-value-view");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -113,7 +122,7 @@ public abstract class FieldDefinition extends Topic {
   /**
    * Returns the cardinality of the field on this topic type.
    */
-  public Cardinality getCardinality() {
+  public CardinalityIF getCardinality() {
     if (cachedCardinality != null) return cachedCardinality;
 
     String query = 
@@ -132,7 +141,7 @@ public abstract class FieldDefinition extends Topic {
   /**
    * Sets the cardinality of the field on this topic type.
    */
-  public void setCardinality(Cardinality cardinality) {
+  public void setCardinality(CardinalityIF cardinality) {
     // NOTE: used by FieldsEditor
     TopicMap tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
@@ -156,10 +165,8 @@ public abstract class FieldDefinition extends Topic {
 
   /**
    * Returns the topic types to which this field is assigned.
-   * 
-   * @return a list of TopicType objects
    */
-  public List<TopicType> getUsedBy() {
+  public List<TopicTypeIF> getUsedBy() {
     String query = "select $type from on:has-field($type : on:field-owner, %FD% : on:field-definition)?";
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
 
@@ -167,11 +174,13 @@ public abstract class FieldDefinition extends Topic {
     return qm.queryForList(query, params);
   }
 
-  public abstract Collection getValues(Topic topic);
+  public abstract Collection getValues(OntopolyTopicIF topic);
 
-  public abstract void addValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener);
+  public abstract void addValue(FieldInstanceIF fieldInstance, Object _value,
+                                LifeCycleListenerIF listener);
 
-  public abstract void removeValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener);
+  public abstract void removeValue(FieldInstance fieldInstance, Object _value,
+                                   LifeCycleListenerIF listener);
   
   public boolean equals(Object obj) {
     if (!(obj instanceof FieldDefinition))

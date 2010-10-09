@@ -1,7 +1,5 @@
 
-// $Id: OccurrenceType.java,v 1.3 2009/04/21 06:23:52 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +10,14 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.OccurrenceTypeIF;
+import ontopoly.model.OccurrenceFieldIF;
+
 /**
  * Represents an occurrence type.
  */
-public class OccurrenceType extends AbstractTypingTopic {
+public class OccurrenceType extends AbstractTypingTopic
+  implements OccurrenceTypeIF {
 
   /**
    * Creates a new OccurrenceType object.
@@ -33,12 +35,12 @@ public class OccurrenceType extends AbstractTypingTopic {
     if (!(obj instanceof OccurrenceType))
       return false;
 
-    OccurrenceType other = (OccurrenceType) obj;
+    OccurrenceTypeIF other = (OccurrenceTypeIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
   @Override
-  public Collection<OccurrenceField> getDeclaredByFields() {
+  public Collection<OccurrenceFieldIF> getDeclaredByFields() {
     String query = "select $FD from on:has-occurrence-type(%OT% : on:occurrence-type, $FD : on:occurrence-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("OT", getTopicIF());
 

@@ -33,7 +33,7 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
     FieldDefinitionIF fieldDefinition = fieldAssignment.getFieldDefinition(); 
     
     add(new FieldDefinitionLabel("fieldLabel", new FieldDefinitionModel(fieldDefinition)));
-    
+
     // set up container
     this.fieldValuesContainer = new WebMarkupContainer("fieldValuesContainer");
     fieldValuesContainer.setOutputMarkupId(true);    
@@ -53,8 +53,8 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
         validateCardinality();		    
         super.onBeforeRender();
       }
-      public void populateItem(final ListItem item) {
-        final FieldValueModel fieldValueModel = (FieldValueModel)item.getModelObject();
+      public void populateItem(final ListItem<FieldValueModel> item) {
+        final FieldValueModel fieldValueModel = item.getModelObject();
 
         // TODO: make sure non-existing value field gets focus if last
         // edit happened there
@@ -84,13 +84,13 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
         fieldValueButtons.add(removeButton);  
 
         if (readonly) {
-          item.add(new Label("fieldValue", new LoadableDetachableModel() {
+          item.add(new Label("fieldValue", new LoadableDetachableModel<String>() {
             @Override
-            protected Object load() {
+            protected String load() {
               TopicNameIF tn = (TopicNameIF)fieldValueModel.getObject();
               return (tn == null ? null : tn.getValue());              
             }
-            
+
           }));
         } else {
           NameFieldIF nf = (NameFieldIF)fieldInstanceModel.getFieldInstance().getFieldAssignment().getFieldDefinition();
@@ -103,7 +103,7 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
             nameField.setRows(height);
             nameField.add(fuBehaviour);
             item.add(nameField);
-            
+
           } else {
             FieldInstanceTextField nameField = new FieldInstanceTextField("fieldValue", fieldValueModel);
             nameField.setCols(nf.getWidth());
@@ -111,7 +111,7 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
             item.add(nameField);           
           }
         }
-        
+
         addNewFieldValueCssClass(item, fieldValuesModel, fieldValueModel);
       }
     };
@@ -121,7 +121,7 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
     this.fieldInstanceButtons = new WebMarkupContainer("fieldInstanceButtons");
     fieldInstanceButtons.setOutputMarkupId(true);
     add(fieldInstanceButtons);
-    
+
     OntopolyImageLink addButton = new OntopolyImageLink("add", "add.gif") { 
       @Override
       public void onClick(AjaxRequestTarget target) {
@@ -139,16 +139,15 @@ public class FieldInstanceNamePanel extends AbstractFieldInstancePanel {
       @Override public String getImage() {
         return fieldValuesModel.getShowExtraField() ? "remove.gif" : "add.gif";
       }
-      @Override public IModel getTitleModel() {
+      @Override public IModel<String> getTitleModel() {
         return new ResourceModel(fieldValuesModel.getShowExtraField() ? "icon.remove.hide-field" : "icon.add.add-value");
       }      
     };  
     addButton.setOutputMarkupId(true);
     fieldInstanceButtons.add(addButton);
-    
+
     CardinalityIF cardinality = fieldAssignment.getCardinality();
     if (cardinality.isMaxOne())
       addButton.setVisible(false);
   }
- 
 }

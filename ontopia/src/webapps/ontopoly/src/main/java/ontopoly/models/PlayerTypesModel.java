@@ -27,10 +27,10 @@ public class PlayerTypesModel extends LoadableDetachableModel<List<TopicTypeIF>>
   protected List<TopicTypeIF> load() {
     List<TopicTypeIF> result = new ArrayList<TopicTypeIF>(); 
     RoleFieldIF roleField = roleFieldModel.getRoleField();
-    Collection topicTypes = roleField.getAllowedPlayerTypes(fieldInstanceModel.getFieldInstance().getInstance());
-    Iterator iter = topicTypes.iterator();
+    Collection<TopicType> topicTypes = roleField.getAllowedPlayerTypes(fieldInstanceModel.getFieldInstance().getInstance());
+    Iterator<TopicType> iter = topicTypes.iterator();
     while (iter.hasNext()) {
-      TopicTypeIF topicType = (TopicTypeIF)iter.next();        
+      TopicTypeIF topicType = iter.next();        
       result.add(topicType);
     }
     Collections.sort(result, TopicComparator.INSTANCE);

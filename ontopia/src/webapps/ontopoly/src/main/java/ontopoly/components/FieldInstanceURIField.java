@@ -106,7 +106,7 @@ public class FieldInstanceURIField extends Panel {
     ExternalValidation.validate(textField, oldValue);
   }
 
-  public TextField getTextField() {
+  public TextField<String> getTextField() {
     return textField;
   }
   

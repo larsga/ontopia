@@ -76,15 +76,14 @@ public class ConfirmDeletePanel extends Panel {
     try {
       OntopolyTopicIF topic = topicModel.getTopic();
       if (topic != null) {
-        Collection dependentObjects = topic.getDependentObjects();
+        Collection<OntopolyTopicIF> dependentObjects = topic.getDependentObjects();
         LifeCycleListenerIF listener = getListener();
         // remove dependent objects
-        Iterator diter = dependentObjects.iterator();
+        Iterator<OntopolyTopicIF> diter = dependentObjects.iterator();
         while (diter.hasNext()) {
-          OntopolyTopicIF dtopic = (OntopolyTopicIF)diter.next();
-          if (!dtopic.isSystemTopic()) {
+          OntopolyTopicIF dtopic = diter.next();
+          if (!dtopic.isSystemTopic())
             dtopic.remove(listener);
-          }
         }
         // remove object
         topic.remove(listener);        

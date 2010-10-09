@@ -1,22 +1,20 @@
 
-// $Id: FieldsView.java,v 1.2 2009/04/08 08:59:04 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Iterator;
-
-import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.utils.ObjectUtils;
 
+import ontopoly.model.FieldsViewIF;
+import ontopoly.utils.OntopolyModelUtils;
+
 /**
  * Represents a fields view.
  */
-public class FieldsView extends Topic {
-
+public class FieldsView extends Topic implements FieldsViewIF {
   private int isEmbeddedView = -1;
   
   public FieldsView(TopicIF topic, TopicMap tm) {
@@ -27,7 +25,7 @@ public class FieldsView extends Topic {
     if (!(obj instanceof FieldsView))
       return false;
 
-    FieldsView other = (FieldsView) obj;
+    FieldsViewIF other = (FieldsViewIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 

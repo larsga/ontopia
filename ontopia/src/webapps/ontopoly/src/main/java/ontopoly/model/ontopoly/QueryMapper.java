@@ -1,4 +1,5 @@
-package ontopoly.model;
+
+package ontopoly.model.ontopoly;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 import net.ontopia.utils.OntopiaRuntimeException;
 
+// FIXME: get rid of this in favour of QueryWrapper
 public class QueryMapper<T> {
   
   private DeclarationContextIF context;

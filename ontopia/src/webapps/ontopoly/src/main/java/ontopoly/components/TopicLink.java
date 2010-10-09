@@ -12,15 +12,15 @@ import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.string.Strings;
 
-public class TopicLink extends AbstractBookmarkablePageLink {
+public class TopicLink<T extends OntopolyTopicIF> extends AbstractBookmarkablePageLink<T> {
   protected FieldsViewModel fieldsViewModel;
   
-  public TopicLink(String id, IModel<? extends OntopolyTopicIF> topicModel) {
+  public TopicLink(String id, IModel<T> topicModel) {
     super(id);
     setDefaultModel(topicModel); 
   }
   
-  public TopicLink(String id, IModel<? extends OntopolyTopicIF> topicModel,
+  public TopicLink(String id, IModel<T> topicModel,
                    FieldsViewModel fieldsViewModel) {
     super(id);
     setDefaultModel(topicModel);

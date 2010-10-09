@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.TopicComparator;
 
+import net.ontopia.utils.CompactHashSet;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
@@ -307,13 +308,13 @@ public class Topic implements OntopolyTopicIF {
    * @param listener listener that gets call back from the deleting
    * this topic, and any dependencies.
    */
-  public void remove(LifeCycleListener listener) {
+  public void remove(LifeCycleListenerIF listener) {
     if (listener != null) listener.onBeforeDelete(this);
     topicIF.remove();
   }
 
   public Collection<Topic> getDependentObjects() {
-    Collection<Topic> result = new HashSet<Topic>();
+    Collection<Topic> result = new CompactHashSet<Topic>();
     findDependentObjects(result);
     return result;
   }
@@ -326,7 +327,7 @@ public class Topic implements OntopolyTopicIF {
    * are transitive.
    */
   protected void findDependentObjects(Collection<Topic> alreadyKnownDependentObjects) {
-    Collection<Topic> newPlayers = new HashSet<Topic>();
+    Collection<Topic> newPlayers = new CompactHashSet<Topic>();
     Iterator titer = getTopicTypes().iterator();
     while (titer.hasNext()) {
       TopicType topicType = (TopicType)titer.next();

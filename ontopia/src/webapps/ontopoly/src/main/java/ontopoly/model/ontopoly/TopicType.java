@@ -1,7 +1,5 @@
 
-// $Id: TopicType.java,v 1.7 2009/04/30 09:53:41 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.ArrayList;
 import java.util.Collection;

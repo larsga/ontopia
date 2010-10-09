@@ -1,6 +1,5 @@
 package ontopoly.pages;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,8 +41,8 @@ public class SearchPage extends OntopolyAbstractPage {
     // Adding part containing title and help link
     createTitle();
 
-    final TextField searchField = new TextField<String>("searchField", new Model<String>(searchText));
-    Form form = new Form("searchForm") {
+    final TextField<String> searchField = new TextField<String>("searchField", new Model<String>(searchText));
+    Form<Object> form = new Form<Object>("searchForm") {
       @Override
       protected void onSubmit() {
           Map<String,String> pageParametersMap = new HashMap<String,String>();
@@ -75,7 +74,7 @@ public class SearchPage extends OntopolyAbstractPage {
     
     final WebMarkupContainer searchResultContainer = new WebMarkupContainer("searchResultContainer") {
       public boolean isVisible() {
-        return ((Collection)searchResultModel.getObject()).isEmpty() ? false : true;      
+        return ((List<Topic>)searchResultModel.getObject()).isEmpty() ? false : true;      
       }
     };
     searchResultContainer.setOutputMarkupPlaceholderTag(true);
@@ -83,7 +82,7 @@ public class SearchPage extends OntopolyAbstractPage {
     
     final WebMarkupContainer unsuccessfulSearchContainer = new WebMarkupContainer("unsuccessfulSearchContainer") {
       public boolean isVisible() {
-        return !searchField.getDefaultModelObjectAsString().equals("") && ((Collection)searchResultModel.getObject()).isEmpty() ? true : false;      
+        return !searchField.getDefaultModelObjectAsString().equals("") && ((List<Topic>)searchResultModel.getObject()).isEmpty() ? true : false;      
       }
     };
     unsuccessfulSearchContainer.setOutputMarkupPlaceholderTag(true);
@@ -94,10 +93,10 @@ public class SearchPage extends OntopolyAbstractPage {
     Label message = new Label("message", new ResourceModel(errorInSearch ? "search.error" : "search.empty"));
     unsuccessfulSearchContainer.add(message);
   
-    ListView searchResult = new ListView<OntopolyTopicIF>("searchResult", searchResultModel) {
+    ListView<OntopolyTopicIF> searchResult = new ListView<OntopolyTopicIF>("searchResult", searchResultModel) {
 
       @Override
-      protected void populateItem(ListItem item) {
+      protected void populateItem(ListItem<OntopolyTopicIF> item) {
         OntopolyTopicIF topic = (OntopolyTopicIF)item.getModelObject();
         OntopolyTopicMapIF topicMap = topic.getTopicMap();
                 
@@ -109,10 +108,9 @@ public class SearchPage extends OntopolyAbstractPage {
         item.add(new OntopolyBookmarkablePageLink("topic", InstancePage.class, new PageParameters(pageParametersMap), topic.getName())); 
         
         // link to type
-        Iterator it = topic.getTopicIF().getTypes().iterator();
+        Iterator<TopicIF> it = topic.getTopicIF().getTypes().iterator();
         if (it.hasNext()) {
-          TopicIF tmp = (TopicIF)it.next();
-          OntopolyTopicIF tt = topicMap.findTopic(tmp.getObjectId());
+          OntopolyTopicIF tt = topicMap.findTopic(it.next().getObjectId());
           if(!tt.isSystemTopic()) {
             pageParametersMap.put("topicId", tt.getId());            
             item.add(new OntopolyBookmarkablePageLink("topicType", InstancesPage.class, new PageParameters(pageParametersMap), tt.getName()));          

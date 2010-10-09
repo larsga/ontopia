@@ -7,7 +7,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
-import ontopoly.OntopolySession;
 import ontopoly.components.CreateInstanceFunctionBoxPanel;
 import ontopoly.components.FunctionBoxesPanel;
 import ontopoly.components.InstanceSearchPanel;
@@ -15,8 +14,9 @@ import ontopoly.components.LinkFunctionBoxPanel;
 import ontopoly.components.LinkPanel;
 import ontopoly.components.OntopolyBookmarkablePageLink;
 import ontopoly.components.TitleHelpPanel;
-import ontopoly.components.TreePanel;
 import ontopoly.components.TopicListPanel;
+
+import ontopoly.components.TreePanel;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.TopicTypeIF;
@@ -29,7 +29,6 @@ import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.Session;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -58,7 +57,7 @@ public class InstancesPage extends OntopolyAbstractPage {
     createTitle();
     
     // Add form
-    Form form = new Form("form");
+    Form<Object> form = new Form<Object>("form");
     add(form);
     form.setOutputMarkupId(true);
 
@@ -97,7 +96,7 @@ public class InstancesPage extends OntopolyAbstractPage {
               };
             }
             @Override
-            protected Link newLink(String id) {
+            protected Link<Page> newLink(String id) {
               PageParameters params = new PageParameters();            
               params.put("topicMapId", node.getTopicMapId());
               params.put("topicId", node.getTopicId());            

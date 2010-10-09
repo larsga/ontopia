@@ -1,7 +1,5 @@
 
-// $Id: TopicMap.java,v 1.11 2009/04/30 09:53:42 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -14,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.sysmodel.OntopolyRepository;
 import ontopoly.sysmodel.TopicMapReference;
 import ontopoly.utils.OntopolyModelUtils;
@@ -42,7 +41,7 @@ import net.ontopia.topicmaps.xml.XTMTopicMapReference;
 /**
  * INTERNAL: Represents an Ontopoly topic map.
  */
-public class TopicMap {
+public class TopicMap implements OntopolyTopicMapIF {
   static final String ON = "http://psi.ontopia.net/ontology/";
   static final String XTM = "http://www.topicmaps.org/xtm/1.0/core.xtm#";
   static final String TEST = "http://psi.example.org/test/";

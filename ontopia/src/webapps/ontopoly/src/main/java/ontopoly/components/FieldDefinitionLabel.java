@@ -23,7 +23,7 @@ public class FieldDefinitionLabel extends Panel {
 
     OntopolyTopicIF ontologyType = getPrimaryOntologyType(fieldDefinitionModel.getFieldDefinition());    
     
-    add(new TopicLink("ontologyType", new TopicModel<OntopolyTopicIF>(ontologyType)) {
+    add(new TopicLink<OntopolyTopicIF>("ontologyType", new TopicModel<OntopolyTopicIF>(ontologyType)) {
       @Override
       public String getLabel() {
         return fieldDefinitionModel.getFieldDefinition().getFieldName();
@@ -34,7 +34,7 @@ public class FieldDefinitionLabel extends Panel {
       }
     });
     
-    add(new TopicLink("fieldDefinition", fieldDefinitionModel) {
+    add(new TopicLink<FieldDefinition>("fieldDefinition", fieldDefinitionModel) {
       @Override
       protected String getLabel() {
         return "<img src=\"" +  RequestCycle.get().urlFor(new ResourceReference(ImageResource.class, "goto-details.gif"), ValueMap.EMPTY_MAP) + "\"/>";

@@ -17,7 +17,7 @@ import org.apache.wicket.model.ResourceModel;
 
 public class AssociationTransformFunctionBoxPanel extends Panel {
   
-  public AssociationTransformFunctionBoxPanel(String id, final TopicModel topicModel) {
+  public AssociationTransformFunctionBoxPanel(String id, final TopicModel<OntopolyTopicIF> topicModel) {
     super(id);
     add(new Label("title", new ResourceModel("transform.association.instances")));   
     

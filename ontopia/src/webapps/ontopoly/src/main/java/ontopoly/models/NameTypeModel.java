@@ -7,7 +7,7 @@ import ontopoly.model.OntopolyTopicMapIF;
 
 import org.apache.wicket.model.LoadableDetachableModel;
 
-public class NameTypeModel extends LoadableDetachableModel {
+public class NameTypeModel extends LoadableDetachableModel<NameTypeIF> {
   private static final long serialVersionUID = 732564717599079747L;
   private String topicMapId;
   private String topicId;
@@ -20,13 +20,9 @@ public class NameTypeModel extends LoadableDetachableModel {
     this.topicMapId = topicMapId;
     this.topicId = topicId;
   }
-
-  public NameTypeIF getNameType() {
-    return (NameTypeIF)getObject();    
-  }
   
   @Override
-  protected Object load() {
+  protected NameType load() {
     OntopolyTopicMapIF tm = OntopolyContext.getTopicMap(topicMapId);
     return tm.findNameType(topicId);
   }

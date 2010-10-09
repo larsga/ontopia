@@ -24,7 +24,7 @@ public class AddOrRemoveTypeFunctionBoxPanel extends Panel {
 
   protected final TopicModel<TopicTypeIF> selectedModel = new TopicModel<TopicTypeIF>(null, OntopolyTopicMapIF.TYPE_TOPIC_TYPE);
   
-  public AddOrRemoveTypeFunctionBoxPanel(String id, final TopicModel topicModel) {
+  public AddOrRemoveTypeFunctionBoxPanel(String id, final TopicModel<OntopolyTopicIF> topicModel) {
     super(id);
     add(new Label("title", new ResourceModel("add.remove.type.instance")));   
 
@@ -70,7 +70,7 @@ public class AddOrRemoveTypeFunctionBoxPanel extends Panel {
         TopicTypeIF topicType = (TopicTypeIF)selectedModel.getObject();
         if (topicType == null) return;
         OntopolyTopicIF instance = topicModel.getTopic();
-        Collection topicTypes = instance.getTopicTypes();
+        Collection<TopicType> topicTypes = instance.getTopicTypes();
         if (!(topicTypes.size() == 1 && topicTypes.contains(topicType)))
           // only remove topic type if it won't end up without a type at all
           instance.removeTopicType(topicType);
@@ -81,10 +81,6 @@ public class AddOrRemoveTypeFunctionBoxPanel extends Panel {
       }          
     });
     add(removeButton);
-  }
-  
-  protected Class getInstancePageClass() {
-    return InstancePage.class;
   }
 
   @Override

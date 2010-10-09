@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.ontopia.infoset.core.LocatorIF;
+
 import ontopoly.model.PSI;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.OntopolyTopicMapIF;
@@ -19,7 +21,7 @@ public class OntopolyUtils {
    * topic types of the topic.
    */
   public static TopicTypeIF getDefaultTopicType(OntopolyTopicIF topic) {
-    List topicTypes = topic.getTopicTypes();
+    List<TopicType> topicTypes = topic.getTopicTypes();
     int size = topicTypes.size();
     if (size == 1) 
       return (TopicTypeIF)topicTypes.get(0);
@@ -36,7 +38,7 @@ public class OntopolyUtils {
     for (int i=0; i < size; i++) {
       TopicTypeIF topicType = (TopicTypeIF)topicTypes.get(i);
       if (topicType.isSystemTopic()) {
-        Collection psis = topicType.getTopicIF().getSubjectIdentifiers();
+        Collection<LocatorIF> psis = topicType.getTopicIF().getSubjectIdentifiers();
         if (psis.contains(PSI.ON_TOPIC_TYPE)) {
           if (ontologyTypeWeight < 10) {
             ontologyType = topicType;
@@ -117,9 +119,9 @@ public class OntopolyUtils {
   
   public static void filterTopicsByDefaultRole(Collection<? extends OntopolyTopicIF> topics) {
     // WARNING: collection must be mutable and iterator support .remove()
-    Iterator iter = topics.iterator();
+    Iterator<? extends OntopolyTopicIF> iter = topics.iterator();
     while (iter.hasNext()) {
-      OntopolyTopicIF topic = (OntopolyTopicIF)iter.next();
+      OntopolyTopicIF topic = iter.next();
       if (!filterTopicByDefaultRole(topic))
         iter.remove();
     }

@@ -18,7 +18,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.ResourceModel;
 
 public abstract class InstancePanel extends Panel {
-  private TopicModel topicModel;
+  private TopicModel<OntopolyTopicIF> topicModel;
   private TopicTypeModel topicTypeModel;
   private FieldsViewModel fieldsViewModel;
   

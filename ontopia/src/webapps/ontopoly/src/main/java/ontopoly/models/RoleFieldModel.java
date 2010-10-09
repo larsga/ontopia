@@ -46,9 +46,9 @@ public class RoleFieldModel extends LoadableDetachableModel<RoleFieldIF> {
 
   public static List<RoleFieldModel> wrapInRoleFieldModels(Collection<RoleFieldIF> roleFields) {
     List<RoleFieldModel> result = new ArrayList<RoleFieldModel>(roleFields.size());
-    Iterator iter = roleFields.iterator();
+    Iterator<RoleField> iter = roleFields.iterator();
     while (iter.hasNext()) {
-      RoleFieldIF roleField = (RoleFieldIF) iter.next();
+      RoleFieldIF roleField = iter.next();
       result.add(new RoleFieldModel(roleField));
     }
     return result;

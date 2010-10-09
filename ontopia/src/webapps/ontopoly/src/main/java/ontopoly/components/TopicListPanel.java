@@ -6,6 +6,7 @@ import ontopoly.model.OntopolyTopicIF;
 import ontopoly.pages.InstancePage;
 import ontopoly.models.TopicModel;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -23,13 +24,13 @@ public class TopicListPanel extends Panel {
 
   // --- TopicListView
 
-  public static class TopicListView extends ListView {
+  public static class TopicListView extends ListView<OntopolyTopicIF> {
     public TopicListView(String id, IModel<List<OntopolyTopicIF>> list) {
       super(id, list);
     }
     
-    protected void populateItem(ListItem item) {
-      OntopolyTopicIF topic = (OntopolyTopicIF) item.getModelObject();
+    protected void populateItem(ListItem<OntopolyTopicIF> item) {
+      OntopolyTopicIF topic = item.getModelObject();
       // FIXME: upgrade to TopicLink
       item.add(new TopicInstanceLink("topicLink", new TopicModel<OntopolyTopicIF>(topic)));
       //item.add(new org.apache.wicket.markup.html.basic.Label("topicName", topic.getName()));
@@ -42,12 +43,13 @@ public class TopicListPanel extends Panel {
   // particularly when, like me, you HATE the Java syntax for
   // anonymous classes.
 
-  public static class TopicInstanceLink extends TopicLink {
-    public TopicInstanceLink(String id, IModel<? extends OntopolyTopicIF> topicModel) {
+  public static class TopicInstanceLink extends TopicLink<OntopolyTopicIF> {
+    public TopicInstanceLink(String id, IModel<OntopolyTopicIF> topicModel) {
       super(id, topicModel);
     }
 
-    public Class getPageClass() {
+    @Override
+    public Class<? extends Page> getPageClass() {
       return InstancePage.class;
     }
   }
