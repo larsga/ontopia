@@ -1,5 +1,5 @@
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,10 +13,15 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.utils.CollectionUtils;
 
+import ontopoly.model.IdentityTypeIF;
+import ontopoly.model.IdentityFieldIF;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.LifeCycleListenerIF;
+
 /**
  * Represents both subject locator and subject identifier fields.
  */
-public class IdentityField extends FieldDefinition {
+public class IdentityField extends FieldDefinition implements IdentityFieldIF {
   private IdentityType identityType;
 
   /**
@@ -46,10 +51,10 @@ public class IdentityField extends FieldDefinition {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof IdentityField))
+    if (!(obj instanceof IdentityFieldIF))
       return false;
 
-    IdentityField other = (IdentityField)obj;
+    IdentityFieldIF other = (IdentityFieldIF)obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
@@ -58,7 +63,7 @@ public class IdentityField extends FieldDefinition {
    * 
    * @return the identity type.
    */
-  public IdentityType getIdentityType() {
+  public IdentityTypeIF getIdentityType() {
     if (identityType == null) {
       TopicMap tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-identity-type");
@@ -76,7 +81,7 @@ public class IdentityField extends FieldDefinition {
    * True if this is the subject locator field type.
    */
   public boolean isSubjectLocator() {
-    IdentityType itype = getIdentityType();
+    IdentityTypeIF itype = getIdentityType();
     if (itype == null) return false;
     TopicIF itypeIF = itype.getTopicIF();
     return itypeIF.getSubjectIdentifiers().contains(PSI.ON_SUBJECT_LOCATOR);
@@ -86,7 +91,7 @@ public class IdentityField extends FieldDefinition {
    * True if this is the subject identifier field type.
    */
   public boolean isSubjectIdentifier() {
-    IdentityType itype = getIdentityType();
+    IdentityTypeIF itype = getIdentityType();
     if (itype == null) return false;
     TopicIF itypeIF = itype.getTopicIF();
     return itypeIF.getSubjectIdentifiers().contains(PSI.ON_SUBJECT_IDENTIFIER);
@@ -96,7 +101,7 @@ public class IdentityField extends FieldDefinition {
    * True if this is the item identifier field type.
    */
   public boolean isItemIdentifier() {
-    IdentityType itype = getIdentityType();
+    IdentityTypeIF itype = getIdentityType();
     if (itype == null) return false;
     TopicIF itypeIF = itype.getTopicIF();
     return itypeIF.getSubjectIdentifiers().contains(PSI.ON_ITEM_IDENTIFIER);
@@ -106,8 +111,7 @@ public class IdentityField extends FieldDefinition {
    * Returns either the subject locator or every subject identifier associated
    * with the topic.
    * 
-   * @param topic
-   *            topic from which the values is retrieved.
+   * @param topic topic from which the values is retrieved.
    * @return A collection of LocatorIF objects.
    */
   @Override
@@ -124,13 +128,13 @@ public class IdentityField extends FieldDefinition {
   /**
    * Replaces a subject locator of or adds a subject identifier to a topic.
    * 
-   * @param fieldInstance
-   *            field instance to which the value is going to be added.
-   * @param _value
-   *            value which is going to be added to the topic.
+   * @param fieldInstance field instance to which the value is going
+   * to be added.
+   * @param _value value which is going to be added to the topic.
    */
   @Override
-  public void addValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void addValue(FieldInstanceIF fieldInstance, Object _value,
+                       LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     LocatorIF value = (_value instanceof LocatorIF ? (LocatorIF) _value : 
                        URILocator.create((String) _value));
@@ -149,13 +153,13 @@ public class IdentityField extends FieldDefinition {
   /**
    * Removes the subject locator or a subject identifier from a topic.
    * 
-   * @param fieldInstance
-   *            field instance from which the value is going to be removed.
-   * @param _value
-   *            value which is going to be removed from the topic.
+   * @param fieldInstance field instance from which the value is going
+   * to be removed.
+   * @param _value value which is going to be removed from the topic.
    */
   @Override
-  public void removeValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void removeValue(FieldInstanceIF fieldInstance, Object _value,
+                          LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     LocatorIF value = (_value instanceof LocatorIF ? (LocatorIF) _value : 
                        URILocator.create((String) _value));

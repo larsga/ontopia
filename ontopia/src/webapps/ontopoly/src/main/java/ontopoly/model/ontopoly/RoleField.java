@@ -1,16 +1,23 @@
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.RoleTypeIF;
+import ontopoly.model.RoleFieldIF;
+import ontopoly.model.EditModeIF;
+import ontopoly.model.CreateActionIF;
+import ontopoly.model.AssociationTypeIF;
+import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;
 import ontopoly.utils.Ordering;
 
@@ -24,13 +31,14 @@ import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.utils.CollectionUtils;
 import net.ontopia.utils.ObjectUtils;
+import net.ontopia.utils.CompactHashSet;
 
 /**
  * Represents an association field, which is a combination of an association
  * type and a role type. Association types are not fields, since they cannot be
  * assigned to a topic type as a field without a role type.
  */
-public class RoleField extends FieldDefinition {
+public class RoleField extends FieldDefinition implements RoleFieldIF {
   private AssociationField associationField;
   private RoleType roleType;
 
@@ -38,7 +46,8 @@ public class RoleField extends FieldDefinition {
     this(topic, tm, null, null);
   }
 
-  public RoleField(TopicIF topic, TopicMap tm, RoleType roleType, AssociationField associationField) {
+  public RoleField(TopicIF topic, TopicMap tm, RoleType roleType,
+                   AssociationField associationField) {
     super(topic, tm);
 
     this.associationField = associationField;
@@ -77,7 +86,7 @@ public class RoleField extends FieldDefinition {
     return OntopolyModelUtils.isUnaryPlayer(tm, aType, player, rType);
   }
 
-  public EditMode getEditMode() {
+  public EditModeIF getEditMode() {
     String query = "on:use-edit-mode(%FD% : on:field-definition, $EM : on:edit-mode)?";
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
 
@@ -86,7 +95,7 @@ public class RoleField extends FieldDefinition {
     return (editMode == null ? EditMode.getDefaultEditMode(getTopicMap()) : new EditMode(editMode, getTopicMap()));
   }
 
-  public CreateAction getCreateAction() {
+  public CreateActionIF getCreateAction() {
     String query = "on:use-create-action(%FD% : on:field-definition, $CA : on:create-action)?";
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
 
@@ -100,7 +109,7 @@ public class RoleField extends FieldDefinition {
    * 
    * @Return the association type.
    */
-  public AssociationType getAssociationType() {
+  public AssociationTypeIF getAssociationType() {
     AssociationField afield = getAssociationField();
     return (afield == null ? null : getAssociationField().getAssociationType());
   }
@@ -225,9 +234,8 @@ public class RoleField extends FieldDefinition {
     return (occ == null ? null : occ.getValue());
   }
 
-  public Collection<Topic> getAllowedPlayers(Topic currentTopic) {
-
-    Collection<Topic> result = new HashSet<Topic>();
+  public Collection<Topic> getAllowedPlayers(OntopolyTopicIF currentTopic) {
+    Collection<OntopolyTopicIF> result = new CompactHashSet<OntopolyTopicIF>();
     String query = getAllowedPlayersQuery();
     if (query != null) {
       Map<String,TopicIF> params = new HashMap<String,TopicIF>();
@@ -274,7 +282,7 @@ public class RoleField extends FieldDefinition {
   
       Iterator it = rows.iterator();
       List<Topic> results = new ArrayList<Topic>(rows.size());
-      Collection<TopicIF> duplicateChecks = new HashSet<TopicIF>(rows.size());
+      Collection<TopicIF> duplicateChecks = new CompactHashSet<TopicIF>(rows.size());
   
       while (it.hasNext()) {
         TopicIF topic = (TopicIF) it.next();
@@ -398,7 +406,8 @@ public class RoleField extends FieldDefinition {
    * side of the association the instance topic (topic) takes part in.
    */
   @Override
-  public void addValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void addValue(FieldInstanceIF fieldInstance, Object _value,
+                       LifeCycleListenerIF listener) {
     ValueIF value = (ValueIF) _value;
     
     AssociationType atype = getAssociationType();
@@ -450,29 +459,22 @@ public class RoleField extends FieldDefinition {
     }
     listener.onAfterAdd(fieldInstance, value);
   }
-
-//  protected void clear(FieldInstance fieldInstance, LifeCycleListener listener) {
-//    Collection roles = getRoles(fieldInstance.getInstance());
-//    Iterator iter = roles.iterator();
-//    while (iter.hasNext()) {
-//      AssociationRoleIF role = (AssociationRoleIF)iter.next();
-//      ValueIF valueIf = createValue(this, role);
-//      removeValue(fieldInstance, valueIf, listener);
-//    }
-//  }
   
   /**
-   * Removes an instance topic from the other side of an association an instance topic takes part in.
+   * Removes an instance topic from the other side of an association
+   * an instance topic takes part in.
    * 
    * @param fieldInstance the field instance that takes part in the association.
-   * @param _value an object representing the instance topic that will be removed from the other
-   * side of the association the instance topic (topic) takes part in.
+   * @param _value an object representing the instance topic that will
+   * be removed from the other side of the association the instance
+   * topic (topic) takes part in.
    */  
   @Override
-  public void removeValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void removeValue(FieldInstanceIF fieldInstance, Object _value,
+                          LifeCycleListenerIF listener) {
     ValueIF value = (ValueIF) _value;
 
-    AssociationType atype = getAssociationType();
+    AssociationTypeIF atype = getAssociationType();
     if (atype == null) return;
 		TopicIF atypeIf = atype.getTopicIF();
     TopicIF[] rtypes = getRoleTypes(value);
@@ -495,13 +497,19 @@ public class RoleField extends FieldDefinition {
   }
 
   /**
-   * Factory method for creating a ValueIF object, which represent an instance topic on one side of an association.
+   * Factory method for creating a ValueIF object, which represent an
+   * instance topic on one side of an association.
    * 
-   * @param roleField the role field containing the association type and the role type representing another side of the association.
-   * @param role the role type on the side of the association that the instance topic is going to be created.
-   * @return the ValueIF object that represent an instance topic on one side of an association. Will return null if role does not match role field definition.
+   * @param roleField the role field containing the association type
+   * and the role type representing another side of the association.
+   * @param role the role type on the side of the association that the
+   * instance topic is going to be created.
+   * @return the ValueIF object that represent an instance topic on
+   * one side of an association. Will return null if role does not
+   * match role field definition.
    */
-  private static ValueIF createValue(RoleField roleField, AssociationRoleIF role) {
+  private static ValueIF createValue(RoleFieldIF roleField,
+                                     AssociationRoleIF role) {
     Collection fields = roleField.getAssociationField().getFieldsForRoles();
     int fieldCount = fields.size();
 
@@ -517,7 +525,7 @@ public class RoleField extends FieldDefinition {
     value.addPlayer(roleField, new Topic(role.getPlayer(), roleField.getTopicMap()));
 
     Object[] roles = aroles.toArray();
-    Collection<AssociationRoleIF> matched = new HashSet<AssociationRoleIF>(roles.length);
+    Collection<AssociationRoleIF> matched = new CompactHashSet<AssociationRoleIF>(roles.length);
     matched.add(role);
 
 		int selfMatch = 0;
@@ -526,9 +534,9 @@ public class RoleField extends FieldDefinition {
       RoleField ofield = (RoleField) iter.next();
 			// only match your own field once
       if (ofield.equals(roleField)) {
-				if (++selfMatch == 1)
-					continue;
-			}
+        if (++selfMatch == 1)
+          continue;
+      }
       RoleType ortype = ofield.getRoleType();
       if (ortype == null) return null;
       boolean match = false;
@@ -543,138 +551,125 @@ public class RoleField extends FieldDefinition {
         }
       }
       if (!match)
-				return null;
+        return null;
     }
     return value;
   }
 
   /**
-   * Factory method for creating a ValueIF object, which represent an instance topic on one side of an association.
+   * Factory method for creating a ValueIF object, which represent an
+   * instance topic on one side of an association.
    * 
-   * @param arity the number of players that the association value should have.
-   * @return the ValueIF object that represent an instance topic on one side of an association.
+   * @param arity the number of players that the association value
+   * should have.
+   * @return the ValueIF object that represent an instance topic on
+   * one side of an association.
    */
   public static ValueIF createValue(int arity) {
     return new Value(arity);
   }
 
   /**
-   * Interface. This interface is implemented by the Value class.
-   */
-  public static interface ValueIF {
-
-		public int getArity();
-
-    public RoleField[] getRoleFields();
-
-		public Topic[] getPlayers();
-
-    public void addPlayer(RoleField roleField, Topic player);
-
-    public Topic getPlayer(RoleField roleField, Topic oplayer);
-
-  }
-
-  /**
    * Static inner class containing a Map object, which connects
    * instance topics to associations.
    */
-  private static class Value implements RoleField.ValueIF {
-
-		int offset;
-		RoleField[] roleFields;
-		Topic[] players;
+  private static class Value implements RoleFieldIF.ValueIF {
+    int offset;
+    RoleFieldIF[] roleFields;
+    OntopolyTopicIF[] players;
 
     Value(int arity) {
-			this.roleFields = new RoleField[arity];
-			this.players = new Topic[arity];
-		}
-
-		public int getArity() {
-			return roleFields.length;
-		}
-
-    public RoleField[] getRoleFields() {
-      return roleFields;
+      this.roleFields = new RoleField[arity];
+      this.players = new Topic[arity];
     }
 
-		public Topic[] getPlayers() {
-			return players;
-		}
+    public int getArity() {
+      return roleFields.length;
+    }
 
-    public void addPlayer(RoleField roleField, Topic player) {
-			roleFields[offset] = roleField;
-			players[offset] = player;
-			offset++;
-		}
+    public RoleFieldIF[] getRoleFields() {
+      return roleFields;
+    }
+    
+    public OntopolyTopicIF[] getPlayers() {
+      return players;
+    }
 
-    public Topic getPlayer(RoleField ofield, Topic oPlayer) {
-			// NOTE: all this logic is here to cater for symmetric associations
-			Topic xPlayer = null;
-			for (int i=0; i < roleFields.length; i++) {
-				RoleField rf = roleFields[i];
-				if (rf.equals(ofield)) {
-					Topic player = players[i];
-					if (ObjectUtils.different(player, oPlayer))
-						return player;
-					else
-						xPlayer = oPlayer;
-				}
-			}
-			if (xPlayer == null)
-				throw new RuntimeException("Could not find player for RoleField: " + ofield + " (" + oPlayer + ")");			
-			else
-				return xPlayer;
-		}
+    public void addPlayer(RoleFieldIF roleField, OntopolyTopicIF player) {
+      roleFields[offset] = roleField;
+      players[offset] = player;
+      offset++;
+    }
+    
+    public OntopolyTopicIF getPlayer(RoleFieldIF ofield, OntopolyTopicIF oPlayer) {
+      // NOTE: all this logic is here to cater for symmetric associations
+      OntopolyTopicIF xPlayer = null;
+      for (int i=0; i < roleFields.length; i++) {
+        RoleFieldIF rf = roleFields[i];
+        if (rf.equals(ofield)) {
+          OntopolyTopicIF player = players[i];
+          if (ObjectUtils.different(player, oPlayer))
+            return player;
+          else
+            xPlayer = oPlayer;
+        }
+      }
+      if (xPlayer == null)
+        throw new RuntimeException("Could not find player for RoleField: " +
+                                   ofield + " (" + oPlayer + ")");
+      else
+        return xPlayer;
+    }
 
     @Override
-		public String toString() {
-			StringBuffer sb = new StringBuffer();
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
       sb.append("ValueIF(");
-			sb.append(getArity());
-			sb.append(": ");
-			for (int i=0; i < roleFields.length; i++) {
-				if (i > 0) sb.append(", ");
-				if (roleFields[i] == null)
-					sb.append("null");
-				else {
-          RoleType rtype = roleFields[i].getRoleType();
-					sb.append((rtype == null ? null : rtype.getTopicIF()));
+      sb.append(getArity());
+      sb.append(": ");
+      for (int i=0; i < roleFields.length; i++) {
+        if (i > 0) sb.append(", ");
+        if (roleFields[i] == null)
+          sb.append("null");
+        else {
+          RoleTypeIF rtype = roleFields[i].getRoleType();
+          sb.append((rtype == null ? null : rtype.getTopicIF()));
         }
-				sb.append(":");
-				if (players[i] == null)
-					sb.append("null");
-				else
-					sb.append(players[i].getTopicIF());
-			}
+        sb.append(":");
+        if (players[i] == null)
+          sb.append("null");
+        else
+          sb.append(players[i].getTopicIF());
+      }
       sb.append(")");
-			return sb.toString();
-		}
+      return sb.toString();
+    }
   }
 
-	public TopicIF[] getRoleTypes(ValueIF value) {
-		RoleField[] roleFields = value.getRoleFields();
-		int arity = value.getArity();
-		TopicIF[] rtypes = new TopicIF[arity];
-		for (int i=0; i < arity; i++) {
-			rtypes[i] = roleFields[i].getRoleType().getTopicIF();
-		}
-		return rtypes;
-	}
+  public TopicIF[] getRoleTypes(ValueIF value) {
+    RoleFieldIF[] roleFields = value.getRoleFields();
+    int arity = value.getArity();
+    TopicIF[] rtypes = new TopicIF[arity];
+    for (int i=0; i < arity; i++) {
+      rtypes[i] = roleFields[i].getRoleType().getTopicIF();
+    }
+    return rtypes;
+  }
 	
-	private TopicIF[] getPlayers(ValueIF value) {
-		Topic[] players = value.getPlayers();
-		int arity = value.getArity();		
-		TopicIF[] topics = new TopicIF[arity];
-		for (int i=0; i < arity; i++) {
-			topics[i] = players[i].getTopicIF();
-		}
-		return topics;
-	}
+  private TopicIF[] getPlayers(ValueIF value) {
+    Topic[] players = value.getPlayers();
+    int arity = value.getArity();		
+    TopicIF[] topics = new TopicIF[arity];
+    for (int i=0; i < arity; i++) {
+      topics[i] = players[i].getTopicIF();
+    }
+    return topics;
+  }
 
-  private Collection<Topic> getValues(Topic instance, RoleField ofield) {
+  private Collection<Topic> getValues(OntopolyTopicIF instance,
+                                      RoleFieldIF ofield) {
     Collection<ValueIF> values = getValues(instance);
-    Collection<Topic> result = new HashSet<Topic>(values.size());
+    Collection<Topic> result = new CompactHashSet<OntopolyTopicIF>(values.size());
     Iterator<ValueIF> iter = values.iterator();
     while (iter.hasNext()) {
       ValueIF rfv = iter.next();
@@ -685,9 +680,13 @@ public class RoleField extends FieldDefinition {
   }
 
   /**
-   * Change field value order so that the first value is ordered directly after the second value.
-   **/
-  public void moveAfter(Topic instance, RoleField ofield, RoleField.ValueIF rfv1, RoleField.ValueIF rfv2) {
+   * Change field value order so that the first value is ordered
+   * directly after the second value.
+   */
+  public void moveAfter(OntopolyTopicIF instance,
+                        RoleFieldIF ofield,
+                        RoleFieldIF.ValueIF rfv1,
+                        RoleFieldIF.ValueIF rfv2) {
     Topic p1 = rfv1.getPlayer(ofield, instance);
     Topic p2 = rfv2.getPlayer(ofield, instance);
 

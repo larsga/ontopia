@@ -12,7 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.PSI;
+import ontopoly.model.TopicTypeIF;
+import ontopoly.model.OccurrenceTypeIF;
 import ontopoly.model.OntopolyTopicMapIF;
+import ontopoly.model.OntopolyModelRuntimeException;
 import ontopoly.sysmodel.OntopolyRepository;
 import ontopoly.sysmodel.TopicMapReference;
 import ontopoly.utils.OntopolyModelUtils;
@@ -262,7 +266,7 @@ public class TopicMap implements OntopolyTopicMapIF {
   /**
    * Returns a list of the topic types that is not a system topic type.
    */
-  public List<TopicType> getTopicTypes() {
+  public List<TopicTypeIF> getTopicTypes() {
     String query = "select $type from "
       + "instance-of($type, on:topic-type)"
       //! + ", not (instance-of($type, on:ontology-type)), $type /= on:ontology-type"
@@ -275,14 +279,14 @@ public class TopicMap implements OntopolyTopicMapIF {
   /**
    * Returns a list of the topic types that is not a system topic type.
    */
-  public List<TopicType> getTopicTypesWithLargeInstanceSets() {
+  public List<TopicTypeIF> getTopicTypesWithLargeInstanceSets() {
     String query = "select $type from on:has-large-instance-set($type : on:topic-type)?";
 
     QueryMapper<TopicType> qm = newQueryMapper(TopicType.class);
     return qm.queryForList(query);
   }
 
-  public List<OccurrenceType> getOccurrenceTypes() {
+  public List<OccurrenceTypeIF> getOccurrenceTypes() {
     String query = "select $type from "
       + "instance-of($type, on:occurrence-type)"
       //! + ", not (instance-of($type, on:system-topic))"

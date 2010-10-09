@@ -12,6 +12,7 @@ import ontopoly.model.RoleFieldIF;
 import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.AssociationFieldIF;
 import ontopoly.model.LifeCycleListenerIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.topicmaps.core.TopicIF;

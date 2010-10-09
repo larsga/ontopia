@@ -1,9 +1,9 @@
-// $Id: InterfaceControl.java,v 1.1 2008/10/23 05:18:36 geir.gronmo Exp $
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.List;
 
+import ontopoly.model.InterfaceControlIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 import net.ontopia.topicmaps.core.TopicIF;
@@ -11,7 +11,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 /**
  * Represents a datatype which can be assigned to an association field.
  */
-public class InterfaceControl extends Topic {
+public class InterfaceControl extends Topic implements InterfaceControlIF {
 
   public InterfaceControl(TopicIF topic, TopicMap tm) {
     super(topic, tm);
@@ -21,10 +21,10 @@ public class InterfaceControl extends Topic {
    * Indicates whether some other object is "equal to" this one.
    */
   public boolean equals(Object obj) {
-    if (!(obj instanceof InterfaceControl))
+    if (!(obj instanceof InterfaceControlIF))
       return false;
 
-    InterfaceControl other = (InterfaceControl) obj;
+    InterfaceControlIF other = (InterfaceControlIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 

@@ -1,7 +1,5 @@
 
-// $Id: IdentityType.java,v 1.3 2009/04/21 06:23:51 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +10,14 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.IdentityTypeIF;
+import ontopoly.model.IdentityFieldIF;
+
 /**
  * Represents an identity type.
  */
-public class IdentityType extends AbstractTypingTopic {
+public class IdentityType extends AbstractTypingTopic
+  implements IdentityTypeIF {
 
   /**
    * Creates a new IdentityType object.
@@ -33,12 +35,12 @@ public class IdentityType extends AbstractTypingTopic {
     if (!(obj instanceof IdentityType))
       return false;
 
-    IdentityType other = (IdentityType) obj;
+    IdentityTypeIF other = (IdentityTypeIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
   @Override
-	public Collection<IdentityField> getDeclaredByFields() {
+  public Collection<IdentityFieldIF> getDeclaredByFields() {
     String query = "select $FD from on:has-identity-type(%TYPE% : on:identity-type, $FD : on:identity-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("TYPE", getTopicIF());
 
@@ -46,10 +48,10 @@ public class IdentityType extends AbstractTypingTopic {
     return qm.queryForList(query,
         new RowMapperIF<IdentityField>() {
           public IdentityField mapRow(QueryResultIF result, int rowno) {
-						TopicIF fieldTopic = (TopicIF)result.getValue(0);
-						return new IdentityField(fieldTopic, getTopicMap(), new IdentityType(getTopicIF(), getTopicMap()));
-					}
-				}, params);
-	}
+            TopicIF fieldTopic = (TopicIF)result.getValue(0);
+            return new IdentityField(fieldTopic, getTopicMap(), new IdentityType(getTopicIF(), getTopicMap()));
+          }
+                           }, params);
+  }
 
 }

@@ -1,5 +1,6 @@
 package ontopoly.pages;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -442,23 +443,15 @@ public abstract class ModalFindPage<T> extends Panel {
   }
   
   protected IModel<TreeModel> getTreeModel(TopicTypeIF _topicType) {
-    final TopicTypeModel topicTypeModel = new TopicTypeModel(_topicType);
-    return new LoadableDetachableModel<TreeModel>() {
-      @Override
-      public TreeModel load() {
-        TopicTypeIF topicType = topicTypeModel.getTopicType();
-        if (topicType == null) {
-          return emptyTreeModel;
-        } else {
-          AbstractOntopolyPage page = (AbstractOntopolyPage)getPage();
-          return TreeModels.createInstancesTreeModel(topicType, page.isAdministrationEnabled());
-        }
-      }
-      @Override
-      public void onDetach() {
-        topicTypeModel.detach();
-      }
-    };
+    TopicTypeModel topicTypeModel = new TopicTypeModel(_topicType);
+    TopicTypeIF topicType = topicTypeModel.getTopicType();
+    if (topicType == null) {
+      return new Model((Serializable)emptyTreeModel);
+    } else {
+      // AbstractOntopolyPage page = (AbstractOntopolyPage)getPage();
+      boolean adminEnabled = false; // page.isAdministrationEnabled();
+      return new Model((Serializable)TreeModels.createInstancesTreeModel(topicType, adminEnabled));
+    }
   }
 
   protected abstract void onSelectionConfirmed(AjaxRequestTarget target, Collection<T> selected);

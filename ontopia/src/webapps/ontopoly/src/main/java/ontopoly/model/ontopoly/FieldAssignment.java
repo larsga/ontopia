@@ -1,5 +1,5 @@
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,13 +17,17 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.utils.ObjectUtils;
 
+import ontopoly.model.TopicTypeIF;
+import ontopoly.model.CardinalityIF;
+import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.FieldAssignmentIF;
+
 /**
  * Represents a field as assigned to a topic type. The field itself is a
  * FieldDefinition, and the topic type a TopicType. This object primarily
  * holds the cardinality and order in the list of fields.
  */
-public final class FieldAssignment {
-
+public final class FieldAssignment implements FieldAssignmentIF {
   private FieldDefinition fieldDefinition;
   private TopicType topicType;
   private TopicType declaredTopicType;
@@ -35,14 +39,16 @@ public final class FieldAssignment {
   /**
    * Creates a new field assignment object.
    */
-  public FieldAssignment(TopicType topicType, TopicType declaredTopicType, FieldDefinition fieldDefinition) {
+  public FieldAssignment(TopicType topicType, TopicType declaredTopicType,
+                         FieldDefinition fieldDefinition) {
     this.fieldDefinition = fieldDefinition;
     this.topicType = topicType;
     this.declaredTopicType = declaredTopicType;
     this.tm = topicType.getTopicMap();
   }
 
-  public FieldAssignment(TopicType topicType, TopicType declaredTopicType, FieldDefinition fieldDefinition, int cachedOrder) {
+  public FieldAssignment(TopicType topicType, TopicType declaredTopicType,
+                         FieldDefinition fieldDefinition, int cachedOrder) {
     this(topicType, declaredTopicType, fieldDefinition);
     this.cachedOrder = (cachedOrder == Integer.MAX_VALUE ? cachedOrder - 1 : cachedOrder);
   }
@@ -54,25 +60,25 @@ public final class FieldAssignment {
   /**
    * Returns the topic type.
    */
-  public TopicType getTopicType() {
+  public TopicTypeIF getTopicType() {
     return topicType;
   }
 
   /**
    * Returns the topic type.
    */
-  public TopicType getDeclaredTopicType() {
+  public TopicTypeIF getDeclaredTopicType() {
     return declaredTopicType;
   }
 
   /**
    * Returns the field type.
    */
-  public FieldDefinition getFieldDefinition() {
+  public FieldDefinitionIF getFieldDefinition() {
     return fieldDefinition;
   }
 
-  public Cardinality getCardinality() {
+  public CardinalityIF getCardinality() {
     return getFieldDefinition().getCardinality();
   }
 
@@ -91,7 +97,7 @@ public final class FieldAssignment {
    * Returns the ordering key of the field on the topic type sent in as an
    * argument.
    */
-  public int getOrder(TopicType t) {
+  public int getOrder(TopicTypeIF t) {
     String value;
     Map queryResult;
     TopicIF tt = t.getTopicIF();
@@ -124,7 +130,8 @@ public final class FieldAssignment {
     this.cachedOrder = order;
   }
 
-  public static void setOrder(TopicMap topicmap, TopicIF tt, TopicIF fd, int order, boolean replace) {
+  public static void setOrder(TopicMap topicmap, TopicIF tt, TopicIF fd,
+                              int order, boolean replace) {
     String value = Ordering.orderToString(order);
     LocatorIF datatype = DataTypes.TYPE_STRING;
 
@@ -150,8 +157,7 @@ public final class FieldAssignment {
    * the other field.
    * @param other the field to order after.
    */
-  public void moveAfter(FieldAssignment other) {
-
+  public void moveAfter(FieldAssignmentIF other) {
     if (ObjectUtils.different(getTopicType(), other.getTopicType()))
       throw new RuntimeException("Cannot reorder fields that are assigned to different topic types.");
 
@@ -206,10 +212,10 @@ public final class FieldAssignment {
   }
   
   public boolean equals(Object obj) {
-    if (!(obj instanceof FieldAssignment))
+    if (!(obj instanceof FieldAssignmentIF))
       return false;
 
-    FieldAssignment fa = (FieldAssignment) obj;
+    FieldAssignmentIF fa = (FieldAssignmentIF) obj;
     return (topicType.getTopicIF().equals(fa.topicType.getTopicIF()) &&
             fieldDefinition.getTopicIF().equals(fa.getFieldDefinition().getTopicIF()));
   }

@@ -4,6 +4,7 @@ package ontopoly.model.ontopoly;
 import java.util.List;
 
 import ontopoly.model.CardinalityIF;
+import ontopoly.model.FieldDefinitionIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;

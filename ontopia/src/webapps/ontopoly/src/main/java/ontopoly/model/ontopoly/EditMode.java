@@ -1,13 +1,14 @@
-// $Id: EditMode.java,v 1.1 2008/10/23 05:18:36 geir.gronmo Exp $
 
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import net.ontopia.topicmaps.core.TopicIF;
+
+import ontopoly.model.EditModeIF;
 
 /**
  * Represents the edit mode of a field.
  */
-public class EditMode extends Topic {
+public class EditMode extends Topic implements EditModeIF {
 
   /**
    * Creates a new EditMode object.
@@ -17,10 +18,10 @@ public class EditMode extends Topic {
   }
   
   public boolean equals(Object obj) {
-    if (!(obj instanceof EditMode))
+    if (!(obj instanceof EditModeIF))
       return false;
 
-    EditMode cardinality = (EditMode) obj;
+    EditModeIF cardinality = (EditModeIF) obj;
     return (getTopicIF().equals(cardinality.getTopicIF()));
   }
 

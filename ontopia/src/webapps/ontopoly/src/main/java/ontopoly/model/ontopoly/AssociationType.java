@@ -13,6 +13,7 @@ import java.util.Map;
 
 import ontopoly.model.PSI;
 import ontopoly.model.RoleTypeIF;
+import ontopoly.model.RoleFieldIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.AssociationTypeIF;
 import ontopoly.utils.OntopolyModelUtils;

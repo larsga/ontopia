@@ -1,7 +1,5 @@
 
-// $Id: NameField.java,v 1.5 2009/05/06 14:19:11 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -14,10 +12,15 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.utils.CollectionUtils;
 
+import ontopoly.model.NameTypeIF;
+import ontopoly.model.NameFieldIF;
+import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.LifeCycleListenerIF;
+
 /**
  * Represents a name type.
  */
-public class NameField extends FieldDefinition {
+public class NameField extends FieldDefinition implements NameFieldIF {
   private NameType nameType;
 
   public NameField(TopicIF topic, TopicMap tm) {
@@ -44,16 +47,14 @@ public class NameField extends FieldDefinition {
     if (!(obj instanceof NameField))
       return false;
 		
-    NameField other = (NameField)obj;
+    NameFieldIF other = (NameFieldIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
   /**
    * Gets the name type.
-   * 
-   * @return the name type.
    */
-  public NameType getNameType() {
+  public NameTypeIF getNameType() {
     if (nameType == null) {
       TopicMap tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-name-type");
@@ -68,8 +69,8 @@ public class NameField extends FieldDefinition {
   }
 
   /**
-   * Returns the names, which have this NameType object as type, associated with
-   * the topic.
+   * Returns the names, which have this NameType object as type,
+   * associated with the topic.
    * 
    * @param topic the topic from which the values is retrieved.
    * @return a collection of TopicNameIFs.
@@ -82,7 +83,7 @@ public class NameField extends FieldDefinition {
     TopicIF typeIf = ntype.getTopicIF();
 		
     Collection<TopicIF> scope = Collections.emptySet();
-    return OntopolyModelUtils.findTopicNames(typeIf, topicIf); // , scope);
+    return OntopolyModelUtils.findTopicNames(typeIf, topicIf);
   }
 
   /**
@@ -90,13 +91,13 @@ public class NameField extends FieldDefinition {
    * identical names are associated with the topic, a new one is added, but if
    * some names already exist, all except the first one is deleted.
    * 
-   * @param fieldInstance
-   *            field instance to which the value is going to be added.
-   * @param _value
-   *            value which is going to be added to the topic.
+   * @param fieldInstance field instance to which the value is going
+   * to be added.
+   * @param _value value which is going to be added to the topic.
    */
   @Override
-  public void addValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void addValue(FieldInstanceIF fieldInstance,
+                       Object _value, LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (String) _value;
     NameType ntype = getNameType();
@@ -126,13 +127,13 @@ public class NameField extends FieldDefinition {
    * names with the value, _value, are associated with the topic, topic, they
    * will be deleted.
    * 
-   * @param fieldInstance
-   *            field instance from which the value is going to be removed.
-   * @param _value
-   *            value which is going to be removed from the topic.
+   * @param fieldInstance field instance from which the value is going
+   * to be removed.
+   * @param _value value which is going to be removed from the topic.
    */
   @Override
-  public void removeValue(FieldInstance fieldInstance, Object _value, LifeCycleListener listener) {
+  public void removeValue(FieldInstanceIF fieldInstance, Object _value,
+                          LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (_value instanceof TopicNameIF ? ((TopicNameIF) _value)
         .getValue() : (String) _value);

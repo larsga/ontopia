@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ontopoly.model.PSI;
+import ontopoly.model.TopicTypeIF;
+import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.FieldAssignmentIF;
+import ontopoly.model.OntopolyTopicIF;
 import ontopoly.utils.FieldAssignmentOrderComparator;
 import ontopoly.utils.OntopolyModelUtils;
 
@@ -27,7 +32,7 @@ import net.ontopia.utils.StringUtils;
 /**
  * INTERNAL: Represents a topic type.
  */
-public class TopicType extends AbstractTypingTopic {
+public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
 
   public TopicType(TopicIF currTopic, TopicMap tm) {
     super(currTopic, tm);
@@ -76,10 +81,8 @@ public class TopicType extends AbstractTypingTopic {
 
   /**
    * Gets the direct subtypes of this type.
-   * 
-   * @return A Collection of TopicType objects.
    */
-  public Collection<TopicType> getDirectSubTypes() {
+  public Collection<TopicTypeIF> getDirectSubTypes() {
     String query = "xtm:superclass-subclass($SUB : xtm:subclass, %topic% : xtm:superclass)?";
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
@@ -90,10 +93,8 @@ public class TopicType extends AbstractTypingTopic {
 
   /**
    * Gets the all subtypes (direct and indirect) of this type.
-   * 
-   * @return A Collection of TopicType objects.
    */
-  public Collection<TopicType> getAllSubTypes() {
+  public Collection<TopicTypeIF> getAllSubTypes() {
     String query = "subclasses-of($SUP, $SUB) :- { "
         + "xtm:superclass-subclass($SUP : xtm:superclass, $SUB : xtm:subclass) | "
         + "xtm:superclass-subclass($SUP : xtm:superclass, $MID : xtm:subclass), "
@@ -108,7 +109,7 @@ public class TopicType extends AbstractTypingTopic {
   /**
    * Returns the supertype of this type, or null if there is none.
    */
-  public TopicType getSuperType() {
+  public TopicTypeIF getSuperType() {
     String query = "xtm:superclass-subclass(%topic% : xtm:subclass, $SUP : xtm:superclass)?";
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
@@ -117,7 +118,7 @@ public class TopicType extends AbstractTypingTopic {
     return qm.queryForObject(query, params);
   }
 
-  public FieldAssignment addField(FieldDefinition fieldDefinition) {
+  public FieldAssignmentIF addField(FieldDefinitionIF fieldDefinition) {
     TopicMap tm = getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
     final TopicIF HAS_CARDINALITY = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
@@ -571,10 +572,8 @@ public class TopicType extends AbstractTypingTopic {
   /**
    * Returns the topics that matches the given search term. Only topics of
    * allowed player types are returned.
-   * 
-   * @return a collection of Topic objects
    */
-  public List<Topic> searchAll(String searchTerm) {
+  public List<OntopolyTopicIF> searchAll(String searchTerm) {
     String query = "select $topic, $score from "
         + "value-like($tn, %searchTerm%, $score), topic-name($topic, $tn), instance-of($topic, %topicType%) "
         + "order by $score desc, $topic?";

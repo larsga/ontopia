@@ -9,6 +9,7 @@ import java.util.Map;
 import ontopoly.model.DataTypeIF;
 import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.OccurrenceTypeIF;
 import ontopoly.model.OccurrenceFieldIF;
 import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;

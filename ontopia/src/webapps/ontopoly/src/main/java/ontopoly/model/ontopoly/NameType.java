@@ -1,7 +1,5 @@
 
-// $Id: NameType.java,v 1.3 2009/04/21 06:23:51 geir.gronmo Exp $
-
-package ontopoly.model;
+package ontopoly.model.ontopoly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +10,13 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.NameTypeIF;
+import ontopoly.model.NameFieldIF;
+
 /**
  * Represents a name type.
  */
-public class NameType extends AbstractTypingTopic {
+public class NameType extends AbstractTypingTopic implements NameTypeIF {
 
   /**
    * Creates a new NameType object.
@@ -33,7 +34,7 @@ public class NameType extends AbstractTypingTopic {
     if (!(obj instanceof NameType))
       return false;
 
-    NameType other = (NameType) obj;
+    NameTypeIF other = (NameTypeIF) obj;
     return (getTopicIF().equals(other.getTopicIF()));
   }
 
@@ -45,7 +46,7 @@ public class NameType extends AbstractTypingTopic {
   }
 
   @Override
-  public Collection<NameField> getDeclaredByFields() {
+  public Collection<NameFieldIF> getDeclaredByFields() {
     String query = "select $FD from on:has-name-type(%TYPE% : on:name-type, $FD : on:name-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("TYPE", getTopicIF());
 
