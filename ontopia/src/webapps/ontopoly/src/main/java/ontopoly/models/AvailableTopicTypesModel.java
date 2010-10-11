@@ -16,7 +16,7 @@ import ontopoly.utils.TopicComparator;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 public abstract class AvailableTopicTypesModel extends LoadableDetachableModel<List<TopicTypeIF>> {
-  private TopicModel<Topic> topicModel;  
+  private TopicModel<OntopolyTopicIF> topicModel;  
   
   public AvailableTopicTypesModel(TopicModel<Topic> topicModel) {
     this.topicModel = topicModel;

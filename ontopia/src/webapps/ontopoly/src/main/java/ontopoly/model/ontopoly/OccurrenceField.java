@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+import ontopoly.model.PSI;
 import ontopoly.model.DataTypeIF;
 import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.OntopolyTopicIF;

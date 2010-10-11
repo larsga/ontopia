@@ -148,7 +148,7 @@ public class InstancePage extends OntopolyAbstractPage {
     return getTopicModel().getTopic();
   }
   
-  public TopicModel<Topic> getTopicModel() {
+  public TopicModel<OntopolyTopicIF> getTopicModel() {
     return topicModel;
   }
   

@@ -31,7 +31,7 @@ public class TopicTypesFunctionBoxPanel extends Panel {
     super(id);
     add(new Label("title", new ResourceModel("topictypes.list.header")));
 
-    List<TopicType> types = topicModel.getTopic().getTopicTypes();
+    List<TopicTypeIF> types = topicModel.getTopic().getTopicTypes();
     if (types.isEmpty())
       setVisible(false);
     
@@ -41,7 +41,7 @@ public class TopicTypesFunctionBoxPanel extends Panel {
     RepeatingView rv = new RepeatingView("rows");
     add(rv);
     
-    Iterator<TopicType> iter =  types.iterator();
+    Iterator<TopicTypeIF> iter =  types.iterator();
     while (iter.hasNext()) {
       TopicTypeIF topicType = iter.next();      
       boolean isCurrentTopicType = ObjectUtils.equals(currentTopicType, topicType);

@@ -22,7 +22,7 @@ public class NameTypeModel extends LoadableDetachableModel<NameTypeIF> {
   }
   
   @Override
-  protected NameType load() {
+  protected NameTypeIF load() {
     OntopolyTopicMapIF tm = OntopolyContext.getTopicMap(topicMapId);
     return tm.findNameType(topicId);
   }

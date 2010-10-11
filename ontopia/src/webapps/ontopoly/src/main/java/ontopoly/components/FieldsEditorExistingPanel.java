@@ -138,7 +138,7 @@ public abstract class FieldsEditorExistingPanel extends Panel {
       TopicTypeIF tt = null;
       RoleFieldIF rf = (RoleFieldIF)fieldDefinition;
       AssociationFieldIF afield = rf.getAssociationField();
-      List<RoleField> fields = afield.getFieldsForRoles();
+      List<RoleFieldIF> fields = afield.getFieldsForRoles();
       int numberOfRoles = fields.size();  
       String fieldTypeAsString = "";
       if (numberOfRoles == 1) { // unary
@@ -146,9 +146,9 @@ public abstract class FieldsEditorExistingPanel extends Panel {
       } else if(numberOfRoles == 2) { // binary
         AssociationTypeIF at = rf.getAssociationType();
         if (at.isSymmetric()) { // symmetric
-          Collection<TopicType> allowedValueTypes = rf.getDeclaredPlayerTypes(); 
+          Collection<TopicTypeIF> allowedValueTypes = rf.getDeclaredPlayerTypes(); 
           if (allowedValueTypes.size() == 1) { // only one allowed player
-            Iterator<TopicType> it = allowedValueTypes.iterator();         
+            Iterator<TopicTypeIF> it = allowedValueTypes.iterator();         
             // It's only one element in the list
             while (it.hasNext()) {
               tt = it.next();
@@ -162,12 +162,12 @@ public abstract class FieldsEditorExistingPanel extends Panel {
           while (it.hasNext()) {
             RoleFieldIF rf2 = it.next();
             if (!rf.equals(rf2)) { // the other association field
-              Collection<TopicType> allowedValueTypes = rf2.getDeclaredPlayerTypes(); 
+              Collection<TopicTypeIF> allowedValueTypes = rf2.getDeclaredPlayerTypes(); 
               if (allowedValueTypes.size() == 1) { // only one allowed player
-                Iterator<TopicType> it2 =  allowedValueTypes.iterator();         
+                Iterator<TopicTypeIF> it2 =  allowedValueTypes.iterator();         
                 // It's only one element in the list
                 while (it2.hasNext()) {
-                  tt = (TopicTypeIF)it2.next();
+                  tt = it2.next();
                   fieldTypeAsString = tt.getName();
                 }
               }
@@ -214,9 +214,9 @@ public abstract class FieldsEditorExistingPanel extends Panel {
     while(it.hasNext()) {
       RoleFieldIF af2 = (RoleFieldIF) it.next();
       if(!af.equals(af2)) { // one of the other association fields
-          Iterator<TopicType> it2 =  af2.getDeclaredPlayerTypes().iterator();         
+          Iterator<TopicTypeIF> it2 =  af2.getDeclaredPlayerTypes().iterator();         
           while(it2.hasNext()) {
-            topicTypeNames.add(((TopicTypeIF)it2.next()).getName());
+            topicTypeNames.add(it2.next().getName());
           } 
       }      
     }

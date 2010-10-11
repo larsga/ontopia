@@ -90,7 +90,7 @@ public class FieldInstanceAssociationNaryField extends Panel {
       // NOTE: should not use same model as selected model as the model would then be updated immediately
       selectedPlayers.put(ofieldModel, new TopicModel<OntopolyTopicIF>(topic));
 
-      TopicLink<Topic> playerLink = new TopicLink<Topic>("player", topicModel);
+      TopicLink<OntopolyTopicIF> playerLink = new TopicLink<OntopolyTopicIF>("player", topicModel);
       playerLink.setEnabled(traversable);
       playerLink.setVisible(topic != null);
       parent.add(playerLink);
@@ -110,7 +110,7 @@ public class FieldInstanceAssociationNaryField extends Panel {
         InterfaceControlIF interfaceControl = ofield.getInterfaceControl();
         if (interfaceControl.isAutoComplete()) {
           final AssociationFieldAutoCompleteTextField autoCompleteField 
-            = new AssociationFieldAutoCompleteTextField("select", new TopicModel<Topic>(null), ofieldModel) {
+            = new AssociationFieldAutoCompleteTextField("select", new TopicModel<OntopolyTopicIF>(null), ofieldModel) {
             @Override
             protected void filterPlayers(List<OntopolyTopicIF> players) {
               AbstractOntopolyPage page = (AbstractOntopolyPage)getPage();
@@ -177,7 +177,7 @@ public class FieldInstanceAssociationNaryField extends Panel {
         } else if (interfaceControl.isSearchDialog() || interfaceControl.isBrowseDialog()) {
 
           // unused components
-          parent.add(new TopicLink<Topic>("select", topicModel));
+          parent.add(new TopicLink<OntopolyTopicIF>("select", topicModel));
 
           // "search"/"browse" button
           final ModalWindow findModal = new ModalWindow("findModal");
@@ -339,7 +339,7 @@ public class FieldInstanceAssociationNaryField extends Panel {
     Iterator<RoleFieldModel> iter = selectedPlayers.keySet().iterator();
     while (iter.hasNext()) {
       RoleFieldModel roleFieldModel = iter.next(); 
-      TopicModel<Topic> topicModel = selectedPlayers.get(roleFieldModel);
+      TopicModel<OntopolyTopicIF> topicModel = selectedPlayers.get(roleFieldModel);
       RoleFieldIF roleField = roleFieldModel.getRoleField();
       OntopolyTopicIF topic = topicModel.getTopic();
       // if topic is null then the value is not complete, so we return null
@@ -358,7 +358,7 @@ public class FieldInstanceAssociationNaryField extends Panel {
     fieldValueModel.detach();
     currentFieldModel.detach();
     currentTopicModel.detach();
-    for (Map.Entry<RoleFieldModel,TopicModel<Topic>> selectedPlayer : selectedPlayers.entrySet()) {
+    for (Map.Entry<RoleFieldModel,TopicModel<OntopolyTopicIF>> selectedPlayer : selectedPlayers.entrySet()) {
       selectedPlayer.getKey().detach();
       selectedPlayer.getValue().detach();
     }

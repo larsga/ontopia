@@ -9,12 +9,14 @@ import ontopoly.model.OntopolyTopicIF;
 import ontopoly.models.RoleFieldModel;
 import ontopoly.models.TopicModel;
 
-public class RoleFieldsValueComparator implements Comparator<Object>, Serializable {
+public class RoleFieldsValueComparator
+  implements Comparator<Object>, Serializable {
 
-  private TopicModel<Topic> topicModel;
+  private TopicModel<OntopolyTopicIF> topicModel;
   private List<RoleFieldModel> roleFieldModels;
   
-  public RoleFieldsValueComparator(TopicModel<Topic> topicModel, List<RoleFieldModel> roleFieldModels) {
+  public RoleFieldsValueComparator(TopicModel<OntopolyTopicIF> topicModel,
+                                   List<RoleFieldModel> roleFieldModels) {
     this.topicModel = topicModel;
     this.roleFieldModels = roleFieldModels;
   }

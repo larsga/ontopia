@@ -8,8 +8,9 @@ import ontopoly.model.OntopolyTopicIF;
 import ontopoly.models.RoleFieldModel;
 import ontopoly.models.TopicModel;
 
-public class RoleFieldValueComparator implements Comparator<Object>, Serializable {
-  private TopicModel<Topic> topicModel;
+public class RoleFieldValueComparator
+  implements Comparator<Object>, Serializable {
+  private TopicModel<OntopolyTopicIF> topicModel;
   private RoleFieldModel roleFieldModel;
   
   public RoleFieldValueComparator(TopicModel<OntopolyTopicIF> topicModel,
