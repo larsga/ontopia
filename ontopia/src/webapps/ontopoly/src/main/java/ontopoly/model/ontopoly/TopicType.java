@@ -12,10 +12,15 @@ import java.util.Map;
 import java.util.Set;
 
 import ontopoly.model.PSI;
+import ontopoly.model.NameTypeIF;
 import ontopoly.model.TopicTypeIF;
+import ontopoly.model.FieldsViewIF;
+import ontopoly.model.OccurrenceTypeIF;
+import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.FieldDefinitionIF;
 import ontopoly.model.FieldAssignmentIF;
 import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.OntopolyModelRuntimeException;
 import ontopoly.utils.FieldAssignmentOrderComparator;
 import ontopoly.utils.OntopolyModelUtils;
 
@@ -87,7 +92,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
 
-    QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
+    QueryMapper<TopicTypeIF> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForList(query, params);
   }
 
@@ -102,7 +107,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
 
-    QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
+    QueryMapper<TopicTypeIF> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForList(query, params);
   }
 
@@ -114,7 +119,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
 
-    QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
+    QueryMapper<TopicTypeIF> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForObject(query, params);
   }
 
@@ -144,10 +149,10 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     // Add field-order occurrence for this topictype and all it's subtypes.
     addFieldOrder(this, fieldDefinition);
 
-    return new FieldAssignment(this, this, fieldDefinition);
+    return new FieldAssignment(this, this, (FieldDefinition) fieldDefinition);
   }
 
-  public void removeField(FieldDefinition fieldDefinition) {
+  public void removeField(FieldDefinitionIF fieldDefinition) {
     TopicMap tm = getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
     final TopicIF HAS_CARDINALITY = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
@@ -193,7 +198,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     }
   }
 
-  public NameType createNameType() {
+  public NameTypeIF createNameType() {
     TopicMap tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
@@ -221,7 +226,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     return nameType;
   }
 
-  public OccurrenceType createOccurrenceType() {
+  public OccurrenceTypeIF createOccurrenceType() {
     TopicMap tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
@@ -249,7 +254,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     return occurrenceType;
   }
 
-  public AssociationType createAssociationType() {
+  public AssociationTypeIF createAssociationType() {
     TopicMap tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
@@ -308,7 +313,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     while (it.hasNext()) {
       FieldAssignment fa = (FieldAssignment) it.next();
 
-      FieldDefinition fieldDefinition = fa.getFieldDefinition();
+      FieldDefinitionIF fieldDefinition = fa.getFieldDefinition();
       Collection<TopicIF> scope = Collections.singleton(fieldDefinition.getTopicIF());
 
       OccurrenceIF occurrenceIF = OntopolyModelUtils.findOccurrence(
@@ -329,7 +334,8 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     }
   }
 
-  private static void addFieldOrder(TopicType tt, FieldDefinition fieldDefinition) {
+  private static void addFieldOrder(TopicType tt,
+                                    FieldDefinitionIF fieldDefinition) {
 
     final TopicIF FIELD_ORDER = OntopolyModelUtils.getTopicIF(tt.getTopicMap(), PSI.ON, "field-order");
 
@@ -354,7 +360,8 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     }
   }
 
-  private static void removeFieldOrder(TopicType tt, FieldDefinition fieldDefinition) {
+  private static void removeFieldOrder(TopicType tt,
+                                       FieldDefinitionIF fieldDefinition) {
     // See if the same field is defined on this topic type.
     TopicMap tm = tt.getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
@@ -392,7 +399,8 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     }
   }
 
-  public List<FieldsView> getFieldViews(boolean includeHiddenViews, boolean includeEmbeddedViews) {
+  public List<FieldsViewIF> getFieldViews(boolean includeHiddenViews,
+                                          boolean includeEmbeddedViews) {
     String query = 
       "subclasses-of($SUP, $SUB) :- { " +
       "  xtm:superclass-subclass($SUP : xtm:superclass, $SUB : xtm:subclass) | " +
@@ -408,9 +416,9 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
                                                         
     Map<String,TopicIF> params = Collections.singletonMap("tt", getTopicIF());
     
-    QueryMapper<FieldsView> qm = getTopicMap().newQueryMapperNoWrap();
+    QueryMapper<FieldsViewIF> qm = getTopicMap().newQueryMapperNoWrap();
     return qm.queryForList(query,
-        new RowMapperIF<FieldsView>() {
+        new RowMapperIF<FieldsViewIF>() {
           public FieldsView mapRow(QueryResultIF result, int rowno) {
             TopicIF viewTopic = (TopicIF)result.getValue(0);
             if (viewTopic == null)
@@ -430,11 +438,11 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
    * Note that if isSystemTopic(), the list of fields will always contain the
    * default name type with the "exactly one" cardinality at the very top
    */
-  public List<FieldAssignment> getFieldAssignments() {
+  public List<FieldAssignmentIF> getFieldAssignments() {
     return getFieldAssignments(null);
   }
 
-  public List<FieldAssignment> getFieldAssignments(FieldsView view) {
+  public List<FieldAssignmentIF> getFieldAssignments(FieldsViewIF view) {
     String viewClause = "";
     if (view != null) {
       if (view.isDefaultView())
@@ -469,14 +477,15 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     }
     QueryMapper<FieldAssignment> qm = getTopicMap().newQueryMapperNoWrap();
     
-    List<FieldAssignment> fieldAssignments = qm.queryForList(query,
-        new RowMapperIF<FieldAssignment>() {
+    List<FieldAssignmentIF> fieldAssignments = qm.queryForList(query,
+        new RowMapperIF<FieldAssignmentIF>() {
           public FieldAssignment mapRow(QueryResultIF result, int rowno) {
             TopicIF topicType = (TopicIF)result.getValue(0);
             TopicIF fieldDefinitionTopic = (TopicIF)result.getValue(1);
             TopicIF fieldDefinitionType = (TopicIF)result.getValue(2);
             
-            // OPTIMIZATION: retrieving field order here so we can pass it to the constructor
+            // OPTIMIZATION: retrieving field order here so we can
+            // pass it to the constructor
             String foValue = (String)result.getValue(3);
             int fieldOrder = (foValue != null ? Integer.parseInt(foValue) : Integer.MAX_VALUE);
 
@@ -491,7 +500,9 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     return fieldAssignments;
   }
 
-  static FieldDefinition findFieldDefinitionImpl(TopicMap tm, TopicIF fieldDefinitionTopic, TopicIF fieldDefinitionType) {
+  static FieldDefinition findFieldDefinitionImpl(TopicMap tm,
+                                                 TopicIF fieldDefinitionTopic,
+                                                 TopicIF fieldDefinitionType) {
     Collection identities = fieldDefinitionType.getSubjectIdentifiers();
     if (identities.contains(PSI.ON_OCCURRENCE_FIELD))
       return new OccurrenceField(fieldDefinitionTopic, tm);
@@ -531,7 +542,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
    * 
    * @return A collection of Topic objects.
    */
-  public List<Topic> getInstances() {
+  public List<OntopolyTopicIF> getInstances() {
     String query = "instance-of($instance, %topic%) order by $instance?";
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
@@ -543,7 +554,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   /**
    * Create a new topic instance of this topic type.
    */
-  public Topic createInstance(String name) {
+  public OntopolyTopicIF createInstance(String name) {
     TopicMap tm = getTopicMap();
     
     // delegate to specific create method if known type
@@ -587,8 +598,8 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     
     Iterator<Topic> it = rows.iterator();
     List<Topic> results = new ArrayList<Topic>(rows.size());
-    try {
-    Set<Topic> duplicateChecks = new HashSet<Topic>(rows.size());
+    Set<OntopolyTopicIF> duplicateChecks =
+      new CompactHashSet<OntopolyTopicIF>(rows.size());
     while (it.hasNext()) {
       Topic topic = it.next();
       if (duplicateChecks.contains(topic))
@@ -596,14 +607,11 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
       results.add(topic);
       duplicateChecks.add(topic);
     }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
 
     return results;
   }
 
-  public Collection<? extends FieldDefinition> getDeclaredByFields() {
+  public Collection<? extends FieldDefinitionIF> getDeclaredByFields() {
     return Collections.emptyList();
   }
 
