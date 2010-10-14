@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import ontopoly.model.PSI;
+import ontopoly.model.TopicTypeIF;
+import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.TopicComparator;
 
@@ -152,20 +155,20 @@ public class Topic implements OntopolyTopicIF {
    * @return true if this is a role type.
    */
   public boolean isFieldDefinition() {
-	TopicMapIF topicMap = topicIF.getTopicMap();
-	TopicIF associationField = topicMap.getTopicBySubjectIdentifier(PSI.ON_ASSOCIATION_FIELD);
-	TopicIF identityField = topicMap.getTopicBySubjectIdentifier(PSI.ON_IDENTITY_FIELD);
-	TopicIF nameField = topicMap.getTopicBySubjectIdentifier(PSI.ON_NAME_FIELD);
-	TopicIF occurrenceField = topicMap.getTopicBySubjectIdentifier(PSI.ON_OCCURRENCE_FIELD);
-	TopicIF roleField = topicMap.getTopicBySubjectIdentifier(PSI.ON_ROLE_FIELD);
+    TopicMapIF topicMap = topicIF.getTopicMap();
+    TopicIF associationField = topicMap.getTopicBySubjectIdentifier(PSI.ON_ASSOCIATION_FIELD);
+    TopicIF identityField = topicMap.getTopicBySubjectIdentifier(PSI.ON_IDENTITY_FIELD);
+    TopicIF nameField = topicMap.getTopicBySubjectIdentifier(PSI.ON_NAME_FIELD);
+    TopicIF occurrenceField = topicMap.getTopicBySubjectIdentifier(PSI.ON_OCCURRENCE_FIELD);
+    TopicIF roleField = topicMap.getTopicBySubjectIdentifier(PSI.ON_ROLE_FIELD);
     for (TopicIF topicType : topicIF.getTypes()) {    	
-    	if (topicType.equals(associationField) ||
-        		topicType.equals(identityField) ||
-        		topicType.equals(nameField) ||
-        		topicType.equals(occurrenceField) ||
-        		topicType.equals(roleField)) {
-    		return true;
-    	}
+      if (topicType.equals(associationField) ||
+          topicType.equals(identityField) ||
+          topicType.equals(nameField) ||
+          topicType.equals(occurrenceField) ||
+          topicType.equals(roleField)) {
+        return true;
+      }
     }
     return false;
   }
@@ -227,7 +230,7 @@ public class Topic implements OntopolyTopicIF {
    * @param topicType the super type of this topic
    * @return the most specific type of this type, or null if there is none.
    */
-  public TopicType getMostSpecificTopicType(TopicType topicType) {
+  public TopicTypeIF getMostSpecificTopicType(TopicTypeIF topicType) {
     String query = "supertype-of($SUB, $SUP) :-"
       + " { xtm:superclass-subclass($SUB : xtm:subclass, $SUP : xtm:superclass) |"
       + "   xtm:superclass-subclass($SUB : xtm:subclass, $X : xtm:superclass), "
@@ -248,7 +251,7 @@ public class Topic implements OntopolyTopicIF {
   /**
    * Returns the topic types of which this topic is a direct instance.
    */
-  public List<TopicType> getTopicTypes() {
+  public List<TopicTypeIF> getTopicTypes() {
     TopicIF topicIF = getTopicIF();
     Collection topicTypes = topicIF.getTypes();
     int size = topicTypes.size();
@@ -271,7 +274,7 @@ public class Topic implements OntopolyTopicIF {
    * Adds the topic type to the list of topic types that topic is a
    * direct instance of.
    */
-  public void addTopicType(TopicType type) {
+  public void addTopicType(TopicTypeIF type) {
     if (type == null)
       throw new OntopiaRuntimeException("The input parameter is null");
     getTopicIF().addType(type.getTopicIF());
@@ -281,23 +284,24 @@ public class Topic implements OntopolyTopicIF {
    * Removes the topic type from the list of topic types that topic is
    * a direct instance of.
    */
-  public void removeTopicType(TopicType type) {
+  public void removeTopicType(TopicTypeIF type) {
     if (type == null)
       throw new OntopiaRuntimeException("The input parameter is null");
     getTopicIF().removeType(type.getTopicIF());
   }
 
-  public List<FieldInstance> getFieldInstances(TopicType topicType) {
+  public List<FieldInstanceIF> getFieldInstances(TopicTypeIF topicType) {
     return getFieldInstances(topicType, null);
   }
 
-  public List<FieldInstance> getFieldInstances(TopicType topicType, FieldsView fieldsView) {
+  public List<FieldInstanceIF> getFieldInstances(TopicTypeIF topicType,
+                                                 FieldsViewIF fieldsView) {
     List fieldAssignments = topicType.getFieldAssignments(fieldsView);
-    List<FieldInstance> fieldInstances = new ArrayList<FieldInstance>(fieldAssignments.size());
+    List<FieldInstanceIF> fieldInstances = new ArrayList<FieldInstanceIF>(fieldAssignments.size());
 
     Iterator it = fieldAssignments.iterator();
     while (it.hasNext()) {
-      FieldAssignment fa = (FieldAssignment) it.next();
+      FieldAssignmentIF fa = (FieldAssignmentIF) it.next();
       fieldInstances.add(new FieldInstance(this, fa));
     }
 
@@ -387,7 +391,7 @@ public class Topic implements OntopolyTopicIF {
     return super.toString() + "[" + getTopicIF() + "]";
   }
 
-  public Topic copyCharacteristics() {
+  public OntopolyTopicIF copyCharacteristics() {
     return new Topic(CopyUtils.copyCharacteristics(getTopicIF()), getTopicMap());
   }
 

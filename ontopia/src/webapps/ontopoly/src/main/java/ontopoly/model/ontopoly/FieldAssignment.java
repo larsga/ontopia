@@ -17,6 +17,7 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.utils.ObjectUtils;
 
+import ontopoly.model.PSI;
 import ontopoly.model.TopicTypeIF;
 import ontopoly.model.CardinalityIF;
 import ontopoly.model.FieldDefinitionIF;
@@ -216,7 +217,7 @@ public final class FieldAssignment implements FieldAssignmentIF {
       return false;
 
     FieldAssignmentIF fa = (FieldAssignmentIF) obj;
-    return (topicType.getTopicIF().equals(fa.topicType.getTopicIF()) &&
+    return (topicType.getTopicIF().equals(fa.getTopicType().getTopicIF()) &&
             fieldDefinition.getTopicIF().equals(fa.getFieldDefinition().getTopicIF()));
   }
 

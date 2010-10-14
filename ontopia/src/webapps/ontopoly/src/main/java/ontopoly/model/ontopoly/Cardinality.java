@@ -3,11 +3,14 @@ package ontopoly.model.ontopoly;
 
 import java.util.List;
 
-import ontopoly.model.CardinalityIF;
-import ontopoly.model.FieldDefinitionIF;
-import ontopoly.model.OntopolyTopicMapIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
+
+import ontopoly.model.PSI;
+import ontopoly.model.CardinalityIF;
+import ontopoly.model.IdentityFieldIF;
+import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.OntopolyTopicMapIF;
 
 /**
  * Represents a cardinality that can be assigned to a field.
@@ -18,7 +21,7 @@ public class Cardinality extends Topic implements CardinalityIF {
    * Creates a new Cardinality object.
    */
   public Cardinality(TopicIF topic, OntopolyTopicMapIF tm) {
-    super(topic, tm);
+    super(topic, (TopicMap) tm);
   }
   
   public boolean equals(Object obj) {

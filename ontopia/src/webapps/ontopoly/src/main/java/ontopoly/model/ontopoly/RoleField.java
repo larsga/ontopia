@@ -11,14 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 import ontopoly.model.PSI;
+import ontopoly.model.EditModeIF;
 import ontopoly.model.RoleTypeIF;
 import ontopoly.model.RoleFieldIF;
-import ontopoly.model.EditModeIF;
+import ontopoly.model.TopicTypeIF;
 import ontopoly.model.CreateActionIF;
 import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.LifeCycleListenerIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.utils.OntopolyModelUtils;
 import ontopoly.utils.Ordering;
 
@@ -66,8 +68,8 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     if (name != null)
       return name;
     
-    AssociationType atype = getAssociationType();
-    RoleType rtype = getRoleType();
+    AssociationTypeIF atype = getAssociationType();
+    RoleTypeIF rtype = getRoleType();
     return (atype == null ? "" : atype.getName()) + " (" + (rtype == null ? "" : rtype.getName()) + ")";
   }
 
@@ -183,14 +185,15 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
    * Gets the topic types that have been declared as valid and which
    * may play the other roles in this association type.
    * 
-   * @return the topic types which may play the other roles in this association type.
+   * @return the topic types which may play the other roles in this
+   * association type.
    */
-  public Collection<TopicType> getDeclaredPlayerTypes() {
+  public Collection<TopicTypeIF> getDeclaredPlayerTypes() {
     String query = "select $ttype from on:has-field(%FD% : on:field-definition, $ttype : on:field-owner)?";
 
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
     
-    QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
+    QueryMapper<TopicTypeIF> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForList(query, params);
   }
 
@@ -336,10 +339,10 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     return OntopolyModelUtils.findRoles(associationTypeIf, roleTypeIf, playerIf, scope);    
   }
   
-  public List getOrderedValues(Topic topic, RoleField ofield) { 
+  public List getOrderedValues(OntopolyTopicIF topic, RoleFieldIF ofield) { 
     List<ValueIF> values = getValues(topic);
     if (values.size() > 1) {
-      Map<Topic,OccurrenceIF> topics_occs = getValuesWithOrdering(topic);
+      Map<OntopolyTopicIF,OccurrenceIF> topics_occs = getValuesWithOrdering(topic);
       Collections.sort(values, new MapValueComparator(topics_occs, ofield, topic));
     }
     return values;
@@ -374,8 +377,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     }
   }
 
-  private Map<Topic,OccurrenceIF> getValuesWithOrdering(Topic topic) {
-
+  private Map<OntopolyTopicIF,OccurrenceIF> getValuesWithOrdering(OntopolyTopicIF topic) {
     TopicIF topicIf = topic.getTopicIF();   
     TopicIF typeIf = OntopolyModelUtils.getTopicIF(topic.getTopicMap(), PSI.ON, "field-value-order");
     LocatorIF datatype = DataTypes.TYPE_STRING;
@@ -393,7 +395,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
           TopicIF theme = (TopicIF)siter.next();
           if (!theme.equals(fieldDefinitionIf)) {
             // FIXME: if map already contains key, we might want to delete occ
-            topics_occs.put(new Topic(theme, topic.getTopicMap()), occ);
+            topics_occs.put(new Topic(theme, (TopicMap) topic.getTopicMap()), occ);
             break;
           }
         }
@@ -551,7 +553,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
           continue;
         if (ObjectUtils.equals(orole.getType(), ortype.getTopicIF())) {
           matched.add(orole);
-          value.addPlayer(ofield, new Topic(orole.getPlayer(), topicMap));
+          value.addPlayer(ofield, new Topic(orole.getPlayer(), (TopicMap) topicMap));
           match = true;
         }
       }

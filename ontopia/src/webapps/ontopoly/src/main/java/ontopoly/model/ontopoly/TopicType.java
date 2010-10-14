@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,7 @@ import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 import net.ontopia.utils.StringUtils;
+import net.ontopia.utils.CompactHashSet;
 
 /**
  * INTERNAL: Represents a topic type.
@@ -547,7 +547,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
 
     Map<String,TopicIF> params = Collections.singletonMap("topic", getTopicIF());
 
-    QueryMapper<Topic> qm = getTopicMap().newQueryMapper(Topic.class);
+    QueryMapper<OntopolyTopicIF> qm = getTopicMap().newQueryMapper(Topic.class);
     return qm.queryForList(query, params);
   }
 
@@ -593,15 +593,15 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     params.put("searchTerm", searchTerm);
     params.put("topicType", getTopicIF());
     
-    QueryMapper<Topic> qm = getTopicMap().newQueryMapper(Topic.class);
-    Collection<Topic> rows = qm.queryForList(query, params);
+    QueryMapper<OntopolyTopicIF> qm = getTopicMap().newQueryMapper(Topic.class);
+    Collection<OntopolyTopicIF> rows = qm.queryForList(query, params);
     
-    Iterator<Topic> it = rows.iterator();
-    List<Topic> results = new ArrayList<Topic>(rows.size());
+    Iterator<OntopolyTopicIF> it = rows.iterator();
+    List<OntopolyTopicIF> results = new ArrayList<OntopolyTopicIF>(rows.size());
     Set<OntopolyTopicIF> duplicateChecks =
       new CompactHashSet<OntopolyTopicIF>(rows.size());
     while (it.hasNext()) {
-      Topic topic = it.next();
+      OntopolyTopicIF topic = it.next();
       if (duplicateChecks.contains(topic))
         continue; // avoid duplicates
       results.add(topic);

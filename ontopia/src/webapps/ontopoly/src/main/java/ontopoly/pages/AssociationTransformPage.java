@@ -93,7 +93,7 @@ public class AssociationTransformPage extends OntopolyAbstractPage {
     AssociationTypeIF associationType = getAssociationType();
 
     // get used role type combinations
-    Collection<List<RoleType>> roleCombos = associationType.getUsedRoleTypeCombinations();
+    Collection<List<RoleTypeIF>> roleCombos = associationType.getUsedRoleTypeCombinations();
 
     // then remove the combination that is valid according to declaration
     List<RoleTypeIF> declaredRoleTypes = associationType.getDeclaredRoleTypes();
@@ -105,9 +105,9 @@ public class AssociationTransformPage extends OntopolyAbstractPage {
     roleCombos.remove(declaredRoleTypes);
     
     RepeatingView rview = new RepeatingView("combos");    
-    Iterator<List<RoleType>> citer = roleCombos.iterator();
+    Iterator<List<RoleTypeIF>> citer = roleCombos.iterator();
     while (citer.hasNext()) {
-      List<RoleType> roleTypes = citer.next();
+      List<RoleTypeIF> roleTypes = citer.next();
       if (roleTypes.size() != declaredRoleTypes.size()) {
         citer.remove();
         continue;

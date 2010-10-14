@@ -15,7 +15,7 @@ public class CreateAction extends Topic implements CreateActionIF {
    * Creates a new CreateAction object.
    */
   public CreateAction(TopicIF topic, OntopolyTopicMapIF tm) {
-    super(topic, tm);
+    super(topic, (TopicMap) tm);
   }
   
   public boolean equals(Object obj) {

@@ -8,7 +8,9 @@ import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.utils.ObjectUtils;
 
+import ontopoly.model.PSI;
 import ontopoly.model.FieldsViewIF;
+import ontopoly.model.IdentityFieldIF;
 import ontopoly.utils.OntopolyModelUtils;
 
 /**

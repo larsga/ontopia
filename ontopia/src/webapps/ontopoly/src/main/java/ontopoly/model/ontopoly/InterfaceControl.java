@@ -3,10 +3,11 @@ package ontopoly.model.ontopoly;
 
 import java.util.List;
 
+import net.ontopia.topicmaps.core.TopicIF;
+
+import ontopoly.model.PSI;
 import ontopoly.model.InterfaceControlIF;
 import ontopoly.utils.OntopolyModelUtils;
-
-import net.ontopia.topicmaps.core.TopicIF;
 
 /**
  * Represents a datatype which can be assigned to an association field.

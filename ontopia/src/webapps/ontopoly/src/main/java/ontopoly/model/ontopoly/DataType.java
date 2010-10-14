@@ -4,14 +4,16 @@ package ontopoly.model.ontopoly;
 import java.util.Collection;
 import java.util.List;
 
-import ontopoly.model.DataTypeIF;
-import ontopoly.model.OntopolyTopicMapIF;
-import ontopoly.utils.OntopolyModelUtils;
-
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.DataTypes;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
+
+import ontopoly.model.PSI;
+import ontopoly.model.DataTypeIF;
+import ontopoly.model.OntopolyTopicMapIF;
+import ontopoly.model.OntopolyModelRuntimeException;
+import ontopoly.utils.OntopolyModelUtils;
 
 /**
  * Represents a datatype which can be assigned to an occurrence type.
@@ -19,7 +21,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 public class DataType extends Topic implements DataTypeIF {
 
   public DataType(TopicIF topic, OntopolyTopicMapIF tm) {
-    super(topic, tm);
+    super(topic, (TopicMap) tm);
   }
 
   public boolean equals(Object obj) {

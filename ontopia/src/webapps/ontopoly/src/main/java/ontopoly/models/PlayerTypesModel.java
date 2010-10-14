@@ -27,8 +27,8 @@ public class PlayerTypesModel extends LoadableDetachableModel<List<TopicTypeIF>>
   protected List<TopicTypeIF> load() {
     List<TopicTypeIF> result = new ArrayList<TopicTypeIF>(); 
     RoleFieldIF roleField = roleFieldModel.getRoleField();
-    Collection<TopicType> topicTypes = roleField.getAllowedPlayerTypes(fieldInstanceModel.getFieldInstance().getInstance());
-    Iterator<TopicType> iter = topicTypes.iterator();
+    Collection<TopicTypeIF> topicTypes = roleField.getAllowedPlayerTypes(fieldInstanceModel.getFieldInstance().getInstance());
+    Iterator<TopicTypeIF> iter = topicTypes.iterator();
     while (iter.hasNext()) {
       TopicTypeIF topicType = iter.next();        
       result.add(topicType);

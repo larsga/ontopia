@@ -3,6 +3,7 @@ package ontopoly.model.ontopoly;
 
 import net.ontopia.topicmaps.core.TopicIF;
 
+import ontopoly.model.PSI;
 import ontopoly.model.EditModeIF;
 
 /**
