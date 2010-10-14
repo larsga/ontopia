@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ontopoly.model.PSI;
 import ontopoly.model.RoleTypeIF;
 import ontopoly.model.RoleFieldIF;
 import ontopoly.model.EditModeIF;
@@ -147,15 +148,17 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
   }
 
   /**
-   * Gets the other RoleField objects this object's association type topic takes part in.
+   * Gets the other RoleField objects this object's association type
+   * topic takes part in.
    * 
-   * @returns the other RoleField objects this object's association type topic takes part in.
+   * @returns the other RoleField objects this object's association
+   * type topic takes part in.
    */
-  public Collection<RoleField> getFieldsForOtherRoles() {
+  public Collection<RoleFieldIF> getFieldsForOtherRoles() {
     AssociationField afield = getAssociationField();
-    Collection<RoleField> fields = afield.getFieldsForRoles();
-		List<RoleField> ofields = new ArrayList<RoleField>(fields);
-		ofields.remove(this);
+    Collection<RoleFieldIF> fields = afield.getFieldsForRoles();
+    List<RoleFieldIF> ofields = new ArrayList<RoleFieldIF>(fields);
+    ofields.remove(this);
     return ofields;
   }
 
@@ -191,7 +194,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     return qm.queryForList(query, params);
   }
 
-  public Collection<TopicType> getAllowedPlayerTypes(Topic currentTopic) {
+  public Collection<TopicType> getAllowedPlayerTypes(OntopolyTopicIF currentTopic) {
     String query = getAllowedPlayersTypesQuery();
     if (query == null) {
       query = "subclasses-of($SUP, $SUB) :- { "
@@ -234,7 +237,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     return (occ == null ? null : occ.getValue());
   }
 
-  public Collection<Topic> getAllowedPlayers(OntopolyTopicIF currentTopic) {
+  public Collection<OntopolyTopicIF> getAllowedPlayers(OntopolyTopicIF currentTopic) {
     Collection<OntopolyTopicIF> result = new CompactHashSet<OntopolyTopicIF>();
     String query = getAllowedPlayersQuery();
     if (query != null) {
@@ -242,7 +245,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
       params.put("field", getTopicIF());
       params.put("topic", currentTopic.getTopicIF());
       
-      QueryMapper<Topic> qm = getTopicMap().newQueryMapper(Topic.class);
+      QueryMapper<OntopolyTopicIF> qm = getTopicMap().newQueryMapper(Topic.class);
       return qm.queryForList(query, params);
     
     } else {
@@ -304,7 +307,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
    * @return the instance topics on the other side of an association an instance topic takes part in.
    */
   @Override
-  public List<ValueIF> getValues(Topic topic) { 
+  public List<ValueIF> getValues(OntopolyTopicIF topic) { 
     Collection roles = getRoles(topic);
     
     List<ValueIF> result = new ArrayList<ValueIF>(roles.size());
@@ -318,8 +321,8 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     return result;
   }
 
-  private Collection getRoles(Topic topic) {
-    AssociationType atype = getAssociationType();
+  private Collection getRoles(OntopolyTopicIF topic) {
+    AssociationTypeIF atype = getAssociationType();
     if (atype == null) return Collections.EMPTY_SET;
     TopicIF associationTypeIf = atype.getTopicIF();
 
@@ -355,15 +358,16 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     }
     public int compare(ValueIF v1, ValueIF v2) {
       try {
-        Topic p1 = v1.getPlayer(ofield, oplayer);
-        Topic p2 = v2.getPlayer(ofield, oplayer);
+        OntopolyTopicIF p1 = v1.getPlayer(ofield, oplayer);
+        OntopolyTopicIF p2 = v2.getPlayer(ofield, oplayer);
         OccurrenceIF oc1 = (OccurrenceIF)entries.get(p1);
         OccurrenceIF oc2 = (OccurrenceIF)entries.get(p2);
         Comparable c1 = (oc1 == null ? DEFAULT_ORDER_VALUE : oc1.getValue());
         Comparable c2 = (oc2 == null ? DEFAULT_ORDER_VALUE : oc2.getValue());
         return ObjectUtils.compare(c1, c2);
       } catch (Exception e) {
-        // should not fail when comparing. bergen kommune has had an issue where this happens. we thus ignore for now.
+        // should not fail when comparing. bergen kommune has had an
+        // issue where this happens. we thus ignore for now. FIXME FIXME FIXME
 //        e.printStackTrace();
         return 0;
       }
@@ -410,9 +414,9 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
                        LifeCycleListenerIF listener) {
     ValueIF value = (ValueIF) _value;
     
-    AssociationType atype = getAssociationType();
+    AssociationTypeIF atype = getAssociationType();
     if (atype == null) return;
-		TopicIF atypeIf = atype.getTopicIF();
+    TopicIF atypeIf = atype.getTopicIF();
     TopicIF[] rtypes = getRoleTypes(value);
     TopicIF[] players = getPlayers(value);
     Collection<TopicIF> scope = Collections.emptySet();      
@@ -513,7 +517,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     Collection fields = roleField.getAssociationField().getFieldsForRoles();
     int fieldCount = fields.size();
 
-    TopicMap topicMap = roleField.getTopicMap();
+    OntopolyTopicMapIF topicMap = roleField.getTopicMap();
     AssociationIF assoc = role.getAssociation();
     
     // ignore roles where the arity does not match
@@ -521,8 +525,9 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     if (fieldCount != aroles.size())
       return null;
       
-		ValueIF value = createValue(fieldCount);
-    value.addPlayer(roleField, new Topic(role.getPlayer(), roleField.getTopicMap()));
+    ValueIF value = createValue(fieldCount);
+    value.addPlayer(roleField, new Topic(role.getPlayer(),
+                                         (TopicMap) roleField.getTopicMap()));
 
     Object[] roles = aroles.toArray();
     Collection<AssociationRoleIF> matched = new CompactHashSet<AssociationRoleIF>(roles.length);
@@ -657,23 +662,22 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
   }
 	
   private TopicIF[] getPlayers(ValueIF value) {
-    Topic[] players = value.getPlayers();
+    OntopolyTopicIF[] players = value.getPlayers();
     int arity = value.getArity();		
     TopicIF[] topics = new TopicIF[arity];
-    for (int i=0; i < arity; i++) {
+    for (int i=0; i < arity; i++)
       topics[i] = players[i].getTopicIF();
-    }
     return topics;
   }
 
-  private Collection<Topic> getValues(OntopolyTopicIF instance,
-                                      RoleFieldIF ofield) {
+  private Collection<OntopolyTopicIF> getValues(OntopolyTopicIF instance,
+                                                RoleFieldIF ofield) {
     Collection<ValueIF> values = getValues(instance);
-    Collection<Topic> result = new CompactHashSet<OntopolyTopicIF>(values.size());
+    Collection<OntopolyTopicIF> result = new CompactHashSet<OntopolyTopicIF>(values.size());
     Iterator<ValueIF> iter = values.iterator();
     while (iter.hasNext()) {
       ValueIF rfv = iter.next();
-      Topic player = rfv.getPlayer(ofield, instance);
+      OntopolyTopicIF player = rfv.getPlayer(ofield, instance);
       result.add(player);
     }
     return result;
@@ -687,8 +691,8 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
                         RoleFieldIF ofield,
                         RoleFieldIF.ValueIF rfv1,
                         RoleFieldIF.ValueIF rfv2) {
-    Topic p1 = rfv1.getPlayer(ofield, instance);
-    Topic p2 = rfv2.getPlayer(ofield, instance);
+    OntopolyTopicIF p1 = rfv1.getPlayer(ofield, instance);
+    OntopolyTopicIF p2 = rfv2.getPlayer(ofield, instance);
 
     TopicIF typeIf = OntopolyModelUtils.getTopicIF(instance.getTopicMap(), PSI.ON, "field-value-order");
     LocatorIF datatype = DataTypes.TYPE_STRING;

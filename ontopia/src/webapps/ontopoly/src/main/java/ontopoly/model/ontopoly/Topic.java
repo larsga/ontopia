@@ -71,7 +71,7 @@ public class Topic implements OntopolyTopicIF {
    * 
    * @return the topicMap this topic belongs to. 
    */  
-  public TopicMap getTopicMap() {
+  public OntopolyTopicMapIF getTopicMap() {
     return tm;
   }
 
@@ -304,6 +304,10 @@ public class Topic implements OntopolyTopicIF {
     return fieldInstances;
   }
 
+  public FieldInstanceIF getFieldInstance(FieldAssignmentIF fieldAssignment) {
+    throw new OntopiaRuntimeException("NOT IMPLEMENTED!");
+  }
+
   /**
    * Removes the topic from the topic map.
    * @param listener listener that gets call back from the deleting
@@ -314,8 +318,8 @@ public class Topic implements OntopolyTopicIF {
     topicIF.remove();
   }
 
-  public Collection<Topic> getDependentObjects() {
-    Collection<Topic> result = new CompactHashSet<Topic>();
+  public Collection<OntopolyTopicIF> getDependentObjects() {
+    Collection<OntopolyTopicIF> result = new CompactHashSet<OntopolyTopicIF>();
     findDependentObjects(result);
     return result;
   }
@@ -327,8 +331,8 @@ public class Topic implements OntopolyTopicIF {
    * role field that has on:create-only-mode enabled. The dependencies
    * are transitive.
    */
-  protected void findDependentObjects(Collection<Topic> alreadyKnownDependentObjects) {
-    Collection<Topic> newPlayers = new CompactHashSet<Topic>();
+  protected void findDependentObjects(Collection<OntopolyTopicIF> alreadyKnownDependentObjects) {
+    Collection<OntopolyTopicIF> newPlayers = new CompactHashSet<OntopolyTopicIF>();
     Iterator titer = getTopicTypes().iterator();
     while (titer.hasNext()) {
       TopicType topicType = (TopicType)titer.next();
@@ -389,7 +393,7 @@ public class Topic implements OntopolyTopicIF {
 
   private static final TypeHierarchyUtils thutils = new TypeHierarchyUtils();
   
-  public boolean isInstanceOf(Topic type) {
+  public boolean isInstanceOf(OntopolyTopicIF type) {
     return thutils.isInstanceOf(getTopicIF(), type.getTopicIF());
   }
   

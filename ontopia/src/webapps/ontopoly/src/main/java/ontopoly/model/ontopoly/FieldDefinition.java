@@ -28,11 +28,6 @@ import net.ontopia.utils.CollectionUtils;
  */
 public abstract class FieldDefinition extends Topic
   implements FieldDefinitionIF {
-  public static final int FIELD_TYPE_ROLE = 1;
-  public static final int FIELD_TYPE_OCCURRENCE = 2;
-  public static final int FIELD_TYPE_NAME = 4;
-  public static final int FIELD_TYPE_IDENTITY = 8;
-  public static final int FIELD_TYPE_QUERY = 16;
 
   private Cardinality cachedCardinality;
 
@@ -173,14 +168,6 @@ public abstract class FieldDefinition extends Topic
     QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForList(query, params);
   }
-
-  public abstract Collection getValues(OntopolyTopicIF topic);
-
-  public abstract void addValue(FieldInstanceIF fieldInstance, Object _value,
-                                LifeCycleListenerIF listener);
-
-  public abstract void removeValue(FieldInstance fieldInstance, Object _value,
-                                   LifeCycleListenerIF listener);
   
   public boolean equals(Object obj) {
     if (!(obj instanceof FieldDefinition))

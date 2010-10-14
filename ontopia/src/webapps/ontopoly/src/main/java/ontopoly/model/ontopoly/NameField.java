@@ -12,6 +12,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.utils.CollectionUtils;
 
+import ontopoly.model.PSI;
 import ontopoly.model.NameTypeIF;
 import ontopoly.model.NameFieldIF;
 import ontopoly.model.FieldInstanceIF;
@@ -76,10 +77,11 @@ public class NameField extends FieldDefinition implements NameFieldIF {
    * @return a collection of TopicNameIFs.
    */
   @Override
-  public Collection getValues(Topic topic) {
+  public Collection getValues(OntopolyTopicIF topic) {
     TopicIF topicIf = topic.getTopicIF();
-    NameType ntype = getNameType();
-    if (ntype == null) return Collections.EMPTY_SET;
+    NameTypeIF ntype = getNameType();
+    if (ntype == null)
+      return Collections.EMPTY_SET;
     TopicIF typeIf = ntype.getTopicIF();
 		
     Collection<TopicIF> scope = Collections.emptySet();
@@ -100,8 +102,9 @@ public class NameField extends FieldDefinition implements NameFieldIF {
                        Object _value, LifeCycleListenerIF listener) {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (String) _value;
-    NameType ntype = getNameType();
-    if (ntype == null) return;
+    NameTypeIF ntype = getNameType();
+    if (ntype == null)
+      return;
     TopicIF typeIf = ntype.getTopicIF();
    
     Collection<TopicIF> scope = Collections.emptySet();
@@ -137,8 +140,9 @@ public class NameField extends FieldDefinition implements NameFieldIF {
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (_value instanceof TopicNameIF ? ((TopicNameIF) _value)
         .getValue() : (String) _value);
-    NameType ntype = getNameType();
-    if (ntype == null) return;
+    NameTypeIF ntype = getNameType();
+    if (ntype == null)
+      return;
     TopicIF typeIf = ntype.getTopicIF();
 
     listener.onBeforeRemove(fieldInstance, value);

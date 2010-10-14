@@ -10,6 +10,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.PSI;
 import ontopoly.model.IdentityTypeIF;
 import ontopoly.model.IdentityFieldIF;
 
@@ -44,9 +45,9 @@ public class IdentityType extends AbstractTypingTopic
     String query = "select $FD from on:has-identity-type(%TYPE% : on:identity-type, $FD : on:identity-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("TYPE", getTopicIF());
 
-    QueryMapper<IdentityField> qm = getTopicMap().newQueryMapper(IdentityField.class);    
+    QueryMapper<IdentityFieldIF> qm = getTopicMap().newQueryMapper(IdentityField.class);    
     return qm.queryForList(query,
-        new RowMapperIF<IdentityField>() {
+        new RowMapperIF<IdentityFieldIF>() {
           public IdentityField mapRow(QueryResultIF result, int rowno) {
             TopicIF fieldTopic = (TopicIF)result.getValue(0);
             return new IdentityField(fieldTopic, getTopicMap(), new IdentityType(getTopicIF(), getTopicMap()));

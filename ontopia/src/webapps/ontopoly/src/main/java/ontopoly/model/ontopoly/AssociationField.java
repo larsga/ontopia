@@ -8,18 +8,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.ontopia.topicmaps.core.TopicIF;
+import net.ontopia.topicmaps.query.core.QueryResultIF;
+import net.ontopia.topicmaps.query.utils.RowMapperIF;
+import net.ontopia.utils.CollectionUtils;
+import net.ontopia.utils.ObjectUtils;
+
+import ontopoly.model.PSI;
 import ontopoly.model.RoleFieldIF;
 import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.AssociationFieldIF;
 import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.utils.OntopolyModelUtils;
-
-import net.ontopia.topicmaps.core.TopicIF;
-import net.ontopia.topicmaps.query.core.QueryResultIF;
-import net.ontopia.topicmaps.query.utils.RowMapperIF;
-import net.ontopia.utils.CollectionUtils;
-import net.ontopia.utils.ObjectUtils;
 
 /**
  * Represents an association field.
@@ -29,12 +30,12 @@ public class AssociationField extends Topic implements AssociationFieldIF {
   private List<RoleFieldIF> cachedFieldsForRoles;
 
   public AssociationField(TopicIF topic, OntopolyTopicMapIF tm) {
-    super(topic, tm);
+    super(topic, (TopicMap) tm);
   }
 
   public AssociationField(TopicIF topic, OntopolyTopicMapIF tm,
                           AssociationTypeIF associationType) {
-    super(topic, tm);
+    super(topic, (TopicMap) tm);
     this.cachedAssociationType = associationType;
   }
 
@@ -90,7 +91,7 @@ public class AssociationField extends Topic implements AssociationFieldIF {
     QueryMapper<RoleFieldIF> qm = getTopicMap().newQueryMapper(RoleFieldIF.class);
     
     List<RoleFieldIF> roleFields = qm.queryForList(query,
-        new RowMapperIF<RoleField>() {
+        new RowMapperIF<RoleFieldIF>() {
           public RoleFieldIF mapRow(QueryResultIF result, int rowno) {
             TopicIF roleFieldTopic = (TopicIF)result.getValue(0);
             return new RoleField(roleFieldTopic, getTopicMap());

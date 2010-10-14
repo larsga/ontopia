@@ -10,6 +10,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.PSI;
 import ontopoly.model.OccurrenceTypeIF;
 import ontopoly.model.OccurrenceFieldIF;
 
@@ -44,9 +45,9 @@ public class OccurrenceType extends AbstractTypingTopic
     String query = "select $FD from on:has-occurrence-type(%OT% : on:occurrence-type, $FD : on:occurrence-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("OT", getTopicIF());
 
-    QueryMapper<OccurrenceField> qm = getTopicMap().newQueryMapper(OccurrenceField.class);
+    QueryMapper<OccurrenceFieldIF> qm = getTopicMap().newQueryMapper(OccurrenceField.class);
     return qm.queryForList(query,
-        new RowMapperIF<OccurrenceField>() {
+        new RowMapperIF<OccurrenceFieldIF>() {
           public OccurrenceField mapRow(QueryResultIF result, int rowno) {
               TopicIF fieldTopic = (TopicIF)result.getValue(0);
               return new OccurrenceField(fieldTopic, getTopicMap(), new OccurrenceType(getTopicIF(), getTopicMap()));

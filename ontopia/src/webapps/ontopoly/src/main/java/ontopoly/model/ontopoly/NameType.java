@@ -10,6 +10,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.RowMapperIF;
 
+import ontopoly.model.PSI;
 import ontopoly.model.NameTypeIF;
 import ontopoly.model.NameFieldIF;
 
@@ -50,9 +51,9 @@ public class NameType extends AbstractTypingTopic implements NameTypeIF {
     String query = "select $FD from on:has-name-type(%TYPE% : on:name-type, $FD : on:name-field)?";
     Map<String,TopicIF> params = Collections.singletonMap("TYPE", getTopicIF());
 
-    QueryMapper<NameField> qm = getTopicMap().newQueryMapper(NameField.class);    
+    QueryMapper<NameFieldIF> qm = getTopicMap().newQueryMapper(NameField.class);    
     return qm.queryForList(query,
-        new RowMapperIF<NameField>() {
+        new RowMapperIF<NameFieldIF>() {
           public NameField mapRow(QueryResultIF result, int rowno) {
             TopicIF fieldTopic = (TopicIF)result.getValue(0);
             return new NameField(fieldTopic, getTopicMap(), new NameType(getTopicIF(), getTopicMap()));

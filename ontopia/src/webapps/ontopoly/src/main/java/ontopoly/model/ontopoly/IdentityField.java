@@ -13,6 +13,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.utils.CollectionUtils;
 
+import ontopoly.model.PSI;
 import ontopoly.model.IdentityTypeIF;
 import ontopoly.model.IdentityFieldIF;
 import ontopoly.model.FieldInstanceIF;
@@ -115,7 +116,7 @@ public class IdentityField extends FieldDefinition implements IdentityFieldIF {
    * @return A collection of LocatorIF objects.
    */
   @Override
-  public Collection getValues(Topic topic) {
+  public Collection getValues(OntopolyTopicIF topic) {
     TopicIF topicIf = topic.getTopicIF();
     if (isSubjectLocator())
       return topicIf.getSubjectLocators();
