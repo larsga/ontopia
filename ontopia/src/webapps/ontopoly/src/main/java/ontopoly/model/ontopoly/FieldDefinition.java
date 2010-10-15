@@ -14,6 +14,7 @@ import ontopoly.model.CardinalityIF;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.FieldDefinitionIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;
 
@@ -28,8 +29,7 @@ import net.ontopia.utils.CollectionUtils;
  */
 public abstract class FieldDefinition extends Topic
   implements FieldDefinitionIF {
-
-  private Cardinality cachedCardinality;
+  private CardinalityIF cachedCardinality;
 
   protected FieldDefinition(TopicIF topic, TopicMap tm) {
     super(topic, tm);
@@ -46,7 +46,7 @@ public abstract class FieldDefinition extends Topic
   public abstract String getFieldName();
 
   public boolean isReadOnly(FieldsViewIF view) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player1 = getTopicIF();
@@ -58,7 +58,7 @@ public abstract class FieldDefinition extends Topic
   }
 
   public boolean isHidden(FieldsViewIF view) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player1 = getTopicIF();
@@ -70,7 +70,7 @@ public abstract class FieldDefinition extends Topic
   }
 
   public boolean isNotTraversable(FieldsViewIF view) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player1 = getTopicIF();
@@ -82,7 +82,7 @@ public abstract class FieldDefinition extends Topic
   }
 
   public boolean isEmbedded(FieldsViewIF view) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-view-mode");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player1 = getTopicIF();
@@ -93,8 +93,8 @@ public abstract class FieldDefinition extends Topic
     return players.contains(OntopolyModelUtils.getTopicIF(tm, PSI.ON, "view-mode-embedded"));
   }
 
-  public FieldsView getValueView(FieldsViewIF view) {
-    TopicMap tm = getTopicMap();
+  public FieldsViewIF getValueView(FieldsViewIF view) {
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "use-value-view");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player1 = getTopicIF();
@@ -118,7 +118,8 @@ public abstract class FieldDefinition extends Topic
    * Returns the cardinality of the field on this topic type.
    */
   public CardinalityIF getCardinality() {
-    if (cachedCardinality != null) return cachedCardinality;
+    if (cachedCardinality != null)
+      return cachedCardinality;
 
     String query = 
       "select $C from on:has-cardinality(%FD% : on:field-definition, $C : on:cardinality) limit 1?";
@@ -138,7 +139,7 @@ public abstract class FieldDefinition extends Topic
    */
   public void setCardinality(CardinalityIF cardinality) {
     // NOTE: used by FieldsEditor
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
     TopicIF type2 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF type3 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "cardinality");

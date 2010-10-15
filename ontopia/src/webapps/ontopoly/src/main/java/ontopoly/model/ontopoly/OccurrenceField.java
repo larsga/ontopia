@@ -12,6 +12,7 @@ import ontopoly.model.FieldInstanceIF;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.OccurrenceTypeIF;
 import ontopoly.model.OccurrenceFieldIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.LifeCycleListenerIF;
 import ontopoly.utils.OntopolyModelUtils;
 
@@ -63,14 +64,14 @@ public class OccurrenceField extends FieldDefinition
    */
   public OccurrenceTypeIF getOccurrenceType() {
     if (occurrenceType == null) {
-      TopicMap tm = getTopicMap();
+      OntopolyTopicMapIF tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-occurrence-type");
       TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "occurrence-field");
       TopicIF player1 = getTopicIF();
       TopicIF rType2 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "occurrence-type");
       Collection players = OntopolyModelUtils.findBinaryPlayers(tm, aType, player1, rType1, rType2);
       TopicIF occurrenceTypeIf = (TopicIF)CollectionUtils.getFirst(players);
-      this.occurrenceType = (occurrenceTypeIf == null ? null : new OccurrenceType(occurrenceTypeIf, getTopicMap()));      
+      this.occurrenceType = (occurrenceTypeIf == null ? null : new OccurrenceType(occurrenceTypeIf, (TopicMap) getTopicMap()));      
     }
     return occurrenceType;
   }
@@ -85,7 +86,7 @@ public class OccurrenceField extends FieldDefinition
     QueryMapper<TopicIF> qm = getTopicMap().newQueryMapperNoWrap();
     
     TopicIF dataType = qm.queryForObject(query, params);
-    return dataType == null ? DataType.getDefaultDataType(getTopicMap()) : new DataType(dataType, getTopicMap());
+    return dataType == null ? DataType.getDefaultDataType((TopicMap) getTopicMap()) : new DataType(dataType, getTopicMap());
   }
 
   /**
@@ -109,7 +110,7 @@ public class OccurrenceField extends FieldDefinition
   @Override
   public Collection getValues(OntopolyTopicIF topic) {
     TopicIF topicIf = topic.getTopicIF();
-    OccurrenceType otype = getOccurrenceType();
+    OccurrenceTypeIF otype = getOccurrenceType();
     if (otype == null) return Collections.EMPTY_SET;
 		TopicIF typeIf = otype.getTopicIF();
     // FIXME: need to figure out how to do datatypes properly
@@ -127,9 +128,9 @@ public class OccurrenceField extends FieldDefinition
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (String) _value;
     LocatorIF datatype = getDataType().getLocator();
-    OccurrenceType otype = getOccurrenceType();
+    OccurrenceTypeIF otype = getOccurrenceType();
     if (otype == null) return;
-		TopicIF typeIf = otype.getTopicIF();
+    TopicIF typeIf = otype.getTopicIF();
 		
     // HACK: we're ignoring the datatype when looking up existing ones
     // Collection occs = OntopolyModelUtils.findOccurrences(getTopicIF(),
@@ -158,10 +159,10 @@ public class OccurrenceField extends FieldDefinition
     TopicIF topicIf = fieldInstance.getInstance().getTopicIF();
     String value = (_value instanceof OccurrenceIF ? ((OccurrenceIF) _value)
         .getValue() : (String) _value);
-//    LocatorIF datatype = getDataType().getLocator();
-    OccurrenceType otype = getOccurrenceType();
+
+    OccurrenceTypeIF otype = getOccurrenceType();
     if (otype == null) return;
-		TopicIF typeIf = otype.getTopicIF();
+    TopicIF typeIf = otype.getTopicIF();
 
     listener.onBeforeRemove(fieldInstance, value);
 		

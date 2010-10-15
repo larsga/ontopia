@@ -13,8 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 import ontopoly.model.PSI;
+import ontopoly.model.NameTypeIF;
+import ontopoly.model.RoleTypeIF;
+import ontopoly.model.RoleFieldIF;
+import ontopoly.model.NameFieldIF;
 import ontopoly.model.TopicTypeIF;
+import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.IdentityFieldIF;
 import ontopoly.model.OccurrenceTypeIF;
+import ontopoly.model.OccurrenceFieldIF;
+import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.OntopolyModelRuntimeException;
 import ontopoly.sysmodel.OntopolyRepository;
@@ -296,24 +304,24 @@ public class TopicMap implements OntopolyTopicMapIF {
     return qm.queryForList(query);
   }
 
-  public List<OccurrenceField> getOccurrenceFields() {
+  public List<OccurrenceFieldIF> getOccurrenceFields() {
     String query = "select $field from direct-instance-of($field, on:occurrence-field) order by $field?";
 
-    QueryMapper<OccurrenceField> qm = newQueryMapper(OccurrenceField.class);
+    QueryMapper<OccurrenceFieldIF> qm = newQueryMapper(OccurrenceField.class);
     return qm.queryForList(query);
   }
 
-  public List<AssociationType> getAssociationTypes() {
+  public List<AssociationTypeIF> getAssociationTypes() {
     String query = "select $type from "
       + "instance-of($type, on:association-type)"
       //! + ", not(instance-of($type, on:system-topic))" 
       + " order by $type?";
 
-    QueryMapper<AssociationType> qm = newQueryMapper(AssociationType.class);
+    QueryMapper<AssociationTypeIF> qm = newQueryMapper(AssociationType.class);
     return qm.queryForList(query);
   }
 
-  public List<RoleType> getRoleTypes(boolean includeSystemTopics) {
+  public List<RoleTypeIF> getRoleTypes(boolean includeSystemTopics) {
     String query = "";
     if (includeSystemTopics)
       query = "select $type from direct-instance-of($type, on:role-type) order by $type?";
@@ -323,42 +331,42 @@ public class TopicMap implements OntopolyTopicMapIF {
         + ", not(instance-of($type, on:system-topic))"
         + " order by $type?";
 
-    QueryMapper<RoleType> qm = newQueryMapper(RoleType.class);
+    QueryMapper<RoleTypeIF> qm = newQueryMapper(RoleType.class);
     return qm.queryForList(query);
   }
 
-  public List<RoleField> getRoleFields() {
+  public List<RoleFieldIF> getRoleFields() {
     String query = "select $field from direct-instance-of($field, on:role-field) order by $field?";
 
-    QueryMapper<RoleField> qm = newQueryMapper(RoleField.class);
+    QueryMapper<RoleFieldIF> qm = newQueryMapper(RoleField.class);
     return qm.queryForList(query);
   }
 
-  public List<NameType> getNameTypes() {
+  public List<NameTypeIF> getNameTypes() {
     String query = "select $type from direct-instance-of($type, on:name-type) order by $type?";
 
-    QueryMapper<NameType> qm = newQueryMapper(NameType.class);
+    QueryMapper<NameTypeIF> qm = newQueryMapper(NameType.class);
     return qm.queryForList(query);
   }
 
-  public List<NameField> getNameFields() {
+  public List<NameFieldIF> getNameFields() {
     String query = "select $field from direct-instance-of($field, on:name-field) order by $field?";
 
-    QueryMapper<NameField> qm = newQueryMapper(NameField.class);
+    QueryMapper<NameFieldIF> qm = newQueryMapper(NameField.class);
     return qm.queryForList(query);
   }
 
-  public List<IdentityType> getIdentityTypes() {
+  public List<IdentityTypeIF> getIdentityTypes() {
     String query = "select $type from instance-of($type, on:identity-type) order by $type?";
 
-    QueryMapper<IdentityType> qm = newQueryMapper(IdentityType.class);
+    QueryMapper<IdentityTypeIF> qm = newQueryMapper(IdentityType.class);
     return qm.queryForList(query);
   }
 
-  public List<IdentityField> getIdentityFields() {
+  public List<IdentityFieldIF> getIdentityFields() {
     String query = "select $field from instance-of($field, on:identity-field) order by $field?";
 
-    QueryMapper<IdentityField> qm = newQueryMapper(IdentityField.class);
+    QueryMapper<IdentityFieldIF> qm = newQueryMapper(IdentityField.class);
     return qm.queryForList(query);
   }
 
@@ -584,7 +592,7 @@ public class TopicMap implements OntopolyTopicMapIF {
    * 
    * @return a collection of Topic objects
    */
-  public List<Topic> searchAll(String searchTerm) {
+  public List<OntopolyTopicIF> searchAll(String searchTerm) {
     String query = "select $topic, $score from "
         + "topic-name($topic, $tn), value-like($tn, %searchTerm%, $score) "
         + "order by $score desc, $topic?";
@@ -592,11 +600,11 @@ public class TopicMap implements OntopolyTopicMapIF {
     Map<String,String> params = new HashMap<String,String>();
     params.put("searchTerm", searchTerm);
 
-    QueryMapper<Topic> qm = newQueryMapperNoWrap();
+    QueryMapper<OntopolyTopicIF> qm = newQueryMapperNoWrap();
     List rows = qm.queryForList(query, params);
 
     Iterator it = rows.iterator();
-    List<Topic> results = new ArrayList<Topic>(rows.size());
+    List<OntopolyTopicIF> results = new ArrayList<OntopolyTopicIF>(rows.size());
     Collection<TopicIF> duplicateChecks = new HashSet<TopicIF>(rows.size());
     while (it.hasNext()) {
       TopicIF topic = (TopicIF) it.next();

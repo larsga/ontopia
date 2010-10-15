@@ -82,7 +82,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
   }
 
   public boolean isSortable() {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "is-sortable-field");
     TopicIF rType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     TopicIF player = getTopicIF();
@@ -119,12 +119,10 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
 
   /**
    * Gets the role type.
-   * 
-   * @Return the role type.
    */
-  public RoleType getRoleType() {
+  public RoleTypeIF getRoleType() {
     if (roleType == null) {
-      TopicMap tm = getTopicMap();
+      OntopolyTopicMapIF tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-role-type");
       TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "role-field");
       TopicIF player1 = getTopicIF();
@@ -132,20 +130,20 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
       Collection players = OntopolyModelUtils.findBinaryPlayers(tm, aType, player1, rType1, rType2);
       TopicIF roleType = (TopicIF)CollectionUtils.getFirst(players);
       return (roleType == null ? null : new RoleType(roleType, getTopicMap()));      
-		}
+    }
     return roleType;
   }
 
-  public AssociationField getAssociationField() {
+  public AssociationFieldIF getAssociationField() {
     if (associationField == null) {
-			String query = "select $AF from on:has-association-field(%RF% : on:role-field, $AF : on:association-field)?";
-			Map<String,TopicIF> params = Collections.singletonMap("RF", getTopicIF());
-			
-			QueryMapper<TopicIF> qm = getTopicMap().newQueryMapperNoWrap();	    
-			TopicIF afield = qm.queryForObject(query, params);
-			
-			this.associationField = new AssociationField(afield, getTopicMap());
-		}
+      String query = "select $AF from on:has-association-field(%RF% : on:role-field, $AF : on:association-field)?";
+      Map<String,TopicIF> params = Collections.singletonMap("RF", getTopicIF());
+      
+      QueryMapper<TopicIF> qm = getTopicMap().newQueryMapperNoWrap();	    
+      TopicIF afield = qm.queryForObject(query, params);
+      
+      this.associationField = new AssociationField(afield, getTopicMap());
+    }
     return associationField;
   }
 
@@ -170,15 +168,15 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
    * 
    * @return the interface control assigned to this association field. 
    */
-  public InterfaceControl getInterfaceControl() {
+  public InterfaceControlIF getInterfaceControl() {
     String query = "on:use-interface-control(%FD% : on:field-definition, $IC : on:interface-control)?";
 
     Map<String,TopicIF> params = Collections.singletonMap("FD", getTopicIF());
     
     QueryMapper<TopicIF> qm = getTopicMap().newQueryMapperNoWrap();         
-		TopicIF interfaceControl = qm.queryForObject(query, params);
+    TopicIF interfaceControl = qm.queryForObject(query, params);
 		
-		return interfaceControl == null ? InterfaceControl.getDefaultInterfaceControl(getTopicMap()) : new InterfaceControl(interfaceControl, getTopicMap());
+    return interfaceControl == null ? InterfaceControl.getDefaultInterfaceControl(getTopicMap()) : new InterfaceControl(interfaceControl, getTopicMap());
   }
 
   /**
@@ -197,7 +195,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
     return qm.queryForList(query, params);
   }
 
-  public Collection<TopicType> getAllowedPlayerTypes(OntopolyTopicIF currentTopic) {
+  public Collection<TopicTypeIF> getAllowedPlayerTypes(OntopolyTopicIF currentTopic) {
     String query = getAllowedPlayersTypesQuery();
     if (query == null) {
       query = "subclasses-of($SUP, $SUB) :- { "
@@ -263,13 +261,13 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
   }
 
   /**
-   * Search for the topics that match the given search term. Only topics of allowed
-   * player types are returned.
+   * Search for the topics that match the given search term. Only
+   * topics of allowed player types are returned.
    * 
    * @param searchTerm the search term used to search for topics.
    * @return a collection of Topic objects
    */
-  public List<Topic> searchAllowedPlayers(String searchTerm) {
+  public List<OntopolyTopicIF> searchAllowedPlayers(String searchTerm) {
     try {
       String query = getAllowedPlayersSearchQuery();
       if (query == null)
@@ -287,7 +285,7 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
       Collection<TopicIF> rows = qm.queryForList(query, params);
   
       Iterator it = rows.iterator();
-      List<Topic> results = new ArrayList<Topic>(rows.size());
+      List<OntopolyTopicIF> results = new ArrayList<OntopolyTopicIF>(rows.size());
       Collection<TopicIF> duplicateChecks = new CompactHashSet<TopicIF>(rows.size());
   
       while (it.hasNext()) {
@@ -299,15 +297,18 @@ public class RoleField extends FieldDefinition implements RoleFieldIF {
       } 
       return results;
     } catch (Exception e) {
+      // FIXME: what is up with all these exception sinks?
       return Collections.emptyList();
     }
   }
 
   /**
-   * Gets the instance topics on the other side of an association an instance topic takes part in.
+   * Gets the instance topics on the other side of an association an
+   * instance topic takes part in.
    * 
    * @param topic the instance topic that takes part in the association.
-   * @return the instance topics on the other side of an association an instance topic takes part in.
+   * @return the instance topics on the other side of an association
+   * an instance topic takes part in.
    */
   @Override
   public List<ValueIF> getValues(OntopolyTopicIF topic) { 

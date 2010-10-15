@@ -8,6 +8,7 @@ import java.util.Map;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
+import ontopoly.model.PSI;
 import ontopoly.model.RoleTypeIF;
 import ontopoly.model.RoleFieldIF;
 

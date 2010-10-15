@@ -16,6 +16,7 @@ import ontopoly.model.PSI;
 import ontopoly.model.NameTypeIF;
 import ontopoly.model.NameFieldIF;
 import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.LifeCycleListenerIF;
 
 /**
@@ -57,14 +58,14 @@ public class NameField extends FieldDefinition implements NameFieldIF {
    */
   public NameTypeIF getNameType() {
     if (nameType == null) {
-      TopicMap tm = getTopicMap();
+      OntopolyTopicMapIF tm = getTopicMap();
       TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-name-type");
       TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "name-field");
       TopicIF player1 = getTopicIF();
       TopicIF rType2 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "name-type");
       Collection players = OntopolyModelUtils.findBinaryPlayers(tm, aType, player1, rType1, rType2);
       TopicIF nameTypeIf = (TopicIF)CollectionUtils.getFirst(players);
-      this.nameType = (nameTypeIf == null ? null : new NameType(nameTypeIf, getTopicMap()));      
+      this.nameType = (nameTypeIf == null ? null : new NameType(nameTypeIf, (TopicMap) getTopicMap()));      
     }
     return nameType;
   }

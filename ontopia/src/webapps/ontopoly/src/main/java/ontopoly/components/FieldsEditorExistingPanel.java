@@ -158,7 +158,7 @@ public abstract class FieldsEditorExistingPanel extends Panel {
             return new Label(id, new ResourceModel("FieldsEditorExistingPanel.valuetype.many")).add(new SimpleAttributeModifier("title", getAllowedPlayerNames(rf))).add(new SimpleAttributeModifier("class", "italic"));
           }   
         } else { // binary
-          Iterator<RoleField> it = fields.iterator();
+          Iterator<RoleFieldIF> it = fields.iterator();
           while (it.hasNext()) {
             RoleFieldIF rf2 = it.next();
             if (!rf.equals(rf2)) { // the other association field
@@ -210,9 +210,9 @@ public abstract class FieldsEditorExistingPanel extends Panel {
     
     AssociationTypeIF at = af.getAssociationType();
     AssociationFieldIF afield = at.getTopicMap().getAssociationField(at);
-    Iterator<RoleField> it = afield.getFieldsForRoles().iterator();
+    Iterator<RoleFieldIF> it = afield.getFieldsForRoles().iterator();
     while(it.hasNext()) {
-      RoleFieldIF af2 = (RoleFieldIF) it.next();
+      RoleFieldIF af2 = it.next();
       if(!af.equals(af2)) { // one of the other association fields
           Iterator<TopicTypeIF> it2 =  af2.getDeclaredPlayerTypes().iterator();         
           while(it2.hasNext()) {

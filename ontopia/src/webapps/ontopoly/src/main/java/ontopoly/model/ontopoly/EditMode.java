@@ -45,7 +45,7 @@ public class EditMode extends Topic implements EditModeIF {
   /**
    * Returns the default edit mode (normal)
    */
-  public static EditMode getDefaultEditMode(TopicMap tm) {
+  public static EditMode getDefaultEditMode(OntopolyTopicIF tm) {
     return new EditMode(tm.getTopicMapIF().getTopicBySubjectIdentifier(PSI.ON_EDIT_MODE_NORMAL), tm);
   }
 

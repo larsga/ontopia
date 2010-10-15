@@ -12,6 +12,7 @@ import java.util.Map;
 import ontopoly.model.PSI;
 import ontopoly.model.TopicTypeIF;
 import ontopoly.model.FieldInstanceIF;
+import ontopoly.model.FieldAssignmentIF;
 import ontopoly.model.OntopolyTopicIF;
 import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.LifeCycleListenerIF;
@@ -244,7 +245,7 @@ public class Topic implements OntopolyTopicIF {
     params.put("topic", getTopicIF());
     params.put("topicType", topicType.getTopicIF());
 
-    QueryMapper<TopicType> qm = getTopicMap().newQueryMapper(TopicType.class);
+    QueryMapper<TopicTypeIF> qm = getTopicMap().newQueryMapper(TopicType.class);
     return qm.queryForObject(query, params);    
   }
 
@@ -257,7 +258,7 @@ public class Topic implements OntopolyTopicIF {
     int size = topicTypes.size();
     if (size == 0)
       return Collections.emptyList();
-    List<TopicType> result = new ArrayList<TopicType>(size);
+    List<TopicTypeIF> result = new ArrayList<TopicTypeIF>(size);
     TopicIF topicTypeTopic = topicIF.getTopicMap().getTopicBySubjectIdentifier(PSI.ON_TOPIC_TYPE);
     Iterator iter = topicTypes.iterator();
     while (iter.hasNext()) {
@@ -343,11 +344,11 @@ public class Topic implements OntopolyTopicIF {
       List fieldAssignments = topicType.getFieldAssignments();
       Iterator fiter = fieldAssignments.iterator();
       while (fiter.hasNext()) {
-        FieldAssignment fieldAssignment = (FieldAssignment)fiter.next();
-        FieldDefinition fieldDefinition = fieldAssignment.getFieldDefinition();
+        FieldAssignmentIF fieldAssignment = (FieldAssignmentIF)fiter.next();
+        FieldDefinitionIF fieldDefinition = fieldAssignment.getFieldDefinition();
         if (fieldDefinition.getFieldType() != FieldDefinition.FIELD_TYPE_ROLE)
           continue;
-        RoleField roleField = (RoleField)fieldDefinition;
+        RoleFieldIF roleField = (RoleFieldIF) fieldDefinition;
         if (roleField.getEditMode().isOwnedValues()) {
           // field contains dependent objects
           Collection otherFields = roleField.getFieldsForOtherRoles();
@@ -356,7 +357,7 @@ public class Topic implements OntopolyTopicIF {
           Collection values = roleField.getValues(this);
           Iterator viter = values.iterator();
           while (viter.hasNext()) {
-            RoleField.ValueIF value = (RoleField.ValueIF)viter.next();
+            RoleFieldIF.ValueIF value = (RoleFieldIF.ValueIF)viter.next();
             Topic oplayer = value.getPlayer(ofield, this);
             // track newly found objects
             if (!alreadyKnownDependentObjects.contains(oplayer))
@@ -392,7 +393,8 @@ public class Topic implements OntopolyTopicIF {
   }
 
   public OntopolyTopicIF copyCharacteristics() {
-    return new Topic(CopyUtils.copyCharacteristics(getTopicIF()), getTopicMap());
+    return new Topic(CopyUtils.copyCharacteristics(getTopicIF()),
+                     (TopicMap) getTopicMap());
   }
 
   private static final TypeHierarchyUtils thutils = new TypeHierarchyUtils();

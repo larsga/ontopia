@@ -200,7 +200,7 @@ public abstract class ModalFindPage<T> extends Panel {
 
     final WebMarkupContainer unsuccessfulSearchContainer = new WebMarkupContainer("unsuccessfulSearchContainer") {
       public boolean isVisible() {
-        return !searchTermField.getDefaultModelObjectAsString().equals("") && ((List<Topic>)results.getObject()).isEmpty() ? true : false;      
+        return !searchTermField.getDefaultModelObjectAsString().equals("") && ((List<OntopolyTopicIF>)results.getObject()).isEmpty() ? true : false;      
       }
     };
     unsuccessfulSearchContainer.setOutputMarkupPlaceholderTag(true);
@@ -290,8 +290,8 @@ public abstract class ModalFindPage<T> extends Panel {
         RoleFieldIF otherField = (RoleFieldIF)associationField.getFieldsForOtherRoles().iterator().next();
         OntopolyTopicMapIF tm = associationField.getTopicMap();
         // include all topic types except those with large instance sets
-        Collection<TopicType> allowedValueTypes = otherField.getDeclaredPlayerTypes();
-        Collection<TopicType> largeInstanceSets = tm.getTopicTypesWithLargeInstanceSets(); 
+        Collection<TopicTypeIF> allowedValueTypes = otherField.getDeclaredPlayerTypes();
+        Collection<TopicTypeIF> largeInstanceSets = tm.getTopicTypesWithLargeInstanceSets(); 
         List<TopicTypeIF> topicTypes = new ArrayList<TopicTypeIF>(allowedValueTypes.size());
         Iterator<TopicTypeIF> iter = allowedValueTypes.iterator();
         while (iter.hasNext()) {

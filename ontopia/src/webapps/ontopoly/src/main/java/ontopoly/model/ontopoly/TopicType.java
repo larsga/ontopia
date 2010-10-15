@@ -19,6 +19,7 @@ import ontopoly.model.AssociationTypeIF;
 import ontopoly.model.FieldDefinitionIF;
 import ontopoly.model.FieldAssignmentIF;
 import ontopoly.model.OntopolyTopicIF;
+import ontopoly.model.OntopolyTopicMapIF;
 import ontopoly.model.OntopolyModelRuntimeException;
 import ontopoly.utils.FieldAssignmentOrderComparator;
 import ontopoly.utils.OntopolyModelUtils;
@@ -65,7 +66,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
    */
   public boolean hasHierarchy() {
     // on:forms-hierarchy-for($TTYPE : on:topic-type, $ATYPE : on:association-type)
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "forms-hierarchy-for");
     TopicIF rType1 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "topic-type");
     TopicIF rType2 = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "association-type");
@@ -75,7 +76,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   private boolean isTrueAssociation(String atype, String rtype) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicIF aType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, atype);
     TopicIF rType = OntopolyModelUtils.getTopicIF(tm, PSI.ON, rtype);
 
@@ -124,7 +125,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   public FieldAssignmentIF addField(FieldDefinitionIF fieldDefinition) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
     final TopicIF HAS_CARDINALITY = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
     final TopicIF FIELD_DEFINITION = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -153,7 +154,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   public void removeField(FieldDefinitionIF fieldDefinition) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
     final TopicIF HAS_CARDINALITY = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-cardinality");
     final TopicIF FIELD_DEFINITION = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
@@ -199,7 +200,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   public NameTypeIF createNameType() {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
     // create name field
@@ -227,7 +228,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   public OccurrenceTypeIF createOccurrenceType() {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
     // create occurrence field
@@ -255,7 +256,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   }
 
   public AssociationTypeIF createAssociationType() {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     TopicMapBuilderIF builder = tm.getTopicMapIF().getBuilder();
 
     // create role field
@@ -363,7 +364,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
   private static void removeFieldOrder(TopicType tt,
                                        FieldDefinitionIF fieldDefinition) {
     // See if the same field is defined on this topic type.
-    TopicMap tm = tt.getTopicMap();
+    OntopolyTopicMapIF tm = tt.getTopicMap();
     final TopicIF HAS_FIELD = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "has-field");
     final TopicIF FIELD_DEFINITION = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-definition");
     final TopicIF FIELD_OWNER = OntopolyModelUtils.getTopicIF(tm, PSI.ON, "field-owner");
@@ -424,7 +425,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
             if (viewTopic == null)
               return FieldsView.getDefaultFieldsView(getTopicMap());
             else
-              return new FieldsView(viewTopic, getTopicMap());
+              return new FieldsView(viewTopic, (TopicMap) getTopicMap());
           }
         }, params);
   }
@@ -489,8 +490,8 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
             String foValue = (String)result.getValue(3);
             int fieldOrder = (foValue != null ? Integer.parseInt(foValue) : Integer.MAX_VALUE);
 
-            TopicMap tm = getTopicMap();
-            TopicType tt = new TopicType(topicType, tm);
+            OntopolyTopicMapIF tm = getTopicMap();
+            TopicType tt = new TopicType(topicType, (TopicMap) tm);
             FieldDefinition fd = findFieldDefinitionImpl(tm, fieldDefinitionTopic, fieldDefinitionType);
 
             return new FieldAssignment(TopicType.this, tt, fd, fieldOrder);
@@ -500,18 +501,18 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
     return fieldAssignments;
   }
 
-  static FieldDefinition findFieldDefinitionImpl(TopicMap tm,
+  static FieldDefinition findFieldDefinitionImpl(OntopolyTopicMapIF tm,
                                                  TopicIF fieldDefinitionTopic,
                                                  TopicIF fieldDefinitionType) {
     Collection identities = fieldDefinitionType.getSubjectIdentifiers();
     if (identities.contains(PSI.ON_OCCURRENCE_FIELD))
-      return new OccurrenceField(fieldDefinitionTopic, tm);
+      return new OccurrenceField(fieldDefinitionTopic, (TopicMap) tm);
     else if (identities.contains(PSI.ON_ROLE_FIELD))
-      return new RoleField(fieldDefinitionTopic, tm);
+      return new RoleField(fieldDefinitionTopic, (TopicMap) tm);
     else if (identities.contains(PSI.ON_NAME_FIELD))
-      return new NameField(fieldDefinitionTopic, tm);
+      return new NameField(fieldDefinitionTopic, (TopicMap) tm);
     else if (identities.contains(PSI.ON_IDENTITY_FIELD))
-      return new IdentityField(fieldDefinitionTopic, tm);
+      return new IdentityField(fieldDefinitionTopic, (TopicMap) tm);
     else
       throw new OntopolyModelRuntimeException(
           "This topic's subjectIndicator address didn't match any FieldDefinition implementations: "
@@ -555,7 +556,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
    * Create a new topic instance of this topic type.
    */
   public OntopolyTopicIF createInstance(String name) {
-    TopicMap tm = getTopicMap();
+    OntopolyTopicMapIF tm = getTopicMap();
     
     // delegate to specific create method if known type
     Collection subinds = getTopicIF().getSubjectIdentifiers();
@@ -572,7 +573,7 @@ public class TopicType extends AbstractTypingTopic implements TopicTypeIF {
       
     // use default create method
     TopicIF topic = tm.createNamedTopic(name, getTopicIF());
-    return new Topic(topic, tm);
+    return new Topic(topic, (TopicMap) tm);
   }
 
   @Override

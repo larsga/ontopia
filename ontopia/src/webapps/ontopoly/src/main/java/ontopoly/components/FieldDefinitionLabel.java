@@ -34,7 +34,7 @@ public class FieldDefinitionLabel extends Panel {
       }
     });
     
-    add(new TopicLink<FieldDefinition>("fieldDefinition", fieldDefinitionModel) {
+    add(new TopicLink<FieldDefinitionIF>("fieldDefinition", fieldDefinitionModel) {
       @Override
       protected String getLabel() {
         return "<img src=\"" +  RequestCycle.get().urlFor(new ResourceReference(ImageResource.class, "goto-details.gif"), ValueMap.EMPTY_MAP) + "\"/>";

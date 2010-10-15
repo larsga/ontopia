@@ -50,7 +50,8 @@ public class OccurrenceType extends AbstractTypingTopic
         new RowMapperIF<OccurrenceFieldIF>() {
           public OccurrenceField mapRow(QueryResultIF result, int rowno) {
               TopicIF fieldTopic = (TopicIF)result.getValue(0);
-              return new OccurrenceField(fieldTopic, getTopicMap(), new OccurrenceType(getTopicIF(), getTopicMap()));
+              return new OccurrenceField(fieldTopic, (TopicMap) getTopicMap(),
+                                         new OccurrenceType(getTopicIF(), (TopicMap) getTopicMap()));
           }
         }, params);
   }

@@ -89,7 +89,7 @@ public abstract class FieldInstanceAssociationBinaryField extends Panel {
 
       } else if (interfaceControl.isAutoComplete()) {
         AssociationFieldAutoCompleteTextField autoCompleteField 
-          = new AssociationFieldAutoCompleteTextField("player", new TopicModel<Topic>(null), valueFieldModel) {
+          = new AssociationFieldAutoCompleteTextField("player", new TopicModel<OntopolyTopicIF>(null), valueFieldModel) {
           @Override
           protected void filterPlayers(List<OntopolyTopicIF> players) {
             AbstractOntopolyPage page = (AbstractOntopolyPage)getPage();

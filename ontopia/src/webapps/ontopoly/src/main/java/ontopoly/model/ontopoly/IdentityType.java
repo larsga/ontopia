@@ -48,7 +48,7 @@ public class IdentityType extends AbstractTypingTopic
     QueryMapper<IdentityFieldIF> qm = getTopicMap().newQueryMapper(IdentityField.class);    
     return qm.queryForList(query,
         new RowMapperIF<IdentityFieldIF>() {
-          public IdentityField mapRow(QueryResultIF result, int rowno) {
+          public IdentityFieldIF mapRow(QueryResultIF result, int rowno) {
             TopicIF fieldTopic = (TopicIF)result.getValue(0);
             return new IdentityField(fieldTopic, getTopicMap(), new IdentityType(getTopicIF(), getTopicMap()));
           }
