@@ -13,9 +13,12 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.AbstractTopicMapExporter;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 
+import org.junit.Ignore;
+
 /**
  * INTERNAL: Utility methods used by the various tests in this package.
  */
+@Ignore
 public class TestUtils {
 
   /**
