@@ -126,6 +126,12 @@
 			<artifactId>lucene-snowball</artifactId>
 			<version>2.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>cxtm-tests</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
