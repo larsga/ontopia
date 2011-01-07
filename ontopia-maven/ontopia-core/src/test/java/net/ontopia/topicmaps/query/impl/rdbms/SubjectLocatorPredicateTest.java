@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class SubjectLocatorPredicateTest
-  extends net.ontopia.topicmaps.query.core.test.SubjectLocatorPredicateTest {
+  extends net.ontopia.topicmaps.query.core.SubjectLocatorPredicateTest {
   
   public SubjectLocatorPredicateTest(String name) {
     super(name);

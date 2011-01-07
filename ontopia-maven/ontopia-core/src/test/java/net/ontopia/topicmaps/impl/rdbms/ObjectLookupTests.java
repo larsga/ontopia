@@ -5,17 +5,16 @@ package net.ontopia.topicmaps.impl.rdbms;
 import java.io.File;
 import java.io.IOException;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.infoset.impl.basic.URILocator;
+import net.ontopia.utils.TestUtils;
 
 /**
  * INTERNAL: Tests that verify that LocatorIF lookups work correctly
  * in a committed and reopened topic map store.
  */
 
-public class ObjectLookupTests extends AbstractTopicMapTestCase {
+public class ObjectLookupTests extends AbstractTopicMapTest {
   
   public ObjectLookupTests(String name) {
     super(name);
@@ -23,7 +22,7 @@ public class ObjectLookupTests extends AbstractTopicMapTestCase {
 
   public void testLookups() throws IOException {
     
-    File file = new File(resolveFileName("various", "topicmap-object-lookup.xtm"));
+    File file = new File(TestUtils.resolveFileName("various", "topicmap-object-lookup.xtm"));
     URILocator base = new URILocator(file.toURL());
 
     // Load topic map, commit and close

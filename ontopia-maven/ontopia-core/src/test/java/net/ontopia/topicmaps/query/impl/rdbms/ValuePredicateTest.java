@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class ValuePredicateTest
-  extends net.ontopia.topicmaps.query.core.test.ValuePredicateTest {
+  extends net.ontopia.topicmaps.query.core.ValuePredicateTest {
   
   public ValuePredicateTest(String name) {
     super(name);

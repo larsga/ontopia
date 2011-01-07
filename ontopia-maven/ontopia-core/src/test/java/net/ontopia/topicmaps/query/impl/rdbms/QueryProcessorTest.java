@@ -12,16 +12,17 @@ import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 public class QueryProcessorTest
-  extends net.ontopia.topicmaps.query.core.test.QueryProcessorTest {
+  extends net.ontopia.topicmaps.query.core.QueryProcessorTest {
   
   public QueryProcessorTest(String name) {
     super(name);
   }
   
   protected void load(String filename) throws IOException {
-    File file = new File(resolveFileName("query", filename));    
+    File file = new File(TestUtils.resolveFileName("query", filename));
 
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     topicmap = store.getTopicMap();    

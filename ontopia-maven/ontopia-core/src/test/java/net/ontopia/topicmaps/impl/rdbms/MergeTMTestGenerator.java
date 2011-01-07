@@ -3,18 +3,16 @@
 package net.ontopia.topicmaps.impl.rdbms;
 
 import java.io.*;
-import java.util.*;
 import junit.framework.TestCase;
-import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.topicmaps.utils.MergeUtils;
+import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.TestUtils;
 
-public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.test.MergeTMTestGenerator {
+public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.MergeTMTestGenerator {
 
   protected TestCase createTestCase(String filename, String base) {
     return new MergeTMTestCase(filename, base);
@@ -33,7 +31,7 @@ public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.test.Merge
     }
 
     public void testMergeTM() throws IOException {
-      verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "out");
       
       // produce canonical output
       String in = base + File.separator + "in" + File.separator + filename;

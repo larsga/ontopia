@@ -9,17 +9,18 @@ import java.io.IOException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicMapImporterIF;
 import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
-import net.ontopia.topicmaps.query.core.test.AbstractQueryTest;
+import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 public class RDBMSTestUtils {
   
   // ===== Helper methods (topic maps)
 
   public static void load(AbstractQueryTest test, String filename) throws IOException {
-    File file = new File(test.resolveFileName("query", filename));    
+    File file = new File(TestUtils.resolveFileName("query", filename));
     
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     test.topicmap = store.getTopicMap();    

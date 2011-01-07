@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class RolePlayerPredicateTest
-  extends net.ontopia.topicmaps.query.core.test.RolePlayerPredicateTest {
+  extends net.ontopia.topicmaps.query.core.RolePlayerPredicateTest {
   
   public RolePlayerPredicateTest(String name) {
     super(name);

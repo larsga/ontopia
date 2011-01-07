@@ -7,11 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.xml.*;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.impl.utils.AbstractTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
 
-public class CanonicalExporterXTMTests extends net.ontopia.topicmaps.xml.test.CanonicalExporterXTMTests {
+public class CanonicalExporterXTMTests extends net.ontopia.topicmaps.xml.CanonicalExporterXTMTests {
 
   protected boolean getExportReadOnly() {
     return false;

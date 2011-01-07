@@ -6,7 +6,6 @@ package net.ontopia.topicmaps.impl.rdbms;
 import java.io.*;
 import net.ontopia.utils.*;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.core.test.*;
 import net.ontopia.topicmaps.entry.*;
 import net.ontopia.persistence.proxy.*;
 import net.ontopia.topicmaps.impl.rdbms.*;

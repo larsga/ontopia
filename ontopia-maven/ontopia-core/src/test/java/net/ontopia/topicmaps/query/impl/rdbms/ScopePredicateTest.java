@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class ScopePredicateTest
-  extends net.ontopia.topicmaps.query.core.test.ScopePredicateTest {
+  extends net.ontopia.topicmaps.query.core.ScopePredicateTest {
   
   public ScopePredicateTest(String name) {
     super(name);

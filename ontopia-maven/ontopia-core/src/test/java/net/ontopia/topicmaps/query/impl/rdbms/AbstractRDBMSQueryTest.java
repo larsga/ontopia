@@ -9,10 +9,11 @@ import java.io.IOException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicMapImporterIF;
 import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
-import net.ontopia.topicmaps.query.core.test.AbstractQueryTest;
+import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 public class AbstractRDBMSQueryTest extends AbstractQueryTest {
   
@@ -23,7 +24,7 @@ public class AbstractRDBMSQueryTest extends AbstractQueryTest {
   // ===== Helper methods (topic maps)
 
   protected void load(String filename) throws IOException {
-    File file = new File(resolveFileName("query", filename));    
+    File file = new File(TestUtils.resolveFileName("query", filename));
 
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     topicmap = store.getTopicMap();    

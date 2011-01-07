@@ -14,6 +14,7 @@ import net.ontopia.persistence.proxy.RDBMSStorage;
 import net.ontopia.persistence.proxy.StorageIF;
 import net.ontopia.persistence.proxy.IdentityNotFoundException;
 import net.ontopia.persistence.proxy.TransactionNotActiveException;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
@@ -25,12 +26,9 @@ import net.ontopia.topicmaps.core.TopicMapImporterIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapReference;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapSource;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 import net.ontopia.utils.URIUtils;
 
 /**
@@ -38,7 +36,7 @@ import net.ontopia.utils.URIUtils;
  * Connector.
  */
 
-public class RDBMSBackendTests extends AbstractTopicMapTestCase {
+public class RDBMSBackendTests extends AbstractTopicMapTest {
   
   public RDBMSBackendTests(String name) {
     super(name);
@@ -92,7 +90,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTestCase {
     }
 
     // import topic map
-    String filename = resolveFileName("various", "gcache.ltm");
+    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -249,7 +247,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTestCase {
     }
 
     // import topic map
-    String filename = resolveFileName("various", "gcache.ltm");
+    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -315,7 +313,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTestCase {
     }
 
     // import topic map
-    String filename = resolveFileName("various", "commroll.ltm");
+    String filename = TestUtils.resolveFileName("various", "commroll.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -451,7 +449,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTestCase {
     }
 
     // import topic map
-    String filename = resolveFileName("various", "gcache.ltm");
+    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);

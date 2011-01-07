@@ -10,7 +10,7 @@ import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
 
-public class CanonicalXTMimportIntoTests extends net.ontopia.topicmaps.xml.test.CanonicalXTMimportIntoTests {
+public class CanonicalXTMimportIntoTests extends net.ontopia.topicmaps.xml.CanonicalXTMimportIntoTests {
 
   protected void canonicalize(String infile, String outfile) throws IOException {
     // Import document

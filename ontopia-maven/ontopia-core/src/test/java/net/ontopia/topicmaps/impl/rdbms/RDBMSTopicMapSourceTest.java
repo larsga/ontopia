@@ -3,8 +3,7 @@
 
 package net.ontopia.topicmaps.impl.rdbms;
 
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapSource;
-import net.ontopia.topicmaps.entry.test.AbstractTopicMapSourceTest;
+import net.ontopia.topicmaps.entry.AbstractTopicMapSourceTest;
 
 public class RDBMSTopicMapSourceTest extends AbstractTopicMapSourceTest {
 

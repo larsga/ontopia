@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class BrainBankTests
-  extends net.ontopia.topicmaps.query.core.test.BrainBankTests {
+  extends net.ontopia.topicmaps.query.core.BrainBankTests {
   
   public BrainBankTests(String name) {
     super(name);

@@ -11,12 +11,9 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.persistence.proxy.RDBMSStorage;
 import net.ontopia.persistence.proxy.StorageIF;
-import net.ontopia.persistence.proxy.IdentityNotFoundException;
-import net.ontopia.persistence.proxy.TransactionNotActiveException;
+import net.ontopia.topicmaps.core.AbstractTopicMapTest;
 import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
-import net.ontopia.topicmaps.core.TopicNameIF;
-import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
@@ -24,16 +21,12 @@ import net.ontopia.topicmaps.core.TopicMapImporterIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
-import net.ontopia.topicmaps.query.core.ParsedQueryIF;
 import net.ontopia.topicmaps.query.core.QueryProcessorIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapReference;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapSource;
-import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 import net.ontopia.utils.URIUtils;
 
 /** 
@@ -41,7 +34,7 @@ import net.ontopia.utils.URIUtils;
  * RDBMS Backend Connector and the in-memory tolog implementation.  
  */
 
-public class PrefetcherTests extends AbstractTopicMapTestCase {
+public class PrefetcherTests extends AbstractTopicMapTest {
   
   public PrefetcherTests(String name) {
     super(name);
@@ -94,7 +87,7 @@ public class PrefetcherTests extends AbstractTopicMapTestCase {
     }
 
     // import topic map
-    String filename = resolveFileName("various", "prefetch.ltm");
+    String filename = TestUtils.resolveFileName("various", "prefetch.ltm");
     LocatorIF base = URIUtils.getFileURI(new File(filename));
 
     // create reference

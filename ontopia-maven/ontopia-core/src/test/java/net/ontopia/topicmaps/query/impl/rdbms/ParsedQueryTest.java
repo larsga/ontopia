@@ -11,9 +11,10 @@ import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.TestUtils;
 
 public class ParsedQueryTest
-  extends net.ontopia.topicmaps.query.core.test.ParsedQueryTest {
+  extends net.ontopia.topicmaps.query.core.ParsedQueryTest {
   
   public ParsedQueryTest(String name) {
     super(name);
@@ -22,7 +23,7 @@ public class ParsedQueryTest
   // ===== Helper methods (topic maps)
   
   protected void load(String filename) throws IOException {
-    File file = new File(resolveFileName("query", filename));    
+    File file = new File(TestUtils.resolveFileName("query", filename));
 
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     topicmap = store.getTopicMap();    

@@ -2,9 +2,8 @@
 package net.ontopia.topicmaps.impl.rdbms;
 
 import java.io.IOException;
+import net.ontopia.topicmaps.entry.AbstractTopicMapSourceTest;
 import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.topicmaps.entry.test.AbstractTopicMapSourceTest;
-import net.ontopia.topicmaps.impl.rdbms.*;
 
 public class RDBMSPatternSingleTopicMapSourceTest
   extends AbstractTopicMapSourceTest {

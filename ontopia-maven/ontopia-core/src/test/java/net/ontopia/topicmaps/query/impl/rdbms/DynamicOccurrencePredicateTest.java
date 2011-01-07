@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.query.impl.rdbms;
 import java.io.IOException;
 
 public class DynamicOccurrencePredicateTest
-  extends net.ontopia.topicmaps.query.core.test.DynamicOccurrencePredicateTest {
+  extends net.ontopia.topicmaps.query.core.DynamicOccurrencePredicateTest {
   
   public DynamicOccurrencePredicateTest(String name) {
     super(name);
