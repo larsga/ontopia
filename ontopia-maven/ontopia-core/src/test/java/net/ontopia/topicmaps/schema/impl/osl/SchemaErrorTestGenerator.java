@@ -3,60 +3,57 @@
 
 package net.ontopia.topicmaps.schema.impl.osl;
 
-import java.util.Iterator;
-import java.util.HashSet;
-import java.util.Set;
 import java.io.File;
 import java.io.IOException;
-import junit.framework.TestCase;
-import net.ontopia.test.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.xml.test.AbstractXMLTestCase;
+import net.ontopia.utils.ResourcesDirectoryReader;
+import net.ontopia.utils.TestUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import static junit.framework.TestCase.*;
 
-public class SchemaErrorTestGenerator implements TestCaseGeneratorIF {
+@RunWith(Parameterized.class)
+public class SchemaErrorTestGenerator extends AbstractSchemaTestCase {
 
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    String base = root + File.separator + "schema" + File.separator + "error";
-        
-    File indir = new File(base + File.separator);
-        
-    File[] infiles = indir.listFiles();
-    if (infiles == null)
-      return java.util.Collections.EMPTY_SET.iterator();
-        
-    for (int ix = 0; ix < infiles.length; ix++) {
-      String name = infiles[ix].getName();
-      if (name.endsWith(".xml")) 
-        tests.add(new SchemaErrorTestCase(base, name));
-    }
+  protected final String filename;
 
-    return tests.iterator();
+  public SchemaErrorTestGenerator(String filename) {
+    this.filename = filename;
   }
 
-  // --- Test case class
-
-  public class SchemaErrorTestCase extends AbstractSchemaTestCase {
-    private String base;
-    private String filename;
-        
-    public SchemaErrorTestCase(String base, String filename) {
-      super("testBadSchema");
-      this.base = base;
-      this.filename = filename;
+  @Parameterized.Parameters
+  public static Collection<String[]> params() {
+    String root = TestUtils.getTestDirectory();
+    root = root + File.separator + "schema" + File.separator + "error";
+    Collection<String[]> c = new ArrayList<String[]>();
+    ResourcesDirectoryReader rdr = new ResourcesDirectoryReader("net/ontopia/topicmaps/schema/error", ".xml");
+    for (String resource : rdr.getResources()) {
+      resource = resource.substring(resource.lastIndexOf("/") + 1);
+      c.add(new String[] {resource});
     }
+    assertTrue("No test data found at net/ontopia/topicmaps/schema/error", c.size() != 0);
+    return c;
+  }
+  
+  @BeforeClass
+  public static void before() {
+    TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "schema", "out");
+  }
 
-    // --- The test
-
-    public void testBadSchema() throws IOException {
-      try {
-        readSchema("error", filename);
-        fail("Read bad schema " + filename + " and found no errors");
-      }
-      catch (SchemaSyntaxException e) {
-      }
+  @Test
+  public void testSchemaError() throws IOException, SchemaSyntaxException {
+    try {
+      readSchema("error", filename);
+      fail("Read bad schema " + filename + " and found no errors");
+    } catch (SchemaSyntaxException sse) {
+      // ok
+    } catch (IllegalArgumentException iae) {
+      // for negmin.xml
+      assertEquals("Cannot set minimum to negative value", iae.getMessage());
     }
   }
 }

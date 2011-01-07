@@ -5,30 +5,31 @@ package net.ontopia.topicmaps.schema.impl.osl;
 
 import java.io.File;
 import java.io.IOException;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.xml.test.AbstractXMLTestCase;
+import net.ontopia.utils.TestUtils;
+import org.junit.Ignore;
 
-public class AbstractSchemaTestCase extends AbstractXMLTestCase {
+@Ignore
+public class AbstractSchemaTestCase {
   
-  public AbstractSchemaTestCase(String name) {
-    super(name);
-  }
-
-  // --- Utilities
-
   protected SchemaIF readSchema(String directory, String filename)
     throws IOException, SchemaSyntaxException {
-    File file = new File(resolveFileName("schema" + File.separator + directory, filename));
-    if (!file.getParentFile().exists())
-      file.getParentFile().mkdirs();
-    OSLSchemaReader reader = new OSLSchemaReader(file);
+
+    OSLSchemaReader reader;
+    if ("out".equals(directory)) {
+      File file = new File(TestUtils.resolveFileName("schema" + File.separator + directory, filename));
+      reader = new OSLSchemaReader(file);
+    } else {
+      String file = "classpath:net/ontopia/topicmaps/schema/" + directory + "/" + filename;
+      reader = new OSLSchemaReader(file);
+    }
     return reader.read();
   }
   
   protected void writeSchema(String directory, String filename, OSLSchema schema)
     throws IOException, SchemaSyntaxException {
-    File file = new File(resolveFileName("schema" + File.separator + directory, filename));
+    File file = new File(TestUtils.resolveFileName("schema" + File.separator + directory, filename));
     if (!file.getParentFile().exists())
       file.getParentFile().mkdirs();
     OSLSchemaWriter writer = new OSLSchemaWriter(file, "utf-8");

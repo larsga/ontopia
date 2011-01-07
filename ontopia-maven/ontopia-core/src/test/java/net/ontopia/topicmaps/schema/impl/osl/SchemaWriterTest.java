@@ -3,21 +3,22 @@
 
 package net.ontopia.topicmaps.schema.impl.osl;
 
-import java.io.File;
 import java.io.IOException;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.xml.test.AbstractXMLTestCase;
+import net.ontopia.topicmaps.schema.core.SchemaSyntaxException;
+import net.ontopia.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
 
 public class SchemaWriterTest extends AbstractSchemaTestCase {
   private OSLSchema schema;
   
-  public SchemaWriterTest(String name) {
-    super(name);
-  }
-
+  @Before
   public void setUp() {
+    // trigger TestUtils class loading
+    TestUtils.getTestDirectory();
+
     try {
       schema = new OSLSchema(new URILocator("http://www.ontopia.net"));
     } catch (java.net.MalformedURLException e) {
@@ -27,6 +28,7 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
   
   // --- Test methods
 
+  @Test
   public void testEmpty() throws IOException, SchemaSyntaxException {
     writeSchema("out", "empty.xml", schema);
     
@@ -45,6 +47,7 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
                schema.getTopicClass("bongo") == null);
   }
 
+  @Test
   public void testEmptyClass() throws IOException, SchemaSyntaxException {
     TopicClass klass = new TopicClass(schema, "bingo");
     TypeSpecification typespec = new TypeSpecification();
@@ -64,6 +67,7 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
                schema.getTopicClass("bingo") != null);
   }
 
+  @Test
   public void testUnscopedOccurrence() throws IOException, SchemaSyntaxException {
     TopicClass klass = new TopicClass(schema, "bingo");
     TypeSpecification typespec = new TypeSpecification();

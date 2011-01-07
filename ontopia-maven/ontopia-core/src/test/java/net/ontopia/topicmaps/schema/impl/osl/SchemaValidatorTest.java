@@ -3,26 +3,26 @@
 
 package net.ontopia.topicmaps.schema.impl.osl;
 
-import java.io.File;
 import java.io.IOException;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.xml.test.AbstractXMLTestCase;
-import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
 
 public class SchemaValidatorTest extends AbstractSchemaTestCase {
   protected TopicMapIF topicmap;
   protected TopicMapBuilderIF builder;
   
-  public SchemaValidatorTest(String name) {
-    super(name);
-  }
-
-  protected void setUp() {
+  @Before
+  public void setUp() {
+    // trigger TestUtils class loading
+    TestUtils.getTestDirectory();
+    
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();   
     builder = topicmap.getBuilder();
@@ -73,7 +73,8 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
   }
   
   // --- Test cases
-  
+
+  @Test
   public void testMinimumTopicNames() throws IOException, SchemaSyntaxException{
     OSLSchema schema = (OSLSchema) readSchema("in", "basename.xml");
 
@@ -84,6 +85,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, null);
   }  
 
+  @Test
   public void testMinimumTopicNamesValid() throws IOException, SchemaSyntaxException{
     OSLSchema schema = (OSLSchema) readSchema("in", "basename.xml");
 
@@ -98,6 +100,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema);
   }  
 
+  @Test
   public void testMinimumTopicNamesUnconstrained() throws IOException, SchemaSyntaxException{
     OSLSchema schema = (OSLSchema) readSchema("in", "basename-unc.xml");
 
@@ -108,6 +111,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, null);
   }  
 
+  @Test
   public void testMinimumTopicNamesValidUnconstrained() throws IOException, SchemaSyntaxException{
     OSLSchema schema = (OSLSchema) readSchema("in", "basename-unc.xml");
 
@@ -122,6 +126,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema);
   }  
 
+  @Test
   public void testMinimumOccurrences() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "occurrence.xml");
 
@@ -132,6 +137,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, null);
   }  
 
+  @Test
   public void testMinimumTopicRoles() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "trole.xml");
 
@@ -141,6 +147,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, null);
   }  
 
+  @Test
   public void testMinimumAssociationRoles() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "arole.xml");
     
@@ -148,6 +155,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, null);
   }  
   
+  @Test
   public void testExternalOccurrence() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "extocc.xml");
 
@@ -161,6 +169,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, occ);
   }  
 
+  @Test
   public void testInternalOccurrence() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "intocc.xml");
 
@@ -174,6 +183,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, occ);
   }  
 
+  @Test
   public void testIllegalOccurrence() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "intocc.xml");
 
@@ -187,6 +197,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema); // topic class is loose, so this is OK
   }  
   
+  @Test
   public void testIllegalOccurrenceStrict() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "intocc-strict.xml");
 
@@ -200,6 +211,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema, instance, occ); // topic class is strict, so fail
   }  
 
+  @Test
   public void testNothingOccurrence() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "intocc.xml");
 
@@ -213,6 +225,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema); // question is: should this validate?
   }  
 
+  @Test
   public void testLevelOfScopeMatchingExact() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "scopelevel-exact.xml");
 
@@ -230,6 +243,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema);
   }
 
+  @Test
   public void testLevelOfScopeMatchingSuperset() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "scopelevel-superset.xml");
 
@@ -247,6 +261,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema);
   }
 
+  @Test
   public void testLevelOfScopeMatchingSubset() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "scopelevel-subset.xml");
 
@@ -269,16 +284,15 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     validate(schema);
   }
 
+  @Test
   public void testBug430() throws IOException, SchemaSyntaxException {
 
-    topicmap = ImportExportUtils.getReader(resolveFileName("schema" + 
-                                                           File.separator + 
-                                                           "topicmaps",
-                                                           "bug430.ltm")).read();
+    topicmap = TestUtils.getTestReader("net.ontopia.topicmaps.schema.topicmaps", "bug430.ltm").read();
     OSLSchema schema = (OSLSchema) readSchema("in", "bug430.xml");
     validate(schema);
   }
 
+  @Test
   public void testVariantRequired() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "variant.xml");
 

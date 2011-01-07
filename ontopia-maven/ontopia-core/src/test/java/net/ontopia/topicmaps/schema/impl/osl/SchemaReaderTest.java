@@ -3,20 +3,24 @@
 
 package net.ontopia.topicmaps.schema.impl.osl;
 
-import java.io.File;
 import java.io.IOException;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.xml.test.AbstractXMLTestCase;
+import net.ontopia.utils.TestUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
 
 public class SchemaReaderTest extends AbstractSchemaTestCase {
-  
-  public SchemaReaderTest(String name) {
-    super(name);
-  }
-  
+
   // --- Test methods
 
+  @BeforeClass
+  public static void before() {
+    // trigger TestUtils class loading
+    TestUtils.getTestDirectory();
+  }
+
+  @Test
   public void testEmpty() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "empty.xml");
     
@@ -36,6 +40,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            schema.getAddress() != null);
   }
 
+  @Test
   public void testLoose() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "loose.xml");
 
@@ -43,6 +48,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            !schema.isStrict());
   }
 
+  @Test
   public void testDoctype() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "doctype.xml");
 
@@ -52,6 +58,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            schema.isStrict());
   }
 
+  @Test
   public void testTopicClass() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "topic.xml");
 
@@ -67,6 +74,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifySingleTypeSpec(tclass, "#something");
   }
 
+  @Test
   public void testTopicNameConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "basename.xml");
 
@@ -87,6 +95,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifySingleScopeSpec(bnc, "#something-else");
   }
 
+  @Test
   public void testOccurrenceConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "occurrence.xml");
 
@@ -110,6 +119,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifySingleTypeSpec(occ, "#occtype");
   }
 
+  @Test
   public void testOccurrenceExternal() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "extocc.xml");
 
@@ -132,6 +142,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifySingleTypeSpec(occ, "#occtype");
   }
   
+  @Test
   public void testTopicRoleConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "trole.xml");
 
@@ -159,6 +170,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            matcher.getRelativeURI().equals("#assoctype"));
   }
 
+  @Test
   public void testAssocRoleConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "arole.xml");
 
@@ -190,6 +202,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            matcher.getRelativeURI().equals("#playertype"));
   }
 
+  @Test
   public void testForward() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("schemas", "forward-ref.xml");
 

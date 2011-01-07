@@ -4,20 +4,20 @@ package net.ontopia.topicmaps.schema.impl.osl.cmdline;
 
 import java.io.*;
 import java.util.*;
+import junit.framework.TestCase;
 
 import net.ontopia.topicmaps.schema.core.*;
 import net.ontopia.topicmaps.schema.impl.osl.*;
-import net.ontopia.topicmaps.schema.impl.osl.cmdline.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
+import net.ontopia.utils.TestUtils;
 
 /**
  * INTERNAL: Test case that check whether schemas generated from topic
  * maps validate against the source topic maps.
  */
 
-public class SchemaGeneratorTest extends AbstractTopicMapTestCase {
+public class SchemaGeneratorTest extends TestCase {
   
   private Collection tests;
 
@@ -37,16 +37,16 @@ public class SchemaGeneratorTest extends AbstractTopicMapTestCase {
 
 
   public void setUp() {
-    String root = getTestDirectory();
-    verifyDirectory(root, "schema", "out");
+    String root = TestUtils.getTestDirectory();
+    TestUtils.verifyDirectory(root, "schema", "out");
   }
 
   public void testGenerator() throws Exception {
     Iterator it = tests.iterator();
     while (it.hasNext()) {
       String filename = (String)it.next();
-      String tmfile = resolveFileName("schema" + File.separator + "in", filename);
-      String schemafile = resolveFileName("schema" + File.separator + "out", filename + ".xml");
+      String tmfile = TestUtils.resolveFileName("schema" + File.separator + "in", filename);
+      String schemafile = TestUtils.resolveFileName("schema" + File.separator + "out", filename + ".xml");
       Generate gen = new Generate();
       OSLSchema schema = gen.createSchema(tmfile);
       new OSLSchemaWriter(new File(schemafile), "utf-8").write(schema);
