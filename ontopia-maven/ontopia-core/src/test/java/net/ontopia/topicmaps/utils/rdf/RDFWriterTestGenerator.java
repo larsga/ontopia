@@ -8,24 +8,22 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapReaderIF;
 import net.ontopia.topicmaps.utils.deciders.TMDecider;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
-import net.ontopia.topicmaps.utils.ltm.test.LTMTopicMapWriterTestGenerator.FilterTestCase;
-import net.ontopia.topicmaps.utils.rdf.*;
-import net.ontopia.topicmaps.xml.test.*;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
+import net.ontopia.utils.TestUtils;
 
-public class RDFWriterTestGenerator implements TestCaseGeneratorIF {
+public class RDFWriterTestGenerator { //implements TestCaseGeneratorIF {
 
   public Iterator generateTests() {
     Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
+    String root = TestUtils.getTestDirectory();
     String base = root + File.separator + "tm2rdf" + File.separator;
 
     File indir = new File(base + "in" + File.separator);
@@ -73,8 +71,8 @@ public class RDFWriterTestGenerator implements TestCaseGeneratorIF {
     }
 
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
-      verifyDirectory(base, "tmp");
+      TestUtils.verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "tmp");
 
       // export
       String in = base + File.separator + "in" + File.separator + filename;
@@ -85,7 +83,9 @@ public class RDFWriterTestGenerator implements TestCaseGeneratorIF {
       if (reader instanceof XTMTopicMapReader)
         ((XTMTopicMapReader) reader).setValidation(false);
       TopicMapIF tm = reader.read();
-      new RDFTopicMapWriter(new FileOutputStream(tmp)).write(tm);
+      FileOutputStream fos = new FileOutputStream(tmp);
+      new RDFTopicMapWriter(fos).write(tm);
+      fos.close();
 
       // read in base line and export
       Model baseline = ModelFactory.createDefaultModel().read(new FileInputStream(bline), "file:"
@@ -120,8 +120,8 @@ public class RDFWriterTestGenerator implements TestCaseGeneratorIF {
 
     public void testFile() throws IOException {
       // setup
-      verifyDirectory(base, "out");
-      verifyDirectory(base, "filter-tmp");
+      TestUtils.verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "filter-tmp");
       String in = base + File.separator + "filter-in" + File.separator
           + filename;
       String tmp = base + File.separator + "filter-tmp" + File.separator

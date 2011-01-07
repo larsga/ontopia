@@ -5,13 +5,13 @@ package net.ontopia.topicmaps.utils.rdf;
 
 import java.io.File;
 import java.io.IOException;
+import junit.framework.TestCase;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
-import net.ontopia.topicmaps.utils.rdf.RDFTopicMapReader;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.TestUtils;
 
-public class RDFTopicMapReaderTest extends AbstractTopicMapTestCase {
+public class RDFTopicMapReaderTest extends TestCase {
   
   public RDFTopicMapReaderTest(String name) {
     super(name);
@@ -20,13 +20,13 @@ public class RDFTopicMapReaderTest extends AbstractTopicMapTestCase {
   // complex tests
   
   public void testFile() throws IOException {
-    String in = resolveFileName("rdf" + File.separator + "various" 
+    String in = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator + "simple-foaf.rdf");
-    String map = resolveFileName("rdf" + File.separator + "various" 
+    String map = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator + "simple-foaf-map.rdf");
-    String out = resolveFileName("rdf" + File.separator + "out" + File.separator
+    String out = TestUtils.resolveFileName("rdf" + File.separator + "out" + File.separator
             + "simple-foaf.rdf");
-    String base = resolveFileName("rdf" + File.separator + "baseline" 
+    String base = TestUtils.resolveFileName("rdf" + File.separator + "baseline"
             + File.separator + "simple-foaf.rdf");
     
     RDFTopicMapReader reader = new RDFTopicMapReader(new File(in));
@@ -40,15 +40,15 @@ public class RDFTopicMapReaderTest extends AbstractTopicMapTestCase {
   }
     
   public void testBug1317() throws IOException {
-    String in = resolveFileName("rdf" + File.separator + "various" 
+    String in = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator +
                                 "simple-foaf.rdf");
-    String map = resolveFileName("rdf" + File.separator + "various" 
+    String map = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator +
                                 "simple-foaf-map-2.rdf");
-    String out = resolveFileName("rdf" + File.separator + "out" + File.separator
+    String out = TestUtils.resolveFileName("rdf" + File.separator + "out" + File.separator
             + "simple-foaf-2.rdf");
-    String base = resolveFileName("rdf" + File.separator + "baseline" 
+    String base = TestUtils.resolveFileName("rdf" + File.separator + "baseline"
             + File.separator + "simple-foaf.rdf");
     
     RDFTopicMapReader reader = new RDFTopicMapReader(new File(in));
@@ -64,13 +64,13 @@ public class RDFTopicMapReaderTest extends AbstractTopicMapTestCase {
   public void testBug1339() throws IOException {
     // need to use ARP for this test to be effective
     
-    String in = resolveFileName("rdf" + File.separator + "various" +
+    String in = TestUtils.resolveFileName("rdf" + File.separator + "various" +
                                 File.separator + "bug1339.rdf");
-    String map = resolveFileName("rdf" + File.separator + "various" +
+    String map = TestUtils.resolveFileName("rdf" + File.separator + "various" +
                                  File.separator + "bug1339-map.rdf");
-    String out = resolveFileName("rdf" + File.separator + "out" + File.separator +
+    String out = TestUtils.resolveFileName("rdf" + File.separator + "out" + File.separator +
                                  "bug1339.rdf");
-    String base = resolveFileName("rdf" + File.separator + "baseline" +
+    String base = TestUtils.resolveFileName("rdf" + File.separator + "baseline" +
                                   File.separator + "bug1339.rdf");
     
     RDFTopicMapReader reader = new RDFTopicMapReader(new File(in));
@@ -84,13 +84,13 @@ public class RDFTopicMapReaderTest extends AbstractTopicMapTestCase {
   }  
     
   public void testNullGeneratedName() throws IOException {
-    String in = resolveFileName("rdf" + File.separator + "various" 
+    String in = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator + "null-generated-name.rdf");
-    String map = resolveFileName("rdf" + File.separator + "various"
+    String map = TestUtils.resolveFileName("rdf" + File.separator + "various"
             + File.separator + "simple-foaf-map-2.rdf");
-    String out = resolveFileName("rdf" + File.separator + "out" + File.separator
+    String out = TestUtils.resolveFileName("rdf" + File.separator + "out" + File.separator
             + "null-generated-name.rdf");
-    String base = resolveFileName("rdf" + File.separator + "baseline" 
+    String base = TestUtils.resolveFileName("rdf" + File.separator + "baseline"
             + File.separator + "null-generated-name.rdf");
     
     RDFTopicMapReader reader = new RDFTopicMapReader(new File(in));

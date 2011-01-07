@@ -7,18 +7,17 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.topicmaps.utils.rdf.*;
-import net.ontopia.topicmaps.xml.test.*;
+import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
+import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.TestUtils;
 
-public class RDFTestGenerator implements TestCaseGeneratorIF {
+public class RDFTestGenerator { //implements TestCaseGeneratorIF {
 
   public Iterator generateTests() {
     Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
+    String root = TestUtils.getTestDirectory();
     String base = root + File.separator + "rdf" + File.separator;
         
     File indir = new File(base + "in" + File.separator);
@@ -88,7 +87,7 @@ public class RDFTestGenerator implements TestCaseGeneratorIF {
     }
     
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+      TestUtils.verifyDirectory(base, "out");
       
       // produce canonical output
       String in = base + File.separator + "in" + File.separator + filename;
