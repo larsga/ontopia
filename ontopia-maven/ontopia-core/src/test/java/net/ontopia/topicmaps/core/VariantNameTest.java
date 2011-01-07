@@ -132,7 +132,9 @@ public class VariantNameTest extends AbstractScopedTest {
     // read file and store in object
     TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "various");
     File filein = new File(TestUtils.resolveFileName("various", "clob.xml"));
-    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), new FileOutputStream(filein));
+    FileOutputStream fos = new FileOutputStream(filein);
+    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), fos);
+    fos.close();
     File fileout = new File(TestUtils.resolveFileName("various", "clob.xml.out"));
     
     Reader ri = new FileReader(filein);

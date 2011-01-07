@@ -128,7 +128,9 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
     // set test data to file
     File filein = new File(TestUtils.resolveFileName("various", "clob.xml"));
-    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), new FileOutputStream(filein));
+    FileOutputStream fos = new FileOutputStream(filein);
+    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), fos);
+    fos.close();
 
     File fileout = new File(TestUtils.resolveFileName("various", "clob.xml.out"));
     
