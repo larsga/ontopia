@@ -4,46 +4,30 @@
 package net.ontopia.topicmaps.xml;
 
 import java.io.*;
+import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
+import net.ontopia.topicmaps.xml.*;
+import net.ontopia.infoset.impl.basic.URILocator;
 
-import java.util.List;
-import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.URIUtils;
-import org.junit.BeforeClass;
-import org.junit.runners.Parameterized.Parameters;
-
-public class CanonicalXTM2ReaderTestCase extends AbstractCanonicalTests {
+public class CanonicalXTM2ReaderTestGenerator extends AbstractCanonicalTests {
   
-  private final static String testdataPath = "net/ontopia/topicmaps/utils/xtm2/";
-
-  public CanonicalXTM2ReaderTestCase(String filename) {
-    super(filename);
-  }
-
-  @Parameters
-  public static List generateTests() {
-    return generateTests(testdataPath + "in", ".xtm");
-  }
-
-  @BeforeClass
-  public static void prepareDirectories() {
-    FileUtils.getDirectory(testOutputDirectory, testdataPath + "out");
-  }
-
   // --- Canonicalization type methods
+
+  protected boolean filter(String filename) {
+    return filename.endsWith(".xtm");   
+  }
 
   protected void canonicalize(String infile, String outfile)
     throws IOException {
     TopicMapStoreFactoryIF sfactory = getStoreFactory();
-    XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI("classpath:" + infile));
+    XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
     reader.setValidation(false);
     // FIXME: should we do a setXTM2Required(true) or something?
     reader.setStoreFactory(sfactory);
     TopicMapIF source = reader.read();
 
-    File outputFile = new File(testOutputDirectory, outfile);
-    FileOutputStream out = new FileOutputStream(outputFile);
+    FileOutputStream out = new FileOutputStream(outfile);
     CanonicalXTMWriter cwriter = new CanonicalXTMWriter(out);
     cwriter.write(source);
     out.close();
@@ -51,4 +35,12 @@ public class CanonicalXTM2ReaderTestCase extends AbstractCanonicalTests {
     source.getStore().close();
   }
 
+  protected String getBaseDirectory() {
+    String root = AbstractOntopiaTestCase.getTestDirectory();
+    return root + File.separator + "xtm2" + File.separator;
+  }
+  
+  protected String getOutFilename(String infile) {
+    return infile + ".cxtm";
+  }
 }

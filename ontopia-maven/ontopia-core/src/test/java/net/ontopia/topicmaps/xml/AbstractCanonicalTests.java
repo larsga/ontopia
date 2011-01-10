@@ -8,40 +8,71 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.test.*;
+import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryStoreFactory;
 import net.ontopia.utils.FileUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import net.ontopia.utils.ResourcesDirectoryReader;
-import net.ontopia.utils.StreamUtils;
-import net.ontopia.utils.TestUtils;
-
-import junit.framework.TestCase;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
-@RunWith(Parameterized.class)
-public abstract class AbstractCanonicalTests extends TestCase {
-
-  protected final static File testOutputDirectory = TestUtils.getTestOutputDirectory();
-
-  public static List generateTests(String resourcesDirectory, String filter) {
-    ResourcesDirectoryReader directoryReader = new ResourcesDirectoryReader(resourcesDirectory, filter);
-    Set<String> resources = directoryReader.getResources();
-    assertTrue("No resources found in directory " + resourcesDirectory, resources.size() > 0);
-    List<String[]> tests = new ArrayList<String[]>();
-    for (String resource : resources) {
-      tests.add(new String[] {resource});
+public abstract class AbstractCanonicalTests implements TestCaseGeneratorIF {
+  
+  public Iterator generateTests() {
+    Set tests = new HashSet();
+    String base = getBaseDirectory();
+        
+    File indir = new File(base + getFileDirectory() + File.separator);
+    if (!indir.exists())
+      throw new OntopiaRuntimeException("Directory '" + indir +
+                                        "' does not exist!");
+    
+    File[] infiles = indir.listFiles();
+    if (infiles == null)
+      return java.util.Collections.EMPTY_SET.iterator();
+        
+    for (int ix = 0; ix < infiles.length; ix++) {
+      if (!infiles[ix].isDirectory() && filter(infiles[ix].getName()))
+        tests.add(makeTestCase(infiles[ix].getName(), base));
     }
-    return tests;
+
+    return tests.iterator();
   }
   
   // --- Canonicalization type methods
+
+  /**
+   * INTERNAL: Returns base directory of tests.
+   */
+  protected String getBaseDirectory() {
+    String root = AbstractOntopiaTestCase.getTestDirectory();
+    return root + File.separator + "canonical" + File.separator;
+  }
+  
+  /**
+   * INTERNAL: Returns directory to search for files in.
+   */
+  protected String getFileDirectory() {
+    return "in";
+  }
+
+  /**
+   * INTERNAL: Makes the name of the outfile (without path) given the
+   * name of the infile.
+   */
+  protected String getOutFilename(String infile) {
+    return infile;
+  }
+  
+  /**
+   * INTERNAL: Create a new test case.
+   */
+  protected AbstractCanonicalTestCase makeTestCase(String name, String base) {
+    return new CanonicalTestCase(name, base);
+  }
+  
+  /**
+   * INTERNAL: Should return true if the specified file is to be tested.
+   */
+  protected abstract boolean filter(String filename);
 
   /**
    * INTERNAL: Performs the actual canonicalization.
@@ -58,25 +89,32 @@ public abstract class AbstractCanonicalTests extends TestCase {
   
   // --- Test case class
 
-  protected String filename;
-      
-  public AbstractCanonicalTests(String filename) {
-    this.filename = filename;
-  }
+  public class CanonicalTestCase extends AbstractCanonicalTestCase {
+    private String base;
+    private String filename;
+        
+    public CanonicalTestCase(String filename, String base) {
+      super("testFile");
+      this.filename = filename;
+      this.base = base;
+    }
 
-  @Test
-  public void testFile() throws IOException {
-    String in = filename;
-    String out = filename.replace("/in/", "/out/") + ".cxtm";
-    String baseline = filename.replace("/in/", "/baseline/") + ".cxtm";
-    
-    // produce canonical output
-    canonicalize(in, out);
-    
-    // compare results
-    assertTrue("test file " + filename + " canonicalized wrongly",
-            StreamUtils.compare(new FileInputStream(new File(testOutputDirectory, out)), 
-                                StreamUtils.getInputStream("classpath:" + baseline)));
+    public void testFile() throws IOException {
+      verifyDirectory(base, "out");
+      
+      // setup canonicalization filenames
+      String in = base + File.separator + getFileDirectory() + File.separator +
+        filename;
+      String out = base + File.separator + "out" + File.separator +
+        getOutFilename(filename);
+      // produce canonical output
+      canonicalize(in, out);
+      
+      // compare results
+      assertTrue("test file " + filename + " canonicalized wrongly",
+                 FileUtils.compare(out, base + File.separator + "baseline" +
+                                   File.separator + getOutFilename(filename)));
+    }
   }
 
   // -- internal
