@@ -29,7 +29,7 @@
 								
 								<property name="downloads.directory" value="target/downloads"/>
 								<property name="classes.directory" value="target/classes"/>
-								<property name="package.directory" value="${classes.directory}/net/ontopia/topicmaps/utils"/>
+								<property name="package.directory" value="${classes.directory}/net/ontopia/testdata"/>
 
 							    <property name="xtm2.revision"  value="32" />
 							    <property name="xtm21.revision" value="88" />
