@@ -128,6 +128,22 @@ public class StreamUtils {
   }
 
   /**
+   * INTERNAL: Compares the contents of the two InputStream for equality 
+   * and closes them afterwards.
+   */
+  public static boolean compareAndClose(InputStream r1, InputStream r2) throws IOException {
+    try {
+      try {
+        return compare(r1, r2);
+      } finally {
+        r1.close();
+      }
+    } finally {
+      r2.close();
+    }
+  }
+
+  /**
    * INTERNAL: Compares the contents of the two Readers for equality.
    * @since 4.0
    */
@@ -150,6 +166,20 @@ public class StreamUtils {
       }      
     }
     return true;
+  }
+
+  /**
+    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
+    */
+  public static boolean compareFileToResource(String fileName, String resourceName) throws IOException {
+    return compareAndClose(new FileInputStream(fileName), StreamUtils.getInputStream(resourceName));
+  }
+
+  /**
+    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
+    */
+  public static boolean compareFileToResource(File file, String resourceName) throws IOException {
+    return compareAndClose(new FileInputStream(file), StreamUtils.getInputStream(resourceName));
   }
 
   /**
