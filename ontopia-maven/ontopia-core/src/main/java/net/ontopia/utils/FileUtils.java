@@ -4,6 +4,10 @@
 package net.ontopia.utils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import net.ontopia.utils.ResourcesDirectoryReader.ResourcesFilterIF;
 
 /**
  * INTERNAL: Class that contains useful file operation methods.
@@ -152,4 +156,99 @@ public class FileUtils {
     }    
   }
   
+
+  // File convenience methods
+
+  public static void verifyDirectory(String dir) {
+    File thedir = new File(dir);
+    if (!thedir.exists())
+      thedir.mkdirs();
+  }
+
+  public static void verifyDirectory(String base, String dir) {
+    File thedir = new File(base + File.separator + dir);
+    if (!thedir.exists())
+      thedir.mkdirs();
+  }
+
+  public static void verifyDirectory(String base, String sub1, String sub2) {
+    File thedir = new File(base + File.separator + sub1 + File.separator +
+                           sub2);
+    if (!thedir.exists())
+      thedir.mkdirs();
+  }
+
+
+
+  public static final String testdataInputRoot = "net/ontopia/testdata/";
+  private static String testdataOutputRoot = null;
+
+  public static List getTestInputFiles(String baseDirectory, String subDirectory, String filter) {
+    return getTestInputFiles(baseDirectory + "/" + subDirectory, filter);
+  }
+  public static List getTestInputFiles(String baseDirectory, String subDirectory, ResourcesFilterIF filter) {
+    return getTestInputFiles(baseDirectory + "/" + subDirectory, filter);
+  }
+  public static List getTestInputFiles(String directory, String filter) {
+    String resourcesDirectory = testdataInputRoot + directory;
+    ResourcesDirectoryReader directoryReader = new ResourcesDirectoryReader(resourcesDirectory, filter);
+    return getTestInputFiles(directoryReader, resourcesDirectory);
+  }
+  public static List getTestInputFiles(String directory, ResourcesFilterIF filter) {
+    String resourcesDirectory = testdataInputRoot + directory;
+    ResourcesDirectoryReader directoryReader = new ResourcesDirectoryReader(resourcesDirectory, filter);
+    return getTestInputFiles(directoryReader, resourcesDirectory);
+  }
+  public static List getTestInputFiles(ResourcesDirectoryReader directoryReader, String resourcesDirectory) {
+    Set<String> resources = directoryReader.getResources();
+    if (resources.size() == 0) throw new RuntimeException("No resources found in directory " + resourcesDirectory);
+    List<String[]> tests = new ArrayList<String[]>();
+    for (String resource : resources) {
+      int slashPos = resource.lastIndexOf("/") + 1;
+      String root = resource.substring(0, slashPos);
+      String filename = resource.substring(slashPos);
+      tests.add(new String[] {root, filename});
+    }
+    return tests;
+  }
+  public static String getTestInputFile(String directory, String subDirectory, String filename) {
+    return getTestInputFile(directory + "/" + subDirectory, filename);
+  }
+  public static String getTestInputFile(String directory, String filename) {
+    return "classpath:" + testdataInputRoot + directory + "/" + filename;
+  }
+
+  public static File getTestOutputFile(String directory, String subDirectory, String filename) {
+    return getTestOutputFile(directory + File.separator + subDirectory, filename);
+  }
+  public static File getTestOutputFile(String directory, String filename) {
+	verifyDirectory(getTestdataOutputDirectory(), directory);
+    return new File(getTestdataOutputDirectory() + File.separator + directory + File.separator + filename);
+  }
+
+  /**
+   * Returns the folder used for test output files
+   * @return the folder used for test output files
+   */
+  public static String getTestdataOutputDirectory() {
+    if (testdataOutputRoot == null) {
+      testdataOutputRoot = System.getProperty("net.ontopia.test.root");
+      // Fall back to the user home directory
+      if (testdataOutputRoot == null) {
+        testdataOutputRoot = System.getProperty("user.dir") + File.separator + "target" + File.separator + "test-data" + File.separator;
+      }
+      // Complain if the directory couldn't be found.
+      if (testdataOutputRoot == null) {
+        throw new OntopiaRuntimeException("Could not find test root directory."
+                + " Please set the 'net.ontopia.test.root'"
+                + " system property.");
+      }
+
+      // verify the root
+      verifyDirectory(testdataOutputRoot);
+
+    }
+    return testdataOutputRoot;
+  }
+
 }
