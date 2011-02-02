@@ -169,20 +169,6 @@ public class StreamUtils {
   }
 
   /**
-    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
-    */
-  public static boolean compareFileToResource(String fileName, String resourceName) throws IOException {
-    return compareAndClose(new FileInputStream(fileName), StreamUtils.getInputStream(resourceName));
-  }
-
-  /**
-    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
-    */
-  public static boolean compareFileToResource(File file, String resourceName) throws IOException {
-    return compareAndClose(new FileInputStream(file), StreamUtils.getInputStream(resourceName));
-  }
-
-  /**
    * INTERNAL: Returns an input stream for the given url. Supports
    * file: and classpath:. If no schema given then file system will be
    * checked before classpath. Exception will be thrown if resource is

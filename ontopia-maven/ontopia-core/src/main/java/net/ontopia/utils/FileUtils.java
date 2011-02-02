@@ -140,6 +140,20 @@ public class FileUtils {
   }
 
   /**
+    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
+    */
+  public static boolean compareFileToResource(String fileName, String resourceName) throws IOException {
+    return StreamUtils.compareAndClose(new FileInputStream(fileName), StreamUtils.getInputStream(resourceName));
+  }
+
+  /**
+    * INTERNAL: Compares the contents of a file and a resource that will be loaded from classpath
+    */
+  public static boolean compareFileToResource(File file, String resourceName) throws IOException {
+    return StreamUtils.compareAndClose(new FileInputStream(file), StreamUtils.getInputStream(resourceName));
+  }
+
+  /**
    * INTERNAL: Copies a file's content to another file.
    */
   public static void copyFile(File source, File target) throws IOException {
