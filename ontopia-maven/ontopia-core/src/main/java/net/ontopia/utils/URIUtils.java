@@ -75,6 +75,15 @@ public class URIUtils {
       // we solve this by catching the exception and ignoring it
     }
     
+    // then try loading it as a resource
+    if (uri_or_filename.startsWith("classpath:")) {
+      try {
+          return new URILocator(StreamUtils.getResource(uri_or_filename));
+      } catch (java.io.IOException e) {
+        throw new OntopiaRuntimeException(e);
+      }
+    }
+
     // if that fails, then pretend it's a URI
     try {
       return new URILocator(uri_or_filename);
