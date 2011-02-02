@@ -3,9 +3,7 @@
 
 package net.ontopia.topicmaps.xml;
 
-import net.ontopia.test.*;
 import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.infoset.core.*;
 import net.ontopia.infoset.impl.basic.*;
 import net.ontopia.xml.*;
@@ -14,6 +12,11 @@ import org.xml.sax.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the ExternalReferenceHandlerIF interface by counting
@@ -24,43 +27,42 @@ import java.net.*;
  * in one function which is renamed to _testFoo(), the framework fails as
  * there are no tests it can access.
  */
-public class ExternalRefTest extends AbstractOntopiaTestCase
+public class ExternalRefTest
 {
 
-  public ExternalRefTest(String name) {
-    super(name);
-  }
+  private final static String testdataDirectory = "various";
 
   protected CountingRefHandler readTestFile(String fileName) {
     CountingRefHandler extRefHandler = new CountingRefHandler();
     try {
 
-      String testfile = "file:" + AbstractOntopiaTestCase.getTestDirectory() + File.separator +
-        "various" + File.separator+ fileName;
-      XTMTopicMapReader reader = new XTMTopicMapReader(testfile);
+      String testfile = FileUtils.getTestInputFile(testdataDirectory, fileName);
+      XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(testfile));
       reader.setExternalReferenceHandler(extRefHandler);
       reader.read();
     } catch (MalformedURLException ex) {
-      fail("MalformedURLException initialising base address of test file.");
+      Assert.fail("MalformedURLException initialising base address of test file.");
     } catch (IOException ex) {
-      fail("IOException parsing test file." + ex.toString());
+      Assert.fail("IOException parsing test file." + ex.toString());
     }
 
     return extRefHandler;
   }
 
+  @Test
   public void testExternalRefs() {
     int expectTopics = 7;
     CountingRefHandler extRefHandler = readTestFile("external-ref.xtm");
-    assertTrue("Not all external topics reported. Expected " + String.valueOf(expectTopics) + ", got " 
+    Assert.assertTrue("Not all external topics reported. Expected " + String.valueOf(expectTopics) + ", got " 
                + extRefHandler.getTopicRefs().size(),
                extRefHandler.getTopicRefs().size() == expectTopics);
   }
 
+  @Test
   public void testExternalTMRefs() {
     int expectMaps   = 1;
     CountingRefHandler extRefHandler = readTestFile("external-tm.xtm");
-    assertTrue("Not all external topic maps reported. Expected: " + String.valueOf(expectMaps) + ", got "
+    Assert.assertTrue("Not all external topic maps reported. Expected: " + String.valueOf(expectMaps) + ", got "
                + extRefHandler.getTMRefs().size(),
                extRefHandler.getTMRefs().size() == expectMaps);
   }

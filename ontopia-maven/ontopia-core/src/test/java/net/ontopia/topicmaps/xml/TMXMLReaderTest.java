@@ -4,35 +4,33 @@
 package net.ontopia.topicmaps.xml;
 
 import java.io.*;
-import java.util.*;
-
-import org.xml.sax.SAXParseException;
-
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.xml.*;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TMXMLReaderTest extends AbstractXMLTestCase {
 
-  public TMXMLReaderTest(String name) {
-    super(name);
-  }
-    
+  private final static String testdataDirectory = "canonical";
+
   public void setUp() {
   }
 
   // --- Utilities
 
   protected TopicMapIF readTopicMap(String filename) throws IOException {
-    filename = resolveFileName("canonical" + File.separator + "extra", filename);
-    TMXMLReader reader = new TMXMLReader(filename);
+    filename = FileUtils.getTestInputFile(testdataDirectory, "extra", filename);
+    TMXMLReader reader = new TMXMLReader(URIUtils.getURI(filename));
     return reader.read();
   }
     
   // --- Test cases
 
+  @Test
   public void testReifiedTopicMap() throws IOException {
     TopicMapIF tm = readTopicMap("reified-tm.xml");
     TopicIF reifier = tm.getReifier();
-    assertTrue("Reification was not preserved", reifier != null);
+    Assert.assertTrue("Reification was not preserved", reifier != null);
   }    
 }

@@ -4,24 +4,34 @@
 package net.ontopia.topicmaps.xml;
 
 import java.io.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.infoset.impl.basic.URILocator;
+
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * INTERNAL: Test case generator based on the cxtm-tests external test
  * suite, thus relying on the download-tmxml ant build target.
  */
-public class CanonicalTMXMLReaderTests extends AbstractCanonicalTests {
+public class CanonicalTMXMLReaderTestCase extends AbstractCanonicalTests {
   
-  // --- Canonicalization type methods
+  private final static String testdataDirectory = "tmxml";
 
-  protected String getBaseDirectory() {
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    return root + File.separator + "tmxml" + File.separator;
+  public CanonicalTMXMLReaderTestCase(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    this._testdataDirectory = testdataDirectory;
   }
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xml");
+  }
+
+  // --- Canonicalization type methods
 
   // this is actually the file name of the baseline file
   protected String getOutFilename(String infile) {

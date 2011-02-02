@@ -9,36 +9,28 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.xml.XTMTopicMapWriter;
 import net.ontopia.topicmaps.utils.deciders.TMDecider;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
 
-public class XTMWriterFilterTestGenerator implements TestCaseGeneratorIF {
+import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "canonical" + File.separator;
+@RunWith(Parameterized.class)
+public class XTMWriterFilterTestCase {
 
-    // Create test cases from each topic map file in 'filter-in'.
-    File filterIndir = new File(base + "filter-in" + File.separator);
-    File[] filterInfiles = filterIndir.listFiles();
-    if (filterInfiles != null)
-      for (int i = 0; i < filterInfiles.length; i++) {
-        String name = filterInfiles[i].getName();
-        if (name.endsWith(".ltm") ||
-            name.endsWith(".rdf") ||
-            name.endsWith(".xtm"))
-          tests.add(new FilterTestCase(name, base));
-      }
+  private final static String testdataDirectory = "canonical";
 
-    // Return all the test cases that were generated.
-    return tests.iterator();
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "filter-in", ".ltm|.rdf|.xtm");
   }
 
   // --- Test case class
@@ -50,26 +42,23 @@ public class XTMWriterFilterTestGenerator implements TestCaseGeneratorIF {
    * 'filter-baseline'. The baseline must be created manually, or by inspecting
    * the file in 'filter-out'.
    */
-  public class FilterTestCase extends AbstractCanonicalTestCase {
     private String base;
     private String filename;
 
-    public FilterTestCase(String filename, String base) {
-      super("testFile");
+    public XTMWriterFilterTestCase(String root, String filename) {
       this.filename = filename;
-      this.base = base;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
     }
 
+    @Test
     public void testFile() throws IOException {
-      verifyDirectory(base, "filter-out");
-      verifyDirectory(base, "filter-xtm");
+      FileUtils.verifyDirectory(base, "filter-out");
+      FileUtils.verifyDirectory(base, "filter-xtm");
 
       // Path to the input topic map document.
-      String in = base + File.separator + "filter-in" + File.separator
-          + filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "filter-in", filename);
       // Path to the baseline (canonicalized output of the source topic map).
-      String baseline = base + File.separator + "filter-baseline"
-          + File.separator + filename + ".cxtm";
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "filter-baseline", filename + ".cxtm");
       // Path to the exported xtm topic map document.
       String xtm = base + File.separator + "filter-xtm" + File.separator
           + filename + ".xtm";
@@ -101,9 +90,8 @@ public class XTMWriterFilterTestGenerator implements TestCaseGeneratorIF {
       (new CanonicalXTMWriter(new FileOutputStream(out))).write(xtmMap);
 
       // compare results
-      assertTrue("canonicalizing the test file " + filename
+      Assert.assertTrue("canonicalizing the test file " + filename
           + " gives a different result than canonicalizing the xtm export of "
-          + filename + ".", FileUtils.compare(out, baseline));
+          + filename + ".", FileUtils.compareFileToResource(out, baseline));
     }
-  }
 }

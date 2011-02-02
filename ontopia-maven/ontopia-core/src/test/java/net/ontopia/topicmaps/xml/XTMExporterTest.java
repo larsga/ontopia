@@ -9,48 +9,57 @@ import java.util.Iterator;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.xml.*;
+
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class XTMExporterTest extends AbstractXMLTestCase {
   
-  public XTMExporterTest(String name) {
-    super(name);
+  private final static String testdataDirectory = "canonical";
+
+  @Before
+  public void setVersion() {
     version = 1; // ensure export() uses XTM 1.0
   }
 
   // --- Test cases
 
+  @Test
   public void testEncoding() throws IOException {
-    TopicMapIF tm = load("canonical" + File.separator + "in", "latin1.xtm");
-    String out = resolveFileName("canonical" + File.separator + "out", "tmp-latin1.xtm");
-    XTMTopicMapWriter writer = new XTMTopicMapWriter(new File(out), "iso-8859-1");
+    TopicMapIF tm = load(testdataDirectory, "in", "latin1.xtm");
+    File out = FileUtils.getTestOutputFile(testdataDirectory, "out", "tmp-latin1.xtm");
+    XTMTopicMapWriter writer = new XTMTopicMapWriter(out, "iso-8859-1");
     writer.setVersion(1);
     writer.write(tm);
-    TopicMapIF tm2 = new XTMTopicMapReader(new File(out)).read();
+    TopicMapIF tm2 = new XTMTopicMapReader(out).read();
     // check for a topic that has at least one name
     for (Object obj : tm2.getTopics()) {
       Collection<TopicNameIF> names = ((TopicIF) obj).getTopicNames();
       if (names != null && names.size() > 0) {
         TopicNameIF bn = names.iterator().next();
-        assertTrue("base name value did not survive encoding change roundtrip",
+        Assert.assertTrue("base name value did not survive encoding change roundtrip",
                bn.getValue().equals("B\u00E6 b\u00E6 lille lam, har du noe \u00F8l"));
       }
     }
   }
 
+  @Test
   public void testEncoding2() throws IOException {
-    TopicMapIF tm = load("canonical" + File.separator + "in", "latin1.xtm");
-    String out = resolveFileName("canonical" + File.separator + "out", "tmp-utf-8.xtm");
-    XTMTopicMapWriter writer = new XTMTopicMapWriter(new File(out));
+    TopicMapIF tm = load(testdataDirectory, "in", "latin1.xtm");
+    File out = FileUtils.getTestOutputFile(testdataDirectory, "out", "tmp-utf-8.xtm");
+    XTMTopicMapWriter writer = new XTMTopicMapWriter(out);
     writer.setVersion(1);
     writer.write(tm);
-    TopicMapIF tm2 = new XTMTopicMapReader(new File(out)).read();
+    TopicMapIF tm2 = new XTMTopicMapReader(out).read();
     // check for a topic that has at least one name
     for (Object obj : tm2.getTopics()) {
       Collection<TopicNameIF> names = ((TopicIF) obj).getTopicNames();
       if (names != null && names.size() > 0) {
         TopicNameIF bn = names.iterator().next();
-        assertTrue("base name value did not survive encoding change roundtrip",
+        Assert.assertTrue("base name value did not survive encoding change roundtrip",
             bn.getValue().equals("B\u00E6 b\u00E6 lille lam, har du noe \u00F8l"));
       }
     }
@@ -58,6 +67,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
 
   /// id preservation
   
+  @Test
   public void testPreservesTopicmapID() throws IOException {
     prepareTopicMap();
     topicmap.addItemIdentifier(sourceLoc);
@@ -65,6 +75,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     check("topic map", topicmap);
   }
 
+  @Test
   public void testPreservesTopicID() throws IOException {
     prepareTopicMap();
 
@@ -75,6 +86,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     check("topic", getTopicById(topicmap, "id"));
   }
 
+  @Test
   public void testPreservesTopicID2() throws IOException {
     prepareTopicMap();
 
@@ -86,6 +98,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     check("topic", getTopicById(topicmap, "ide"), loc);
   }
 
+  @Test
   public void testPreservesBasenameID() throws IOException {
     prepareTopicMap();
 
@@ -105,10 +118,11 @@ public class XTMExporterTest extends AbstractXMLTestCase {
       }
     }
     
-    assertNotNull("no topic found with a topic name after reload", topic);
+    Assert.assertNotNull("no topic found with a topic name after reload", topic);
     check("base name", (TopicNameIF) topic.getTopicNames().iterator().next());
   }
 
+  @Test
   public void testPreservesVariantnameID() throws IOException {
     prepareTopicMap();
 
@@ -129,11 +143,12 @@ public class XTMExporterTest extends AbstractXMLTestCase {
       }
     }
     
-    assertNotNull("no topic found with a topic name after reload", topic);
+    Assert.assertNotNull("no topic found with a topic name after reload", topic);
     bn = (TopicNameIF) topic.getTopicNames().iterator().next();
     check("variant name", (VariantNameIF) bn.getVariants().iterator().next());
   }
 
+  @Test
   public void testPreservesOccurrenceID() throws IOException {
     prepareTopicMap();
 
@@ -149,6 +164,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     check("occurrence", (OccurrenceIF) topic.getOccurrences().iterator().next());
   }
 
+//   @Test
 //   public void testPreservesAssociationID() throws IOException {
 //     prepareTopicMap();
 
@@ -163,6 +179,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
   
   /// empty strings and nulls
 
+  @Test
   public void testEmptyTopicName() throws IOException {
     prepareTopicMap();
 
@@ -181,17 +198,18 @@ public class XTMExporterTest extends AbstractXMLTestCase {
       }
     }
     
-    assertNotNull("no topic found with a topic name after reload", topic);
+    Assert.assertNotNull("no topic found with a topic name after reload", topic);
 
     Iterator it = topic.getTopicNames().iterator();
-    assertTrue("empty base name lost on export and re-import",
+    Assert.assertTrue("empty base name lost on export and re-import",
            it.hasNext());
     bn = (TopicNameIF) it.next();
-    assertTrue("empty base name has '" + bn.getValue() +
+    Assert.assertTrue("empty base name has '" + bn.getValue() +
            "' instead of empty string on re-import",
            bn.getValue() != null && bn.getValue().equals(""));
   }
 
+  @Test
   public void testEmptyVariantName() throws IOException {
     prepareTopicMap();
 
@@ -211,18 +229,19 @@ public class XTMExporterTest extends AbstractXMLTestCase {
       }
     }
     
-    assertNotNull("no topic found with a topic name after reload", topic);
+    Assert.assertNotNull("no topic found with a topic name after reload", topic);
     bn = (TopicNameIF) topic.getTopicNames().iterator().next();
     
     Iterator it = bn.getVariants().iterator();
-    assertTrue("empty variant name lost on export and re-import",
+    Assert.assertTrue("empty variant name lost on export and re-import",
            it.hasNext());
     vn = (VariantNameIF) it.next();
-    assertTrue("empty variant name has '" + vn.getValue() +
+    Assert.assertTrue("empty variant name has '" + vn.getValue() +
            "' instead of empty string on re-import",
            vn.getValue() != null && vn.getValue().equals(""));
   }
   
+  @Test
   public void testEmptyOccurrence() throws IOException {
     prepareTopicMap();
 
@@ -237,14 +256,15 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     topic = topicmap.getTopicBySubjectIdentifier(loc);
 
     Iterator it = topic.getOccurrences().iterator();
-    assertTrue("empty occurrence lost on export and re-import",
+    Assert.assertTrue("empty occurrence lost on export and re-import",
            it.hasNext());
     occ = (OccurrenceIF) it.next();
-    assertTrue("empty occurrence has '" + occ.getValue() +
+    Assert.assertTrue("empty occurrence has '" + occ.getValue() +
            "' instead of empty string on re-import",
            occ.getValue() != null && occ.getValue().equals(""));
   }
 
+  @Test
   public void testNullOccurrence() throws IOException {
     prepareTopicMap();
 
@@ -258,26 +278,28 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     topic = topicmap.getTopicBySubjectIdentifier(psi);
 
     Iterator it = topic.getOccurrences().iterator();
-    assertTrue("null occurrence lost on export and re-import",
+    Assert.assertTrue("null occurrence lost on export and re-import",
            it.hasNext());
     occ = (OccurrenceIF) it.next();
-    assertTrue("null occurrence has '" + occ.getValue() +
+    Assert.assertTrue("null occurrence has '" + occ.getValue() +
            "' instead of empty string on re-import",
            occ.getValue() != null && occ.getValue().equals(""));
   }
 
   /// id collisions
 
+  @Test
   public void testDuplicateIDs() throws IOException {
     // importing and exporting this file causes duplicate IDs
     // these are detected on re-import
-    tmfile = new File(resolveFileName("canonical" + File.separator + "out", "duplicate-ids.xtm"));
+    tmfile = FileUtils.getTestOutputFile(testdataDirectory, "out", "duplicate-ids.xtm");
     topicmap = load("various", "duplicate-ids.xtm");
     reload();
   }
 
   /// skipping ids
 
+  @Test
   public void testOmittingIDs() throws IOException {
     prepareTopicMap();
     TopicIF topic = builder.makeTopic();
@@ -298,9 +320,10 @@ public class XTMExporterTest extends AbstractXMLTestCase {
         break;
     }
     occ = (OccurrenceIF) topic.getOccurrences().iterator().next();
-    assertTrue("occurrence had ID!", occ.getItemIdentifiers().isEmpty());
+    Assert.assertTrue("occurrence had ID!", occ.getItemIdentifiers().isEmpty());
   }
 
+  @Test
   public void testOmittingIDs2() throws IOException {
     prepareTopicMap();
     TopicIF topic = builder.makeTopic();
@@ -324,11 +347,12 @@ public class XTMExporterTest extends AbstractXMLTestCase {
 
     occ = (OccurrenceIF) topic.getOccurrences().iterator().next();
     topic2 = occ.getReifier();
-    assertTrue("reification relationship was lost on export and reimport",
+    Assert.assertTrue("reification relationship was lost on export and reimport",
                topic2 != null);
   }
 
   // motivated by bug #1426
+  @Test
   public void testOmittingIDs3() throws IOException {
     prepareTopicMap();
     
@@ -336,10 +360,11 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     topicmap.addItemIdentifier(sourceLoc);
     
     reload(); // screwup most likely causes crash here
-    assertTrue("topic map retained syntactically invalid id",
+    Assert.assertTrue("topic map retained syntactically invalid id",
                !topicmap.getItemIdentifiers().contains(sourceLoc));
   }
 
+  @Test
   public void testOmittingIDsPreserveReification() throws IOException {
     prepareTopicMap();
     
@@ -350,11 +375,12 @@ public class XTMExporterTest extends AbstractXMLTestCase {
 
     // now for the real test
 		reifier = topicmap.getReifier();
-    assertTrue("reification connection broken on export", reifier != null);
+    Assert.assertTrue("reification connection broken on export", reifier != null);
   }
   
   /// exporting invalid structures
 
+  @Test
   public void testEmptyAssociation() throws IOException {
     prepareTopicMap();
     
@@ -362,6 +388,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     reload(true); // validation will make this fail if bug #1024 is present
   }
 
+  @Test
   public void testBug654OnRDBMS() throws IOException {    
     // this test verifies that not are source locators of the form
     // id34234 not used to form IDs on export, but neither are those
@@ -373,7 +400,7 @@ public class XTMExporterTest extends AbstractXMLTestCase {
     topic.addItemIdentifier(tmbase.resolveAbsolute("#" + tid));
     XTMTopicMapExporter exp = new XTMTopicMapExporter();
     String id = exp.getElementId(topic);
-    assertTrue("unacceptable ID used", !id.equals(tid));
+    Assert.assertTrue("unacceptable ID used", !id.equals(tid));
   }
   
   // --- Internal helper methods
@@ -395,13 +422,16 @@ public class XTMExporterTest extends AbstractXMLTestCase {
 
   private void check(String what, TMObjectIF obj, LocatorIF srcloc) {
     Iterator it = obj.getItemIdentifiers().iterator();
-    assertTrue(what + " id lost on export and re-import",
+    Assert.assertTrue(what + " id lost on export and re-import",
                it.hasNext());
-    assertTrue(what + " source locator corrupted",
+    Assert.assertTrue(what + " source locator corrupted",
                it.next().equals(srcloc));
   }
 
+  private TopicMapIF load(String dir, String subdir, String file) throws IOException {
+    return load(dir + "/" + subdir, file);
+  }
   private TopicMapIF load(String dir, String file) throws IOException {
-    return new XTMTopicMapReader(new File(resolveFileName(dir, file))).read();
+    return new XTMTopicMapReader(URIUtils.getURI(FileUtils.getTestInputFile(dir, file))).read();
   }
 }

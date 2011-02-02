@@ -4,12 +4,14 @@
 package net.ontopia.topicmaps.xml;
 
 import java.io.File;
+import net.ontopia.topicmaps.entry.AbstractTopicMapSourceTest;
+import net.ontopia.utils.FileUtils;
+import org.junit.Test;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.entry.test.AbstractTopicMapSourceTest;
-import net.ontopia.topicmaps.xml.XTMPathTopicMapSource;
 
 public class XTMPathTopicMapSourceTest extends AbstractTopicMapSourceTest {
+
+  private final static String testdataDirectory = "canonical";
 
   public XTMPathTopicMapSourceTest(String name) {
     super(name);
@@ -17,11 +19,12 @@ public class XTMPathTopicMapSourceTest extends AbstractTopicMapSourceTest {
 
   // --- Test cases
 
+  @Test
   public void testSource() {
     XTMPathTopicMapSource source = new XTMPathTopicMapSource();
     source.setId("fooid");
     source.setTitle("footitle");
-    source.setPath(AbstractOntopiaTestCase.getTestDirectory() + File.separator + "canonical" + File.separator + "in");
+    source.setPath("classpath:" + FileUtils.testdataInputRoot + testdataDirectory + "/" + "in");
     source.setSuffix(".xtm");
     
     // run abstract topic map source tests

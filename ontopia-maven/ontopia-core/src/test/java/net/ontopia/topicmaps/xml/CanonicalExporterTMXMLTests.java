@@ -6,25 +6,46 @@ package net.ontopia.topicmaps.xml;
 import java.io.*;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.infoset.impl.basic.URILocator;
+
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.ResourcesDirectoryReader.ResourcesFilterIF;
+import org.junit.runners.Parameterized.Parameters;
 
 public class CanonicalExporterTMXMLTests
   extends AbstractCanonicalExporterTests {
   
-  // --- Canonicalization type methods
+  private final static String testdataDirectory = "canonical";
 
-  protected boolean filter(String filename) {
-    // Ignore importInto-specific file.
-    if (filename.equals("multiple-tms-read.xtm") ||
-        filename.equals("bug750.xtm") ||
-        filename.equals("empty-member.xtm") ||
-        filename.equals("empty.xtm") ||
-        filename.equals("whitespace.xtm"))
-      return false;
-    
-    return filename.endsWith(".xtm");
+  public CanonicalExporterTMXMLTests(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    this._testdataDirectory = testdataDirectory;
   }
+
+  @Parameters
+  public static List generateTests() {
+    ResourcesFilterIF filter = new ResourcesFilterIF() {
+      public boolean ok(String resourcePath) {
+        // Ignore importInto-specific file.
+        if (resourcePath.endsWith("multiple-tms-read.xtm") ||
+            resourcePath.endsWith("bug750.xtm") ||
+            resourcePath.endsWith("empty-member.xtm") ||
+            resourcePath.endsWith("empty.xtm") ||
+            resourcePath.endsWith("whitespace.xtm"))
+          return false;
+
+        return resourcePath.endsWith(".xtm");
+      }
+    };
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", filter);
+  }
+
+  protected String getTestdataDirectory() {
+    return testdataDirectory;
+  }
+
+  // --- Canonicalization type methods
 
   protected TopicMapIF exportAndReread(TopicMapIF topicmap, String outfile)
     throws IOException {

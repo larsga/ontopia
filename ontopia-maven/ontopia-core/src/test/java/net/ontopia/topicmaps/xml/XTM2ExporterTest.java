@@ -3,8 +3,6 @@ package net.ontopia.topicmaps.xml;
 
 import java.io.IOException;
 
-import junit.framework.*;
-
 import org.xml.sax.XMLReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -16,18 +14,24 @@ import net.ontopia.xml.DefaultXMLReaderFactory;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 // extending XTMExporterTest in order to reuse some of the helper code
 public class XTM2ExporterTest extends AbstractXMLTestCase {
   
-  public XTM2ExporterTest(String name) {
-    super(name);
+  private final static String testdataDirectory = "canonical";
+
+  @Before
+  public void setVersion() {
     version = 2; // ensure that export uses XTM 2.0
   }
 
   // --- Test cases
 
   // motivated by issue 133
+  @Test
   public void testOccurrenceURIExport() throws IOException, SAXException {
     prepareTopicMap();
     TopicIF topic = builder.makeTopic();
@@ -46,6 +50,7 @@ public class XTM2ExporterTest extends AbstractXMLTestCase {
     handler.check();
   }
 
+  @Test
   public void testVariantURIExport() throws IOException, SAXException {
     prepareTopicMap();
     TopicIF topic = builder.makeTopic();
@@ -64,6 +69,7 @@ public class XTM2ExporterTest extends AbstractXMLTestCase {
     handler.check();
   }
 
+  @Test
   public void testStringDatatype() throws IOException, SAXException {
     prepareTopicMap();
     TopicIF topic = builder.makeTopic();
@@ -114,16 +120,16 @@ public class XTM2ExporterTest extends AbstractXMLTestCase {
     }
 
     public void check() {
-      assertTrue("element " + element + " not found", foundElement);
+      Assert.assertTrue("element " + element + " not found", foundElement);
       if (allowed == REQUIRED)
-        assertTrue("attribute " + attribute + " not found", foundAttribute);
+        Assert.assertTrue("attribute " + attribute + " not found", foundAttribute);
 
       if (allowed == REQUIRED)
-        assertTrue("value " + value + " not found", foundValue);
+        Assert.assertTrue("value " + value + " not found", foundValue);
       else if (allowed == FORBIDDEN)
-        assertTrue("value " + value + " found", !foundValue);
+        Assert.assertTrue("value " + value + " found", !foundValue);
       else
-        fail("Unknown allowed value: " + allowed);
+        Assert.fail("Unknown allowed value: " + allowed);
     }
 
     public void startElement(String nsuri, String localname,

@@ -11,18 +11,20 @@ import java.io.StringWriter;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.xml.TMXMLWriter;
-import net.ontopia.topicmaps.test.*;
 import org.xml.sax.SAXException;
 
-public class TMXMLWriterTest extends AbstractTopicMapTestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import net.ontopia.utils.FileUtils;
+
+public class TMXMLWriterTest {
   private TopicMapIF topicmap;
   private TopicMapBuilderIF builder;
   
-  public TMXMLWriterTest(String name) {
-    super(name);
-  }
-    
+  private final static String testdataDirectory = "tmxmlWriter";
+
+  @Before
   public void setUp() {
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();
@@ -31,6 +33,7 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
  
   // --- Test cases
 
+  @Test
   public void testPrefixOrdering() throws IOException {
     // bug #1933: the namespace prefixes created for some namespaces
     // take the form of 'preXX', and these are not predictable, as
@@ -61,28 +64,31 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
     writer.gatherPrefixes(topic1);
 
     nsuris = writer.getNamespaceURIMapping();
-    assertEquals("namespace prefixes not consistent,",
+    Assert.assertEquals("namespace prefixes not consistent,",
                  nsuris.get("http://iso/"), isopre); 
-    assertEquals("namespace prefixes not consistent",
+    Assert.assertEquals("namespace prefixes not consistent",
                  nsuris.get("http://xtm/"), xtmpre);
   }
 
+  @Test
   public void testWriterClosing() throws IOException {
     // make sure the writer does not close writer objects passed in to it
     MockWriter mock = new MockWriter();
     TMXMLWriter writer = new TMXMLWriter(mock);
     writer.close();
-    assertFalse("Exporter closes external writer object", mock.isClosed());
+    Assert.assertFalse("Exporter closes external writer object", mock.isClosed());
   }
 
+  @Test
   public void testWriterClosing2() throws IOException {
     // make sure the writer does not close writer objects passed in to it
     MockWriter mock = new MockWriter();
     TMXMLWriter writer = new TMXMLWriter(mock, "iso-8859-1");
     writer.close();
-    assertFalse("Exporter closes external writer object", mock.isClosed());
+    Assert.assertFalse("Exporter closes external writer object", mock.isClosed());
   }
 
+  @Test
   public void testFileClosing() throws IOException, SAXException {
     // make sure the writer closes streams it creates
     String file = getAbsoluteFilename("closing.tmx");
@@ -93,10 +99,11 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
     writer.close();
 
     File f = new File(file);
-    assertTrue("Close method does not close stream",
+    Assert.assertTrue("Close method does not close stream",
                f.length() > 0);
   }
 
+  @Test
   public void testFileClosing2() throws IOException, SAXException {
     // make sure the writer closes streams it creates
     String file = getAbsoluteFilename("closing.tmx");
@@ -107,10 +114,11 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
     writer.close();
 
     File f = new File(file);
-    assertTrue("Close method does not close stream",
+    Assert.assertTrue("Close method does not close stream",
                f.length() > 0);
   }
 
+  @Test
   public void testFileClosing3() throws IOException, SAXException {
     // make sure the writer closes streams it creates
     String file = getAbsoluteFilename("closing.tmx");
@@ -121,10 +129,11 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
     writer.endTopicMap();
     writer.close();
 
-    assertTrue("Close method does not close stream",
+    Assert.assertTrue("Close method does not close stream",
                f.length() > 0);
   }
 
+  @Test
   public void testBug2116() throws IOException, SAXException {
     MockWriter mock = new MockWriter();
     TMXMLWriter writer = new TMXMLWriter(mock, "utf-8");
@@ -136,9 +145,9 @@ public class TMXMLWriterTest extends AbstractTopicMapTestCase {
   // --- Helpers
 
   private String getAbsoluteFilename(String file) {
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    verifyDirectory(root, "tmxmlWriter", "out");
-    String base = root + File.separator + "tmxmlWriter" + File.separator;
+    String root = FileUtils.getTestdataOutputDirectory();
+    FileUtils.verifyDirectory(root, testdataDirectory, "out");
+    String base = root + File.separator + testdataDirectory + File.separator;
     return base + "out" + File.separator + file;
   }
   

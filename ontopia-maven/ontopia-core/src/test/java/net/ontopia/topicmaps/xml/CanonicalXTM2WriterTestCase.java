@@ -8,60 +8,50 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 
-public class CanonicalXTM2WriterTestGenerator implements TestCaseGeneratorIF {
+import java.util.List;
+import net.ontopia.utils.URIUtils;
 
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "xtm2" + File.separator;
-     
-    File indir = new File(base + "in" + File.separator);
-     
-    File[] infiles = indir.listFiles();
-    if (infiles == null)
-      return Collections.EMPTY_SET.iterator();
-     
-    for (int i = 0; i < infiles.length; i++) {
-      String name = infiles[i].getName();
-      if (name.endsWith(".xtm"))
-        tests.add(makeTestCase(name, base));
-    }
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-    return tests.iterator();
-  }
+@RunWith(Parameterized.class)
+public class CanonicalXTM2WriterTestCase {
 
-  protected AbstractCanonicalTestCase makeTestCase(String name, String base) {
-    return new CanonicalTestCase(name, base);
+  private final static String testdataDirectory = "xtm2";
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xtm");
   }
 
   // --- Test case class
 
-  public class CanonicalTestCase extends AbstractCanonicalTestCase {
-    protected String base;
-    protected String filename;
+    private String base;
+    private String filename;
       
-    public CanonicalTestCase(String filename, String base) {
-      super("testFile");
+    public CanonicalXTM2WriterTestCase(String root, String filename) {
       this.filename = filename;
-      this.base = base;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
     }
   
+    @Test
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
    
       // Path to the input topic map
-      String in = base + File.separator + "in" + File.separator + filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
       // Path to the baseline
-      String baseline = base + File.separator + "baseline" + File.separator 
-        + filename + ".cxtm";
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", 
+        filename + ".cxtm");
       // Path to the canonicalized output.
       String out = base + File.separator + "out" + File.separator 
         + "tmp-" + filename + ".cxtm";
@@ -70,7 +60,7 @@ public class CanonicalXTM2WriterTestGenerator implements TestCaseGeneratorIF {
         + "tmp-" + filename;
   
       // Import topic map from arbitrary source.
-      TopicMapIF tm = new XTMTopicMapReader(new File(in)).read();
+      TopicMapIF tm = new XTMTopicMapReader(URIUtils.getURI(in)).read();
       LocatorIF base = tm.getStore().getBaseAddress();
 
       // Export to XTM 2.0
@@ -92,8 +82,7 @@ public class CanonicalXTM2WriterTestGenerator implements TestCaseGeneratorIF {
       os.close();
       
       // compare results
-      assertTrue("The test file " + filename + " is different from the baseline: " + out + " " + baseline,
-                 FileUtils.compare(out, baseline));
+      Assert.assertTrue("The test file " + filename + " is different from the baseline: " + out + " " + baseline,
+              FileUtils.compareFileToResource(out, baseline));
     }
-  }
 }

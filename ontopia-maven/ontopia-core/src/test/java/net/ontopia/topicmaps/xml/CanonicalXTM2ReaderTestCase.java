@@ -4,24 +4,35 @@
 package net.ontopia.topicmaps.xml;
 
 import java.io.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
-import net.ontopia.topicmaps.xml.*;
-import net.ontopia.infoset.impl.basic.URILocator;
 
-public class CanonicalXTM2ReaderTestGenerator extends AbstractCanonicalTests {
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.runners.Parameterized.Parameters;
+
+public class CanonicalXTM2ReaderTestCase extends AbstractCanonicalTests {
   
-  // --- Canonicalization type methods
+  private final static String testdataDirectory = "xtm2";
 
-  protected boolean filter(String filename) {
-    return filename.endsWith(".xtm");   
+  public CanonicalXTM2ReaderTestCase(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    this._testdataDirectory = testdataDirectory;
   }
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xtm");
+  }
+
+  // --- Canonicalization type methods
 
   protected void canonicalize(String infile, String outfile)
     throws IOException {
     TopicMapStoreFactoryIF sfactory = getStoreFactory();
-    XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
+    XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(infile));
     reader.setValidation(false);
     // FIXME: should we do a setXTM2Required(true) or something?
     reader.setStoreFactory(sfactory);
@@ -35,11 +46,6 @@ public class CanonicalXTM2ReaderTestGenerator extends AbstractCanonicalTests {
     source.getStore().close();
   }
 
-  protected String getBaseDirectory() {
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    return root + File.separator + "xtm2" + File.separator;
-  }
-  
   protected String getOutFilename(String infile) {
     return infile + ".cxtm";
   }

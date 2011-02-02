@@ -8,45 +8,23 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.test.*;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryStoreFactory;
 import net.ontopia.utils.FileUtils;
 
-public abstract class AbstractCanonicalTests implements TestCaseGeneratorIF {
-  
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String base = getBaseDirectory();
-        
-    File indir = new File(base + getFileDirectory() + File.separator);
-    if (!indir.exists())
-      throw new OntopiaRuntimeException("Directory '" + indir +
-                                        "' does not exist!");
-    
-    File[] infiles = indir.listFiles();
-    if (infiles == null)
-      return java.util.Collections.EMPTY_SET.iterator();
-        
-    for (int ix = 0; ix < infiles.length; ix++) {
-      if (!infiles[ix].isDirectory() && filter(infiles[ix].getName()))
-        tests.add(makeTestCase(infiles[ix].getName(), base));
-    }
+import java.util.ArrayList;
+import java.util.List;
 
-    return tests.iterator();
-  }
-  
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+@RunWith(Parameterized.class)
+public abstract class AbstractCanonicalTests {
+
   // --- Canonicalization type methods
 
-  /**
-   * INTERNAL: Returns base directory of tests.
-   */
-  protected String getBaseDirectory() {
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    return root + File.separator + "canonical" + File.separator;
-  }
-  
   /**
    * INTERNAL: Returns directory to search for files in.
    */
@@ -61,18 +39,6 @@ public abstract class AbstractCanonicalTests implements TestCaseGeneratorIF {
   protected String getOutFilename(String infile) {
     return infile;
   }
-  
-  /**
-   * INTERNAL: Create a new test case.
-   */
-  protected AbstractCanonicalTestCase makeTestCase(String name, String base) {
-    return new CanonicalTestCase(name, base);
-  }
-  
-  /**
-   * INTERNAL: Should return true if the specified file is to be tested.
-   */
-  protected abstract boolean filter(String filename);
 
   /**
    * INTERNAL: Performs the actual canonicalization.
@@ -89,38 +55,35 @@ public abstract class AbstractCanonicalTests implements TestCaseGeneratorIF {
   
   // --- Test case class
 
-  public class CanonicalTestCase extends AbstractCanonicalTestCase {
-    private String base;
-    private String filename;
-        
-    public CanonicalTestCase(String filename, String base) {
-      super("testFile");
-      this.filename = filename;
-      this.base = base;
-    }
+    protected String base;
+    protected String filename;
+    protected String _testdataDirectory;
 
+    @Test
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
       
       // setup canonicalization filenames
-      String in = base + File.separator + getFileDirectory() + File.separator +
-        filename;
+      String in = FileUtils.getTestInputFile(_testdataDirectory, getFileDirectory(), 
+        filename);
       String out = base + File.separator + "out" + File.separator +
         getOutFilename(filename);
       // produce canonical output
       canonicalize(in, out);
       
       // compare results
-      assertTrue("test file " + filename + " canonicalized wrongly",
-                 FileUtils.compare(out, base + File.separator + "baseline" +
-                                   File.separator + getOutFilename(filename)));
+      String baseline = FileUtils.getTestInputFile(_testdataDirectory, "baseline", 
+        getOutFilename(filename));
+      Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+              FileUtils.compareFileToResource(out, baseline));
     }
-  }
 
   // -- internal
 
   public static String file2URL(String filename) {
-    try {
+    if (filename.startsWith("classpath:")) {
+      return net.ontopia.utils.URIUtils.getURI(filename).getExternalForm();
+    } else try {
       return new File(filename).toURL().toExternalForm();
     } catch (java.net.MalformedURLException e) {
       throw new OntopiaRuntimeException(e);

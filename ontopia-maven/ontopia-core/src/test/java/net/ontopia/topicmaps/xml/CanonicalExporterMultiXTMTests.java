@@ -7,21 +7,34 @@ import java.io.*;
 import java.util.*;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.FileUtils;
 
+import java.util.List;
+import org.junit.Assert;
+import org.junit.runners.Parameterized.Parameters;
+import net.ontopia.utils.URIUtils;
+
 public class CanonicalExporterMultiXTMTests extends AbstractCanonicalExporterTests {
   
-  // --- Canonicalization type methods
+  private final static String testdataDirectory = "canonical";
 
-  protected boolean filter(String filename) {
-    // Only include designated files
-    if (filename.endsWith(".xtm.multi"))
-      return true;
-    else
-      return false;
+  public CanonicalExporterMultiXTMTests(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    this._testdataDirectory = testdataDirectory;
   }
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xtm.multi");
+  }
+
+  protected String getTestdataDirectory() {
+    return testdataDirectory;
+  }
+
+  // --- Canonicalization type methods
 
   // canonicalize NOT USED!
   
@@ -29,36 +42,20 @@ public class CanonicalExporterMultiXTMTests extends AbstractCanonicalExporterTes
     return null; // not needed, because we don't use canonicalize
   }
 
-  protected AbstractCanonicalTestCase createTestCase(String name, String base) {
-    return new CanonicalTestCase(name, base);
-  }
-  
   // --- Test case class
 
-  public class CanonicalTestCase extends AbstractCanonicalTestCase {
-    private String base;
-    private String filename;
-        
-    public CanonicalTestCase(String filename, String base) {
-      super("testExport");
-      this.filename = filename;
-      this.base = base;
-    }
-
     public void testExport() throws IOException {
-      verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
       
       // setup canonicalization filenames
-      String inpath = base + File.separator + "in" + File.separator;
       String outpath = base + File.separator + "out" + File.separator;
-      String basepath = base + File.separator + "baseline" + File.separator;
       
       // Get store factory
       TopicMapStoreFactoryIF sfactory = getStoreFactory();
       
       // Read all topic maps from document
-      String infile = inpath + filename;
-      XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
+      String infile = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
+      XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(infile));
       reader.setValidation(false);
       reader.setStoreFactory(sfactory);
       
@@ -92,12 +89,11 @@ public class CanonicalExporterMultiXTMTests extends AbstractCanonicalExporterTes
         source2.getStore().close();
                 
         // Compare results
-        String basefile = basepath + filename + "-" + counter;
-        assertTrue("test file " + filename + " canonicalized wrongly, " +
+        String basefile = FileUtils.getTestInputFile(testdataDirectory, "baseline", filename + "-" + counter);
+        Assert.assertTrue("test file " + filename + " canonicalized wrongly, " +
                    outfile + " not equal to " + basefile,
-                   FileUtils.compare(outfile, basefile));
+                   FileUtils.compareFileToResource(outfile, basefile));
       }      
     }
-  }
   
 }

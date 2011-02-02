@@ -7,22 +7,41 @@ import java.io.*;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
-import net.ontopia.topicmaps.xml.*;
 import net.ontopia.infoset.impl.basic.URILocator;
+
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.ResourcesDirectoryReader.ResourcesFilterIF;
+import net.ontopia.utils.URIUtils;
+import org.junit.runners.Parameterized.Parameters;
 
 public class CanonicalXTMimportIntoTests extends AbstractCanonicalTests {
   
-  // --- Canonicalization type methods
+  private final static String testdataDirectory = "canonical";
 
-  protected boolean filter(String filename) {
-    // Ignore importInto-specific file.
-    if (filename.equals("multiple-tms-read.xtm")) return false;
-    
-    if (filename.endsWith(".xtm"))
-      return true;
-    else
-      return false;
+  public CanonicalXTMimportIntoTests(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    this._testdataDirectory = testdataDirectory;
   }
+
+  @Parameters
+  public static List generateTests() {
+    ResourcesFilterIF filter = new ResourcesFilterIF() {
+      public boolean ok(String resourcePath) {
+        // Ignore importInto-specific file.
+        if (resourcePath.endsWith("multiple-tms-read.xtm")) return false;
+
+        if (resourcePath.endsWith(".xtm"))
+          return true;
+        else
+          return false;
+      }
+    };
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", filter);
+  }
+
+  // --- Canonicalization type methods
 
   protected void canonicalize(String infile, String outfile) throws IOException {
     // Get store factory
@@ -31,7 +50,7 @@ public class CanonicalXTMimportIntoTests extends AbstractCanonicalTests {
 
     // Read document
     TopicMapIF source = store.getTopicMap();
-    XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
+    XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(infile));
     reader.setValidation(false);
     reader.importInto(source);
 
