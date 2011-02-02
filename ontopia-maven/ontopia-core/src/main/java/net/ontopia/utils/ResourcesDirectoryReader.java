@@ -19,43 +19,71 @@ public class ResourcesDirectoryReader {
 
   private final ClassLoader classLoader;
   private final String directoryPath;
-  private final String filenameFilter;
-  private final static String filenameFilterDefaultValue = null;
   private final boolean searchSubdirectories;
   private final static boolean searchSubdirectoriesDefaultValue = false;
-  private TreeSet<String> resources;
-
-  public ResourcesDirectoryReader(String directoryPath) {
-    this(directoryPath, filenameFilterDefaultValue, searchSubdirectoriesDefaultValue);
-  }
-  public ResourcesDirectoryReader(String directoryPath, String filenameFilter) {
-    this(directoryPath, filenameFilter, searchSubdirectoriesDefaultValue);
-  }
-  public ResourcesDirectoryReader(String directoryPath, boolean searchSubdirectories) {
-    this(directoryPath, filenameFilterDefaultValue, searchSubdirectories);
-  }
-  public ResourcesDirectoryReader(String directoryPath, String filenameFilter, boolean searchSubdirectories) {
-    this(Thread.currentThread().getContextClassLoader(), directoryPath, filenameFilter, searchSubdirectories);
-  }
+  private HashSet<ResourcesFilterIF> filters;
+  private TreeSet<String> resources = null;
 
   public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath) {
-    this(classLoader, directoryPath, filenameFilterDefaultValue, searchSubdirectoriesDefaultValue);
-  }
-  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, String filenameFilter) {
-    this(classLoader, directoryPath, filenameFilter, searchSubdirectoriesDefaultValue);
+    this(classLoader, directoryPath, searchSubdirectoriesDefaultValue);
   }
   public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, boolean searchSubdirectories) {
-    this(classLoader, directoryPath, filenameFilterDefaultValue, searchSubdirectories);
-  }
-  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, String filenameFilter, boolean searchSubdirectories) {
     this.classLoader = classLoader;
     this.directoryPath = (directoryPath.endsWith("/")) ? directoryPath : (directoryPath + "/");
-    this.filenameFilter = filenameFilter;
     this.searchSubdirectories = searchSubdirectories;
-    findResources();
+    this.filters = new HashSet<ResourcesFilterIF>();
+  }
+
+  // Constructors without classloader default to Thread.currentThread().getContextClassLoader()
+  public ResourcesDirectoryReader(String directoryPath) {
+    this(directoryPath, searchSubdirectoriesDefaultValue);
+  }
+  public ResourcesDirectoryReader(String directoryPath, boolean searchSubdirectories) {
+    this(Thread.currentThread().getContextClassLoader(), directoryPath, searchSubdirectories);
+  }
+
+  // Constructors with filter
+  public ResourcesDirectoryReader(String directoryPath, ResourcesFilterIF filter) {
+    this(directoryPath, searchSubdirectoriesDefaultValue, filter);
+  }
+  public ResourcesDirectoryReader(String directoryPath, boolean searchSubdirectories, ResourcesFilterIF filter) {
+    this(Thread.currentThread().getContextClassLoader(), directoryPath, searchSubdirectories, filter);
+  }
+  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, ResourcesFilterIF filter) {
+    this(classLoader, directoryPath, searchSubdirectoriesDefaultValue, filter);
+  }
+  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, boolean searchSubdirectories, ResourcesFilterIF filter) {
+    this(classLoader, directoryPath, searchSubdirectories);
+    addFilter(filter);
+  }
+
+  // Constructors with FilenameExtensionFilter shortcuts
+  public ResourcesDirectoryReader(String directoryPath, String filenameFilter) {
+    this(directoryPath, searchSubdirectoriesDefaultValue, filenameFilter);
+  }
+  public ResourcesDirectoryReader(String directoryPath, boolean searchSubdirectories, String filenameFilter) {
+    this(Thread.currentThread().getContextClassLoader(), directoryPath, searchSubdirectories, filenameFilter);
+  }
+  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, String filenameFilter) {
+    this(classLoader, directoryPath, searchSubdirectoriesDefaultValue, filenameFilter);
+  }
+  public ResourcesDirectoryReader(ClassLoader classLoader, String directoryPath, boolean searchSubdirectories, String filenameFilter) {
+    this(classLoader, directoryPath, searchSubdirectories);
+
+    String[] filenameFilters = filenameFilter.split("\\|");
+    for (String filter : filenameFilters) {
+      addFilter(new FilenameExtensionFilter(filter));
+    }
+  }
+
+  public void addFilter(ResourcesFilterIF filter) {
+    this.filters.add(filter);
   }
 
   public Set<String> getResources() {
+	if (resources == null) {
+		findResources();
+	}
     return resources;
   }
   public Set<InputStream> getResourcesAsStreams() {
@@ -66,14 +94,6 @@ public class ResourcesDirectoryReader {
     return streams;
   }
 
-  private List<URL> getResourceDirectories() {
-    try {
-      Enumeration<URL> directories = classLoader.getResources(directoryPath);
-      return Collections.list(directories);
-    } catch (IOException e) {
-      return Collections.emptyList();
-    }
-  }
 
   private void findResources() {
     resources = new TreeSet<String>();
@@ -84,6 +104,15 @@ public class ResourcesDirectoryReader {
       } else if ("jar".equals(protocol)) {
         findResourcesFromJar(directoryURL);
       } // other protocols not yet supported
+    }
+  }
+
+  private List<URL> getResourceDirectories() {
+    try {
+      Enumeration<URL> directories = classLoader.getResources(directoryPath);
+      return Collections.list(directories);
+    } catch (IOException e) {
+      return Collections.emptyList();
     }
   }
 
@@ -99,7 +128,7 @@ public class ResourcesDirectoryReader {
           }
         } else {
           String resourcePath = path + file.getName();
-          if (filenameFilterApplies(resourcePath)) {
+          if (filtersApply(resourcePath)) {
             resources.add(resourcePath);
           }
         }
@@ -118,15 +147,33 @@ public class ResourcesDirectoryReader {
         if ((!entry.isDirectory()) 
             && (resourcePath.startsWith(directoryPath)) 
             && (searchSubdirectories || !resourcePath.substring(directoryPath.length()).contains("/"))
-            && filenameFilterApplies(resourcePath)) {
+            && (filtersApply(resourcePath))) {
           resources.add(resourcePath);
         }
       }
     } catch (IOException e) { }
   }
+
+  private boolean filtersApply(String resourcePath) {
+    for (ResourcesFilterIF filter : filters) {
+      if (filter.ok(resourcePath)) return true;
+    }
+    return false;
+  }
   
-  private boolean filenameFilterApplies(String path) {
-    return ((filenameFilter == null) || path.endsWith(filenameFilter));
+
+  public interface ResourcesFilterIF {
+    public boolean ok(String resourcePath);
+  }
+
+  public class FilenameExtensionFilter implements ResourcesFilterIF {
+    private final String filenameFilter;
+    public FilenameExtensionFilter(String filenameFilter) {
+      this.filenameFilter = filenameFilter;
+    }
+    public boolean ok(String resourcePath) {
+      return resourcePath.endsWith(filenameFilter);
+    }
   }
 
 }
