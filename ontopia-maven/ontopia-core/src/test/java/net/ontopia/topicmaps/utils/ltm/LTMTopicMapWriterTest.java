@@ -9,14 +9,10 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.topicmaps.utils.ltm.*;
 
-import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.TestUtils;
-
-import junit.framework.TestCase;
-
-public class LTMTopicMapWriterTest extends TestCase {
+public class LTMTopicMapWriterTest extends AbstractCanonicalTestCase {
 
   public LTMTopicMapWriterTest(String name) {
     super(name);
@@ -31,16 +27,18 @@ public class LTMTopicMapWriterTest extends TestCase {
     TopicIF topic = builder.makeTopic();
     topic.addItemIdentifier(base.resolveAbsolute("#22"));
     
-    File testOutputDirectory = TestUtils.getTestOutputDirectory();
-    String testdataPath = "net/ontopia/topicmaps/utils/ltmWriter/";
-    File outDirecory = FileUtils.getDirectory(testOutputDirectory, testdataPath + "out");
-    File testfile = new File(outDirecory, "testBadId.ltm");
+    String root = getTestDirectory();
+    verifyDirectory(root, "ltmWriter");
+    String thebase = root + File.separator + "ltmWriter" + File.separator;
+    verifyDirectory(thebase, "out");
+    String filename = thebase + File.separator + "out" + File.separator +
+      "testBadId.ltm";
     
-    FileOutputStream fos = new FileOutputStream(testfile);
+    FileOutputStream fos = new FileOutputStream(filename);
     new LTMTopicMapWriter(fos).write(tm);
     fos.close();
 
-    tm = new LTMTopicMapReader(testfile).read();
+    tm = new LTMTopicMapReader(new File(filename)).read();
     topic = (TopicIF) tm.getTopics().iterator().next();
     LocatorIF itemid = (LocatorIF) topic.getItemIdentifiers().iterator().next();
     assertTrue("Bad item ID was not filtered out",

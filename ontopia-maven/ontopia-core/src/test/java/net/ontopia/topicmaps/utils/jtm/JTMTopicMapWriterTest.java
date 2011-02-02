@@ -10,10 +10,9 @@ import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.utils.jtm.JTMTopicMapReader;
+import net.ontopia.topicmaps.utils.test.AbstractUtilsTestCase;
 
-import junit.framework.TestCase;
-
-public class JTMTopicMapWriterTest extends TestCase {
+public class JTMTopicMapWriterTest extends AbstractUtilsTestCase {
 
   public JTMTopicMapWriterTest(String name) {
     super(name);

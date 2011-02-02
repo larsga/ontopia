@@ -8,26 +8,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import junit.framework.TestCase;
+import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.utils.ltm.*;
+import net.ontopia.topicmaps.xml.test.*;
 import net.ontopia.utils.FileUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.ResourcesDirectoryReader;
-import net.ontopia.utils.StreamUtils;
-import net.ontopia.utils.TestUtils;
-import net.ontopia.utils.URIUtils;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-@RunWith(Parameterized.class)
-public class LTMTestCase extends TestCase {
+public class LTMTestGenerator implements TestCaseGeneratorIF {
 
   /**
     * @return true iff the test-case in fileName was added to test features
@@ -38,60 +26,65 @@ public class LTMTestCase extends TestCase {
     return false;
   }
   
-  private final static String testdataPath = TestUtils.getTestDataPath(LTMTestCase.class);
-  private final static File testOutputDirectory = TestUtils.getTestOutputDirectory();
-
-  @Parameterized.Parameters
-  public static List generateTests() {
-    String resourcesDirectory = testdataPath + "in";
-    ResourcesDirectoryReader directoryReader = new ResourcesDirectoryReader(resourcesDirectory, ".ltm");
-    Set<String> resources = directoryReader.getResources();
-    assertTrue("No resources found in directory " + resourcesDirectory, resources.size() > 0);
-    List<String[]> tests = new ArrayList<String[]>();
-    for (String resource : resources) {
-      tests.add(new String[] {resource});
+  public Iterator generateTests() {
+    Set tests = new HashSet();
+    String root = AbstractCanonicalTestCase.getTestDirectory();
+    String base = root + File.separator + "ltm" + File.separator;
+        
+    File indir = new File(base + "in" + File.separator);
+        
+    File[] infiles = indir.listFiles();
+    if (infiles == null)
+      return java.util.Collections.EMPTY_SET.iterator();
+        
+    for (int ix = 0; ix < infiles.length; ix++) {
+      String name = infiles[ix].getName();
+      if (name.endsWith(".ltm")) 
+        tests.add(new CanonicalTestCase(name, base));
     }
-    return tests;
+
+    return tests.iterator();
   }
 
-  @BeforeClass
-  public static void prepareDirectories() {
-    FileUtils.getDirectory(testOutputDirectory, testdataPath + "out");
-  }
+  // --- Test case class
 
+  public class CanonicalTestCase extends AbstractCanonicalTestCase {
+    private String base;
+    private String filename;
+        
+    public CanonicalTestCase(String filename, String base) {
+      super("testFile");
+      this.filename = filename;
+      this.base = base;
+    }
 
-  private String filename;
+    public void testFile() throws IOException {
+      verifyDirectory(base, "out");
       
-  public LTMTestCase(String filename) {
-    this.filename = filename;
-  }
-
-  @Test
-  public void testFile() throws IOException {
-    
-    // produce canonical output
-    String in = filename;
-    String out = filename.replace(testdataPath + "in", testdataPath + "out");
-    String baseline = filename.replace(testdataPath + "in", testdataPath + "baseline");
-    
-    TopicMapIF source = new LTMTopicMapReader(URIUtils.getURI("classpath:" + in)).read();
-    
-    if (ltm13(filename)) {
-      out += ".cxtm";
-      File outputFile = new File(testOutputDirectory, out);
-      new CanonicalXTMWriter(new FileOutputStream(outputFile)).write(source);
-
-      // compare results
-      assertTrue("test file " + filename + " canonicalized wrongly",
-            StreamUtils.compareAndClose(new FileInputStream(outputFile), StreamUtils.getInputStream("classpath:" + baseline + ".cxtm")));
-    } else {
-      File outputFile = new File(testOutputDirectory, out);
-      new CanonicalTopicMapWriter(outputFile).write(source);
-
-      // compare results
-      assertTrue("test file " + filename + " canonicalized wrongly",
-            StreamUtils.compare(new FileInputStream(outputFile), StreamUtils.getInputStream("classpath:" + baseline)));
+      // produce canonical output
+      String in = base + File.separator + "in" + File.separator +
+        filename;
+      String out = base + File.separator + "out" + File.separator +
+        filename;
+      
+      TopicMapIF source = new LTMTopicMapReader(new File(in)).read();
+      
+      if (ltm13(filename)) {
+        out += ".cxtm";
+        new CanonicalXTMWriter(new FileOutputStream(out)).write(source);
+  
+        // compare results
+        assertTrue("test file " + filename + " canonicalized wrongly",
+              FileUtils.compare(out, base + File.separator + "baseline" +
+                      File.separator + filename + ".cxtm"));
+      } else {
+        new CanonicalTopicMapWriter(out).write(source);
+  
+        // compare results
+        assertTrue("test file " + filename + " canonicalized wrongly",
+              FileUtils.compare(out, base + File.separator + "baseline" +
+                      File.separator + filename));
+      }
     }
   }
-
 }
