@@ -7,60 +7,54 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import junit.framework.TestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.utils.ctm.*;
-import net.ontopia.topicmaps.xml.test.*;
 import net.ontopia.topicmaps.utils.DuplicateSuppressionUtils;
 import net.ontopia.utils.FileUtils;
 
-public class CTMTestGenerator implements TestCaseGeneratorIF {
-  
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "ctm" + File.separator;
-        
-    File indir = new File(base + "in" + File.separator);
-        
-    File[] infiles = indir.listFiles();
-    for (int ix = 0; infiles != null && ix < infiles.length; ix++) {
-      String name = infiles[ix].getName();
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
 
-      if (name.endsWith(".ctm")) 
-        tests.add(new CanonicalTestCase(name, base));
-    }
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-    return tests.iterator();
+@RunWith(Parameterized.class)
+public class CTMTestCase {
+
+  private final static String testdataDirectory = "ctm";
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".ctm");
   }
 
-  // --- Test case class
-
-  public class CanonicalTestCase extends AbstractCanonicalTestCase {
     private String base;
     private String filename;
         
-    public CanonicalTestCase(String filename, String base) {
-      super("testFile");
+    public CTMTestCase(String root, String filename) {
       this.filename = filename;
-      this.base = base;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
     }
 
+    @Test
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
       
       // produce canonical output
-      String in = base + File.separator + "in" + File.separator +
-        filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", 
+        filename);
       String out = base + File.separator + "out" + File.separator +
         filename;
 
       TopicMapIF source = null;
       try {
-        source = new CTMTopicMapReader(new File(in)).read();
+        source = new CTMTopicMapReader(URIUtils.getURI(in)).read();
       } catch (Exception e) {
         throw new OntopiaRuntimeException("Error in " + in, e);
       }
@@ -73,9 +67,10 @@ public class CTMTestGenerator implements TestCaseGeneratorIF {
       }
   
       // compare results
-      assertTrue("test file " + filename + " canonicalized wrongly",
-                 FileUtils.compare(out, base + File.separator + "baseline" +
-                                   File.separator + filename + ".cxtm"));
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", 
+        filename + ".cxtm");
+      Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+                 FileUtils.compareFileToResource(out, baseline));
     }
-  }
+
 }

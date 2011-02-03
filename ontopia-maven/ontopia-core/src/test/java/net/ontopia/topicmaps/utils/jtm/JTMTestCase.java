@@ -6,68 +6,58 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.utils.jtm.JTMTopicMapReader;
 import net.ontopia.topicmaps.utils.jtm.JTMTopicMapWriter;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
 
-public class JTMTestGenerator implements TestCaseGeneratorIF {
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
 
-  @SuppressWarnings("unchecked")
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "jtm" + File.separator;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-    // Create test cases from each topic map file in 'in'.
-    File indir = new File (base + "in" + File.separator);
-    File[] infiles = indir.listFiles ();
-    if (infiles != null) {
-      for (int i = 0; i < infiles.length; i++) {
-        String name = infiles[i].getName ();
-        if (name.endsWith (".jtm")) {
-          tests.add (new JTMReaderTestCase (name, base));
-          tests.add (new JTMWriterTestCase (name, base));
-        }
-      }
-    }
+@RunWith(Parameterized.class)
+public class JTMTestCase {
 
-    // Return all the test cases that were generated.
-    return tests.iterator();
+  private final static String testdataDirectory = "jtm";
+
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".jtm");
   }
 
-  // --- Test case class for reading jtm files
-
-  public class JTMReaderTestCase extends AbstractCanonicalTestCase {
     private String base;
     private String filename;
 
-    public JTMReaderTestCase(String filename, String base) {
-      super("testFile");
+    public JTMTestCase(String root, String filename) {
       this.filename = filename;
-      this.base = base;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
     }
 
     /**
      * Canonicalizes the jtm file into the directory 'out'. Compares the file in
      * 'out' with a baseline file in 'baseline'.
      */
-    public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+    @Test
+    public void testReader() throws IOException {
+      FileUtils.verifyDirectory(base, "out");
 
       // Path to the input topic map document.
-      String in = base + File.separator + "in" + File.separator + filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
       // Path to the baseline (canonicalized output of the source topic map).
-      String baseline = base + File.separator + "baseline" + File.separator
-          + filename + ".cxtm";
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", 
+          filename + ".cxtm");
       // Path to the output (canonicalized output of exported jtm topic map).
-      String out = base + File.separator + "out" + File.separator + filename
+      String out = base + File.separator + "out" + filename
           + ".cxtm";
 
-      TopicMapIF jtmMap = new JTMTopicMapReader(new File(in)).read();
+      TopicMapIF jtmMap = new JTMTopicMapReader(URIUtils.getURI(in)).read();
 
       // Canonicalize the imported jtm.
       FileOutputStream fos = new FileOutputStream(out);
@@ -75,22 +65,10 @@ public class JTMTestGenerator implements TestCaseGeneratorIF {
       fos.close();
 
       // compare results
-      assertTrue("canonicalizing the test file " + filename
+      Assert.assertTrue("canonicalizing the test file " + filename
           + " gives a different result than canonicalizing the jtm export of "
-          + filename + ".", FileUtils.compare(out, baseline));
-    }
-  }
+          + filename + ".", FileUtils.compareFileToResource(out, baseline));
 
-  // --- Test case class for writing jtm files
-  
-  public class JTMWriterTestCase extends AbstractCanonicalTestCase {
-    private String base;
-    private String filename;
-
-    public JTMWriterTestCase(String filename, String base) {
-      super("testFile");
-      this.filename = filename;
-      this.base = base;
     }
 
     /**
@@ -99,15 +77,16 @@ public class JTMTestGenerator implements TestCaseGeneratorIF {
      * canonicalizes the result into the directory 'jtm-out'. 
      * Compares the file in 'jtm-out' with a baseline file in 'baseline'.
      */
-    public void testFile() throws IOException {
-      verifyDirectory(base, "jtm-in");
-      verifyDirectory(base, "jtm-out");
+    @Test
+    public void testWriter() throws IOException {
+      FileUtils.verifyDirectory(base, "jtm-in");
+      FileUtils.verifyDirectory(base, "jtm-out");    
 
       // Path to the input topic map document.
-      String in = base + File.separator + "in" + File.separator + filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
       // Path to the baseline (canonicalized output of the source topic map).
-      String baseline = base + File.separator + "baseline" + File.separator
-          + filename + ".cxtm";
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", 
+          filename + ".cxtm");
       
       // Path to the intermediate jtm file
       String jtm = base + File.separator + "jtm-in" + File.separator + filename;
@@ -116,7 +95,7 @@ public class JTMTestGenerator implements TestCaseGeneratorIF {
       String out = base + File.separator + "jtm-out" + File.separator + filename
           + ".cxtm";
 
-      TopicMapIF tm = new JTMTopicMapReader(new File(in)).read();
+      TopicMapIF tm = new JTMTopicMapReader(URIUtils.getURI(in)).read();
 
       // serialize the imported topic map into jtm again
       FileOutputStream fos = new FileOutputStream(jtm);
@@ -131,9 +110,8 @@ public class JTMTestGenerator implements TestCaseGeneratorIF {
       fos.close();
 
       // compare results
-      assertTrue("canonicalizing the test file " + filename
+      Assert.assertTrue("canonicalizing the test file " + filename
           + " gives a different result than canonicalizing the jtm export of "
-          + filename + ".", FileUtils.compare(out, baseline));
+          + filename + ".", FileUtils.compareFileToResource(out, baseline));
     }
-  }  
 }

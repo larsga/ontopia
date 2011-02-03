@@ -9,17 +9,19 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.topicmaps.utils.ltm.*;
 
-public class LTMTopicMapWriterTest extends AbstractCanonicalTestCase {
+import net.ontopia.utils.FileUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-  public LTMTopicMapWriterTest(String name) {
-    super(name);
-  }
-  
+public class LTMTopicMapWriterTest {
+
+  private final static String testdataDirectory = "ltmWriter";
+
   // --- Test cases
 
+  @Test
   public void testBadId() throws IOException {
     LocatorIF base = new URILocator("http://example.com");
     TopicMapIF tm = new InMemoryTopicMapStore().getTopicMap();
@@ -27,10 +29,10 @@ public class LTMTopicMapWriterTest extends AbstractCanonicalTestCase {
     TopicIF topic = builder.makeTopic();
     topic.addItemIdentifier(base.resolveAbsolute("#22"));
     
-    String root = getTestDirectory();
-    verifyDirectory(root, "ltmWriter");
-    String thebase = root + File.separator + "ltmWriter" + File.separator;
-    verifyDirectory(thebase, "out");
+    String root = FileUtils.getTestdataOutputDirectory();
+    FileUtils.verifyDirectory(root, testdataDirectory);
+    String thebase = root + File.separator + testdataDirectory + File.separator;
+    FileUtils.verifyDirectory(thebase, "out");
     String filename = thebase + File.separator + "out" + File.separator +
       "testBadId.ltm";
     
@@ -41,7 +43,7 @@ public class LTMTopicMapWriterTest extends AbstractCanonicalTestCase {
     tm = new LTMTopicMapReader(new File(filename)).read();
     topic = (TopicIF) tm.getTopics().iterator().next();
     LocatorIF itemid = (LocatorIF) topic.getItemIdentifiers().iterator().next();
-    assertTrue("Bad item ID was not filtered out",
+    Assert.assertTrue("Bad item ID was not filtered out",
                itemid.getAddress().endsWith("testBadId.ltm#id1"));
   }      
 }  

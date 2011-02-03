@@ -10,17 +10,16 @@ import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.utils.jtm.JTMTopicMapReader;
-import net.ontopia.topicmaps.utils.test.AbstractUtilsTestCase;
 
-public class JTMTopicMapWriterTest extends AbstractUtilsTestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
-  public JTMTopicMapWriterTest(String name) {
-    super(name);
-  }
+public class JTMTopicMapWriterTest {
 
   /**
    * TODO: rewrite tests, this is just a proof-of-concept test.
    */
+  @Test
   @SuppressWarnings("unchecked")
   public void testImportExport() throws IOException {
     String json = "{\"version\":\"1.0\", \"item_type\":\"topicmap\", " +
@@ -36,8 +35,8 @@ public class JTMTopicMapWriterTest extends AbstractUtilsTestCase {
     TopicIF movie = tm.getTopicBySubjectIdentifier(new URILocator("http://psi.topincs.com/movie"));
     
     Collection<TopicIF> types = wendy.getTypes();
-    assertEquals(1, types.size());
-    assertEquals(movie, types.iterator().next());
+    Assert.assertEquals(1, types.size());
+    Assert.assertEquals(movie, types.iterator().next());
 
     //JTMTopicMapWriter writer = new JTMTopicMapWriter(System.out);
     // LocatorIF base = tm.getStore().getBaseAddress();

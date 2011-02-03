@@ -7,15 +7,23 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import junit.framework.TestCase;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.utils.ltm.*;
-import net.ontopia.topicmaps.xml.test.*;
 import net.ontopia.utils.FileUtils;
 
-public class LTMTestGenerator implements TestCaseGeneratorIF {
+import java.util.List;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+@RunWith(Parameterized.class)
+public class LTMTestCase {
 
   /**
     * @return true iff the test-case in fileName was added to test features
@@ -26,65 +34,50 @@ public class LTMTestGenerator implements TestCaseGeneratorIF {
     return false;
   }
   
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "ltm" + File.separator;
-        
-    File indir = new File(base + "in" + File.separator);
-        
-    File[] infiles = indir.listFiles();
-    if (infiles == null)
-      return java.util.Collections.EMPTY_SET.iterator();
-        
-    for (int ix = 0; ix < infiles.length; ix++) {
-      String name = infiles[ix].getName();
-      if (name.endsWith(".ltm")) 
-        tests.add(new CanonicalTestCase(name, base));
-    }
+  private final static String testdataDirectory = "ltm";
 
-    return tests.iterator();
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".ltm");
   }
 
-  // --- Test case class
-
-  public class CanonicalTestCase extends AbstractCanonicalTestCase {
     private String base;
     private String filename;
         
-    public CanonicalTestCase(String filename, String base) {
-      super("testFile");
+    public LTMTestCase(String root, String filename) {
       this.filename = filename;
-      this.base = base;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
     }
 
+    @Test
     public void testFile() throws IOException {
-      verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
       
       // produce canonical output
-      String in = base + File.separator + "in" + File.separator +
-        filename;
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", 
+        filename);
       String out = base + File.separator + "out" + File.separator +
         filename;
       
-      TopicMapIF source = new LTMTopicMapReader(new File(in)).read();
+      TopicMapIF source = new LTMTopicMapReader(URIUtils.getURI(in)).read();
       
       if (ltm13(filename)) {
         out += ".cxtm";
         new CanonicalXTMWriter(new FileOutputStream(out)).write(source);
   
         // compare results
-        assertTrue("test file " + filename + " canonicalized wrongly",
-              FileUtils.compare(out, base + File.separator + "baseline" +
-                      File.separator + filename + ".cxtm"));
+        String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline",
+          filename + ".cxtm");
+        Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+              FileUtils.compareFileToResource(out, baseline));
       } else {
         new CanonicalTopicMapWriter(out).write(source);
   
         // compare results
-        assertTrue("test file " + filename + " canonicalized wrongly",
-              FileUtils.compare(out, base + File.separator + "baseline" +
-                      File.separator + filename));
+        String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline",
+          filename);
+        Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+              FileUtils.compareFileToResource(out, baseline));
       }
     }
-  }
 }
