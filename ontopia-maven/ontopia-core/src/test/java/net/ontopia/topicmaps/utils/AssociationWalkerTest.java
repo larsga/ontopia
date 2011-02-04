@@ -7,7 +7,6 @@ import java.util.*;
 
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.*;
-import net.ontopia.utils.TestUtils;
 
 
 public class AssociationWalkerTest extends AbstractUtilsTestCase {

@@ -9,8 +9,13 @@ import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.impl.utils.AbstractTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
+import net.ontopia.utils.URIUtils;
 
 public class CanonicalExporterXTMTests extends net.ontopia.topicmaps.xml.CanonicalExporterXTMTests {
+
+  public CanonicalExporterXTMTests(String root, String filename) {
+    super(root, filename);
+  }
 
   protected boolean getExportReadOnly() {
     return false;
@@ -24,7 +29,7 @@ public class CanonicalExporterXTMTests extends net.ontopia.topicmaps.xml.Canonic
     // Get hold of topic map id
     long topicmap_id1 = Long.parseLong(source1.getObjectId().substring(1));
     
-    XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
+    XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(infile));
     reader.setValidation(false);
     reader.importInto(source1);
     store1.commit();

@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
-
-@Ignore // TODO: no such predicate 'in'
 public class InPredicateTest extends AbstractPredicateTest {
+	
+  protected final String IMPORT_EXPERIMENTAL = "import \"http://psi.ontopia.net/tolog/experimental/\" as exp ";
   
   public InPredicateTest(String name) {
     super(name);
@@ -26,7 +25,7 @@ public class InPredicateTest extends AbstractPredicateTest {
     addMatch(matches, "HUMAN", getTopicById("sharon"));
     addMatch(matches, "HUMAN", getTopicById("spencer"));
     
-    verifyQuery(matches, "instance-of($HUMAN, human), in($HUMAN, dan, sharon, spencer)?");
+    verifyQuery(matches, IMPORT_EXPERIMENTAL + "instance-of($HUMAN, human), exp:in($HUMAN, dan, sharon, spencer)?");
     closeStore();
   }
 
@@ -36,7 +35,7 @@ public class InPredicateTest extends AbstractPredicateTest {
     List matches = new ArrayList();
     addMatch(matches, "FEMALE", getTopicById("sharon"));
     
-    verifyQuery(matches, "instance-of($FEMALE, female), in($FEMALE, dan, sharon, spencer)?");
+    verifyQuery(matches, IMPORT_EXPERIMENTAL + "instance-of($FEMALE, female), exp:in($FEMALE, dan, sharon, spencer)?");
     closeStore();
   }
 
@@ -47,7 +46,7 @@ public class InPredicateTest extends AbstractPredicateTest {
     addMatch(matches, "MALE", getTopicById("dan"));
     addMatch(matches, "MALE", getTopicById("spencer"));
     
-    verifyQuery(matches, "instance-of($MALE, male), in($MALE, dan, sharon, spencer)?");
+    verifyQuery(matches, IMPORT_EXPERIMENTAL + "instance-of($MALE, male), exp:in($MALE, dan, sharon, spencer)?");
     closeStore();
   }
 
@@ -63,7 +62,7 @@ public class InPredicateTest extends AbstractPredicateTest {
     addMatch(matches, "HUMAN", getTopicById("clyde"));
     addMatch(matches, "HUMAN", getTopicById("james"));
     
-    verifyQuery(matches, "instance-of($HUMAN, male), not(in($HUMAN, dan, sharon, spencer))?");
+    verifyQuery(matches, IMPORT_EXPERIMENTAL + "instance-of($HUMAN, male), not(exp:in($HUMAN, dan, sharon, spencer))?");
     closeStore();
   }
   

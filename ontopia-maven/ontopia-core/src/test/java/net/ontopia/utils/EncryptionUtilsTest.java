@@ -5,8 +5,11 @@ package net.ontopia.utils;
 
 import java.io.*;
 import junit.framework.TestCase;
+import net.ontopia.utils.FileUtils;
 
 public class EncryptionUtilsTest extends TestCase {
+
+  private final static String testdataDirectory = "various";
 
   String baseDir;
   
@@ -15,9 +18,9 @@ public class EncryptionUtilsTest extends TestCase {
   }
 
   public void setUp() throws IOException {
-    String root = TestUtils.getTestDirectory();
-    TestUtils.verifyDirectory(root, "various");
-    baseDir = root + File.separator + "various";
+    String root = FileUtils.getTestdataOutputDirectory();
+    FileUtils.verifyDirectory(root, testdataDirectory);
+    baseDir = root + File.separator + testdataDirectory;
   }
 
   public void testVerifyWritten() throws IOException {
@@ -31,15 +34,18 @@ public class EncryptionUtilsTest extends TestCase {
 
   protected void createEncryptedFile(String in_name, String out_name) throws IOException {
     // create encrypted dummy file
-    File in_file = new File(TestUtils.resolveFileName("various", in_name));
-    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.utils", in_name), new FileOutputStream(in_file));
-    File out_file = new File(baseDir, out_name);
+    String in_file = FileUtils.getTestInputFile(testdataDirectory, in_name);
+    File out_file = FileUtils.getTestOutputFile(testdataDirectory, out_name);
 
-    EncryptionUtils.encrypt(in_file, out_file);
+    InputStream in = StreamUtils.getInputStream(in_file);
+    OutputStream out = new FileOutputStream(out_file);
+    EncryptionUtils.encrypt(in, out);
+    in.close();
+    out.close();
   }
 
   protected boolean compareToBaseline(String out_name, String baseline_name) throws IOException {
-    return StreamUtils.compare(TestUtils.getTestStream("net.ontopia.utils", baseline_name), new FileInputStream(new File(baseDir, out_name)));
+    return FileUtils.compareFileToResource(new File(baseDir, out_name), FileUtils.getTestInputFile(testdataDirectory, baseline_name));
   }
 
 }

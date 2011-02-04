@@ -8,9 +8,7 @@ import net.ontopia.utils.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.*;
 import net.ontopia.infoset.core.*;
-import org.junit.Ignore;
 
-@Ignore
 public abstract class TopicMapPackageTest extends AbstractTopicMapTest {
   public static TopicMapIF tm;
   public static LocatorIF base;

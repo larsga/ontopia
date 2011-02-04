@@ -5,9 +5,7 @@ package net.ontopia.infoset.impl.basic;
 
 import junit.framework.TestCase;
 import net.ontopia.infoset.core.LocatorIF;
-import org.junit.Ignore;
 
-@Ignore
 public abstract class AbstractLocatorTest extends TestCase {
   
   public AbstractLocatorTest(String name) {

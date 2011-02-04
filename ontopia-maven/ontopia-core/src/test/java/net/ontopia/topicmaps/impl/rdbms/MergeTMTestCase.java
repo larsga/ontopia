@@ -8,36 +8,29 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
 import net.ontopia.topicmaps.utils.MergeUtils;
-import net.ontopia.topicmaps.xml.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.URIUtils;
+import org.junit.Assert;
 
-public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.MergeTMTestGenerator {
+public class MergeTMTestCase extends net.ontopia.topicmaps.utils.MergeTMTestCase {
 
-  protected TestCase createTestCase(String filename, String base) {
-    return new MergeTMTestCase(filename, base);
-  }
-  
+  private final static String testdataDirectory = "merge";
+
   // --- Test case class
 
-  public class MergeTMTestCase extends AbstractCanonicalTestCase {
-    private String base;
-    private String filename;
-        
-    public MergeTMTestCase(String filename, String base) {
-      super("testMergeTM");
-      this.filename = filename;
-      this.base = base;
+    public MergeTMTestCase(String root, String filename) {
+      super(root, filename);
     }
 
     public void testMergeTM() throws IOException {
-      TestUtils.verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "out");
       
       // produce canonical output
-      String in = base + File.separator + "in" + File.separator + filename;
-      String in2 = base + File.separator + "in" + File.separator + 
-        filename.substring(0, filename.length() - 3) + "sub";
+      String in = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
+      String in2 = FileUtils.getTestInputFile(testdataDirectory, "in", 
+        filename.substring(0, filename.length() - 3) + "sub");
       String out = base + File.separator + "out" + File.separator + filename;
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", filename);
 
 
       // Import first document
@@ -47,7 +40,7 @@ public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.MergeTMTes
       try {
         source1 = store1.getTopicMap();
         topicmap_id1 = Long.parseLong(source1.getObjectId().substring(1));    
-        new XTMTopicMapReader(new File(in)).importInto(source1);
+        new XTMTopicMapReader(URIUtils.getURI(in)).importInto(source1);
         store1.commit();
       } finally {
         store1.close();
@@ -60,7 +53,7 @@ public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.MergeTMTes
       try {
         source2 = store2.getTopicMap();
         topicmap_id2 = Long.parseLong(source2.getObjectId().substring(1));    
-        new XTMTopicMapReader(new File(in2)).importInto(source2);
+        new XTMTopicMapReader(URIUtils.getURI(in2)).importInto(source2);
         store2.commit();
       } finally {
         store2.close();
@@ -93,11 +86,9 @@ public class MergeTMTestGenerator extends net.ontopia.topicmaps.utils.MergeTMTes
       //! store1.close();
 
       // compare results
-      assertTrue("test file " + filename + " canonicalized wrongly",
-             FileUtils.compare(out, base + File.separator + "baseline" +
-                     File.separator + filename));
+      Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+             FileUtils.compareFileToResource(out, baseline));
     }
-  }
 }
 
 

@@ -13,33 +13,38 @@ import net.ontopia.xml.ConfiguredXMLReaderFactory;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.utils.TestUtils;
-import org.junit.BeforeClass;
+import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
-import static junit.framework.TestCase.*;
 
 @RunWith(Parameterized.class)
-public class SchemaTestGenerator extends AbstractSchemaTestCase {
-  static Logger log = LoggerFactory.getLogger(SchemaTestGenerator.class.getName());
+public class SchemaTestCase extends AbstractSchemaTestCase {
+  static Logger log = LoggerFactory.getLogger(SchemaTestCase.class.getName());
+
+  private final static String testdataDirectory = "schema";
 
   protected final String topicmap;
   protected final String schema;
   protected final boolean valid;
 
-  public SchemaTestGenerator(String topicmap, String schema, String valid) {
+  public SchemaTestCase(String topicmap, String schema, String valid) {
     this.topicmap = topicmap;
     this.schema = schema;
-    this.valid = valid.compareToIgnoreCase("true") == 1;
+    this.valid = valid.equalsIgnoreCase("yes");
   }
 
-  @Parameterized.Parameters
+  @Parameters
   public static Collection<String[]> params() throws IOException {
-    InputStream in = TestUtils.getTestStream("net.ontopia.topicmaps.schema.config", "config.xml");
+    String config = FileUtils.getTestInputFile("schema", "config", "config.xml");
+    InputStream in = StreamUtils.getInputStream(config);
     
     try {
       XMLReader parser = new ConfiguredXMLReaderFactory().createXMLReader();
@@ -57,11 +62,6 @@ public class SchemaTestGenerator extends AbstractSchemaTestCase {
 
   }
 
-  @BeforeClass
-  public static void before() {
-    TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "schema", "out");
-  }
-
   @Test
   public void testSchema() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("schemas", this.schema);
@@ -71,15 +71,17 @@ public class SchemaTestGenerator extends AbstractSchemaTestCase {
     try {
       validator.validate(topicmap);
 
-      assertTrue("invalid topic map ("+ this.topicmap + ") validated with no errors", valid);
+      Assert.assertTrue("invalid topic map ("+ this.topicmap + ") validated with no errors", valid);
     } catch (SchemaViolationException e) {
-      assertTrue("valid topic map (" + this.topicmap + ") had error: " + e.getMessage() +
+      Assert.assertTrue("valid topic map (" + this.topicmap + ") had error: " + e.getMessage() +
              ", offender: " + e.getOffender(), !valid);
     }
   }
 
   protected TopicMapIF readTopicMap(String directory, String file)
     throws IOException {
-    return TestUtils.getTestReader("net.ontopia.topicmaps.schema." + directory, file).read();
+    String filename = FileUtils.getTestInputFile(testdataDirectory, directory, file);
+    TopicMapReaderIF reader = ImportExportUtils.getReader(filename);
+    return reader.read();
   }
 }

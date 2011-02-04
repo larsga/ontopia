@@ -9,10 +9,11 @@ import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.utils.FileUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static junit.framework.TestCase.*;
 
 public class SchemaValidatorTest extends AbstractSchemaTestCase {
   protected TopicMapIF topicmap;
@@ -20,9 +21,6 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
   
   @Before
   public void setUp() {
-    // trigger TestUtils class loading
-    TestUtils.getTestDirectory();
-    
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();   
     builder = topicmap.getBuilder();
@@ -30,7 +28,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     try {
       store.setBaseAddress(new URILocator("http://test.ontopia.net"));
     } catch (java.net.MalformedURLException e) {
-      fail("couldn't create URI");
+      Assert.fail("couldn't create URI");
     }
   }
 
@@ -53,11 +51,11 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
 
     try {
       validator.validate(topicmap);
-      fail("invalid topicmap validated with no errors");
+      Assert.fail("invalid topicmap validated with no errors");
     } catch (SchemaViolationException e) {
-      assertTrue("wrong container when validating: " + e.getContainer(),
+      Assert.assertTrue("wrong container when validating: " + e.getContainer(),
              e.getContainer() == container);
-      assertTrue("wrong offender when validating: " + e.getOffender(),
+      Assert.assertTrue("wrong offender when validating: " + e.getOffender(),
              e.getOffender() == offender);
     }
   }
@@ -68,7 +66,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
     try {
       validator.validate(topicmap);
     } catch (SchemaViolationException e) {
-      fail("valid topic map did not validate: " + e);
+      Assert.fail("valid topic map did not validate: " + e);
     }
   }
   
@@ -287,7 +285,7 @@ public class SchemaValidatorTest extends AbstractSchemaTestCase {
   @Test
   public void testBug430() throws IOException, SchemaSyntaxException {
 
-    topicmap = TestUtils.getTestReader("net.ontopia.topicmaps.schema.topicmaps", "bug430.ltm").read();
+    topicmap = ImportExportUtils.getReader(FileUtils.getTestInputFile(testdataDirectory, "topicmaps", "bug430.ltm")).read();
     OSLSchema schema = (OSLSchema) readSchema("in", "bug430.xml");
     validate(schema);
   }

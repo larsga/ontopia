@@ -6,19 +6,15 @@ package net.ontopia.topicmaps.schema.impl.osl;
 import java.io.IOException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.schema.core.SchemaSyntaxException;
-import net.ontopia.utils.TestUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static junit.framework.TestCase.*;
 
 public class SchemaWriterTest extends AbstractSchemaTestCase {
   private OSLSchema schema;
   
   @Before
   public void setUp() {
-    // trigger TestUtils class loading
-    TestUtils.getTestDirectory();
-
     try {
       schema = new OSLSchema(new URILocator("http://www.ontopia.net"));
     } catch (java.net.MalformedURLException e) {
@@ -34,16 +30,16 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
     
     schema = (OSLSchema) readSchema("out", "empty.xml");
     
-    assertTrue("empty schema had non-empty rule set collection",
+    Assert.assertTrue("empty schema had non-empty rule set collection",
                schema.getRuleSets().isEmpty());
-    assertTrue("empty schema had non-empty topic class collection",
+    Assert.assertTrue("empty schema had non-empty topic class collection",
                schema.getTopicClasses().isEmpty());
-    assertTrue("empty schema had non-empty association class collection",
+    Assert.assertTrue("empty schema had non-empty association class collection",
                schema.getAssociationClasses().isEmpty());
 
-    assertTrue("rule set found in empty schema",
+    Assert.assertTrue("rule set found in empty schema",
                schema.getRuleSet("bongo") == null);
-    assertTrue("topic class found in empty schema",
+    Assert.assertTrue("topic class found in empty schema",
                schema.getTopicClass("bongo") == null);
   }
 
@@ -57,13 +53,13 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
     writeSchema("out", "emptyclass.xml", schema);
     
     schema = (OSLSchema) readSchema("out", "emptyclass.xml");
-    assertTrue("schema had non-empty rule set collection",
+    Assert.assertTrue("schema had non-empty rule set collection",
                schema.getRuleSets().isEmpty());
-    assertTrue("wrong number of classes in schema",
+    Assert.assertTrue("wrong number of classes in schema",
                schema.getTopicClasses().size() == 1);
-    assertTrue("schema had non-empty association class collection",
+    Assert.assertTrue("schema had non-empty association class collection",
                schema.getAssociationClasses().isEmpty());
-    assertTrue("topic class not found",
+    Assert.assertTrue("topic class not found",
                schema.getTopicClass("bingo") != null);
   }
 
@@ -84,17 +80,17 @@ public class SchemaWriterTest extends AbstractSchemaTestCase {
     writeSchema("out", "unscoped-occ.xml", schema);
     schema = (OSLSchema) readSchema("out", "unscoped-occ.xml");
     
-    assertTrue("schema had non-empty rule set collection",
+    Assert.assertTrue("schema had non-empty rule set collection",
                schema.getRuleSets().isEmpty());
-    assertTrue("wrong number of classes in schema",
+    Assert.assertTrue("wrong number of classes in schema",
                schema.getTopicClasses().size() == 1);
-    assertTrue("schema had non-empty association class collection",
+    Assert.assertTrue("schema had non-empty association class collection",
                schema.getAssociationClasses().isEmpty());
-    assertTrue("topic class not found",
+    Assert.assertTrue("topic class not found",
                schema.getTopicClass("bingo") != null);
 
     klass = schema.getTopicClass("bingo");
-    assertTrue("topic class lost occurrence constraint",
+    Assert.assertTrue("topic class lost occurrence constraint",
                klass.getOccurrenceConstraints().size() == 1);
   }
 }

@@ -19,7 +19,7 @@ public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
 
   public void testLTM1() {
     ResourceTopicMapSource source = new ResourceTopicMapSource(
-        "net/ontopia/topicmaps/core/events/bart.ltm");
+        "net/ontopia/testdata/various/bart.ltm");
     source.setId("fooid");
     source.setTitle("footitle");
     source.setSyntax("LTM");
@@ -28,7 +28,7 @@ public class ResourceTopicMapSourceTest extends AbstractTopicMapSourceTest {
 
   public void testLTM2() {
     ResourceTopicMapSource source = new ResourceTopicMapSource();
-    source.setResourceName("net/ontopia/topicmaps/core/events/bart.ltm");
+    source.setResourceName("net/ontopia/testdata/various/bart.ltm");
     source.setId("fooid");
     source.setTitle("footitle");
     verifyLTMSource(source);

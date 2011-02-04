@@ -13,22 +13,28 @@ import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
 
+import org.junit.Ignore;
+
+@Ignore
 public class RDBMSTestUtils {
   
+  private final static String testdataDirectory = "query";
+
   // ===== Helper methods (topic maps)
 
   public static void load(AbstractQueryTest test, String filename) throws IOException {
-    File file = new File(TestUtils.resolveFileName("query", filename));
+    filename = FileUtils.getTestInputFile(testdataDirectory, filename);
     
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     test.topicmap = store.getTopicMap();    
     test.builder = store.getTopicMap().getBuilder();
-    test.base = new URILocator(file.toURL());
+    test.base = URIUtils.getURI(filename);
     store.setBaseAddress(test.base);
     
-    TopicMapImporterIF importer = ImportExportUtils.getImporter(file.toString());
+    TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
     importer.importInto(test.topicmap);
 
     // NOTE: Query processor must have base set, because of the way

@@ -8,10 +8,8 @@ import junit.framework.TestCase;
 import net.ontopia.topicmaps.cmdlineutils.statistics.*;
 import net.ontopia.topicmaps.cmdlineutils.sanity.*;
 import net.ontopia.topicmaps.core.*;
-import org.junit.Ignore;
 //import net.ontopia.topicmaps.impl.basic.*;
 
-@Ignore
 public abstract class CommandLineUtilsTest extends TestCase {
 
   public static TopicMapIF tm;

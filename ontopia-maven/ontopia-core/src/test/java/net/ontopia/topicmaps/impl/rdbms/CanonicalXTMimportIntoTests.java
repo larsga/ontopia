@@ -9,8 +9,13 @@ import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
+import net.ontopia.utils.URIUtils;
 
 public class CanonicalXTMimportIntoTests extends net.ontopia.topicmaps.xml.CanonicalXTMimportIntoTests {
+
+  public CanonicalXTMimportIntoTests(String root, String filename) {
+    super(root, filename);
+  }
 
   protected void canonicalize(String infile, String outfile) throws IOException {
     // Import document
@@ -20,7 +25,7 @@ public class CanonicalXTMimportIntoTests extends net.ontopia.topicmaps.xml.Canon
     // Get hold of topic map id
     long topicmap_id = Long.parseLong(source1.getObjectId().substring(1));
     
-    XTMTopicMapReader reader = new XTMTopicMapReader(new File(infile));
+    XTMTopicMapReader reader = new XTMTopicMapReader(URIUtils.getURI(infile));
     reader.setValidation(false);
     reader.importInto(source1);
     

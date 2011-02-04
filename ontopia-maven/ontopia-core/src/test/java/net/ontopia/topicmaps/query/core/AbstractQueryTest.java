@@ -29,12 +29,15 @@ import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
 import net.ontopia.topicmaps.xml.TMXMLReader;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
+import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.TestUtils;
-import org.junit.Ignore;
+import net.ontopia.utils.URIUtils;
 import org.xml.sax.InputSource;
 
-@Ignore
-public class AbstractQueryTest extends TestCase {
+public abstract class AbstractQueryTest extends TestCase {
+
+  private final static String testdataDirectory = "query";
 
   protected static final String OPT_TYPECHECK_OFF =
     "/* #OPTION: compiler.typecheck = false */ ";
@@ -74,15 +77,14 @@ public class AbstractQueryTest extends TestCase {
   protected void load(String filename) throws IOException {
     // IMPORTANT: This method is being overloaded by the RDBMS
     // implementation to provide the right object implementations.
-
-    base = URILocator.create("classpath:net/ontopia/topicmaps/query/core/" + filename);
-    TopicMapImporterIF importer = TestUtils.getTestImporter("net.ontopia.topicmaps.query.core",
-            filename, base);
+    filename = FileUtils.getTestInputFile(testdataDirectory, filename);
 
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
     topicmap = store.getTopicMap();
     builder = store.getTopicMap().getBuilder();
-    
+    base = URIUtils.getURI(filename);
+
+    TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
     if (importer instanceof XTMTopicMapReader)
       ((XTMTopicMapReader) importer).setValidation(false);
     importer.importInto(topicmap);

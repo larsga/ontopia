@@ -26,7 +26,7 @@ import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
 
 /** 
@@ -36,6 +36,8 @@ import net.ontopia.utils.URIUtils;
 
 public class PrefetcherTests extends AbstractTopicMapTest {
   
+  private final static String testdataDirectory = "various";
+
   public PrefetcherTests(String name) {
     super(name);
   }
@@ -52,7 +54,7 @@ public class PrefetcherTests extends AbstractTopicMapTest {
 
     // import sample topic map
     TopicMapStoreIF store = new RDBMSTopicMapStore(); // don't use storage
-    TopicMapImporterIF importer = ImportExportUtils.getImporter(new File(filename).toURL().toString());
+    TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
     importer.importInto(store.getTopicMap());
 
     long topicmap_id = Long.parseLong(store.getTopicMap().getObjectId().substring(1)); 
@@ -87,8 +89,8 @@ public class PrefetcherTests extends AbstractTopicMapTest {
     }
 
     // import topic map
-    String filename = TestUtils.resolveFileName("various", "prefetch.ltm");
-    LocatorIF base = URIUtils.getFileURI(new File(filename));
+    String filename = FileUtils.getTestInputFile(testdataDirectory, "prefetch.ltm");
+    LocatorIF base = URIUtils.getURI(filename);
 
     // create reference
     long topicmap_id = importTopicMap(filename);

@@ -10,60 +10,63 @@ import net.ontopia.topicmaps.schema.core.*;
 import net.ontopia.topicmaps.schema.impl.osl.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.ResourcesDirectoryReader.ResourcesFilterIF;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * INTERNAL: Test case that check whether schemas generated from topic
  * maps validate against the source topic maps.
  */
 
+@RunWith(Parameterized.class)
 public class SchemaGeneratorTest extends TestCase {
   
-  private Collection tests;
+  private final static String testdataDirectory = "schema";
 
-  private void generateTestCases() {
-    tests = new ArrayList();
-
-    tests.add("schema.xtm");
-    tests.add("test_topicmap.ltm");
-    //! tests.add("../../nav2/topicmaps/opera.xtm");
-  }
-
-
-  public SchemaGeneratorTest(String name) {
-    super(name);
-    generateTestCases();
-  }
-
-
-  public void setUp() {
-    String root = TestUtils.getTestDirectory();
-    TestUtils.verifyDirectory(root, "schema", "out");
-  }
-
-  public void testGenerator() throws Exception {
-    Iterator it = tests.iterator();
-    while (it.hasNext()) {
-      String filename = (String)it.next();
-      String tmfile = TestUtils.resolveFileName("schema" + File.separator + "in", filename);
-      String schemafile = TestUtils.resolveFileName("schema" + File.separator + "out", filename + ".xml");
-      Generate gen = new Generate();
-      OSLSchema schema = gen.createSchema(tmfile);
-      new OSLSchemaWriter(new File(schemafile), "utf-8").write(schema);
-      try {
-        validate(tmfile, schemafile);
-      } catch (SchemaViolationException e) {
-        fail("Generated schema '" + schemafile + "' had validation errors: " + e.getMessage());
+  @Parameters
+  public static List generateTests() {
+    ResourcesFilterIF filter = new ResourcesFilterIF() {
+      public boolean ok(String resourcePath) {
+        if (resourcePath.endsWith("schema.xtm")) return true;
+        if (resourcePath.endsWith("test_topicmap.ltm")) return true;
+        //! if (resourcePath.endsWith("../../nav2/topicmaps/opera.xtm")) return true;
+        return false;
       }
-    }
+    };
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", filter);
   }
 
-  protected void validate(String tmfile, String schemafile) throws Exception {
-    TopicMapIF topicmap = ImportExportUtils.getReader(tmfile).read();
-    OSLSchemaReader reader = new OSLSchemaReader(new File(schemafile));
-    OSLSchema schema = (OSLSchema)reader.read();
-    SchemaValidatorIF validator = schema.getValidator();
-    validator.validate(topicmap);
+  private String base;
+  private String filename;
+
+  public SchemaGeneratorTest(String root, String filename) {
+    this.filename = filename;
+    this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+  }
+
+  @Test
+  public void validate() throws Exception {
+    FileUtils.verifyDirectory(base, "out");
+    String tmfile = FileUtils.getTestInputFile(testdataDirectory, "in", filename);
+    String schemafile = base + File.separator + "out" + File.separator + filename + ".xml";
+    Generate gen = new Generate();
+    OSLSchema schemaOutput = gen.createSchema(tmfile);
+    new OSLSchemaWriter(new File(schemafile), "utf-8").write(schemaOutput);
+    try {
+      TopicMapIF topicmap = ImportExportUtils.getReader(tmfile).read();
+      OSLSchemaReader reader = new OSLSchemaReader(new File(schemafile));
+      OSLSchema schemaInput = (OSLSchema)reader.read();
+      SchemaValidatorIF validator = schemaInput.getValidator();
+      validator.validate(topicmap);
+    } catch (SchemaViolationException e) {
+      Assert.fail("Generated schema '" + schemafile + "' had validation errors: " + e.getMessage());
+    }
   }
 
 }

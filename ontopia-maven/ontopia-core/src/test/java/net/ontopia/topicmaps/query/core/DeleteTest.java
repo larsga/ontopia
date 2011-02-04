@@ -9,7 +9,6 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.AssociationIF;
-import org.junit.Ignore;
 
 // FIXME: test with parameters
 // FIXME: test with bad URLs in delete functions
@@ -254,8 +253,6 @@ public class DeleteTest extends AbstractQueryTest {
                topic.getTypes().isEmpty());
   }
 
-  // TODO: need a different topicmap for this, this one requires classpath MERGEMAP
-  @Ignore
   public void testScopeDynamic() throws InvalidQueryException, IOException {
     load("bb-ontologi.ltm");
 

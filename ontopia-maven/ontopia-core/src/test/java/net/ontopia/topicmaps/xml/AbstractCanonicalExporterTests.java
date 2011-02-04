@@ -15,13 +15,11 @@ import net.ontopia.topicmaps.core.TopicMapStoreFactoryIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryStoreFactory;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import net.ontopia.utils.URIUtils;
 
-@Ignore
 @RunWith(Parameterized.class)
 public abstract class AbstractCanonicalExporterTests {
 

@@ -19,8 +19,7 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
-import net.ontopia.utils.StreamUtils;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
 
 public class TopicMapSynchronizerBKTest extends TestCase {
   private String ttopicq;
@@ -29,6 +28,8 @@ public class TopicMapSynchronizerBKTest extends TestCase {
   private DeciderIF schard;
   private String base;
   
+  private final static String testdataDirectory = "tmsync";
+
   public TopicMapSynchronizerBKTest(String name) {
     super(name);
   }
@@ -51,11 +52,10 @@ public class TopicMapSynchronizerBKTest extends TestCase {
     psis.clear();
     schard = DeciderUtils.getTrueDecider();
 
-    String root = TestUtils.getTestDirectory();
-    base = root + File.separator + "tmsync" + File.separator;
+    String root = FileUtils.getTestdataOutputDirectory();
+    base = root + File.separator + testdataDirectory + File.separator;
 
-    TestUtils.verifyDirectory(root, "tmsync");
-    TestUtils.verifyDirectory(base + File.separator + "out");
+    FileUtils.verifyDirectory(base, "out");
   }
 
   public void testEmptyTM() throws InvalidQueryException, IOException {
@@ -179,7 +179,7 @@ public class TopicMapSynchronizerBKTest extends TestCase {
   // ===== INTERNAL
 
   private TopicMapIF load(String filename) throws IOException {
-    return TestUtils.getTestReader("net.ontopia.topicmaps.utils.tmsync.bk", filename).read();
+    return ImportExportUtils.getReader(FileUtils.getTestInputFile(testdataDirectory, "bk", filename)).read();
   }
 
   private void canonicalize(String filename, TopicMapIF tm) throws IOException {
@@ -194,7 +194,8 @@ public class TopicMapSynchronizerBKTest extends TestCase {
 
   private void compare(String filename) throws IOException {
     String out = base + File.separator + "out" + File.separator + filename;
+    String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", filename);
     assertTrue("test file " + filename + " canonicalized wrongly",
-               StreamUtils.compare(new FileInputStream(new File(out)), TestUtils.getTestStream("net.ontopia.topicmaps.utils.tmsync.baseline", filename)));
+               FileUtils.compareFileToResource(out, baseline));
   }
 }

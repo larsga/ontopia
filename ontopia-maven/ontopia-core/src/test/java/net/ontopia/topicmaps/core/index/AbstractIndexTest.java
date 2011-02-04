@@ -13,10 +13,7 @@ import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.TestUtils;
 
-import org.junit.Ignore;
-
-@Ignore
-public class AbstractIndexTest extends AbstractTopicMapTest {
+public abstract class AbstractIndexTest extends AbstractTopicMapTest {
   
   protected TopicMapReferenceIF topicmapRef;
   protected TopicMapIF topicMap;

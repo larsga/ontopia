@@ -11,11 +11,14 @@ import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.URIUtils;
 
 public class ParsedQueryTest
   extends net.ontopia.topicmaps.query.core.ParsedQueryTest {
   
+  private final static String testdataDirectory = "query";
+
   public ParsedQueryTest(String name) {
     super(name);
   }
@@ -23,13 +26,13 @@ public class ParsedQueryTest
   // ===== Helper methods (topic maps)
   
   protected void load(String filename) throws IOException {
-    File file = new File(TestUtils.resolveFileName("query", filename));
+    filename = FileUtils.getTestInputFile(testdataDirectory, filename);
 
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
     topicmap = store.getTopicMap();    
-    base = new URILocator(file.toURL());
+    base = URIUtils.getURI(filename);
     
-    TopicMapImporterIF importer = ImportExportUtils.getImporter(file.toString());
+    TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
     importer.importInto(topicmap);
 
     // NOTE: Query processor must have base set, because of the way

@@ -12,10 +12,12 @@ import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
 import net.ontopia.utils.ObjectUtils;
-import net.ontopia.utils.StreamUtils;
+import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.URIUtils;
 
 public class MergeTest extends TestCase {
   protected TopicMapIF    topicmap1; 
@@ -606,7 +608,7 @@ public class MergeTest extends TestCase {
   }
 
   public void testMergeDuplicateAssociations() throws IOException {
-    TopicMapIF tm = TestUtils.getTestReader("net.ontopia.topicmaps.utils", "merge-duplicate-assoc.ltm").read();
+    TopicMapIF tm = ImportExportUtils.getReader(FileUtils.getTestInputFile("various", "merge-duplicate-assoc.ltm")).read();
     TopicIF puccini1 = TestUtils.getTopicById(tm, "puccini1");
     TopicIF puccini2 = TestUtils.getTopicById(tm, "puccini2");
     
@@ -622,8 +624,8 @@ public class MergeTest extends TestCase {
   // FIXME: must test duplicates
 
   public void testMergeSelf() throws IOException {
-    TopicMapIF tm1 = TestUtils.getTestReader("net.ontopia.topicmaps.query.core", "jill.xtm").read();
-    TopicMapIF tm2 = TestUtils.getTestReader("net.ontopia.topicmaps.query.core", "jill.xtm").read();
+    TopicMapIF tm1 = ImportExportUtils.getReader(FileUtils.getTestInputFile("query", "jill.xtm")).read();
+    TopicMapIF tm2 = ImportExportUtils.getReader(FileUtils.getTestInputFile("query", "jill.xtm")).read();
 
     MergeUtils.mergeInto(tm1, tm2);
   }
@@ -953,14 +955,14 @@ public class MergeTest extends TestCase {
 
   public void testMergeAllTopics() throws MalformedURLException, IOException {
     String sep = File.separator;
-    String root = TestUtils.getTestDirectory();
-    TestUtils.verifyDirectory(root + sep + "canonical");
-    TestUtils.verifyDirectory(root + sep + "canonical", "out");
+    String root = FileUtils.getTestdataOutputDirectory();
+    FileUtils.verifyDirectory(root, "canonical", "out");
       
+    String file = FileUtils.getTestInputFile("various", "houdini.xtm");
     String outfile = root + sep + "canonical" + sep + "out" + sep + "houdini.xtm";
+    String baseline = FileUtils.getTestInputFile("various", "baseline-houdini.xtm");
 
-    //TopicMapIF topicmap = new XTMTopicMapReader(new File(file)).read();
-    TopicMapIF topicmap = TestUtils.getTestReader("net.ontopia.topicmaps.utils", "houdini.xtm").read();
+    TopicMapIF topicmap = new XTMTopicMapReader(URIUtils.getURI(file)).read();
     
     // save
     InMemoryTopicMapStore store = new InMemoryTopicMapStore();
@@ -974,7 +976,7 @@ public class MergeTest extends TestCase {
 
     new CanonicalTopicMapWriter(outfile).write(newtm);
     assertTrue("Topic map created by merging over topics not equal to original",
-               StreamUtils.compare(new FileInputStream(new File(outfile)), TestUtils.getTestStream("net.ontopia.topicmaps.utils", "baseline-houdini.xtm")));
+               FileUtils.compareFileToResource(outfile, baseline));
   }
 
   public void testMergeReifiedNames() {

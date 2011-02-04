@@ -24,7 +24,7 @@ import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
 
 import org.apache.lucene.analysis.StopAnalyzer;
 
@@ -45,9 +45,9 @@ public class LuceneTests extends TestCase {
     topicmap = store.getTopicMap();
     builder = topicmap.getBuilder();
 
-    String root = TestUtils.getTestDirectory();
+    String root = FileUtils.getTestdataOutputDirectory();
     indexDir = root + File.separator + "indexes" + File.separator;
-    TestUtils.verifyDirectory(root, "indexes");
+    FileUtils.verifyDirectory(root, "indexes");
   }
 
   protected void tearDown() throws IOException {

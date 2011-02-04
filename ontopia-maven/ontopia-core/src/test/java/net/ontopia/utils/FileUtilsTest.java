@@ -16,7 +16,7 @@ public class FileUtilsTest extends TestCase {
   
   public void setUp() throws IOException {
     // Get test directory
-    testdir = new File(TestUtils.getTestDirectory());
+    testdir = new File(FileUtils.getTestdataOutputDirectory());
   }
 
   protected void tearDown() throws IOException {

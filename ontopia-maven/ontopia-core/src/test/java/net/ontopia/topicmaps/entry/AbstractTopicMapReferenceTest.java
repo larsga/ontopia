@@ -8,9 +8,7 @@ import junit.framework.*;
 import java.util.Collection;
 import java.util.Collections;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
-import org.junit.Ignore;
 
-@Ignore
 public abstract class AbstractTopicMapReferenceTest extends TestCase {
 
   public AbstractTopicMapReferenceTest(String name) {

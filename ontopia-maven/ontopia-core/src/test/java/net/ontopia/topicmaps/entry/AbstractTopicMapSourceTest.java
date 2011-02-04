@@ -4,9 +4,7 @@
 package net.ontopia.topicmaps.entry;
 
 import junit.framework.TestCase;
-import org.junit.Ignore;
 
-@Ignore
 public abstract class AbstractTopicMapSourceTest extends TestCase {
   
   public AbstractTopicMapSourceTest(String name) {

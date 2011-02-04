@@ -4,78 +4,78 @@
 package net.ontopia.topicmaps.utils;
 
 import java.io.*;
-import junit.framework.TestCase;
-
-import net.ontopia.utils.OntopiaRuntimeException;
+import java.util.List;
+import java.util.Set;
+import net.ontopia.utils.FileUtils;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
-import net.ontopia.utils.StreamUtils;
-import net.ontopia.utils.TestUtils;
 
-public class TopicMapSynchronizerTests extends TestCase { // implements TestCaseGeneratorIF {
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-  public static final String[] TEST_FILES = new String[] {
-    "empty-association-source.ltm", "empty-source.ltm", "empty.ltm", "exists-occurrence-target.ltm",
-    "reified-association-target.ltm", "toomany-occurrence-source.ltm",
-    "empty-association-target.ltm", "empty-target.ltm", "exists-association-source.ltm",
-    "exists-type-source.ltm", "target-name-source.ltm", "toomany-occurrence-target.ltm",
-    "empty-name-source.ltm", "empty-type-source.ltm", "exists-association-target.ltm",
-    "exists-type-target.ltm", "toomany-association-source.ltm toomany-type-source.ltm",
-    "empty-name-target.ltm", "empty-type-target.ltm", "exists-name-source.ltm",
-    "exists-variant-source.ltm", "toomany-association-target.ltm", "toomany-type-target.ltm",
-    "empty-occurrence-source.ltm", "empty-variant-source.ltm", "exists-name-target.ltm",
-    "exists-variant-target.ltm", "toomany-name-source.ltm", "empty-occurrence-target.ltm",
-    "empty-variant-target.ltm", "exists-occurrence-source.ltm", "reified-association-source.ltm",
-    "toomany-name-target.ltm"
-  };
+@RunWith(Parameterized.class)
+public class TopicMapSynchronizerTests {
 
-  public void testSyncs() {
+  private final static String testdataDirectory = "tmsync";
 
-    // prepare the temporary directory
-    String root = TestUtils.getTestDirectory();
-    TestUtils.verifyDirectory(root, "tmsync");
-    String base = root + File.separator + "tmsync" + File.separator;
-    TestUtils.verifyDirectory(base, "out");
-
-    String suffix = "-target.ltm";
-
-    for (int i = 0; i < TEST_FILES.length; i++) {
-
-       // start from target topicmaps
-      if (TEST_FILES[i].endsWith(suffix)) {
-        String in = TEST_FILES[i];
-        String basetestname = in.substring(0, in.length() - suffix.length());
-        String sourcename = basetestname + "-source.ltm";
-        String outname = base + "out" + File.separator + in;
-
-        try {
-          TopicMapIF target = TestUtils.getTestReader("net.ontopia.topicmaps.utils.tmsync.in", in).read();
-          TopicMapIF source = TestUtils.getTestReader("net.ontopia.topicmaps.utils.tmsync.in", sourcename).read();
-
-          LocatorIF tmbase = source.getStore().getBaseAddress();
-          TopicIF sourcet = (TopicIF)
-            source.getObjectByItemIdentifier(tmbase.resolveAbsolute("#source"));
-
-          // sync
-          TopicMapSynchronizer.update(target, sourcet);
-
-          // save the result
-          FileOutputStream out = new FileOutputStream(new File(outname));
-          new CanonicalXTMWriter(out).write(target);
-          out.close();
-
-          // compare with baseline
-          assertTrue("test file " + in + " canonicalized wrongly",
-                  StreamUtils.compare(new FileInputStream(new File(outname)),
-                        TestUtils.getTestStream("net.ontopia.topicmaps.utils.tmsync.baseline", in)));
-
-
-        } catch (IOException ioe) {
-          throw new OntopiaRuntimeException("Could not run sync test: " + ioe.getMessage(), ioe);
-        }
-      }
-    }
+  @Parameters
+  public static List generateTests() {
+    return FileUtils.getTestInputFiles(testdataDirectory, "in", "-target.ltm");
   }
+
+  // --- Test case class
+
+    private String base;
+    private String root;
+    private String filename;
+
+    public TopicMapSynchronizerTests(String root, String filename) {
+      this.root = root;
+      this.filename = filename;
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+    }
+
+    @Test
+    public void testFile() throws IOException {
+      FileUtils.verifyDirectory(base, "out");
+
+      String suffix = "-target.ltm";
+
+      // setup canonicalization filenames
+      String in1 = FileUtils.getTestInputFile(testdataDirectory, "in" ,filename);
+      String testname =
+        filename.substring(0, filename.length() - suffix.length());
+      String in2 = FileUtils.getTestInputFile(testdataDirectory, "in", testname + "-source.ltm");
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", filename);
+
+      String out = base + File.separator + "out" + File.separator + filename;
+
+      // produce canonical output
+      canonicalize(in1, in2, out);
+
+      // compare results
+      Assert.assertTrue("test file " + filename + " canonicalized wrongly",
+                 FileUtils.compareFileToResource(out, baseline));
+    }
+
+    private void canonicalize(String infile1, String infile2, String outfile)
+      throws IOException {
+      TopicMapIF target = ImportExportUtils.getReader(infile1).read();
+      TopicMapIF source = ImportExportUtils.getReader(infile2).read();
+
+      LocatorIF base = source.getStore().getBaseAddress();
+      TopicIF sourcet = (TopicIF)
+        source.getObjectByItemIdentifier(base.resolveAbsolute("#source"));
+
+      TopicMapSynchronizer.update(target, sourcet);
+
+      FileOutputStream out = new FileOutputStream(outfile);
+      new CanonicalXTMWriter(out).write(target);
+      out.close();
+    }
 }

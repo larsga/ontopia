@@ -8,11 +8,11 @@ import junit.framework.TestCase;
 
 import net.ontopia.infoset.core.*;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.utils.TestUtils;
-import org.junit.Ignore;
+import net.ontopia.utils.FileUtils;
 
-@Ignore
-public class AbstractUtilsTestCase extends TestCase {
+public abstract class AbstractUtilsTestCase extends TestCase {
+
+  private final static String testdataDirectory = "various";
 
   protected final static String FILE_SEPARATOR = System.getProperty("file.separator");
 
@@ -35,7 +35,7 @@ public class AbstractUtilsTestCase extends TestCase {
 
   protected void readFile(String fileName) {
     try {
-      TopicMapReaderIF reader = TestUtils.getTestReader("net.ontopia.topicmaps.utils", fileName);
+      TopicMapReaderIF reader = ImportExportUtils.getReader(FileUtils.getTestInputFile(testdataDirectory, fileName));
       tm = reader.read();
       baseAddress = tm.getStore().getBaseAddress();
     } catch(IOException ex) {

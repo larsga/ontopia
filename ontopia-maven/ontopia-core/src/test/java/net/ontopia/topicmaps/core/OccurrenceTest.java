@@ -13,7 +13,7 @@ import net.ontopia.utils.ReaderInputStream;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.GenericLocator;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
 
 public class OccurrenceTest extends AbstractTypedScopedTest {
   protected OccurrenceIF occurrence;
@@ -124,17 +124,18 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
   public void testReader() throws Exception {
     // read file and store in object
-    TestUtils.verifyDirectory(TestUtils.getTestDirectory(), "various");
+    String filein = FileUtils.getTestInputFile("various", "clob.xml");
+    File fileout = FileUtils.getTestOutputFile("various", "clob.xml.out");
 
-    // set test data to file
-    File filein = new File(TestUtils.resolveFileName("various", "clob.xml"));
-    FileOutputStream fos = new FileOutputStream(filein);
-    StreamUtils.transfer(TestUtils.getTestStream("net.ontopia.topicmaps.core", "clob.xml"), fos);
-    fos.close();
-
-    File fileout = new File(TestUtils.resolveFileName("various", "clob.xml.out"));
+    // transfer test data from resource to file
+    InputStream streamin = StreamUtils.getInputStream(filein);
+    filein = FileUtils.getTestOutputFile("various", "clob-transferredresource.xml").getAbsolutePath();
+    FileOutputStream streamout = new FileOutputStream(filein);
+    StreamUtils.transfer(streamin, streamout);
+    streamout.close();
+    streamin.close();
     
-		long inlen = filein.length();
+		long inlen = new File(filein).length();
     Reader ri = new FileReader(filein);
 		try {
 			occurrence.setReader(ri, inlen, DataTypes.TYPE_BINARY);
@@ -173,7 +174,7 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
   public void _testBinaryReader() throws Exception {
     // read file and store in occurrence
-    File file = new File(TestUtils.resolveFileName("various", "blob.gif"));
+    String file = FileUtils.getTestInputFile("various", "blob.gif");
     Reader ri = new InputStreamReader(new Base64.InputStream(new FileInputStream(file), Base64.ENCODE), "utf-8");
     occurrence.setReader(ri, file.length(), DataTypes.TYPE_BINARY);
 

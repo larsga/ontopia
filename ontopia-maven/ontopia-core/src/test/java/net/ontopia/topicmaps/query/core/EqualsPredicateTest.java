@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.junit.Ignore;
 
-@Ignore //TODO lots of FileNotFound, no clue why. Files exist
 public class EqualsPredicateTest extends AbstractPredicateTest {
   
   public EqualsPredicateTest(String name) {

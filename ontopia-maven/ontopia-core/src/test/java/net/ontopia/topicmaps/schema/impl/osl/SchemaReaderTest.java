@@ -5,38 +5,30 @@ package net.ontopia.topicmaps.schema.impl.osl;
 
 import java.io.IOException;
 import net.ontopia.topicmaps.schema.core.*;
-import net.ontopia.utils.TestUtils;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
-import static junit.framework.TestCase.*;
 
 public class SchemaReaderTest extends AbstractSchemaTestCase {
 
   // --- Test methods
 
-  @BeforeClass
-  public static void before() {
-    // trigger TestUtils class loading
-    TestUtils.getTestDirectory();
-  }
-
   @Test
   public void testEmpty() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "empty.xml");
     
-    assertTrue("empty schema had non-empty rule set collection",
+    Assert.assertTrue("empty schema had non-empty rule set collection",
            schema.getRuleSets().isEmpty());
-    assertTrue("empty schema had non-empty topic class collection",
+    Assert.assertTrue("empty schema had non-empty topic class collection",
            schema.getTopicClasses().isEmpty());
-    assertTrue("empty schema had non-empty association class collection",
+    Assert.assertTrue("empty schema had non-empty association class collection",
            schema.getAssociationClasses().isEmpty());
 
-    assertTrue("rule set found in empty schema",
+    Assert.assertTrue("rule set found in empty schema",
            schema.getRuleSet("bongo") == null);
-    assertTrue("topic class found in empty schema",
+    Assert.assertTrue("topic class found in empty schema",
            schema.getTopicClass("bongo") == null);
 
-    assertTrue("schema read from file had null base address",
+    Assert.assertTrue("schema read from file had null base address",
            schema.getAddress() != null);
   }
 
@@ -44,7 +36,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testLoose() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "loose.xml");
 
-    assertTrue("schema was not loose, as specified in XML document",
+    Assert.assertTrue("schema was not loose, as specified in XML document",
            !schema.isStrict());
   }
 
@@ -54,7 +46,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
 
     // the real test here is: can we read it at all?
     
-    assertTrue("schema was not strict, as specified in XML document",
+    Assert.assertTrue("schema was not strict, as specified in XML document",
            schema.isStrict());
   }
 
@@ -62,13 +54,13 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testTopicClass() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "topic.xml");
 
-    assertTrue("schema did not have one topic class",
+    Assert.assertTrue("schema did not have one topic class",
            schema.getTopicClasses().size() == 1);
 
     TopicClass tclass = schema.getTopicClass("something");
-    assertTrue("topic class not found by ID",
+    Assert.assertTrue("topic class not found by ID",
            tclass != null);
-    assertTrue("topic class does not use loose matching, as specified in file",
+    Assert.assertTrue("topic class does not use loose matching, as specified in file",
            !tclass.isStrict());
 
     verifySingleTypeSpec(tclass, "#something");
@@ -78,14 +70,14 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testTopicNameConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "basename.xml");
 
-    assertTrue("schema did not have one topic class",
+    Assert.assertTrue("schema did not have one topic class",
            schema.getTopicClasses().size() == 1);
 
     TopicClass tclass = schema.getTopicClass("something");
-    assertTrue("topic class not found by ID",
+    Assert.assertTrue("topic class not found by ID",
            tclass != null);
 
-    assertTrue("topic class did not have one base name constraint",
+    Assert.assertTrue("topic class did not have one base name constraint",
            tclass.getTopicNameConstraints().size() == 1);
 
     TopicNameConstraint bnc =
@@ -99,19 +91,19 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testOccurrenceConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "occurrence.xml");
 
-    assertTrue("schema did not have one topic class",
+    Assert.assertTrue("schema did not have one topic class",
            schema.getTopicClasses().size() == 1);
 
     TopicClass tclass = schema.getTopicClass("something");
-    assertTrue("topic class not found by ID",
+    Assert.assertTrue("topic class not found by ID",
            tclass != null);
 
-    assertTrue("topic class did not have one occurrence constraint",
+    Assert.assertTrue("topic class did not have one occurrence constraint",
            tclass.getOccurrenceConstraints().size() == 1);
 
     OccurrenceConstraint occ =
       (OccurrenceConstraint) tclass.getOccurrenceConstraints().iterator().next();
-    assertTrue("occurrence is not set to EITHER",
+    Assert.assertTrue("occurrence is not set to EITHER",
            occ.getInternal() == OccurrenceConstraint.RESOURCE_EITHER);
 
     verifyMinMax(occ, 3, 4);
@@ -123,19 +115,19 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testOccurrenceExternal() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "extocc.xml");
 
-    assertTrue("schema did not have one topic class",
+    Assert.assertTrue("schema did not have one topic class",
            schema.getTopicClasses().size() == 1);
 
     TopicClass tclass = schema.getTopicClass("something");
-    assertTrue("topic class not found by ID",
+    Assert.assertTrue("topic class not found by ID",
            tclass != null);
 
-    assertTrue("topic class did not have one occurrence constraint",
+    Assert.assertTrue("topic class did not have one occurrence constraint",
            tclass.getOccurrenceConstraints().size() == 1);
 
     OccurrenceConstraint occ =
       (OccurrenceConstraint) tclass.getOccurrenceConstraints().iterator().next();
-    assertTrue("occurrence is not set to external",
+    Assert.assertTrue("occurrence is not set to external",
            occ.getInternal() == OccurrenceConstraint.RESOURCE_EXTERNAL);
 
     verifyMinMax(occ, 0, CardinalityConstraintIF.INFINITY);
@@ -147,10 +139,10 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     OSLSchema schema = (OSLSchema) readSchema("in", "trole.xml");
 
     TopicClass tclass = schema.getTopicClass("something");
-    assertTrue("topic class not found by ID",
+    Assert.assertTrue("topic class not found by ID",
            tclass != null);
 
-    assertTrue("topic class did not have one role constraint",
+    Assert.assertTrue("topic class did not have one role constraint",
            tclass.getRoleConstraints().size() == 1);
 
     TopicRoleConstraint rc =
@@ -159,14 +151,14 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifyMinMax(rc, 5, 6);
     verifySingleTypeSpec(rc, "#roletype");
 
-    assertTrue("topic role did not have one allowed association type",
+    Assert.assertTrue("topic role did not have one allowed association type",
            rc.getAssociationTypes().size() == 1);
 
     TypeSpecification spec =
       (TypeSpecification) rc.getAssociationTypes().iterator().next();
     InternalTopicRefMatcher matcher =
       (InternalTopicRefMatcher) spec.getClassMatcher();
-    assertTrue("topic matcher had wrong relative URI",
+    Assert.assertTrue("topic matcher had wrong relative URI",
            matcher.getRelativeURI().equals("#assoctype"));
   }
 
@@ -174,15 +166,15 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
   public void testAssocRoleConstraint() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "arole.xml");
 
-    assertTrue("schema did not have one association class",
+    Assert.assertTrue("schema did not have one association class",
            schema.getAssociationClasses().size() == 1);
     
     AssociationClass aclass =
       (AssociationClass) schema.getAssociationClasses().iterator().next();
 
-    assertTrue("association class had scope spec",
+    Assert.assertTrue("association class had scope spec",
            aclass.getScopeSpecification() == null);
-    assertTrue("association class did not have one role constraint",
+    Assert.assertTrue("association class did not have one role constraint",
            aclass.getRoleConstraints().size() == 1);
 
     AssociationRoleConstraint rc =
@@ -191,14 +183,14 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     verifyMinMax(rc, 6, 7);
     verifySingleTypeSpec(rc, "#roletype");
 
-    assertTrue("association role did not have one allowed player type",
+    Assert.assertTrue("association role did not have one allowed player type",
            rc.getPlayerTypes().size() == 1);
 
     TypeSpecification spec =
       (TypeSpecification) rc.getPlayerTypes().iterator().next();
     InternalTopicRefMatcher matcher =
       (InternalTopicRefMatcher) spec.getClassMatcher();
-    assertTrue("topic matcher had wrong relative URI",
+    Assert.assertTrue("topic matcher had wrong relative URI",
            matcher.getRelativeURI().equals("#playertype"));
   }
 
@@ -210,10 +202,10 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
     // we also check the forward reference, to make sure it worked
 
     TopicClass tclass = schema.getTopicClass("tc43");
-    assertTrue("Couldn't find topic class with ID 'tc43'",
+    Assert.assertTrue("Couldn't find topic class with ID 'tc43'",
                tclass != null);
 
-    assertTrue("Topic class has no superclass!",
+    Assert.assertTrue("Topic class has no superclass!",
                tclass.getSuperclass() != null);
   }
 
@@ -222,38 +214,38 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
 
   protected void verifyMinMax(CardinalityConstraintIF constraint,
                               int min, int max) {
-    assertTrue("constraint did not have min=" + min,
+    Assert.assertTrue("constraint did not have min=" + min,
            constraint.getMinimum() == min);
-    assertTrue("base name constraint did not have max=" + max,
+    Assert.assertTrue("base name constraint did not have max=" + max,
            constraint.getMaximum() == max);
   }
   
   protected void verifySingleScopeSpec(ScopedConstraintIF constraint,
                                        String uri) {
     ScopeSpecification spec = constraint.getScopeSpecification();
-    assertTrue("constraint had no scope specification",
+    Assert.assertTrue("constraint had no scope specification",
            spec != null);
 
-    assertTrue("scope specification did not have one matcher",
+    Assert.assertTrue("scope specification did not have one matcher",
            spec.getThemeMatchers().size() == 1);
 
     InternalTopicRefMatcher matcher =
       (InternalTopicRefMatcher) spec.getThemeMatchers().iterator().next();
-    assertTrue("scope specification did not have one matcher",
+    Assert.assertTrue("scope specification did not have one matcher",
            spec.getThemeMatchers().size() == 1);
-    assertTrue("matcher had bad URI: " + matcher.getRelativeURI(),
+    Assert.assertTrue("matcher had bad URI: " + matcher.getRelativeURI(),
            matcher.getRelativeURI().equals(uri));    
   }
 
   protected void verifySingleTypeSpec(TypedConstraintIF constraint,
                                       String uri) {
     TypeSpecification spec = constraint.getTypeSpecification();
-    assertTrue("constraint had no type specification",
+    Assert.assertTrue("constraint had no type specification",
            spec != null);
 
     InternalTopicRefMatcher matcher =
       (InternalTopicRefMatcher) spec.getClassMatcher();
-    assertTrue("topic matcher had wrong relative URI",
+    Assert.assertTrue("topic matcher had wrong relative URI",
            matcher.getRelativeURI().equals(uri));
   }  
 }

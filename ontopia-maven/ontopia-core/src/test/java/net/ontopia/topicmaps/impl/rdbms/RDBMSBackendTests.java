@@ -28,7 +28,7 @@ import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
+import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
 
 /**
@@ -64,7 +64,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTest {
 
     // import sample topic map
     TopicMapStoreIF store = new RDBMSTopicMapStore(); // don't use storage
-    TopicMapImporterIF importer = ImportExportUtils.getImporter(new File(filename).toURL().toString());
+    TopicMapImporterIF importer = ImportExportUtils.getImporter(URIUtils.getURI(filename));
     importer.importInto(store.getTopicMap());
 
     long topicmap_id = Long.parseLong(store.getTopicMap().getObjectId().substring(1)); 
@@ -90,7 +90,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTest {
     }
 
     // import topic map
-    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
+    String filename = FileUtils.getTestInputFile("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -247,7 +247,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTest {
     }
 
     // import topic map
-    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
+    String filename = FileUtils.getTestInputFile("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -313,7 +313,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTest {
     }
 
     // import topic map
-    String filename = TestUtils.resolveFileName("various", "commroll.ltm");
+    String filename = FileUtils.getTestInputFile("various", "commroll.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
@@ -449,7 +449,7 @@ public class RDBMSBackendTests extends AbstractTopicMapTest {
     }
 
     // import topic map
-    String filename = TestUtils.resolveFileName("various", "gcache.ltm");
+    String filename = FileUtils.getTestInputFile("various", "gcache.ltm");
     
     // create reference
     long topicmap_id = importTopicMap(filename);
