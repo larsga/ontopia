@@ -21,12 +21,6 @@
 		</dependency>
 		<dependency>
 			<groupId>net.ontopia.maven</groupId>
-			<artifactId>ontopia-test-bootstrap</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.ontopia.maven</groupId>
 			<artifactId>ontopia-navigator</artifactId>
 			<version>${project.version}</version>
 		</dependency>

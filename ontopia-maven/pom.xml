@@ -20,7 +20,6 @@
 	<modules>
 		<module>cxtm-tests</module>
 		<module>ontopia-core</module>
-		<module>ontopia-test-bootstrap</module>
 		<module>ontopia-navigator</module>
 		<module>ontopia-webed</module>
 		<module>ontopia-contentstore</module>
