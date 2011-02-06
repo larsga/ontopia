@@ -15,17 +15,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.ontopia.maven</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontopia-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.ontopia.maven</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontopia-navigator</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.ontopia.maven</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ontopia-contentstore</artifactId>
 			<version>${project.version}</version>
 		</dependency>
