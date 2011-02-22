@@ -158,7 +158,7 @@ public class ResourcesDirectoryReader {
     for (ResourcesFilterIF filter : filters) {
       if (filter.ok(resourcePath)) return true;
     }
-    return false;
+    return filters.isEmpty();
   }
   
 
