@@ -1,55 +1,79 @@
 <topicMap>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#at1" notation="URI"></locator>
+<topic number="1">
+<subjectIdentifiers>
+<locator>http://psi.topicmaps.org/iso13250/model/topic-name</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id1" notation="URI"></locator>
-</sourceLocators>
-<topicName>
+<itemIdentifiers>
+<locator>#id3</locator>
+</itemIdentifiers>
+</topic>
+<topic number="2">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#at1</locator>
+</subjectIdentifiers>
+<itemIdentifiers>
+<locator>#id1</locator>
+</itemIdentifiers>
+<name number="1">
 <value>fAssocs-at1</value>
-</topicName>
+<type topicref="1"></type>
+</name>
 </topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#at2" notation="URI"></locator>
+<topic number="3">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#at2</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id10" notation="URI"></locator>
-</sourceLocators>
-<topicName>
+<itemIdentifiers>
+<locator>#id11</locator>
+</itemIdentifiers>
+<name number="1">
 <value>at2</value>
-</topicName>
+<type topicref="1"></type>
+</name>
 </topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#rt1" notation="URI"></locator>
+<topic number="4">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#rt1</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id6" notation="URI"></locator>
-</sourceLocators>
+<itemIdentifiers>
+<locator>#id6</locator>
+</itemIdentifiers>
 </topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#rt2" notation="URI"></locator>
+<topic number="5">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#rt2</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id9" notation="URI"></locator>
-</sourceLocators>
+<itemIdentifiers>
+<locator>#id9</locator>
+</itemIdentifiers>
 </topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#t1" notation="URI"></locator>
+<topic number="6">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#t1</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id5" notation="URI"></locator>
-</sourceLocators>
-<rolePlayed ref="association.1.role.1"></rolePlayed></topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#t2" notation="URI"></locator>
+<itemIdentifiers>
+<locator>#id5</locator>
+</itemIdentifiers>
+<rolePlayed ref="association.1.role.1"></rolePlayed>
+</topic>
+<topic number="7">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#t2</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id8" notation="URI"></locator>
-</sourceLocators>
-<rolePlayed ref="association.1.role.2"></rolePlayed></topic>
-<association>
-<type topicref="2"></type>
-<role>
-<rolePlayer topicref="5"></rolePlayer>
+<itemIdentifiers>
+<locator>#id8</locator>
+</itemIdentifiers>
+<rolePlayed ref="association.1.role.2"></rolePlayed>
+</topic>
+<association number="1">
 <type topicref="3"></type>
-</role>
-<role>
-<rolePlayer topicref="6"></rolePlayer>
+<role number="1">
+<player topicref="6"></player>
 <type topicref="4"></type>
+</role>
+<role number="2">
+<player topicref="7"></player>
+<type topicref="5"></type>
 </role>
 </association>
 </topicMap>
