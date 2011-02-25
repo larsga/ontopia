@@ -1,20 +1,34 @@
 <topicMap>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#ot1" notation="URI"></locator>
+<topic number="1">
+<subjectIdentifiers>
+<locator>http://psi.topicmaps.org/iso13250/model/topic-name</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id1" notation="URI"></locator>
-</sourceLocators>
-<topicName>
-<value>fOccs-ot1</value>
-</topicName>
+<itemIdentifiers>
+<locator>#id3</locator>
+</itemIdentifiers>
 </topic>
-<topic>
-<subjectIdentifiers><locator address="http://xtmfragmentexporter/tests#t1" notation="URI"></locator>
+<topic number="2">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#ot1</locator>
 </subjectIdentifiers>
-<sourceLocators><locator address="#id3" notation="URI"></locator>
-</sourceLocators>
-<topicName>
+<itemIdentifiers>
+<locator>#id1</locator>
+</itemIdentifiers>
+<name number="1">
+<value>fOccs-ot1</value>
+<type topicref="1"></type>
+</name>
+</topic>
+<topic number="3">
+<subjectIdentifiers>
+<locator>http://xtmfragmentexporter/tests#t1</locator>
+</subjectIdentifiers>
+<itemIdentifiers>
+<locator>#id4</locator>
+</itemIdentifiers>
+<name number="1">
 <value>t1</value>
-</topicName>
+<type topicref="1"></type>
+</name>
 </topic>
 </topicMap>
