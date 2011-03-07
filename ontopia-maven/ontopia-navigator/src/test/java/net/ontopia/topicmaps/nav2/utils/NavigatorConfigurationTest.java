@@ -8,56 +8,61 @@ import java.util.Hashtable;
 import java.util.Collection;
 import org.xml.sax.SAXException;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.nav2.core.NavigatorConfigurationIF;
 import net.ontopia.topicmaps.nav2.utils.NavigatorConfigFactory;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
 
-public class NavigatorConfigurationTest extends AbstractOntopiaTestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class NavigatorConfigurationTest {
   
+  private final static String testdataDirectory = "nav2";
+
   NavigatorConfigurationIF navConf;
-  
-  public NavigatorConfigurationTest(String name) {
-    super(name);
-  }
 
+  @Before  
   public void setUp() throws IOException, SAXException {
-    String root = getTestDirectory();
-    String baseDir = root + File.separator + "nav2" +
-                     File.separator + "WEB-INF" + File.separator + "config";
-    File configFile = new File(baseDir, "application.xml"); 
+    String configFile = FileUtils.getTestInputFile(testdataDirectory, "WEB-INF", "config", "application.xml");
     // read in configuration file and generate object
-    navConf = NavigatorConfigFactory.getConfiguration(configFile);    
+    navConf = NavigatorConfigFactory.getConfiguration(StreamUtils.getInputStream(configFile));    
   }
   
+  @Test
   public void testProperties() {
-    assertEquals("string did not match (1)",
+    Assert.assertEquals("string did not match (1)",
                 navConf.getProperty("msg.UntypedAssoc"), "untyped");
-    assertEquals("string did not match (2)",
+    Assert.assertEquals("string did not match (2)",
                 navConf.getProperty("baseNameContextDecider"), "intersection");
   }
   
+  @Test
   public void testAutoloadTopicMaps() {
     Collection retr = navConf.getAutoloadTopicMaps();
-    assertEquals("autoload topicmaps collection wrong in size",
+    Assert.assertEquals("autoload topicmaps collection wrong in size",
                  retr.size(), 1);
-    assertTrue("autoload topicmaps does not contain expected tm",
+    Assert.assertTrue("autoload topicmaps does not contain expected tm",
                retr.contains("opera.xtm"));
   }
   
+  @Test
   public void testDefaultMVS() {
-    assertEquals("default view not correct",
+    Assert.assertEquals("default view not correct",
                  navConf.getDefaultView(), "");
-    assertEquals("default model not correct",
+    Assert.assertEquals("default model not correct",
                  navConf.getDefaultModel(), "");
-    assertEquals("default skin not correct",
+    Assert.assertEquals("default skin not correct",
                  navConf.getDefaultSkin(), "");
   }
   
+  @Test
   public void testClassMap() {
-    assertEquals("fqcn could not be found (1)",
+    Assert.assertEquals("fqcn could not be found (1)",
                  navConf.getClass("topicComparator"), 
                  "net.ontopia.topicmaps.nav.utils.comparators.TopicComparator");
-    assertEquals("fqcn could not be found (2)",
+    Assert.assertEquals("fqcn could not be found (2)",
                  navConf.getClass("topicMapRefComparator"), 
                  "net.ontopia.topicmaps.nav.utils.comparators.TopicMapReferenceComparator");    
   }

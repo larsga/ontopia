@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +18,9 @@ import org.slf4j.LoggerFactory;
  * INTERNAL: Abstract class for handling a test case related to the
  * navigator taglib framework.
  */
-public class AbstractTaglibTestCase extends AbstractOntopiaTestCase {
+public abstract class AbstractTaglibTestCase {
 
   static Logger log = LoggerFactory.getLogger(AbstractTaglibTestCase.class.getName());
-  protected String base;
   protected String jspfile;
   protected String topicmapId;
   protected Hashtable reqParams;
@@ -34,17 +31,14 @@ public class AbstractTaglibTestCase extends AbstractOntopiaTestCase {
   /**
    * Default constructor.
    */
-  public AbstractTaglibTestCase(String jspfile, String base,
+  public AbstractTaglibTestCase(String jspfile, 
                                 String topicmapId) {
-    super("testJSP");
-    this.base = base;
     this.jspfile = jspfile;
     this.topicmapId = topicmapId;
   }
 
   public String toString() {
-    // overwrite method from junit.framework.TestCase
-    return getName() + "  file: " + jspfile +
+    return this.getClass().getName() + "  file: " + jspfile +
       " with topicmap: " + topicmapId;
   }
 
@@ -86,14 +80,6 @@ public class AbstractTaglibTestCase extends AbstractOntopiaTestCase {
 
   protected String getJspFileName() {
     return jspfile;
-  }
-
-  protected String getJSPSource() {
-    return (base + "jsp" + File.separator + jspfile);
-  }
-  
-  protected String getBase() {
-    return base;
   }
 
 }

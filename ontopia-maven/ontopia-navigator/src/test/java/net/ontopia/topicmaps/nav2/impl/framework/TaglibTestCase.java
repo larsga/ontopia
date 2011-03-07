@@ -27,11 +27,37 @@ import net.ontopia.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.io.InputStream;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import org.xml.sax.SAXException;
+import net.ontopia.xml.ConfiguredXMLReaderFactory;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 /**
  * INTERNAL: A class which represents a single testcase of the nav2
  * testing framework.
  */
+@RunWith(Parameterized.class)
 public class TaglibTestCase extends AbstractTaglibTestCase {
+
+  private final static String testdataDirectory = "nav2";
 
   // initialization of logging facility
   private static Logger log = LoggerFactory
@@ -46,12 +72,40 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
   // string value that holds the expected exception if it is given.
   private String expectedException = "";
 
+  @Parameters
+  public static List generateTests() throws IOException, SAXException {
+    String config = FileUtils.getTestInputFile(testdataDirectory, "config", "tests.xml");
+    InputStream in = StreamUtils.getInputStream(config);
+
+    XMLReader parser = new ConfiguredXMLReaderFactory().createXMLReader();
+    TestCaseContentHandler handler = new TestCaseContentHandler();
+    handler.register(parser);
+    parser.parse(new InputSource(in));
+    Map result = handler.getTests();
+    List tests = new ArrayList<Object[]>();
+
+    Iterator it = result.keySet().iterator();
+    while (it.hasNext()) {
+      String key = (String) it.next();
+      Collection value = (Collection) result.get(key);
+      StringTokenizer strtok = new StringTokenizer(key, "$$$");
+      String tm = strtok.nextToken();
+      String jsp = strtok.nextToken();
+      Iterator iter = value.iterator();
+      while (iter.hasNext()) {
+        Map test_params = (HashMap) iter.next();
+        tests.add(new Object[] {jsp, /* base, */ tm, test_params});
+      }
+    }
+    return tests;
+  }
+
   /**
    * Default constructor.
    */
-  public TaglibTestCase(String jspfile, String base,
+  public TaglibTestCase(String jspfile, 
                         String topicmapId, Map params) {
-    super(jspfile, base, topicmapId);
+    super(jspfile, topicmapId);
     if (params.containsKey("output")) {
       filename = (String) params.get("output");
       params.remove("output");
@@ -72,11 +126,13 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
     setRequestParameters(params);
   }
 
+  @Test
   public void testJSP() throws OntopiaRuntimeException {
     try {
       // setup environment and execute single test case
       PageContext page = makePageContext();
-      JSPPageReader reader = new JSPPageReader(new File(getJSPSource()));
+      String jspSource = FileUtils.getTestInputFile(testdataDirectory, "jsp", jspfile);
+      JSPPageReader reader = new JSPPageReader(jspSource);
       JSPTreeNodeIF root = reader.read();
       JSPPageExecuter exec = new JSPPageExecuter();
       log.info("Run testcase for " + generateTestCaseDescriptor());
@@ -85,17 +141,20 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
       log.debug("Compare results.");
       evaluate();
     } catch (Exception e) {
+      if (e instanceof OntopiaRuntimeException) {
+        e = (Exception) e.getCause();
+      }
       log.info("Got an exception: " + e);
       if (shouldFail) {
         if (e.getClass().getName().equals(expectedException))
-          assertTrue(true);
+          Assert.assertTrue(true);
         else
           throw new OntopiaRuntimeException("Expected exception " + expectedException+
                                             ", got " + e.getClass(), e);
       } else {
         if (e instanceof java.io.FileNotFoundException)
           // handle this special to get rid of the baseline not found problem
-          assertTrue("Could not find file: " + e.getMessage(), false);
+          Assert.assertTrue("Could not find file: " + e.getMessage(), false);
         else if (e.getClass().getName().equals(expectedException)) {
           try {
             javax.servlet.jsp.JspWriter out = makePageContext().getOut();
@@ -112,45 +171,38 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
     }
   }
 
-  public void setUp() {
-    verifyDirectory(getBase(), "out");
-  }
-
   /**
    * Compares if output result and baseline are identical.
    */
   private void evaluate() throws IOException {
-    StringBuffer inbuf = new StringBuffer();
-    StringBuffer outbuf = new StringBuffer();
-    // Gets the base path for where to find the test results.
-    inbuf.append(getBase() + "baseline" + File.separator);
-    outbuf.append(getBase() + "out" + File.separator);
-    if (filename == null) {
-      inbuf.append(generateTestCaseFilename());
-      outbuf.append(generateTestCaseFilename());
-    } else {
-      inbuf.append(filename);
-      outbuf.append(filename);
-    }
+    String _filename = (filename == null) ? generateTestCaseFilename() : filename;
+    String infile = FileUtils.getTestInputFile(testdataDirectory, "baseline", _filename);
+    File outfile = FileUtils.getTestOutputFile(testdataDirectory, "out", _filename);
 
-    if (!(new File(inbuf.toString()).exists())) {
+    boolean fileExists = true;
+    try {
+      StreamUtils.getInputStream(infile);
+    } catch (IOException e) {
+      fileExists = false;
+    }
+    if (!fileExists) {
       if (!shouldFail)
-        fail("Cannot compare result, because baseline " +
-             "file does not exist: " + inbuf.toString());
+        Assert.fail("Cannot compare result, because baseline " +
+             "file does not exist: " + infile);
       else {
-        assertTrue("This test case should fail, and the file does not exist", true);
+        Assert.assertTrue("This test case should fail, and the file does not exist", true);
         return;
       }
     }
 
     if (shouldFail) {
-      assertTrue("This testcase should have failed, but the result from the JSP file" +
-                 " is the same as the baseline. [" + inbuf.toString() + "]",
-                 !FileUtils.compare(inbuf.toString(), outbuf.toString()));
+      Assert.assertTrue("This testcase should have failed, but the result from the JSP file" +
+                 " is the same as the baseline. [" + infile + "]",
+                 !FileUtils.compareFileToResource(outfile, infile));
     } else {
-      assertTrue("Result from the JSP file is not the same as baseline. [" +
-                 inbuf.toString() + "]",
-                 FileUtils.compare(inbuf.toString(), outbuf.toString()));
+      Assert.assertTrue("Result from the JSP file is not the same as baseline. [" +
+                 infile + "]",
+                 FileUtils.compareFileToResource(outfile, infile));
     }
   }
 
@@ -167,10 +219,11 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
     FakePageContext pageContext = new FakePageContext(getWriter());
     FakeServletRequest servletRequest = new FakeServletRequest(getRequestParameters());
     servletRequest.setContextPath("jsp/" + getJspFileName());
-    String path = getBase(); // so that it can find the WEB-INF directory.
+    String path = "classpath:net/ontopia/testdata/nav2/"; // so that it can find the WEB-INF directory.
 
     Hashtable initParams = new Hashtable();
-    initParams.put("source_config", "WEB-INF/config/tm-sources.xml");
+    initParams.put("source_config", "classpath:net/ontopia/testdata/nav2/WEB-INF/config/tm-sources.xml");
+    initParams.put("app_config",    "classpath:net/ontopia/testdata/nav2/WEB-INF/config/application.xml");
     FakeServletContext servletContext = new FakeServletContext(path, appAttrs, initParams);
 
     FakeServletConfig servletConfig = new FakeServletConfig(servletContext);
@@ -185,14 +238,9 @@ public class TaglibTestCase extends AbstractTaglibTestCase {
    * Creates the outputfile in the "out" directory.
    */
   private Writer getWriter() throws IOException {
-    StringBuffer outfile = new StringBuffer();
-    // Append the base + the outdir.
-    outfile.append(getBase() + "out" + File.separator);
-    if (filename == null)
-      outfile.append(generateTestCaseFilename());
-    else outfile.append(filename);
+    String _filename = (filename == null) ? generateTestCaseFilename() : filename;
+    File file = FileUtils.getTestOutputFile(testdataDirectory, "out", _filename);
 
-    File file = new File(outfile.toString());
     if (!file.createNewFile()) {
       file.delete();
       file.createNewFile();

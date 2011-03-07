@@ -19,11 +19,14 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.junit.Ignore;
+
 /**
  * INTERNAL: A class which reads in the framework test configuration
  * file and builds the different test cases specified in the
  * <code>nav2/config/tests.xml</code> file.
  */
+@Ignore
 public class TestCaseContentHandler extends SAXTracker {
 
   static Logger log = LoggerFactory

@@ -11,32 +11,28 @@ import net.ontopia.utils.EncryptionUtils;
 import net.ontopia.topicmaps.nav2.core.*;
 import net.ontopia.topicmaps.nav2.impl.basic.*;
 import net.ontopia.topicmaps.nav2.utils.*;
+import net.ontopia.utils.FileUtils;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
-public class EncryptedModuleTest extends AbstractOntopiaTestCase {
+public class EncryptedModuleTest {
 
-  String baseInDir;
-  String baseOutDir;
-  
-  public EncryptedModuleTest(String name) {
-    super(name);
-  }
+  private final static String testdataDirectory = "nav2";
 
+  @Before
   public void setUp() throws IOException {
-    String root = getTestDirectory();
-    verifyDirectory(root, "nav2", "out");
-    baseInDir = root + File.separator + "nav2" + File.separator + "functions";
-    baseOutDir = root + File.separator + "nav2" + File.separator + "out";
     // create encrypted module file
-    File inFile = new File(baseInDir, "plainTest.jsm");
-    File outFile = new File(baseOutDir, "testEncWriterOut.jsm");
+    File inFile = FileUtils.getTransferredTestInputFile(testdataDirectory, "functions", "plainTest.jsm");
+    File outFile = FileUtils.getTestOutputFile(testdataDirectory, "out", "testEncWriterOut.jsm");
     EncryptionUtils.encrypt(inFile, outFile);
   }
    
 
+  @Test
   public void testVerifyWritten() throws IOException, SAXException {
-    File inFile = new File(baseOutDir, "testEncWriterOut.jsm");
+    File inFile = FileUtils.getTestOutputFile(testdataDirectory, "out", "testEncWriterOut.jsm");
     ModuleReaderIF modReader = new ModuleReader(true);
     Map funcs = modReader.read(new FileInputStream(inFile));
 

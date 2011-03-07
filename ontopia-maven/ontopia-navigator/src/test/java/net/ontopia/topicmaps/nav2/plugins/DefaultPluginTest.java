@@ -3,37 +3,26 @@
 package net.ontopia.topicmaps.nav2.plugins;
 
 import java.util.*;
+import org.junit.Assert;
+import org.junit.Test;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.nav2.plugins.*;
+public class DefaultPluginTest {
 
-public class DefaultPluginTest extends AbstractOntopiaTestCase {
-
-  public DefaultPluginTest(String name) {
-    super(name);
-  }
-
-  public void setUp() throws Exception {
-    super.setUp();
-  }
-
-  public void tearDown() throws Exception {
-    super.tearDown();
-  }
-  
+  @Test
   public void testBasic() {
     PluginIF p1 = new DefaultPlugin();
     p1.setId("p");
-    assertTrue("Plug-in id is not correct.",
+    Assert.assertTrue("Plug-in id is not correct.",
                p1.getId().equals("p"));
     p1.setTitle("MyPlugin");
-    assertTrue("Plug-in title is not correct.",
+    Assert.assertTrue("Plug-in title is not correct.",
                p1.getTitle().equals("MyPlugin"));
     p1.setURI("http://www.plugins.org");
-    assertTrue("Plug-in uri is not correct.",
+    Assert.assertTrue("Plug-in uri is not correct.",
                p1.getURI().equals("http://www.plugins.org"));
   }
   
+  @Test
   public void testEqual() {
     PluginIF p1 = new DefaultPlugin();
     p1.setId("p");
@@ -43,10 +32,11 @@ public class DefaultPluginTest extends AbstractOntopiaTestCase {
     p2.setId("p");
     p2.setTitle("MyPlugin");
     p2.setURI("http://www.plugins.org");
-    assertTrue("Plug-in objects are not equal.",
+    Assert.assertTrue("Plug-in objects are not equal.",
                p1.equals(p2));
   }
   
+  @Test
   public void testUnEqual() {
     PluginIF p1 = new DefaultPlugin();
     p1.setId("p1");
@@ -56,7 +46,7 @@ public class DefaultPluginTest extends AbstractOntopiaTestCase {
     p2.setId("p2");
     p2.setTitle("MyPlugin");
     p2.setURI("http://www.plugins.org");
-    assertTrue("Plug-in objects are equal.",
+    Assert.assertTrue("Plug-in objects are equal.",
                !p1.equals(p2));
   }
   

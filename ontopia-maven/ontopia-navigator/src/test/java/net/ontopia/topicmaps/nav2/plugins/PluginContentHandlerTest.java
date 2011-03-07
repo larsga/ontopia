@@ -4,43 +4,39 @@ package net.ontopia.topicmaps.nav2.plugins;
 
 import java.io.*;
 import java.util.*;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.nav2.plugins.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class PluginContentHandlerTest extends AbstractOntopiaTestCase {
+public class PluginContentHandlerTest {
 
+  private final static String testdataDirectory = "nav2";
   private static final String pluginBasePath = "/plugins/";
   
   private Collection plugins;
-  
-  public PluginContentHandlerTest(String name) {
-    super(name);
-  }
 
+  @Before  
   public void setUp() throws Exception {
-    super.setUp();
-    String rootPath = AbstractOntopiaTestCase.getTestDirectory();
-    String pluginPath = rootPath + File.separator + "nav2" +
-      File.separator + "plugins" + File.separator + "sample-plugins.xml";
-    plugins = PluginConfigFactory.getPlugins(new FileInputStream(pluginPath), pluginPath, pluginBasePath);
+    String pluginPath = FileUtils.getTestInputFile(testdataDirectory, "plugins", "sample-plugins.xml");
+    plugins = PluginConfigFactory.getPlugins(StreamUtils.getInputStream(pluginPath), pluginPath, pluginBasePath);
   }
 
-  public void tearDown() throws Exception {
-    super.tearDown();
-  }
-  
+  @Test
   public void testBasic() {
-    assertTrue("Not the number of plug-ins matched in config file (" +
+    Assert.assertTrue("Not the number of plug-ins matched in config file (" +
                plugins.size() + ")", plugins.size() == 4);
     Iterator it = plugins.iterator();
     while (it.hasNext()) {
       Object obj = it.next();
-      assertTrue("Not an instance of PluginIF: " + obj,
+      Assert.assertTrue("Not an instance of PluginIF: " + obj,
                  obj instanceof PluginIF);
     }
   }
 
+  @Test
   public void testOntopiaPlugin() {
     PluginIF ontopia_plugin = getPlugin("ontopia");
 
@@ -50,31 +46,32 @@ public class PluginContentHandlerTest extends AbstractOntopiaTestCase {
     exp_plugin.setDescription("A link to www.ontopia.net");
     exp_plugin.setURI("http://www.ontopia.net");
     
-    assertTrue("ontopia plugin is not like expected",
+    Assert.assertTrue("ontopia plugin is not like expected",
                ontopia_plugin != exp_plugin);
   }
   
+  @Test
   public void testDictPlugin() {
     PluginIF dict_plugin = getPlugin("dict");
-    assertTrue("Could not find dict plugin",
+    Assert.assertTrue("Could not find dict plugin",
                dict_plugin != null);
-    assertTrue("dict plugin has wrong title",
+    Assert.assertTrue("dict plugin has wrong title",
                dict_plugin.getTitle().equals("Dictionary"));
-    assertTrue("dict plugin has wrong description",
+    Assert.assertTrue("dict plugin has wrong description",
                dict_plugin.getDescription().equals("Online Dictionary Database Query (dict.org)."));
-    assertTrue("dict plugin has wrong state",
+    Assert.assertTrue("dict plugin has wrong state",
                dict_plugin.getState() == PluginIF.DEACTIVATED);
     List exp_groups = new ArrayList();
     exp_groups.add("topic");
     exp_groups.add("topicmap");
-    assertTrue("dict plugin has wrong groups",
+    Assert.assertTrue("dict plugin has wrong groups",
                dict_plugin.getGroups().equals(exp_groups));
-    assertTrue("dict plugin has wrong uri",
+    Assert.assertTrue("dict plugin has wrong uri",
                dict_plugin.getURI().equals(""));
-    assertTrue("dict plugin has wrong target",
+    Assert.assertTrue("dict plugin has wrong target",
                dict_plugin.getTarget() == null);
     int paramLen = dict_plugin.getParameter("text").length();
-    assertTrue("dict plugin has wrong text parameter: " + paramLen,
+    Assert.assertTrue("dict plugin has wrong text parameter: " + paramLen,
                paramLen == 336);
   }
 

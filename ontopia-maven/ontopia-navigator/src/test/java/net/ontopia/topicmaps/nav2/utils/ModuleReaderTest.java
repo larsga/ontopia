@@ -8,49 +8,45 @@ import org.xml.sax.SAXException;
 
 import net.ontopia.topicmaps.nav2.core.*;
 import net.ontopia.topicmaps.nav2.utils.*;
+import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ModuleReaderTest extends AbstractOntopiaTestCase {
+public class ModuleReaderTest {
 
-  String baseDir;
-  
-  public ModuleReaderTest(String name) {
-    super(name);
-  }
+  private final static String testdataDirectory = "nav2";
 
-  public void setUp() {
-    String root = getTestDirectory();
-    baseDir = root + File.separator + "nav2" + File.separator + "functions";
-  }
-
+  @Test
   public void testPlain() throws IOException, SAXException {
-    File inpFile = new File(baseDir, "plainTest.jsm");
+    String inpFile = FileUtils.getTestInputFile(testdataDirectory, "functions", "plainTest.jsm");
     ModuleReaderIF modReader = new ModuleReader(false);
-    Map funcs = modReader.read(new FileInputStream(inpFile));
+    Map funcs = modReader.read(StreamUtils.getInputStream(inpFile));
 
-    assertTrue("Could not retrieve correct number of functions from plain module file",
+    Assert.assertTrue("Could not retrieve correct number of functions from plain module file",
                funcs.size() == 1);
     
-    assertTrue("Could not retrieve function 'names' from plain module file",
+    Assert.assertTrue("Could not retrieve function 'names' from plain module file",
                funcs.containsKey("names"));
     
-    assertTrue("Object is not instance of FunctionIF.",
+    Assert.assertTrue("Object is not instance of FunctionIF.",
                funcs.get("names") instanceof FunctionIF); 
   }
   
+  @Test
   public void testEncrypted() throws IOException, SAXException {
-    File inpFile = new File(baseDir, "encryptedTest.jsm");
+    String inpFile = FileUtils.getTestInputFile(testdataDirectory, "functions", "encryptedTest.jsm");
     ModuleReaderIF modReader = new ModuleReader(true);
-    Map funcs = modReader.read(new FileInputStream(inpFile));
+    Map funcs = modReader.read(StreamUtils.getInputStream(inpFile));
 
-    assertTrue("Could not retrieve correct number of functions from encrypted module file",
+    Assert.assertTrue("Could not retrieve correct number of functions from encrypted module file",
                funcs.size() == 1);
     
-    assertTrue("Could not retrieve function 'names' from encrypted module file",
+    Assert.assertTrue("Could not retrieve function 'names' from encrypted module file",
                funcs.containsKey("names"));
     
-    assertTrue("Object is not instance of FunctionIF.",
+    Assert.assertTrue("Object is not instance of FunctionIF.",
                funcs.get("names") instanceof FunctionIF); 
   }
   

@@ -1,36 +1,36 @@
 package net.ontopia.topicmaps.nav2.taglibs.tolog;
 
 import java.util.Collection;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.nav2.impl.basic.ContextManager;
 import net.ontopia.topicmaps.nav2.taglibs.tolog.ContextManagerMapWrapper;
 import net.ontopia.topicmaps.nav2.core.VariableNotSetException;
 
-public class ContextManagerMapWrapperTest extends AbstractTopicMapTestCase {
+import org.junit.Assert;
+import org.junit.Test;
+
+public class ContextManagerMapWrapperTest {
   
-  public ContextManagerMapWrapperTest(String name) {
-    super(name);
-  }
-  
+  @Test
   public void testRemove() {
     ContextManagerMapWrapper contextManagerMapWrapper = new 
     ContextManagerMapWrapper(new ContextManager());
     contextManagerMapWrapper.put("the key", "the value");
     contextManagerMapWrapper.remove("the key");
     Collection value = (Collection)contextManagerMapWrapper.get("the key");
-    assertTrue("Expected empty Collection, but found Collection of size" +
+    Assert.assertTrue("Expected empty Collection, but found Collection of size" +
         value.size(), value.isEmpty());
     
     if (contextManagerMapWrapper.remove("nonExistent") != null)
-      fail("Removing a non-existent variable should return null");
+      Assert.fail("Removing a non-existent variable should return null");
     if (contextManagerMapWrapper.get("nonExistent") != null)
-      fail("Removing a non-existent variable bound the variable to null,"
+      Assert.fail("Removing a non-existent variable bound the variable to null,"
           + " but should have done nothing.");
   }
   
+  @Test
   public void testGet() {
     ContextManagerMapWrapper contextManagerMapWrapper = new 
         ContextManagerMapWrapper(new ContextManager());
-    assertNull(contextManagerMapWrapper.get("the key"));
+    Assert.assertNull(contextManagerMapWrapper.get("the key"));
   }
 }

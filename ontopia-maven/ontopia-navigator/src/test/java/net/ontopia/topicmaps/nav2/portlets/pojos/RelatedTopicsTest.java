@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.net.MalformedURLException;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.core.Locators;
 import net.ontopia.topicmaps.core.TopicIF;
@@ -21,38 +20,41 @@ import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
 import net.ontopia.topicmaps.nav2.portlets.pojos.RelatedTopics;
+import net.ontopia.utils.FileUtils;
 
-public class RelatedTopicsTest extends AbstractOntopiaTestCase {
-  private String base;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class RelatedTopicsTest {
+
+  private final static String testdataDirectory = "nav2";
+
   private RelatedTopics portlet;
 
-  public RelatedTopicsTest(String name) {
-    super(name);
-  }
-
+  @Before
   public void setUp() throws MalformedURLException {
-    String root = AbstractOntopiaTestCase.getTestDirectory();
-    base = root + File.separator + "nav2" + File.separator;
-
     portlet = new RelatedTopics();
   }
 
   // --- Tests
 
+  @Test
   public void testNoAssociations() throws IOException {
     TopicMapIF tm = load("screwed-up.ltm");
     TopicIF topic = getTopicById(tm, "no-name");
     List headings = portlet.makeModel(topic);
-    assertTrue("topic with no associations had headings",
+    Assert.assertTrue("topic with no associations had headings",
                headings.isEmpty());
   }
 
+  @Test
   public void testVarious() throws IOException {
     // initialize
     TopicMapIF tm = load("association.xtm");
     TopicIF topic = getTopicById(tm, "oslo");
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF contained_in = getTopicById(tm, "contained-in");
     TopicIF single_assoc = getTopicById(tm, "single-assoc");
@@ -65,7 +67,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   contained_in, containee, 3);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly two children",
+    Assert.assertTrue("first heading did not have exactly two children",
                assocs.size() == 2);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
@@ -77,21 +79,22 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   single_assoc, containee, 1);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly one child",
+    Assert.assertTrue("second heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 2.1", 1, Collections.EMPTY_SET,
                       null, null, null);
-    assertTrue("assoc 2.1 did not have empty role set",
+    Assert.assertTrue("assoc 2.1 did not have empty role set",
                assoc.getRoles().isEmpty());
   }
 
+  @Test
   public void testBinaries() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
     TopicIF topic = getTopicById(tm, "article1");
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -106,19 +109,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -127,11 +130,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly three children",
+    Assert.assertTrue("second heading did not have exactly three children",
                assocs.size() == 3);
     // FIXME: no defined order for associations, unfortunately
   }
 
+  @Test
   public void testBinariesOntopoly() throws IOException { // same as testBinaries, except ontopoly topicmap
     // initialize
     TopicMapIF tm = load("bk-example-ontopoly.xtm");
@@ -139,7 +143,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
     RelatedTopics portlet = new RelatedTopics();
     portlet.setUseOntopolyNames(true);
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -154,19 +158,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -175,11 +179,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly three children",
+    Assert.assertTrue("second heading did not have exactly three children",
                assocs.size() == 3);
     // FIXME: no defined order for associations, unfortunately
   }
 
+  @Test
   public void testBinariesWithExplicitHiding() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -193,7 +198,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 1);
     
     // test first heading
@@ -203,22 +208,23 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
   }
 
+  @Test
   public void testBinariesWithExplicitRoleTypeHiding() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -232,7 +238,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 1);
     
     // test first heading
@@ -242,22 +248,23 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
   }
 
+  @Test
   public void testBinariesWithImplicitHiding() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -272,7 +279,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 1);
     
     // test first heading
@@ -282,22 +289,23 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
   }
   
+  @Test
   public void testBinariesWithExplicitWeak() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -317,7 +325,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 4);
     
     // test first heading
@@ -327,19 +335,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -348,12 +356,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   employee, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly one child",
+    Assert.assertTrue("second heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 2.1", 2, Collections.EMPTY_SET,
                       null, taule, null);
-    assertTrue("assoc 2.1 had roles",
+    Assert.assertTrue("assoc 2.1 had roles",
                assoc.getRoles() == null);
 
     // test third heading
@@ -362,12 +370,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   orgunit, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("third heading did not have exactly one child",
+    Assert.assertTrue("third heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 3.1", 2, Collections.EMPTY_SET,
                       null, itavd, null);
-    assertTrue("assoc 3.1 had roles",
+    Assert.assertTrue("assoc 3.1 had roles",
                assoc.getRoles() == null);
 
     // test fourth heading
@@ -376,15 +384,16 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   service, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("fourth heading did not have exactly one child",
+    Assert.assertTrue("fourth heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 4.1", 2, Collections.EMPTY_SET,
                       null, portal, null);
-    assertTrue("assoc 4.1 had roles",
+    Assert.assertTrue("assoc 4.1 had roles",
                assoc.getRoles() == null);
   }  
 
+  @Test
   public void testBinariesWithImplicitWeak() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -405,7 +414,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings: " + headings.size(),
+    Assert.assertTrue("wrong number of headings: " + headings.size(),
                headings.size() == 4);
     
     // test first heading
@@ -415,19 +424,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -436,12 +445,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   employee, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly one child",
+    Assert.assertTrue("second heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 2.1", 2, Collections.EMPTY_SET,
                       null, taule, null);
-    assertTrue("assoc 2.1 had roles",
+    Assert.assertTrue("assoc 2.1 had roles",
                assoc.getRoles() == null);
 
     // test third heading
@@ -450,12 +459,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   orgunit, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("third heading did not have exactly one child",
+    Assert.assertTrue("third heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 3.1", 2, Collections.EMPTY_SET,
                       null, itavd, null);
-    assertTrue("assoc 3.1 had roles",
+    Assert.assertTrue("assoc 3.1 had roles",
                assoc.getRoles() == null);
 
     // test fourth heading
@@ -464,15 +473,16 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   service, null, 2);
 
     assocs = heading.getChildren();
-    assertTrue("fourth heading did not have exactly one child",
+    Assert.assertTrue("fourth heading did not have exactly one child",
                assocs.size() == 1);
     assoc = (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 4.1", 2, Collections.EMPTY_SET,
                       null, portal, null);
-    assertTrue("assoc 4.1 had roles",
+    Assert.assertTrue("assoc 4.1 had roles",
                assoc.getRoles() == null);
   }  
   
+  @Test
   public void testBinariesWithExplicitTopicHiding() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -487,7 +497,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start testing
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     
     // test first heading
@@ -497,19 +507,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -518,11 +528,12 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading had " + assocs.size() + " children",
+    Assert.assertTrue("second heading had " + assocs.size() + " children",
                assocs.size() == 2);
     // FIXME: no defined order for associations, unfortunately
   }
 
+  @Test
   public void testBinariesWithImplicitTopicHiding() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -538,7 +549,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
 
     // start testing
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     
     // test first heading
@@ -548,19 +559,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -569,18 +580,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading had " + assocs.size() + " children",
+    Assert.assertTrue("second heading had " + assocs.size() + " children",
                assocs.size() == 2);
     // FIXME: no defined order for associations, unfortunately
   }
 
+  @Test
   public void testBinariesWithFilter() throws IOException {
     // initialize
     portlet.setFilterQuery("instance-of(%topic%, employee)?");
     TopicMapIF tm = load("bk-example.ltm");
     TopicIF topic = getTopicById(tm, "article1");
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -595,19 +607,19 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
     RelatedTopics.Association assoc =
       (RelatedTopics.Association) assocs.get(0);
     verifyAssociation(assoc, "assoc 1.1", 2, Collections.EMPTY_SET,
                       null, journo1, creator);
-    assertTrue("assoc 1.1 did not have exactly one role",
+    Assert.assertTrue("assoc 1.1 did not have exactly one role",
                assoc.getRoles().size() == 1);
     AssociationRoleIF role = (AssociationRoleIF)
       assoc.getRoles().iterator().next();
-    assertTrue("assoc 1.1 not of type creator",
+    Assert.assertTrue("assoc 1.1 not of type creator",
                role.getType().equals(creator));
-    assertTrue("assoc 1.1 not played by journo1",
+    Assert.assertTrue("assoc 1.1 not played by journo1",
                role.getPlayer().equals(journo1));
 
     // test second heading
@@ -616,19 +628,20 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have two children; had: " 
+    Assert.assertTrue("second heading did not have two children; had: " 
                + assocs.size(),
                assocs.size() == 2); // we filtered out the employee
     // FIXME: no defined order for associations, unfortunately
   }
 
+  @Test
   public void testBinariesWithMax() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
     TopicIF topic = getTopicById(tm, "article1");
     portlet.setMaxChildren(2);
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -643,9 +656,9 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly one child",
+    Assert.assertTrue("first heading did not have exactly one child",
                assocs.size() == 1);
-    assertFalse("first heading claims to have more children",
+    Assert.assertFalse("first heading claims to have more children",
                 heading.getMoreChildren());
 
     // test second heading
@@ -654,12 +667,13 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly two children (max)",
+    Assert.assertTrue("second heading did not have exactly two children (max)",
                assocs.size() == 2);
-    assertTrue("second heading claims not to have more children",
+    Assert.assertTrue("second heading claims not to have more children",
                 heading.getMoreChildren());
   }  
 
+  @Test
   public void testBinariesWithHeadingOrdering() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
@@ -672,7 +686,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       "  str:length($NAME, $LENGTH)" +
       "?");
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -687,9 +701,9 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   created_by, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly one child",
+    Assert.assertTrue("second heading did not have exactly one child",
                assocs.size() == 1);
-    assertFalse("second heading claims to have more children",
+    Assert.assertFalse("second heading claims to have more children",
                 heading.getMoreChildren());
 
     // test FIRST heading
@@ -698,19 +712,20 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     assocs = heading.getChildren();
-    assertTrue("first heading did not have exactly two children (max)",
+    Assert.assertTrue("first heading did not have exactly two children (max)",
                assocs.size() == 3);
-    assertFalse("first heading claims to have more children",
+    Assert.assertFalse("first heading claims to have more children",
                 heading.getMoreChildren());
   }
 
+  @Test
   public void testBinariesWithChildOrdering() throws IOException {
     // initialize
     TopicMapIF tm = load("bk-example.ltm");
     TopicIF topic = getTopicById(tm, "article1");
     portlet.setChildOrderQuery("item-identifier(%topic%, $ITEMID)?");
     List headings = portlet.makeModel(topic);
-    assertTrue("wrong number of headings",
+    Assert.assertTrue("wrong number of headings",
                headings.size() == 2);
     TopicIF created_by = getTopicById(tm, "created-by");
     TopicIF work = getTopicById(tm, "work");
@@ -735,7 +750,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                   is_about, work, 2);
 
     List assocs = heading.getChildren();
-    assertTrue("second heading did not have exactly three children",
+    Assert.assertTrue("second heading did not have exactly three children",
                assocs.size() == 3);
 
     // test assocs
@@ -767,20 +782,20 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                              String title, TopicIF assoctype, TopicIF roletype,
                              int arity) {
     boolean isassoctype = (roletype != null);
-    assertTrue("wrong name of " + name,
+    Assert.assertTrue("wrong name of " + name,
                heading.getTitle().equals(title));
-    assertTrue("wrong type of " + name + ": " + heading.getTopic(),
+    Assert.assertTrue("wrong type of " + name + ": " + heading.getTopic(),
                heading.getTopic().equals(assoctype));
-    assertTrue("wrong near role type of " + name + ": " +
+    Assert.assertTrue("wrong near role type of " + name + ": " +
                heading.getNearRoleType(),
                (roletype == null && heading.getNearRoleType() == null) ||
                (heading.getNearRoleType() != null &&
                 heading.getNearRoleType().equals(roletype)));
-    assertTrue(name + " is not association type",
+    Assert.assertTrue(name + " is not association type",
                heading.getIsAssociationType() == isassoctype);
-    assertTrue(name + " is topic type",
+    Assert.assertTrue(name + " is topic type",
                !heading.getIsTopicType() == isassoctype);
-    assertTrue(name + " does not have arity " + arity,
+    Assert.assertTrue(name + " does not have arity " + arity,
                heading.getArity() == arity);
     
   }
@@ -789,13 +804,13 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
                                  String name, int arity, Collection scope,
                                  TopicIF reifier, TopicIF player,
                                  TopicIF ortype) {
-    assertTrue(name + " has arity " + assoc.getArity() + ", not " + arity,
+    Assert.assertTrue(name + " has arity " + assoc.getArity() + ", not " + arity,
                assoc.getArity() == arity);
-    assertTrue(name + " has bad scope", compare(scope, assoc.getScope()));
-    assertTrue(name + " has bad reifier", reifier == assoc.getReifier());
-    assertTrue(name + " has bad player " + assoc.getPlayer() + ", not " + player,
+    Assert.assertTrue(name + " has bad scope", compare(scope, assoc.getScope()));
+    Assert.assertTrue(name + " has bad reifier", reifier == assoc.getReifier());
+    Assert.assertTrue(name + " has bad player " + assoc.getPlayer() + ", not " + player,
                player == assoc.getPlayer());
-    assertTrue(name + " has bad role type: " + assoc.getRoleType(),
+    Assert.assertTrue(name + " has bad role type: " + assoc.getRoleType(),
                ortype == assoc.getRoleType());
   }
 
@@ -804,7 +819,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
   }
   
   private TopicMapIF load(String filename) throws IOException {
-    filename = base + File.separator + "topicmaps" + File.separator + filename;
+    filename = FileUtils.getTestInputFile(testdataDirectory, "topicmaps", filename);
     return ImportExportUtils.getReader(filename).read();
   }
 
@@ -818,6 +833,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
     return topicmap.getTopicBySubjectIdentifier(Locators.getURILocator(psi));
   }
 
+  @Test
   public void testBinariesWithMaxChildren() throws IOException {
     _testBinariesWithMaxChildren(1, true);
     _testBinariesWithMaxChildren(2, true);
@@ -831,7 +847,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       TopicMapIF tm = load("bk-example.ltm");
       TopicIF topic = getTopicById(tm, "article1");
       List headings = portlet.makeModel(topic);
-      assertTrue("wrong number of headings",
+      Assert.assertTrue("wrong number of headings",
                  headings.size() == 2);
       
       TopicIF created_by = getTopicById(tm, "created-by");
@@ -840,24 +856,25 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       // test first heading
       RelatedTopics.Heading heading =
         (RelatedTopics.Heading) headings.get(0);
-      assertTrue("first heading refers to wrong topic", heading.getTopic().equals(created_by));    
-      assertTrue("first heading did not have exactly one child",
+      Assert.assertTrue("first heading refers to wrong topic", heading.getTopic().equals(created_by));    
+      Assert.assertTrue("first heading did not have exactly one child",
                  heading.getChildren().size() == 1);
-      assertTrue("first heading did not have morechildren set to false",
+      Assert.assertTrue("first heading did not have morechildren set to false",
                  !heading.getMoreChildren());
       
       // test second heading
       heading = (RelatedTopics.Heading) headings.get(1);
-      assertTrue("second heading refers to wrong topic", heading.getTopic().equals(is_about));    
-      assertTrue("second heading with max number of children has incorrect morechildren property",
+      Assert.assertTrue("second heading refers to wrong topic", heading.getTopic().equals(is_about));    
+      Assert.assertTrue("second heading with max number of children has incorrect morechildren property",
                  heading.getChildren().size() == maxchildren);
-      assertTrue("second heading did not have morechildren set to " + morechildrenOnSecond,
+      Assert.assertTrue("second heading did not have morechildren set to " + morechildrenOnSecond,
                  heading.getMoreChildren() == morechildrenOnSecond);
     } finally {
       portlet.setMaxChildren(-1);
     }
   }
 
+  @Test
   public void testSortKeys() throws IOException {
     // initialize
     portlet.setHeadingOrderQuery("select $KEY from sortkey(%topic%, $KEY)?");
@@ -868,26 +885,26 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       TopicIF topic = getTopicById(tm, "article1");
       List headings = portlet.makeModel(topic);
       List children;
-      assertTrue("wrong number of headings", headings.size() == 2);
+      Assert.assertTrue("wrong number of headings", headings.size() == 2);
       
       // test first heading
       RelatedTopics.Heading heading =
         (RelatedTopics.Heading) headings.get(0);
-      assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "is-about")));    
+      Assert.assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "is-about")));    
       children = heading.getChildren();
-      assertTrue("first heading did not have exactly three children", children.size() == 4);
-      assertTrue("first heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "soccer")));
-      assertTrue("first heading first child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "javelin")));
-      assertTrue("first heading second child incorrect", childPlayerEquals(children, 2, getTopicById(tm, "icehockey")));
-      assertTrue("first heading third child incorrect", childPlayerEquals(children, 3, getTopicById(tm, "football")));
+      Assert.assertTrue("first heading did not have exactly three children", children.size() == 4);
+      Assert.assertTrue("first heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "soccer")));
+      Assert.assertTrue("first heading first child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "javelin")));
+      Assert.assertTrue("first heading second child incorrect", childPlayerEquals(children, 2, getTopicById(tm, "icehockey")));
+      Assert.assertTrue("first heading third child incorrect", childPlayerEquals(children, 3, getTopicById(tm, "football")));
       
       // test second heading
       heading = (RelatedTopics.Heading) headings.get(1);
-      assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "created-by")));
+      Assert.assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "created-by")));
       children = heading.getChildren();
-      assertTrue("second heading did not have exactly two children", children.size() == 2);
-      assertTrue("second heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "john")));
-      assertTrue("second heading second child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "jane")));
+      Assert.assertTrue("second heading did not have exactly two children", children.size() == 2);
+      Assert.assertTrue("second heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "john")));
+      Assert.assertTrue("second heading second child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "jane")));
       
     } finally {
       portlet.setHeadingOrderQuery(null);
@@ -895,6 +912,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
     }
   }
 
+  @Test
   public void testSortKeysDesc() throws IOException {
     // initialize
     portlet.setHeadingOrderQuery("select $KEY from sortkey(%topic%, $KEY)?");
@@ -907,28 +925,28 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       TopicIF topic = getTopicById(tm, "article1");
       List headings = portlet.makeModel(topic);
       List children;
-      assertTrue("wrong number of headings", headings.size() == 2);
+      Assert.assertTrue("wrong number of headings", headings.size() == 2);
 
       RelatedTopics.Heading heading;
       
       // test first heading
       heading = (RelatedTopics.Heading) headings.get(0);
-      assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "created-by")));
+      Assert.assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "created-by")));
       children = heading.getChildren();
-      assertTrue("first heading did not have exactly two children", children.size() == 2);
-      assertTrue("first heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "jane")));
-      assertTrue("first heading second child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "john")));
+      Assert.assertTrue("first heading did not have exactly two children", children.size() == 2);
+      Assert.assertTrue("first heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "jane")));
+      Assert.assertTrue("first heading second child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "john")));
       
       // test second heading
       heading =
         (RelatedTopics.Heading) headings.get(1);
-      assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "is-about")));    
+      Assert.assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicById(tm, "is-about")));    
       children = heading.getChildren();
-      assertTrue("second heading did not have exactly three children", children.size() == 4);
-      assertTrue("second heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "football")));
-      assertTrue("second heading first child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "icehockey")));
-      assertTrue("second heading second child incorrect", childPlayerEquals(children, 2, getTopicById(tm, "javelin")));
-      assertTrue("second heading third child incorrect", childPlayerEquals(children, 3, getTopicById(tm, "soccer")));
+      Assert.assertTrue("second heading did not have exactly three children", children.size() == 4);
+      Assert.assertTrue("second heading first child incorrect", childPlayerEquals(children, 0, getTopicById(tm, "football")));
+      Assert.assertTrue("second heading first child incorrect", childPlayerEquals(children, 1, getTopicById(tm, "icehockey")));
+      Assert.assertTrue("second heading second child incorrect", childPlayerEquals(children, 2, getTopicById(tm, "javelin")));
+      Assert.assertTrue("second heading third child incorrect", childPlayerEquals(children, 3, getTopicById(tm, "soccer")));
       
     } finally {
       portlet.setHeadingOrderQuery(null);
@@ -938,6 +956,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
     }
   }
 
+  @Test
   public void testAssociationAggregation() throws IOException {
     try {
       TopicMapIF tm = load("i18n-20070730.ltm");
@@ -947,7 +966,7 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       atypes.add(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#written-in"));
       atypes.add(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#supports"));
       atypes.add(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#writing-direction"));
-      assertTrue("Could not find all association types.", atypes.size() == 3);
+      Assert.assertTrue("Could not find all association types.", atypes.size() == 3);
 
       TopicIF topic = getTopicById(tm, "sinitic");
       List headings;
@@ -957,32 +976,32 @@ public class RelatedTopicsTest extends AbstractOntopiaTestCase {
       portlet.setAggregateHierarchy(false);
 
       headings = portlet.makeModel(topic);
-      assertTrue("Incorrect number of headings before aggregation.", headings.size() == 3);
+      Assert.assertTrue("Incorrect number of headings before aggregation.", headings.size() == 3);
 
       // aggregation=true, all associations
       portlet.setAggregateHierarchy(true);
 
       headings = portlet.makeModel(topic);
-      assertTrue("Incorrect number of headings after full aggregation.", headings.size() == 5);
+      Assert.assertTrue("Incorrect number of headings after full aggregation.", headings.size() == 5);
 
       // aggregation=true, some associations
       portlet.setAggregateHierarchy(true);
       portlet.setAggregateAssociations(atypes);
 
       headings = portlet.makeModel(topic);
-      assertTrue("Incorrect number of headings after partial aggregation.", headings.size() == 3);
+      Assert.assertTrue("Incorrect number of headings after partial aggregation.", headings.size() == 3);
 
       heading = (RelatedTopics.Heading) headings.get(0);
-      assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#supports")));
-      assertTrue("Incorrect number of children under first heading.", heading.getChildren().size() == 11);
+      Assert.assertTrue("first heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#supports")));
+      Assert.assertTrue("Incorrect number of children under first heading.", heading.getChildren().size() == 11);
 
       heading = (RelatedTopics.Heading) headings.get(1);
-      assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#written-in")));
-      assertTrue("Incorrect number of children under second heading.", heading.getChildren().size() == 7);
+      Assert.assertTrue("second heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#written-in")));
+      Assert.assertTrue("Incorrect number of children under second heading.", heading.getChildren().size() == 7);
 
       heading = (RelatedTopics.Heading) headings.get(2);
-      assertTrue("third heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#writing-direction")));
-      assertTrue("Incorrect number of children under third heading.", heading.getChildren().size() == 1);
+      Assert.assertTrue("third heading refers to wrong topic", heading.getTopic().equals(getTopicByPSI(tm, "http://psi.ontopia.net/i18n/#writing-direction")));
+      Assert.assertTrue("Incorrect number of children under third heading.", heading.getChildren().size() == 1);
       
     } finally {
       portlet.setAggregateHierarchy(false);

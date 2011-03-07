@@ -28,51 +28,60 @@ import net.ontopia.utils.ontojsp.JSPPageExecuter;
 import net.ontopia.utils.ontojsp.JSPPageReader;
 import net.ontopia.utils.ontojsp.JSPTreeNodeIF;
 import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.topicmaps.test.AbstractTopicMapTestCase;
 import net.ontopia.topicmaps.nav2.core.NavigatorRuntimeException;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * INTERNAL: Test for OKS JSP attribute access.
  */
-public class JSPAttributeTest extends AbstractTopicMapTestCase {
+public class JSPAttributeTest {
 
-  public JSPAttributeTest(String name) {
-    super(name);
-  }
+  private final static String testdataDirectory = "nav2";
 
+  @Test
   public void testSingle() throws Exception {
     runJSPTest("jspattr-single.jsp", makeMap("foo", "foovalue"));
   }
   
+  @Test
   public void testSingleNotFound() throws Exception {
     runJSPTestNotFound("jspattr-single.jsp", null);
   }
 
+  @Test
   public void testDoubleNotFound() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp", null);
   }
 
+  @Test
   public void testDoubleNull() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp", makeMap("foo", null));
   }
 
+  @Test
   public void testDoubleEmptyColl() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp",
                        makeMap("foo", Collections.EMPTY_SET));
   }
 
+  @Test
   public void testDoubleNoFoo() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp", new HashMap());
   }
 
+  @Test
   public void testDoubleEmptyMap() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp", makeMap("foo", new HashMap()));
   }
 
+  @Test
   public void testDoubleNoMethod() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp", makeMap("foo", "foovalue"));
   }
 
+  @Test
   public void testDoublePrivateMethod() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp",
                        makeMap("foo", new PrivateObject()));
@@ -81,6 +90,7 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     private Object getBar() { return "badvalue"; }
   }
 
+  @Test
   public void testDoubleMethodWithParameters() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp",
                        makeMap("foo", new ParametersObject()));
@@ -89,6 +99,7 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     public Object getBar(String whatever) { return "badvalue"; }
   }
 
+  @Test
   public void testDoubleStaticMethod() throws Exception {
     runJSPTestNotFound("jspattr-double.jsp",
                        makeMap("foo", new StaticObject()));
@@ -97,11 +108,13 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     public static Object getBar() { return "badvalue"; }
   }
 
+  @Test
   public void testDoubleMap() throws Exception {
     runJSPTest("jspattr-double.jsp",
                makeMap("foo", makeMap("bar", "barvalue")));
   }
 
+  @Test
   public void testDoubleObject() throws Exception {
     runJSPTest("jspattr-double.jsp",
                makeMap("foo", new NiceObject()));
@@ -110,6 +123,7 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     public Object getBar() { return "barvalue"; }
   }
 
+  @Test
   public void testTripleMap() throws Exception {
     runJSPTest("jspattr-triple.jsp",
                makeMap("foo", makeMap("bar", makeMap("baz", "bazvalue"))));
@@ -121,10 +135,10 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     throws IOException, JspException, SAXException {
     try {
       runJSPTest(file, attributes);
-      fail("Reference to undefined variable went undetected");
+      Assert.fail("Reference to undefined variable went undetected");
     } catch (NavigatorRuntimeException e) {
       String msg = e.getMessage();
-      assertTrue("Error message does not mention variable: " + msg,
+      Assert.assertTrue("Error message does not mention variable: " + msg,
                  msg.indexOf("foo") != -1);
     }
   }
@@ -140,21 +154,21 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
    */
   private void runJSPTest(String file, Map attributes)
     throws IOException, JspException, SAXException {
-    String jsp = resolveFileName("nav2", "jsp", file);
+    String jsp = FileUtils.getTestInputFile(testdataDirectory, "jsp", file);
 
     // run test
     PageContext page = makePageContext(file, attributes);
-    JSPPageReader reader = new JSPPageReader(new File(jsp));
+    JSPPageReader reader = new JSPPageReader(jsp);
     JSPTreeNodeIF root = reader.read();
     JSPPageExecuter exec = new JSPPageExecuter();
     exec.run(page, null, root);
     page.getOut().flush();
 
     // compare baseline and actual result
-    String baseline = resolveFileName("nav2", "baseline", file);
-    String outfile  = resolveFileName("nav2", "out", file);
-    assertTrue("result not equal to baseline",
-               FileUtils.compare(baseline, outfile));
+    String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", file);
+    File outfile  = FileUtils.getTestOutputFile(testdataDirectory, "out", file);
+    Assert.assertTrue("result not equal to baseline for file '" + file + "'",
+               FileUtils.compareFileToResource(outfile, baseline));
   }
 
   /**
@@ -162,7 +176,7 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
    */
   private PageContext makePageContext(String file, Map attributes) 
     throws IOException {
-    String jspout = resolveFileName("nav2", "out", file);
+    File jspout = FileUtils.getTestOutputFile(testdataDirectory, "out", file);
     Writer out = new OutputStreamWriter(new FileOutputStream(jspout),
                                         "iso-8859-1");
     FakePageContext pageContext = new FakePageContext(out);
@@ -171,10 +185,10 @@ public class JSPAttributeTest extends AbstractTopicMapTestCase {
     FakeServletRequest servletRequest = new FakeServletRequest();
     servletRequest.setContextPath("jsp/" + file);
     
-    String path = resolveFileName("nav2");
+    String path = "classpath:net/ontopia/testdata/nav2/";
 
     Hashtable initParams = new Hashtable();
-    initParams.put("source_config", "WEB-INF/config/tm-sources.xml");
+    initParams.put("source_config", "classpath:net/ontopia/testdata/nav2/WEB-INF/config/tm-sources.xml");
     FakeServletContext servletContext = new FakeServletContext(path, new Hashtable(), initParams);
 
     FakeServletConfig servletConfig = new FakeServletConfig(servletContext);
