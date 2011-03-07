@@ -224,7 +224,7 @@ public class StreamUtils {
       String resourceName = name.substring("classpath:".length());
       url = cl.getResource(resourceName);
       if (url == null)
-        throw new IOException("Resource '" + resourceName + "' not found through class loader.");
+        throw new FileNotFoundException("Resource '" + resourceName + "' not found through class loader.");
       log.debug("File loaded through class loader: " + name);
     } else if (name.startsWith("file:")) {
       File f =  new File(name.substring("file:".length()));
