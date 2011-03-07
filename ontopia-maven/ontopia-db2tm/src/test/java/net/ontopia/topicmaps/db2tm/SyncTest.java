@@ -19,19 +19,21 @@ import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.db2tm.*;
 import net.ontopia.persistence.proxy.DefaultConnectionFactory;
-import net.ontopia.test.AbstractOntopiaTestCase;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 
-public class SyncTest extends AbstractOntopiaTestCase {
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+
+public class SyncTest {
   private Connection conn;
   private Statement stm;
   private TopicMapIF topicmap;
   private RelationMapping mapping;
 
-  public SyncTest(String name) {
-    super(name);
-  }
-  
+  private final static String testdataDirectory = "db2tm";
+
+  @Before
   public void setUp() throws SQLException, IOException {
     // get JDBC connection to database
     conn = getConnection();
@@ -53,6 +55,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     topicmap = store.getTopicMap();
   }
 
+  @After
   public void tearDown() throws SQLException, IOException {
     // must close DB2TM's connection to the database, otherwise the drop
     // table statements below will hang indefinitely
@@ -83,6 +86,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests just a single UPDATE.
    */
+  @Test
   public void testUpdate() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -107,6 +111,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests UPDATEs to more than one topic.
    */
+  @Test
   public void testMultipleUpdates() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic 1', 2)");
@@ -137,6 +142,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests first a DELETE, then an INSERT.
    */
+  @Test
   public void testDeleteInsert() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -172,6 +178,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
    * Tests an UPDATE described as first a DELETE, then a CREATE. This
    * tests for bug #2178.
    */
+  @Test
   public void testDeleteCreate() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -197,6 +204,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests an IGNORE value. So nothing should happen.
    */
+  @Test
   public void testIgnore() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -221,6 +229,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests situation when no changes have actually been made.
    */
+  @Test
   public void testNochanges() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -242,6 +251,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests an INSERT followed by another INSERT. This should produce an error.
    */
+  @Test
   public void testSequenceError() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -261,7 +271,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
     try {
       Processor.synchronizeRelations(mapping, null, topicmap,
                                      topicmap.getStore().getBaseAddress());
-      fail("Erroneous sequence of changes not detected.");
+      Assert.fail("Erroneous sequence of changes not detected.");
     } catch (DB2TMException e) {
       // good; error detected
     }
@@ -270,6 +280,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests just a single UPDATE on a compound key.
    */
+  @Test
   public void testCompoundKey() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into complexdata values (1, 2, 'Topic')");
@@ -294,6 +305,7 @@ public class SyncTest extends AbstractOntopiaTestCase {
   /**
    * Tests for loss of types (as in issue 193).
    */
+  @Test
   public void testTypeLoss() throws SQLException, IOException {
     // create initial data set
     stm.executeUpdate("insert into testdata values (1, 'Topic', 2)");
@@ -308,21 +320,21 @@ public class SyncTest extends AbstractOntopiaTestCase {
 
     // verify that t2 has a topic type
     t2.addType(topictype);
-    assertTrue("t2 has no topic type", !t2.getTypes().isEmpty());
+    Assert.assertTrue("t2 has no topic type", !t2.getTypes().isEmpty());
 
     TopicIF t1 = topicmap.getTopicBySubjectIdentifier(URIUtils.getURILocator("http://example.org/test/1"));
-    assertTrue("t1 was found", t1 == null);
+    Assert.assertTrue("t1 was found", t1 == null);
 
     // synchronize
     mapping = RelationMapping.readFromClasspath("net/ontopia/topicmaps/db2tm/association-mapping.xml");
     Processor.synchronizeRelations(mapping, null, topicmap,
                                    topicmap.getStore().getBaseAddress());
     t1 = topicmap.getTopicBySubjectIdentifier(URIUtils.getURILocator("http://example.org/test/1"));
-    assertTrue("t1 was not found", t1 != null);
-    assertTrue("t1 did not have t2 as its type", t1.getTypes().size() == 1 && t1.getTypes().contains(t2));
+    Assert.assertTrue("t1 was not found", t1 != null);
+    Assert.assertTrue("t1 did not have t2 as its type", t1.getTypes().size() == 1 && t1.getTypes().contains(t2));
 
     // t2 should not have lost its topic type in the sync!
-    assertTrue("t2 lost its topic type", !t2.getTypes().isEmpty());
+    Assert.assertTrue("t2 lost its topic type", !t2.getTypes().isEmpty());
   }
   
   // --- Internal methods
@@ -336,12 +348,8 @@ public class SyncTest extends AbstractOntopiaTestCase {
   }
 
   private void exportTopicMap(String name) throws IOException {
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "db2tm" + File.separator;
-    verifyDirectory(base, "out");
-
-    String cxtm = base + "out" + File.separator + name + ".cxtm";
-    String baseline = base + "baseline" + File.separator + name + ".cxtm";
+    File cxtm = FileUtils.getTestOutputFile(testdataDirectory, "out", name + ".cxtm");
+    String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", name + ".cxtm");
     
     // Export the result topic map to cxtm
     FileOutputStream out = new FileOutputStream(cxtm);
@@ -349,8 +357,8 @@ public class SyncTest extends AbstractOntopiaTestCase {
     out.close();
       
       // Check that the cxtm output matches the baseline.
-    assertTrue("The canonicalized conversion from " + name
+    Assert.assertTrue("The canonicalized conversion from " + name
                + " does not match the baseline.",
-               FileUtils.compare(cxtm, baseline));
+               FileUtils.compareFileToResource(cxtm, baseline));
   }
 }

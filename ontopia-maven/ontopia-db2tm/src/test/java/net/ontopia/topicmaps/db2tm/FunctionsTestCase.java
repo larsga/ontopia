@@ -1,36 +1,37 @@
 
 package net.ontopia.topicmaps.db2tm;
 
-import net.ontopia.topicmaps.db2tm.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
-public class FunctionsTestCase extends AbstractOntopiaTestCase {
+public class FunctionsTestCase {
 
-  public FunctionsTestCase(String name) {
-    super(name);
-  }
-
+  @Test
   public void testToUpperCase() {
-    assertEquals("toUpperCase", Functions.toUpperCase("Geir Ove"), "GEIR OVE");
+    Assert.assertEquals("toUpperCase", Functions.toUpperCase("Geir Ove"), "GEIR OVE");
   }
 
+  @Test
   public void testToLowerCase() {
-    assertEquals("toLowerCase", Functions.toLowerCase("Geir Ove"), "geir ove");
+    Assert.assertEquals("toLowerCase", Functions.toLowerCase("Geir Ove"), "geir ove");
   }
 
+  @Test
   public void testTrim() {
-    assertEquals("trimBoth", Functions.trim("  Geir Ove "), "Geir Ove");
-    assertEquals("trimRight", Functions.trim("Geir Ove  "), "Geir Ove");
-    assertEquals("trimLeft", Functions.trim("  Geir Ove"), "Geir Ove");
+    Assert.assertEquals("trimBoth", Functions.trim("  Geir Ove "), "Geir Ove");
+    Assert.assertEquals("trimRight", Functions.trim("Geir Ove  "), "Geir Ove");
+    Assert.assertEquals("trimLeft", Functions.trim("  Geir Ove"), "Geir Ove");
   }
 
+  @Test
   public void testSubstring() {
-    assertEquals("substring", Functions.substring("Geir Ove", "3", "6"), "r O");
+    Assert.assertEquals("substring", Functions.substring("Geir Ove", "3", "6"), "r O");
   }
 
+  @Test
   public void testIfEqualThenElse() {
-    assertEquals("ifEqualThenElse", Functions.ifEqualThenElse("Foo", "Foo", "true", "false"), "true");
-    assertEquals("ifEqualThenElse", Functions.ifEqualThenElse("Foo", "Bar", "true", "false"), "false");
+    Assert.assertEquals("ifEqualThenElse", Functions.ifEqualThenElse("Foo", "Foo", "true", "false"), "true");
+    Assert.assertEquals("ifEqualThenElse", Functions.ifEqualThenElse("Foo", "Bar", "true", "false"), "false");
   }
 
   //! public void testUseFirstIfDifferent() {
@@ -43,31 +44,33 @@ public class FunctionsTestCase extends AbstractOntopiaTestCase {
   //!   assertEquals("useFirstIfDifferent", Functions.ifEqualThenElse("Foo", "Foo", "true", "false"), "false");
   //! }
 
+  @Test
   public void testCoalesce() {
     String a = "a";
     String b = "b";
     String e = "";
     String w = " ";
     String n = null;
-    assertEquals("coalesce(a, b)", Functions.coalesce(a, b), a);
-    assertEquals("coalesce(a, n)", Functions.coalesce(a, n), a);
-    assertEquals("coalesce(a, e)", Functions.coalesce(a, e), a);
-    assertEquals("coalesce(w, e)", Functions.coalesce(w, e), w);
-    assertEquals("coalesce(n, b)", Functions.coalesce(n, b), b);
-    assertEquals("coalesce(e, b)", Functions.coalesce(e, b), b);
-    assertEquals("coalesce(n, n)", Functions.coalesce(n, n), n);
-    assertEquals("coalesce(e, e)", Functions.coalesce(e, e), e);
-    assertEquals("coalesce(a, n, b)", Functions.coalesce(a, n, b), a);
-    assertEquals("coalesce(a, e, b)", Functions.coalesce(a, e, b), a);
-    assertEquals("coalesce(w, e, b)", Functions.coalesce(w, e, b), w);
-    assertEquals("coalesce(n, a, b)", Functions.coalesce(n, a, b), a);
-    assertEquals("coalesce(e, a, b)", Functions.coalesce(e, a, b), a);
-    assertEquals("coalesce(n, n, b)", Functions.coalesce(n, n, b), b);
-    assertEquals("coalesce(e, e, b)", Functions.coalesce(e, e, b), b);
-    assertEquals("coalesce(n, n, n)", Functions.coalesce(n, n, n), n);
-    assertEquals("coalesce(e, e, e)", Functions.coalesce(e, e, e), e);
+    Assert.assertEquals("coalesce(a, b)", Functions.coalesce(a, b), a);
+    Assert.assertEquals("coalesce(a, n)", Functions.coalesce(a, n), a);
+    Assert.assertEquals("coalesce(a, e)", Functions.coalesce(a, e), a);
+    Assert.assertEquals("coalesce(w, e)", Functions.coalesce(w, e), w);
+    Assert.assertEquals("coalesce(n, b)", Functions.coalesce(n, b), b);
+    Assert.assertEquals("coalesce(e, b)", Functions.coalesce(e, b), b);
+    Assert.assertEquals("coalesce(n, n)", Functions.coalesce(n, n), n);
+    Assert.assertEquals("coalesce(e, e)", Functions.coalesce(e, e), e);
+    Assert.assertEquals("coalesce(a, n, b)", Functions.coalesce(a, n, b), a);
+    Assert.assertEquals("coalesce(a, e, b)", Functions.coalesce(a, e, b), a);
+    Assert.assertEquals("coalesce(w, e, b)", Functions.coalesce(w, e, b), w);
+    Assert.assertEquals("coalesce(n, a, b)", Functions.coalesce(n, a, b), a);
+    Assert.assertEquals("coalesce(e, a, b)", Functions.coalesce(e, a, b), a);
+    Assert.assertEquals("coalesce(n, n, b)", Functions.coalesce(n, n, b), b);
+    Assert.assertEquals("coalesce(e, e, b)", Functions.coalesce(e, e, b), b);
+    Assert.assertEquals("coalesce(n, n, n)", Functions.coalesce(n, n, n), n);
+    Assert.assertEquals("coalesce(e, e, e)", Functions.coalesce(e, e, e), e);
   }
 
+  @Test
   public void testCoalesceThen() {
     String a = "a";
     String b = "b";
@@ -76,55 +79,59 @@ public class FunctionsTestCase extends AbstractOntopiaTestCase {
     String w = " ";
     String e = "";
     String n = null;
-    assertEquals("coalesceThen(a, b)", Functions.coalesceThen(a, b), b);
-    assertEquals("coalesceThen(a, n)", Functions.coalesceThen(a, n), n);
-    assertEquals("coalesceThen(a, e)", Functions.coalesceThen(a, e), e);
-    assertEquals("coalesceThen(w, b)", Functions.coalesceThen(w, b), b);
-    assertEquals("coalesceThen(n, b)", Functions.coalesceThen(n, b), n);
-    assertEquals("coalesceThen(e, b)", Functions.coalesceThen(e, b), n);
-    assertEquals("coalesceThen(n, n)", Functions.coalesceThen(n, n), n);
-    assertEquals("coalesceThen(a, b, c, d)", Functions.coalesceThen(a, b, c, d), b);
-    assertEquals("coalesceThen(n, a, c, d)", Functions.coalesceThen(n, a, c, d), d);
-    assertEquals("coalesceThen(e, a, c, d)", Functions.coalesceThen(e, a, c, d), d);
-    assertEquals("coalesceThen(n, a, w, d)", Functions.coalesceThen(n, a, c, d), d);
-    assertEquals("coalesceThen(n, a, n, d)", Functions.coalesceThen(n, a, n, d), n);
-    assertEquals("coalesceThen(e, a, e, d)", Functions.coalesceThen(e, a, e, d), n);
-    assertEquals("coalesceThen(e, a, n, d)", Functions.coalesceThen(e, a, n, d), n);
-    assertEquals("coalesceThen(n, a, e, d)", Functions.coalesceThen(n, a, e, d), n);
+    Assert.assertEquals("coalesceThen(a, b)", Functions.coalesceThen(a, b), b);
+    Assert.assertEquals("coalesceThen(a, n)", Functions.coalesceThen(a, n), n);
+    Assert.assertEquals("coalesceThen(a, e)", Functions.coalesceThen(a, e), e);
+    Assert.assertEquals("coalesceThen(w, b)", Functions.coalesceThen(w, b), b);
+    Assert.assertEquals("coalesceThen(n, b)", Functions.coalesceThen(n, b), n);
+    Assert.assertEquals("coalesceThen(e, b)", Functions.coalesceThen(e, b), n);
+    Assert.assertEquals("coalesceThen(n, n)", Functions.coalesceThen(n, n), n);
+    Assert.assertEquals("coalesceThen(a, b, c, d)", Functions.coalesceThen(a, b, c, d), b);
+    Assert.assertEquals("coalesceThen(n, a, c, d)", Functions.coalesceThen(n, a, c, d), d);
+    Assert.assertEquals("coalesceThen(e, a, c, d)", Functions.coalesceThen(e, a, c, d), d);
+    Assert.assertEquals("coalesceThen(n, a, w, d)", Functions.coalesceThen(n, a, c, d), d);
+    Assert.assertEquals("coalesceThen(n, a, n, d)", Functions.coalesceThen(n, a, n, d), n);
+    Assert.assertEquals("coalesceThen(e, a, e, d)", Functions.coalesceThen(e, a, e, d), n);
+    Assert.assertEquals("coalesceThen(e, a, n, d)", Functions.coalesceThen(e, a, n, d), n);
+    Assert.assertEquals("coalesceThen(n, a, e, d)", Functions.coalesceThen(n, a, e, d), n);
   }
 
+  @Test
   public void testFailIfEmpty() {
     try {
       Functions.failIfEmpty("", "some message");
-      fail("failIfEmpty should have failed.");
+      Assert.fail("failIfEmpty should have failed.");
     } catch (DB2TMInputException e) {
     }
     try {
       Functions.failIfEmpty(null, "some message");
-      fail("failIfEmpty should have failed.");
+      Assert.fail("failIfEmpty should have failed.");
     } catch (DB2TMInputException e) {
     }
     try {
-      assertEquals("wrong return value", Functions.failIfEmpty("abc", "some message"), "abc");
+      Assert.assertEquals("wrong return value", Functions.failIfEmpty("abc", "some message"), "abc");
     } catch (DB2TMInputException e) {
-      fail("failIfEmpty shouldn't have failed.");
+      Assert.fail("failIfEmpty shouldn't have failed.");
     }
     try {
-      assertEquals("wrong return value", Functions.failIfEmpty(" ", "some message"), " ");;
+      Assert.assertEquals("wrong return value", Functions.failIfEmpty(" ", "some message"), " ");;
     } catch (DB2TMInputException e) {
-      fail("failIfEmpty shouldn't have failed.");
+      Assert.fail("failIfEmpty shouldn't have failed.");
     }
   }
 
+  @Test
   public void testMakePsi() {
-    assertEquals("abcabc-foo-bar", Functions.makePSI("abcABC foo BAR"));
+    Assert.assertEquals("abcabc-foo-bar", Functions.makePSI("abcABC foo BAR"));
   }
   
+  @Test
   public void testMakePsiDoesNotStripBoundaryChars() {
-    assertEquals("1979za", Functions.makePSI("1979za"));
+    Assert.assertEquals("1979za", Functions.makePSI("1979za"));
   }
 
+  @Test
   public void testMakePsiBadChars() {
-    assertEquals("is-a--fail", Functions.makePSI("'is a זרו #fail'"));
+    Assert.assertEquals("is-a--fail", Functions.makePSI("'is a זרו #fail'"));
   }
 }
