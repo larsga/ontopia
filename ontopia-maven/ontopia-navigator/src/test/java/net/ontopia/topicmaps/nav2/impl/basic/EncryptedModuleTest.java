@@ -13,7 +13,7 @@ import net.ontopia.topicmaps.nav2.impl.basic.*;
 import net.ontopia.topicmaps.nav2.utils.*;
 import net.ontopia.utils.FileUtils;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,13 +36,13 @@ public class EncryptedModuleTest {
     ModuleReaderIF modReader = new ModuleReader(true);
     Map funcs = modReader.read(new FileInputStream(inFile));
 
-    assertTrue("Could not retrieve correct number of functions from encrypted module file.",
+    Assert.assertTrue("Could not retrieve correct number of functions from encrypted module file.",
                funcs.size() == 1);
     
-    assertTrue("Could not retrieve function 'names' from encrypted module file.",
+    Assert.assertTrue("Could not retrieve function 'names' from encrypted module file.",
                funcs.containsKey("names"));
     
-    assertTrue("Object is not instance of FunctionIF.",
+    Assert.assertTrue("Object is not instance of FunctionIF.",
                funcs.get("names") instanceof FunctionIF); 
   }
 
