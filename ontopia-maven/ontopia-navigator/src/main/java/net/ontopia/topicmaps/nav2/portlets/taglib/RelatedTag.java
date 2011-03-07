@@ -16,10 +16,20 @@ import net.ontopia.topicmaps.nav2.core.VariableNotSetException;
 import net.ontopia.topicmaps.nav2.utils.FrameworkUtils;
 import net.ontopia.topicmaps.nav2.taglibs.logic.ContextTag;
 import net.ontopia.topicmaps.nav2.impl.framework.InteractionELSupport;
-import net.ontopia.topicmaps.webed.impl.utils.TagUtils;
 import net.ontopia.topicmaps.nav2.portlets.pojos.RelatedTopics;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.CompactHashSet;
+
+// added due to methods copied from net.ontopia.topicmaps.webed.impl.utils.TagUtils:
+import java.util.ArrayList;
+import java.util.Collections;
+import net.ontopia.topicmaps.nav2.core.NavigatorPageIF;
+import net.ontopia.topicmaps.nav2.core.NavigatorApplicationIF;
+import net.ontopia.topicmaps.query.parser.AntlrWrapException;
+import net.ontopia.topicmaps.query.parser.ParseContextIF;
+import net.ontopia.topicmaps.query.parser.QName;
+import net.ontopia.utils.StringUtils;
+
 
 public class RelatedTag extends TagSupport {
   private RelatedTopics related;
@@ -240,7 +250,7 @@ public class RelatedTag extends TagSupport {
   private Set getUnionOfVariables(String config) {
     if (config == null) return null;
     try {
-      List values = TagUtils.evaluateParameterList(pageContext, config);
+      List values = evaluateParameterList(pageContext, config);
       if (values.isEmpty()) return null;
       Set result = new CompactHashSet();
       for (int i=0; i < values.size(); i++) {
@@ -253,5 +263,64 @@ public class RelatedTag extends TagSupport {
       throw new OntopiaRuntimeException(t);
     }
   }
+
+
+  // copied from net.ontopia.topicmaps.webed.impl.utils.TagUtils:
+
+  /**
+   * INTERNAL: Evaluates a string of space-separated variable names as a list
+   * of collections, and returns it.
+   */
+  public static List evaluateParameterList(PageContext pageContext,
+                                            String params)
+    throws JspTagException {
+    if (params != null && !params.equals(""))
+       return getMultipleValuesAsList(params, pageContext);
+    else
+      return Collections.EMPTY_LIST;
+  }
+
+  /**
+   * INTERNAL: Returns the values retrieved from the given variable
+   * names or qnames in the order given.
+   *
+   * @param params - variable names or qnames, separated by whitespaces.
+   */
+  private static List getMultipleValuesAsList(String params, 
+                                              PageContext pageContext)
+    throws JspTagException {
+    // find parsecontext
+    NavigatorPageIF ctxt = (NavigatorPageIF)
+      pageContext.getAttribute(NavigatorApplicationIF.CONTEXT_KEY,
+                               PageContext.REQUEST_SCOPE);
+    ParseContextIF pctxt = (ParseContextIF) ctxt.getDeclarationContext();
   
+    // Replace sequences of special characters like \n and \t with single space.
+    // Needed since StringUtils.split() treats special characters as tokens.
+    String paramsNormalized = StringUtils.normalizeWhitespace(params.trim());
+  
+    // get the values
+    String[] names = StringUtils.split(paramsNormalized);
+    List varlist = new ArrayList(names.length);
+    for (int i = 0; i < names.length; i++) {
+      Collection values;
+  
+      if (names[i].indexOf(':') != -1) {
+        // it's a qname
+        try {
+          values = Collections.singleton(pctxt.getObject(new QName(names[i])));
+        } catch (AntlrWrapException e) {
+          throw new JspTagException(e.getException().getMessage() +
+                                    " (in action parameter list)");
+        }
+      } else
+        // it's a variable name
+        values = InteractionELSupport.extendedGetValue(names[i], pageContext);
+  
+      varlist.add(values);
+    }
+    return varlist;
+  } 
+
+
 }
