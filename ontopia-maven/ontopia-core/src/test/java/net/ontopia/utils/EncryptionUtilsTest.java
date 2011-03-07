@@ -34,14 +34,9 @@ public class EncryptionUtilsTest extends TestCase {
 
   protected void createEncryptedFile(String in_name, String out_name) throws IOException {
     // create encrypted dummy file
-    String in_file = FileUtils.getTestInputFile(testdataDirectory, in_name);
+    File in_file = FileUtils.getTransferredTestInputFile(testdataDirectory, in_name);
     File out_file = FileUtils.getTestOutputFile(testdataDirectory, out_name);
-
-    InputStream in = StreamUtils.getInputStream(in_file);
-    OutputStream out = new FileOutputStream(out_file);
-    EncryptionUtils.encrypt(in, out);
-    in.close();
-    out.close();
+    EncryptionUtils.encrypt(in_file, out_file);
   }
 
   protected boolean compareToBaseline(String out_name, String baseline_name) throws IOException {

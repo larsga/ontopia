@@ -124,18 +124,10 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
 
   public void testReader() throws Exception {
     // read file and store in object
-    String filein = FileUtils.getTestInputFile("various", "clob.xml");
+    File filein = FileUtils.getTransferredTestInputFile("various", "clob.xml");
     File fileout = FileUtils.getTestOutputFile("various", "clob.xml.out");
 
-    // transfer test data from resource to file
-    InputStream streamin = StreamUtils.getInputStream(filein);
-    filein = FileUtils.getTestOutputFile("various", "clob-transferredresource.xml").getAbsolutePath();
-    FileOutputStream streamout = new FileOutputStream(filein);
-    StreamUtils.transfer(streamin, streamout);
-    streamout.close();
-    streamin.close();
-    
-		long inlen = new File(filein).length();
+		long inlen = filein.length();
     Reader ri = new FileReader(filein);
 		try {
 			occurrence.setReader(ri, inlen, DataTypes.TYPE_BINARY);
