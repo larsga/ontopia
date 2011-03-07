@@ -15,6 +15,7 @@ import net.ontopia.topicmaps.nav2.core.ModuleIF;
 import net.ontopia.topicmaps.nav2.core.ModuleReaderIF;
 import net.ontopia.topicmaps.nav2.core.NavigatorRuntimeException;
 import net.ontopia.topicmaps.nav2.utils.ModuleReader;
+import net.ontopia.utils.StreamUtils;
   
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -95,7 +96,10 @@ public class Module implements ModuleIF {
                                           readerType +
                                           "' defined in application.xml");
     try {
-      funcs = reader.read(location.openConnection().getInputStream());
+      final String classpathPrefix = "file:classpath:"; // IncludeTag adds file: prefix
+      funcs = (location.toString().startsWith(classpathPrefix))
+        ? reader.read(StreamUtils.getInputStream(location.toString().substring(classpathPrefix.length())))
+        : reader.read(location.openConnection().getInputStream());
       resourceLastModReadIn = getModificationDate();
     } catch (IOException e) {
       log.error("Error reading the module : " + e);

@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.xml.ConfiguredXMLReaderFactory;
+import net.ontopia.utils.URIUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,17 @@ public class JSPPageReader {
   private static Logger logger =
     LoggerFactory.getLogger(JSPPageReader.class.getName());
 
-  protected File source;
+  protected String filename;
 
   /**
    * Constructor that accepts a filename as argument.
    */
-  public JSPPageReader(File source) {
-    this.source = source;
+  public JSPPageReader(File source) throws java.net.MalformedURLException {
+    this.filename = source.toURL().toString();
+  }
+
+  public JSPPageReader(String filename) {
+    this.filename = URIUtils.getURI(filename).getAddress();
   }
 
   /**
@@ -57,7 +62,6 @@ public class JSPPageReader {
   public JSPTreeNodeIF read()
     throws IOException, SAXException {
 
-    String filename = source.toURL().toString();
     JSPContentHandler handler = new JSPContentHandler();
     XMLReader parser = createXMLReader();
     handler.register(parser);

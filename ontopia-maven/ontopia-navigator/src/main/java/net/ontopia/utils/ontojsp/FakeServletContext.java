@@ -4,8 +4,7 @@
 package net.ontopia.utils.ontojsp;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,6 +21,7 @@ import javax.servlet.ServletException;
 
 import net.ontopia.utils.NullObject;
 import net.ontopia.utils.StringUtils;
+import net.ontopia.utils.StreamUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,8 +130,8 @@ public class FakeServletContext implements ServletContext {
     InputStream stream = null;
     String fullpath = rootpath + path;
     try {
-      stream = new FileInputStream(fullpath);
-    } catch (FileNotFoundException e) {
+      stream = StreamUtils.getInputStream(fullpath);
+    } catch (IOException e) {
       logger.warn("Cannot locate file: " + fullpath);
     }
     return stream;

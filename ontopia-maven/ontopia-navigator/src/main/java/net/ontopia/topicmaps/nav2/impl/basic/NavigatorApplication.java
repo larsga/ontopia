@@ -431,7 +431,9 @@ public final class NavigatorApplication implements NavigatorApplicationIF {
       Map environ = new HashMap();
       environ.put("WEBAPP", servlet_context.getRealPath(""));
       String source_config_file = makeAbsolute(source_config);
-      this.repository = XMLConfigSource.getRepository(source_config_file, environ);
+      this.repository = (source_config.startsWith("classpath:"))
+        ? XMLConfigSource.getRepositoryFromClassPath(source_config.substring("classpath:".length()), environ)
+        : XMLConfigSource.getRepository(source_config_file, environ);
       this.localRepository = true;
       log.info("Navigator application '" + getName() + "' loaded topic maps repository: " + this.repository + " from file '" + source_config_file + "'");
       return; // we're done
