@@ -50,7 +50,7 @@ public class LinkTagTest extends AbstractWebBasedTestCase {
 
   public void cleanme() throws Exception {
     // First remove topics that may give the test false positives.
-    WebResponse resp = wc.getResponse("http://localhost:8080/webedtest"
+    WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/LinkTag/testLinkTagCleanup.jsp");
     WebForm form = resp.getForms()[0];
     form.submit();
