@@ -1,4 +1,3 @@
-
 //$ Id: ListTagTest.java,v 1.6 2006/05/22 08:13:20 opland Exp $
 
 package net.ontopia.topicmaps.webed;
@@ -356,9 +355,9 @@ public class ListTagTest extends AbstractWebBasedTestCase {
   private HashMap getKnownContents() {
 
     HashMap contents = new HashMap();
-    contents.put("9", "Test List Topic Three");
-    contents.put("7", "Test List Topic Two");
-    contents.put("5", "Test List Topic One");
+    contents.put("10", "Test List Topic Three");
+    contents.put("8", "Test List Topic Two");
+    contents.put("6", "Test List Topic One");
 
     return contents;
   }
