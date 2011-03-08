@@ -5,11 +5,11 @@ package net.ontopia.topicmaps.webed.impl.basic;
 
 import java.util.*;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.webed.core.*;
 import net.ontopia.topicmaps.webed.impl.basic.*;
+import junit.framework.TestCase;
 
-public class ActionForwardPageTest extends AbstractOntopiaTestCase {
+public class ActionForwardPageTest extends TestCase {
 
   public ActionForwardPageTest(String name) {
     super(name);

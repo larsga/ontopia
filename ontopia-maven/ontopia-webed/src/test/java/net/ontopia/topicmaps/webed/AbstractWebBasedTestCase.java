@@ -5,19 +5,18 @@ package net.ontopia.topicmaps.webed;
 
 import java.util.ArrayList;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
 import com.meterware.httpunit.WebConversation;
+import junit.framework.TestCase;
 
 /**
  * INTERNAL.
  */
-public class AbstractWebBasedTestCase extends AbstractOntopiaTestCase {
+public abstract class AbstractWebBasedTestCase extends TestCase {
   protected String webedTestApplication;
   protected String webedTestLocation;
   protected WebConversation wc;

@@ -6,7 +6,6 @@ package net.ontopia.topicmaps.webed.utils;
 import java.io.File;
 import java.io.IOException;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.webed.impl.basic.ActionForwardPage;
 import net.ontopia.topicmaps.webed.impl.basic.ActionForwardPageIF;
 import net.ontopia.topicmaps.webed.impl.basic.ActionGroupIF;
@@ -16,18 +15,22 @@ import net.ontopia.topicmaps.webed.impl.basic.FieldInformationIF;
 import net.ontopia.topicmaps.webed.impl.basic.ImageInformation;
 import net.ontopia.topicmaps.webed.impl.basic.ImageInformationIF;
 import net.ontopia.topicmaps.webed.impl.utils.ActionConfigurator;
+import net.ontopia.utils.FileUtils;
+import junit.framework.TestCase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class ActionConfigContentHandlerTest extends AbstractOntopiaTestCase {
+public class ActionConfigContentHandlerTest extends TestCase {
   
   // initialization of log facility
   private static Logger log = LoggerFactory
     .getLogger(ActionConfigContentHandlerTest.class.getName());
 
   ActionRegistryIF registry;  
+
+  private final static String testdataDirectory = "webed";
   
   public ActionConfigContentHandlerTest(String name) {
     super(name);
@@ -36,8 +39,7 @@ public class ActionConfigContentHandlerTest extends AbstractOntopiaTestCase {
   public void setUp() throws Exception {
     super.setUp();
     if (registry == null) {
-      String baseDir = getTestDirectory() + File.separator + "webed";
-      String configFile = baseDir + File.separator + "actionConfig.xml";
+      String configFile = FileUtils.getTestInputFile(testdataDirectory, "actionConfig.xml");
       ActionConfigurator ac = new ActionConfigurator("/omnieditor", "/", configFile);
       ac.readRegistryConfiguration();
       registry = ac.getRegistry();

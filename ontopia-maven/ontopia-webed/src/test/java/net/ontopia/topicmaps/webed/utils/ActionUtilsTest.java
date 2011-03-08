@@ -5,7 +5,6 @@ package net.ontopia.topicmaps.webed.utils;
 
 import java.io.File;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
 
 import net.ontopia.topicmaps.core.*;
@@ -17,12 +16,16 @@ import net.ontopia.topicmaps.webed.impl.utils.*;
 import net.ontopia.topicmaps.webed.impl.actions.basename.AddBasename;
 import net.ontopia.topicmaps.webed.impl.utils.ActionUtils;
 import net.ontopia.topicmaps.webed.impl.utils.ActionConfigurator;
+import net.ontopia.utils.FileUtils;
+import junit.framework.TestCase;
 
-public class ActionUtilsTest extends AbstractOntopiaTestCase {
+public class ActionUtilsTest extends TestCase {
 
   ActionRegistryIF registry;
   TopicMapIF topicmap;
   TopicMapBuilderIF builder;
+
+  private final static String testdataDirectory = "webed";
   
   public ActionUtilsTest(String name) {
     super(name);
@@ -32,8 +35,7 @@ public class ActionUtilsTest extends AbstractOntopiaTestCase {
     super.setUp();
     // only read in registry once (we are not modifying it)
     if (registry == null) {
-      String baseDir = getTestDirectory() + File.separator + "webed";
-      String configFile = baseDir + File.separator + "actionConfig.xml";
+      String configFile = FileUtils.getTestInputFile(testdataDirectory, "actionConfig.xml");
       ActionConfigurator ac = new ActionConfigurator("omnieditor", "/", configFile);
       ac.readAndWatchRegistry();
       registry = ac.getRegistry();

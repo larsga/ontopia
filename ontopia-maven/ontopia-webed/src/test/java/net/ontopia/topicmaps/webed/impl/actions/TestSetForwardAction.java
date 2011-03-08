@@ -5,14 +5,14 @@ package net.ontopia.topicmaps.webed.impl.actions;
 
 import java.util.*;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.ontojsp.FakeServletRequest;
 import net.ontopia.utils.ontojsp.FakeServletResponse;
 import net.ontopia.topicmaps.webed.core.*;
 import net.ontopia.topicmaps.webed.impl.basic.*;
 import net.ontopia.topicmaps.webed.impl.actions.*;
+import junit.framework.TestCase;
 
-public class TestSetForwardAction extends AbstractOntopiaTestCase {
+public class TestSetForwardAction extends TestCase {
 
   public TestSetForwardAction(String name) {
     super(name);

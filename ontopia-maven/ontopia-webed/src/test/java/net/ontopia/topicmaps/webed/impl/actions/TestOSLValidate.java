@@ -18,8 +18,11 @@ import net.ontopia.topicmaps.webed.core.*;
 import net.ontopia.topicmaps.webed.impl.basic.*;
 import net.ontopia.topicmaps.webed.impl.actions.tmobject.OSLValidate;
 import net.ontopia.topicmaps.webed.impl.basic.Constants;
+import net.ontopia.utils.FileUtils;
 
 public class TestOSLValidate extends AbstractWebedTestCase {
+
+  private final static String testdataDirectory = "webed";
   
   public TestOSLValidate(String name) {
     super(name);
@@ -158,8 +161,8 @@ public class TestOSLValidate extends AbstractWebedTestCase {
 
   private OSLSchema loadSchema(String file) 
     throws IOException, SchemaSyntaxException {
-    file = resolveFileName("webed", file);
-    OSLSchemaReader reader = new OSLSchemaReader(new File(file));
+    file = FileUtils.getTestInputFile(testdataDirectory, file);
+    OSLSchemaReader reader = new OSLSchemaReader(file);
     return (OSLSchema) reader.read();
   }
   

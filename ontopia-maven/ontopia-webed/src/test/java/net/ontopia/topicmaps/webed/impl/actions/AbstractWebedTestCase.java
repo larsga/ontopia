@@ -4,7 +4,6 @@
 package net.ontopia.topicmaps.webed.impl.actions;
 
 import java.util.*;
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.ontojsp.FakeServletRequest;
 import net.ontopia.utils.ontojsp.FakeServletResponse;
@@ -16,16 +15,18 @@ import net.ontopia.topicmaps.webed.impl.basic.Constants;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.*;
 
-import net.ontopia.topicmaps.test.*;
 import net.ontopia.utils.*;
 import java.io.*;
 import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.query.core.*;
 import net.ontopia.topicmaps.query.utils.*;
 
+import junit.framework.TestCase;
  
-public abstract class AbstractWebedTestCase extends AbstractTopicMapTestCase{
+public abstract class AbstractWebedTestCase extends TestCase {
   protected TopicMapIF tm;
+
+  private final static String testdataDirectory = "webed";
   
   public AbstractWebedTestCase(String name) {
     super(name);
@@ -35,8 +36,7 @@ public abstract class AbstractWebedTestCase extends AbstractTopicMapTestCase{
   
   public void setUp() {
     try {
-      tm = ImportExportUtils.getReader(resolveFileName("webed",
-                                                       "football.ltm")).read();
+      tm = ImportExportUtils.getReader(FileUtils.getTestInputFile(testdataDirectory, "football.ltm")).read();
     } catch (java.io.IOException e) {
       throw new OntopiaRuntimeException(e);
     }
@@ -155,4 +155,11 @@ public abstract class AbstractWebedTestCase extends AbstractTopicMapTestCase{
     javax.servlet.http.HttpServletResponse response = new FakeServletResponse();
     return new ActionResponse(request, response);
   }  
+  
+  public TopicIF getTopicById(TopicMapIF topicmap, String id) {
+    net.ontopia.infoset.core.LocatorIF base = topicmap.getStore().getBaseAddress();
+    return (TopicIF)
+      topicmap.getObjectByItemIdentifier(base.resolveAbsolute("#"+id));
+  }
+  
 }

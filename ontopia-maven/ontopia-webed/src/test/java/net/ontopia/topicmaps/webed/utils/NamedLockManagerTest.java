@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.nav2.core.NavigatorApplicationIF;
 import net.ontopia.topicmaps.nav2.core.UserIF;
 import net.ontopia.topicmaps.nav2.impl.basic.NavigatorConfiguration;
@@ -18,8 +17,9 @@ import net.ontopia.topicmaps.webed.impl.utils.TagUtils;
 import net.ontopia.utils.ontojsp.FakeHttpSession;
 import net.ontopia.utils.ontojsp.FakeServletContext;
 import net.ontopia.topicmaps.webed.impl.utils.SessionListener;
+import junit.framework.TestCase;
 
-public class NamedLockManagerTest extends AbstractOntopiaTestCase {
+public class NamedLockManagerTest extends TestCase {
   private NamedLockManager lockMan;
   private FakeHttpSession session;
   private NavigatorConfiguration navConf;

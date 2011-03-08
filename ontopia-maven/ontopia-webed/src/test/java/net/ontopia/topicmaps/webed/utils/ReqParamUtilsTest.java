@@ -11,12 +11,12 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.topicmaps.webed.impl.utils.Parameters;
 import net.ontopia.topicmaps.webed.impl.utils.ReqParamUtils;
 import net.ontopia.utils.ontojsp.FakeServletRequest;
+import junit.framework.TestCase;
   
-public class ReqParamUtilsTest extends AbstractOntopiaTestCase {
+public class ReqParamUtilsTest extends TestCase {
   
   public ReqParamUtilsTest(String name) {
     super(name);
