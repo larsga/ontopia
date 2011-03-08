@@ -57,7 +57,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testTextAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkType(node, "input");
     checkAttribute(node, "value", "VALUE");
@@ -81,7 +81,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testHiddenAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkType(node, "input");
     checkAttribute(node, "value", "VALUE");
@@ -109,7 +109,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testPasswordAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkType(node, "input");
     checkAttribute(node, "value", "VALUE");
@@ -133,7 +133,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testTextAreaAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkType(node, "textarea");
     checkAttribute(node, "cols", "50");
@@ -258,7 +258,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testReadonlyTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node field = form.getDOMSubtree().getLastChild();
+    Node field = getLastElementChild(form.getDOMSubtree());
     
     Node id = field.getAttributes().getNamedItem("id");
     assertFalse("Field element rendered on read-only form.", 
@@ -270,7 +270,7 @@ public class FieldTagTest extends AbstractWebBasedTestCase {
         + "/test/FieldTag/testReadonlyTrueFieldFalse.jsp");
     WebForm form = resp.getForms()[0];
     // The field is rendered as the last item in the frames DOM
-    Node field = form.getDOMSubtree().getLastChild();
+    Node field = getLastElementChild(form.getDOMSubtree());
     
     Node id = field.getAttributes().getNamedItem("id");
     assertTrue("Field element with readonly=\"false\" not rendered on " +

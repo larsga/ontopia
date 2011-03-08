@@ -23,7 +23,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testSubmitAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(button, "type", "submit");
     checkAttribute(button, "value", "BUTTON");
@@ -43,7 +43,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testImageAttributesNoButtonMapImage.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(button, "src", "button.gif");
     checkCommonImageAttributes(button);
@@ -71,7 +71,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testImageAttributesButtonMapSrc.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(button, "src", webedTestApplication + "/test/ButtonTag/button.gif");
     checkAttribute(button, "border", "0");
@@ -91,7 +91,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testImageAttributesButtonMapAbsoluteSrc.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(button, "src","button.gif");
     checkAttribute(button, "border", "0");
@@ -110,7 +110,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testResetAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(button, "type", "reset");
     checkAttribute(button, "value", "BUTTON");
@@ -128,7 +128,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyNot.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertTrue("Button element not rendered on a form that is not read-only.", 
@@ -140,7 +140,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyButtonTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertFalse("Button element with readonly=\"true\" was rendered.", 
@@ -152,7 +152,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyButtonEvalTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertFalse("Button element with readonly evaluating to true was rendered.", 
@@ -164,7 +164,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyButtonEvalFalse.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertTrue("Button element with readonly evaluating to false was not " +
@@ -176,7 +176,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertFalse("Button element rendered on read-only form.", 
@@ -188,7 +188,7 @@ public class ButtonTagTest extends AbstractWebBasedTestCase {
         + "/test/ButtonTag/testReadonlyTrueButtonFalse.jsp");
     WebForm form = resp.getForms()[0];
     // The button is rendered as the last item in the frames DOM
-    Node button = form.getDOMSubtree().getLastChild();
+    Node button = getLastElementChild(form.getDOMSubtree());
     
     Node id = button.getAttributes().getNamedItem("id");
     assertTrue("Button element with readonly=\"false\" not rendered on " +

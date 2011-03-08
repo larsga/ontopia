@@ -23,7 +23,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
         + "/test/CheckboxTag/testNoStateAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The checkbox is rendered as the last item in the frames DOM
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     
     checkCommonAttributes(checkbox);
     assertNull("Checked attribute found", checkbox.getAttributes().getNamedItem("checked"));
@@ -49,7 +49,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
         + "/test/CheckboxTag/testStateCheckedAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The checkbox is rendered as the last item in the frames DOM
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(checkbox, "checked", "checked");
     checkCommonAttributes(checkbox);
@@ -66,7 +66,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
         + "/test/CheckboxTag/testStateUnCheckedAttributes.jsp");
     WebForm form = resp.getForms()[0];
     // The checkbox is rendered as the last item in the frames DOM
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     
     checkCommonAttributes(checkbox);
     assertNull("Checked attribute found", checkbox.getAttributes().getNamedItem("checked"));
@@ -96,7 +96,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
     resp = wc.getResponse(webedTestLocation
         + "/test/CheckboxTag/testSubaction.jsp");
     form = resp.getForms()[0];
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     form.setCheckbox(checkbox.getAttributes().getNamedItem("name").getNodeValue(), true);
     form.getButtons()[0].click();
     resp = wc.getCurrentPage();
@@ -115,7 +115,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
         + "/test/CheckboxTag/testReadonlyTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The checkbox is rendered as the last item in the frames DOM
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     
     Node disabled = checkbox.getAttributes().getNamedItem("disabled");
     assertTrue("Checkbox element enabled on read-only form.", 
@@ -127,7 +127,7 @@ public class CheckboxTagTest extends AbstractWebBasedTestCase {
         + "/test/CheckboxTag/testReadonlyTrueCheckboxFalse.jsp");
     WebForm form = resp.getForms()[0];
     // The checkbox is rendered as the last item in the frames DOM
-    Node checkbox = form.getDOMSubtree().getLastChild();
+    Node checkbox = getLastElementChild(form.getDOMSubtree());
     
     Node disabled = checkbox.getAttributes().getNamedItem("disabled");
     assertFalse("Checkbox element with readonly=\"false\" disabled on " +

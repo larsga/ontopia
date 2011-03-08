@@ -73,37 +73,35 @@ public class FormTagTest extends AbstractWebBasedTestCase {
     checkAttribute(formNode, "onsubmit", "return true;");
     checkForExtraAttributes(formNode);
     
-    NodeList children = formNode.getChildNodes();
-    
-    Node tm = children.item(0);
+    Node tm = getNthElementChild(formNode, 0);
     checkType(tm, "input");
     checkAttribute(tm, "type", "hidden");
     checkAttribute(tm, "name","tm");
     checkAttribute(tm, "value", "test.ltm");
     checkForExtraAttributes(tm);
         
-    Node actionGroup = children.item(2);
+    Node actionGroup = getNthElementChild(formNode, 1);
     checkType(actionGroup, "input");
     checkAttribute(actionGroup, "type", "hidden");
     checkAttribute(actionGroup, "name", "ag");
     checkAttribute(actionGroup, "value", "testActionGroup");
     checkForExtraAttributes(actionGroup);
     
-    Node requestId = children.item(4);
+    Node requestId = getNthElementChild(formNode, 2);
     checkType(requestId, "input");
     checkAttribute(requestId, "type", "hidden");
     checkAttribute(requestId, "name", "requestid");
     checkAttributeStartsWith(requestId, "value", "rid");
     checkForExtraAttributes(requestId);
     
-    Node linkForward = children.item(6);
+    Node linkForward = getNthElementChild(formNode, 3);
     checkType(requestId, "input");
     checkAttribute(linkForward, "type", "hidden");
     checkAttribute(linkForward, "name", "linkforward");
     checkAttributeStartsWith(linkForward, "id", "linkforwardrid");
     checkForExtraAttributes(linkForward);
     
-    assertNull("Unexpected element", children.item(7));
+    assertNull("Unexpected element", getNthElementChild(formNode, 4));
    
     //Submit the form to check that no problems occur
     form.submit();

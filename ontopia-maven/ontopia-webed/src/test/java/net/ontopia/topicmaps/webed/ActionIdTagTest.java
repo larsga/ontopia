@@ -23,7 +23,7 @@ public class ActionIdTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ActionIdTag/testAttributesWithForm.jsp");
     WebForm form = resp.getForms()[0];
-    Node input = form.getDOMSubtree().getLastChild();
+    Node input = getLastElementChild(form.getDOMSubtree());
     checkNameAttribute(input,"actionidTest");
     checkAttribute(input, "type", "submit");
     checkForExtraAttributes(input);

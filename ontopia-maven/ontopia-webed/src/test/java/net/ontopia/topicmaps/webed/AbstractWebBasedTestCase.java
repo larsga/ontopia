@@ -78,8 +78,47 @@ public abstract class AbstractWebBasedTestCase extends TestCase {
 
   protected void checkType(Node aNode, String aString) {
   
-    assertEquals("Incorrect type", aString, aNode.getNodeName());
+    assertEquals("Incorrect type", aString.toUpperCase(), aNode.getNodeName().toUpperCase());
     
+  }
+
+  protected int getElementChildCount(Node parent) {
+    int result = 0;
+    NodeList children = parent.getChildNodes();
+    for (int ix = 0; ix < children.getLength(); ix++) {
+      Node child = children.item(ix);
+      if (child instanceof Element) {
+        result++;
+      }
+    }
+    return result;
+  }
+
+  protected Node getNthElementChild(Node parent, int index) {
+    NodeList children = parent.getChildNodes();
+    int childElement = -1;
+    for (int ix = 0; ix < children.getLength(); ix++) {
+      Node child = children.item(ix);
+      if (child instanceof Element) {
+        if (index == ++childElement) {
+          return child;
+        }
+      }
+    }
+    // return null if no Element was found at index, conform NodeList.item(index)
+    return null;
+  }
+
+  protected Node getLastElementChild(Node parent) {
+    Node lastChild = parent.getLastChild();
+    while (lastChild != null) {
+      if (lastChild instanceof Element) {
+        return lastChild;
+      } else {
+        lastChild = lastChild.getPreviousSibling();
+      }
+    }
+    return null;
   }
 
   // this is RIDICULOUS. the DOM should have this method!

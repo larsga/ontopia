@@ -23,7 +23,7 @@ public class InvokeTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/InvokeTag/testTopicValueAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     // The "1" is the objectId of the TM object passed as the value.
     // Since we do not have access to the TM here, we must just do a 
@@ -53,7 +53,7 @@ public class InvokeTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/InvokeTag/testStringValueAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(node, "value", "VALUE");
     checkCommonAttributes(node);
@@ -71,7 +71,7 @@ public class InvokeTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/InvokeTag/testAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkAttribute(node, "value", "no-value-given");
     checkCommonAttributes(node);
@@ -149,7 +149,7 @@ public class InvokeTagTest extends AbstractWebBasedTestCase {
         + "/test/InvokeTag/testReadonlyTrue.jsp");
     WebForm form = resp.getForms()[0];
     // The invoke is rendered as the last item in the frames DOM
-    Node invoke = form.getDOMSubtree().getLastChild();
+    Node invoke = getLastElementChild(form.getDOMSubtree());
     
     Node value = invoke.getAttributes().getNamedItem("value");
     assertFalse("Invoke element rendered on read-only form.", 
@@ -161,7 +161,7 @@ public class InvokeTagTest extends AbstractWebBasedTestCase {
         + "/test/InvokeTag/testReadonlyTrueInvokeFalse.jsp");
     WebForm form = resp.getForms()[0];
     // The invoke is rendered as the last item in the frames DOM
-    Node invoke = form.getDOMSubtree().getLastChild();
+    Node invoke = getLastElementChild(form.getDOMSubtree());
     
     Node value = invoke.getAttributes().getNamedItem("value");
     assertTrue("Invoke element with readonly=\"false\" not rendered on " +

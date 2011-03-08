@@ -24,7 +24,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testMultiselectAttributesWithNone.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkMultiselectAttributes(node, null);
     
@@ -41,7 +41,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDefaultAttributesWithNone.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, null, getKnownContents());
     
@@ -58,7 +58,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testMultiselectAttributesWithUnspecified.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkMultiselectAttributes(node, "-- NO SELECTION --");
     
@@ -80,7 +80,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDefaultAttributesWithUnspecified.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, "-- NO SELECTION --", getKnownContents());
     
@@ -103,19 +103,18 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testCheckboxAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkCommonCheckboxAttributes(node);
     
-    NodeList children = node.getChildNodes();
     HashMap knownContents = getKnownContents();
     
-    for (int i = 0; i < children.getLength(); i=i+4) {
-      Node option = children.item(i);
+    for (int i = 0; i < getElementChildCount(node); i=i+2) {
+      Node option = getNthElementChild(node, i);
       checkType(option, "input");
       checkNameAttribute(option, "listTest");
       String objectId = option.getAttributes().getNamedItem("value").getNodeValue();
-      String value = children.item(i+1).getNodeValue();
+      String value = option.getNextSibling().getNodeValue();
       
       if (selectedObjectId().equals(objectId)) checkAttribute(option, "checked", "checked");
       String text = (String)knownContents.get(objectId);
@@ -139,19 +138,18 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testCheckboxAttributesEL.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkCommonCheckboxAttributes(node);
     
-    NodeList children = node.getChildNodes();
     HashMap knownContents = getKnownContents();
     
-    for (int i = 0; i < children.getLength(); i=i+4) {
-      Node option = children.item(i);
+    for (int i = 0; i < getElementChildCount(node); i=i+2) {
+      Node option = getNthElementChild(node, i);
       checkType(option, "input");
       checkNameAttribute(option, "listTest");
       String objectId = option.getAttributes().getNamedItem("value").getNodeValue();
-      String value = children.item(i+1).getNodeValue();
+      String value = option.getNextSibling().getNodeValue();
       
       if (selectedObjectId().equals(objectId)) checkAttribute(option, "checked", "checked");
       String text = (String)knownContents.get(objectId);
@@ -175,19 +173,18 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testCheckboxAttributesELSelect.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkCommonCheckboxAttributes(node);
     
-    NodeList children = node.getChildNodes();
     HashMap knownContents = getKnownContents();
     
-    for (int i = 0; i < children.getLength(); i=i+4) {
-      Node option = children.item(i);
+    for (int i = 0; i < getElementChildCount(node); i=i+2) {
+      Node option = getNthElementChild(node, i);
       checkType(option, "input");
       checkNameAttribute(option, "listTest");
       String objectId = option.getAttributes().getNamedItem("value").getNodeValue();
-      String value = children.item(i+1).getNodeValue();
+      String value = option.getNextSibling().getNodeValue();
       
       if (selectedObjectId().equals(objectId)) checkAttribute(option, "checked", "checked");
       String text = (String)knownContents.get(objectId);
@@ -213,19 +210,18 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testRadioAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkCommonRadioAttributes(node);
     
-    NodeList children = node.getChildNodes();
     HashMap knownContents = getKnownContents();
     
-    for (int i = 0; i < children.getLength(); i=i+4) {
-      Node option = children.item(i);
+    for (int i = 0; i < getElementChildCount(node); i=i+2) {
+      Node option = getNthElementChild(node, i);
       checkType(option, "input");
       checkNameAttribute(option, "listTest");
       String objectId = option.getAttributes().getNamedItem("value").getNodeValue();
-      String value = children.item(i+1).getNodeValue();
+      String value = option.getNextSibling().getNodeValue();
       
       if (selectedObjectId().equals(objectId)) checkAttribute(option, "checked", "checked");
       String text = (String)knownContents.get(objectId);
@@ -263,7 +259,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testMultiselectAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkMultiselectAttributes(node, "-- unspecified --");
     
@@ -284,10 +280,9 @@ public class ListTagTest extends AbstractWebBasedTestCase {
   private void checkListAttributes(Node node, String unspecified, HashMap knownContents) {
 
     checkCommonDefaultAttributes(node);
-    NodeList children = node.getChildNodes();
     boolean unspecifiedFound = unspecified == null;
-    for (int i = 0; i < children.getLength(); i++) {
-      Node option = children.item(i);
+    for (int i = 0; i < getElementChildCount(node); i++) {
+      Node option = getNthElementChild(node, i);
       checkType(option, "option");
       String objectId = option.getAttributes().getNamedItem("value").getNodeValue();
       String value = option.getFirstChild().getNodeValue();
@@ -312,7 +307,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDefaultAttributesWithEmptyCollection.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     // Replaced the checkAttribute(...) line below with the following two lines,
     // as the checkAttribute line caused an error due to "Missing style".
@@ -335,7 +330,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDefaultAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, "-- unspecified --", getKnownContents());
     
@@ -373,7 +368,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDropdownAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, "-- unspecified --", getKnownContents());
     
@@ -390,7 +385,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDropdownAttributesWithNone.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, null, getKnownContents());
     
@@ -407,7 +402,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testDropdownAttributesWithUnspecified.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkListAttributes(node, "-- NO SELECTION --", getKnownContents());
     
@@ -423,7 +418,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testScrollingAttributes.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkScrollingAttributes(node, "-- unspecified --");
     
@@ -440,7 +435,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testScrollingAttributesWithNone.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkScrollingAttributes(node, null);
     
@@ -456,7 +451,7 @@ public class ListTagTest extends AbstractWebBasedTestCase {
     WebResponse resp = wc.getResponse(webedTestLocation
         + "/test/ListTag/testScrollingAttributesWithUnspecified.jsp");
     WebForm form = resp.getForms()[0];
-    Node node = form.getDOMSubtree().getLastChild();
+    Node node = getLastElementChild(form.getDOMSubtree());
     
     checkScrollingAttributes(node, "-- NO SELECTION --");
     
