@@ -111,8 +111,8 @@ public class FakeServletContext implements ServletContext {
     File current = rootpath;
     String[] components = StringUtils.split(path, "/");
     for (int ix = 0; ix < components.length; ix++) {
-      logger.info(" - comp: " + components[ix]);
-      logger.info(" - current " + current);
+      logger.debug(" - comp: " + components[ix]);
+      logger.debug(" - current " + current);
       if (components[ix].equals("") || components[ix].equals("."))
         continue;
       
