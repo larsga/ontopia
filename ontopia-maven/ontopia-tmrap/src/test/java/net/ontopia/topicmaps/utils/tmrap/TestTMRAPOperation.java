@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import javax.servlet.ServletException;
 
-import net.ontopia.test.AbstractOntopiaTestCase;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.ontojsp.FakeServletConfig;
@@ -34,17 +33,26 @@ import net.ontopia.topicmaps.utils.NullResolvingExternalReferenceHandler;
 import net.ontopia.topicmaps.utils.tmrap.RAPServlet;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 
-public class TestTMRAPOperation extends AbstractOntopiaTestCase {
+import org.junit.Assert;
+import org.junit.BeforeClass;
+
+public abstract class TestTMRAPOperation {
+
+  protected final static String testdataDirectory = "tmrap";
+
   protected static final String TEST_TOPIC = RAPServlet.RAP_NAMESPACE +
       "testTopic";
   
   protected String uriPrefix;
   protected RAPServlet rapServlet;
+
+  @BeforeClass
+  public static void transferInputFiles() throws IOException {
+    FileUtils.transferTestInputDirectory(testdataDirectory + "/topicmaps");
+  }
   
-  protected TestTMRAPOperation(String name) {
-    super(name);
+  protected TestTMRAPOperation() {
     uriPrefix = "http://localhost:8080/omnigator/plugins/viz/";
     rapServlet = new RAPServlet();
     
@@ -151,11 +159,10 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
   protected static void setupRAPServlet(RAPServlet rapServlet, 
                                         String viewURIPrefix)
     throws ServletException {
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "tmrap" + File.separator;
+    String base = FileUtils.getTestdataOutputDirectory() + testdataDirectory + File.separator;
     
     Hashtable initParams = new Hashtable();
-    initParams.put("source_config", "WEB-INF/config/tm-sources.xml");
+    initParams.put("source_config", FileUtils.getTestInputFile(testdataDirectory, "WEB-INF/config/tm-sources.xml"));
     FakeServletContext servletContext = new FakeServletContext(base, new Hashtable(), initParams);
 
     Map params = new HashMap();
@@ -172,8 +179,8 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
   private static int counter = 0;
   protected String canonicalizeXTM(String XTM) throws IOException {
     // Figure out base URL
-    String root = AbstractCanonicalTestCase.getTestDirectory() +
-      File.separator + "tmrap" + File.separator + "topicmaps" + File.separator;
+    String root = FileUtils.getTestdataOutputDirectory() +
+      File.separator + testdataDirectory + File.separator + "topicmaps" + File.separator;
     LocatorIF base = new URILocator(new File(root));
     
     // Import the TM
@@ -183,7 +190,7 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
         new NullResolvingExternalReferenceHandler());
     
     TopicMapIF importedTM = xtmReader.read();
-    TMRAPTestGenerator.filterUnifyingTopics(importedTM);
+    TMRAPTestCase.filterUnifyingTopics(importedTM);
 
     // Canonicalize the reimported TM
     StringWriter stringWriter = new StringWriter();    
@@ -213,22 +220,10 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
     return response.getStatus();
   }
   
-  // --- LMG-added helpers
-
-  protected String getBaseDir() {
-    return AbstractCanonicalTestCase.getTestDirectory() +
-      File.separator + "tmrap" + File.separator;
-  }
-  
-  protected String getOutDir() {
-    return AbstractCanonicalTestCase.getTestDirectory() +
-      File.separator + "tmrap" + File.separator + "out" + File.separator;
-  }
-
   protected void verifyCanonical(String filename) throws IOException {
     // Figure out base URL
-    String root = AbstractCanonicalTestCase.getTestDirectory() +
-      File.separator + "tmrap" + File.separator;
+    String root = FileUtils.getTestdataOutputDirectory() +
+     File.separator + testdataDirectory + File.separator;
     LocatorIF base = new URILocator(new File(root));    
     
     // Import the TM
@@ -239,7 +234,7 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
         new NullResolvingExternalReferenceHandler());
     TopicMapIF importedTM = xtmReader.read();
     reader.close();
-    TMRAPTestGenerator.filterUnifyingTopics(importedTM);
+    TMRAPTestCase.filterUnifyingTopics(importedTM);
 
     // Canonicalize the reimported TM
     Writer out = new FileWriter(xtmfile + ".cxtm");
@@ -247,9 +242,8 @@ public class TestTMRAPOperation extends AbstractOntopiaTestCase {
     out.close();
 
     // Compare results
-    assertTrue(filename + " did not match baseline",
-               FileUtils.compare(xtmfile + ".cxtm",
-                                 root + "baseline" + File.separator +
-                                 filename));
+    String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline", filename);
+    Assert.assertTrue(filename + " did not match baseline",
+               FileUtils.compareFileToResource(xtmfile + ".cxtm", baseline));
   }
 }

@@ -20,21 +20,22 @@ import net.ontopia.topicmaps.utils.tmrap.RAPServlet;
 import net.ontopia.topicmaps.utils.tmrap.RemoteTopicIndex;
 import net.ontopia.topicmaps.utils.tmrap.TopicPage;
 
+import net.ontopia.utils.FileUtils;
+
+import org.junit.Test;
+import org.junit.Assert;
+
 /**
  * RemoteTopicIndex is used by the Vizlet to retrieve information from
  * the server.
  */
 public class TestRemoteTopicIndex extends TestTMRAPOperation {
 
-  public TestRemoteTopicIndex() {
-    super("TestRemoteTopicIndex");
-  }
- 
+  @Test
   public void testTopicsFromTwoMaps() throws ServletException, IOException {
     // Init
-    verifyDirectory(getBaseDir(), "out");    
-    String outfile = getOutDir() + "get-topic-page_remote.xtm";
-    String outurl = new File(outfile).toURL().toString();
+    File outfile = FileUtils.getTestOutputFile(testdataDirectory, "out", "get-topic-page_remote.xtm");
+    String outurl = outfile.toURL().toString();
     
     // Write get-topic-page result to a file
     Writer out = new FileWriter(outfile);
@@ -49,10 +50,10 @@ public class TestRemoteTopicIndex extends TestTMRAPOperation {
     Collection pages = ix.getTopicPages(Collections.EMPTY_SET,
                                         Collections.EMPTY_SET,
                                         Collections.EMPTY_SET);
-    assertTrue("Wrong number of pages: " + pages.size(), pages.size() == 1);
+    Assert.assertTrue("Wrong number of pages: " + pages.size(), pages.size() == 1);
 
     TopicPage page = (TopicPage) pages.iterator().next();
-    assertTrue("Bad view URL in topic page: " + page.getURL(),
+    Assert.assertTrue("Bad view URL in topic page: " + page.getURL(),
                "http://localhost:8080/omnigator/plugins/viz/get-topic/models/topic_complete.jsp?tm=opera.xtm&id=432".equals(page.getURL()));
   }
 

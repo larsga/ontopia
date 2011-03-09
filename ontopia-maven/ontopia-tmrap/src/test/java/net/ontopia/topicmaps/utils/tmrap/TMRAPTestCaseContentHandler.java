@@ -79,7 +79,7 @@ public class TMRAPTestCaseContentHandler extends SAXTracker {
       String expectedException = attrs.getValue("exception");
       TMRAPTestDescriptor tmrapTestParameters = new TMRAPTestDescriptor(id, uri,
           expectedException, edit, view);
-      tests.add(tmrapTestParameters);
+      tests.add(new TMRAPTestDescriptor[] {tmrapTestParameters});
     }
     
     parents.push(qname);

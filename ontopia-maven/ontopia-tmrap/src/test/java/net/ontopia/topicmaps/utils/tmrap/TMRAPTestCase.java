@@ -6,6 +6,7 @@ package net.ontopia.topicmaps.utils.tmrap;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +23,6 @@ import javax.servlet.ServletException;
 
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URIFragmentLocator;
-import net.ontopia.test.TestCaseGeneratorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.utils.NullResolvingExternalReferenceHandler;
@@ -30,8 +30,8 @@ import net.ontopia.topicmaps.utils.ltm.LTMTopicMapWriter;
 import net.ontopia.topicmaps.utils.tmrap.RAPServlet;
 import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
 import net.ontopia.utils.FileUtils;
+import net.ontopia.utils.StreamUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.ontojsp.FakeServletConfig;
 import net.ontopia.utils.ontojsp.FakeServletContext;
@@ -41,24 +41,34 @@ import net.ontopia.xml.ConfiguredXMLReaderFactory;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.InputSource;
 
-public class TMRAPTestGenerator implements TestCaseGeneratorIF {
+import org.junit.Test;
+import org.junit.Assert;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-  public Iterator generateTests() {
-    Set tests = new HashSet();
-    String root = AbstractCanonicalTestCase.getTestDirectory();
-    String base = root + File.separator + "tmrap" + File.separator;
-    
-    String source = base + "/tests.xml";
+@RunWith(Parameterized.class)
+public class TMRAPTestCase {
+
+  private final static String testdataDirectory = "tmrap";
+
+  @Parameters
+  public static Collection generateTests() throws IOException {
+	
+    FileUtils.transferTestInputDirectory(testdataDirectory + "/topicmaps");
+	
+    String source = FileUtils.getTestInputFile(testdataDirectory, "tests.xml");
+    InputStream in = StreamUtils.getInputStream(source);
 
     // Parse the test configuration file to get all the test descriptors.
-    Collection testDescriptors;
     try {
       XMLReader parser = new ConfiguredXMLReaderFactory().createXMLReader();
       TMRAPTestCaseContentHandler handler = new TMRAPTestCaseContentHandler();
       handler.register(parser);
-      parser.parse(new File(source).toURL().toString());
-      testDescriptors = handler.getTestDescriptors();
+      parser.parse(new InputSource(in));
+      return handler.getTestDescriptors();
     } catch (SAXException e) {
       throw new OntopiaRuntimeException(e);
     } catch (MalformedURLException e) {
@@ -66,27 +76,15 @@ public class TMRAPTestGenerator implements TestCaseGeneratorIF {
     } catch (IOException e) {
       throw new OntopiaRuntimeException(e);
     }
-    
-    // Create a new test case for each test descriptor.
-    Iterator testDescriptorIt = testDescriptors.iterator();
-    while (testDescriptorIt.hasNext()) {
-      tests.add(new GeneralTestCase(base, 
-          (TMRAPTestDescriptor)testDescriptorIt.next()));
-    }
-    
-    // Return all the test cases that were generated.
-    return tests.iterator();
   }
 
   // --- Test case class
 
-  public class GeneralTestCase extends AbstractCanonicalTestCase {
     private String base;
     private TMRAPTestDescriptor descriptor;
 
-    public GeneralTestCase(String base, TMRAPTestDescriptor descriptor) {
-      super("testFile");
-      this.base = base;
+    public TMRAPTestCase(TMRAPTestDescriptor descriptor) {
+      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory + File.separator;
       this.descriptor = descriptor;
     }
 
@@ -98,26 +96,26 @@ public class TMRAPTestGenerator implements TestCaseGeneratorIF {
       try {
         runRapServlet(base, new PrintWriter(new StringWriter()), 
             descriptor.getUri(), false, false);
-        fail("Expected to fail with: " + descriptor.getExpectedException()
+        Assert.fail("Expected to fail with: " + descriptor.getExpectedException()
             + " but executed without errors.");
       } catch (Exception e) {
         String eName = e.getClass().getName();
-        assertTrue("Expected to fail with: " 
+        Assert.assertTrue("Expected to fail with: " 
             + descriptor.getExpectedException() + " but failed with "
             + eName + " instead.", eName.equals(descriptor
                 .getExpectedException()));
       }
     }
     
+    @Test
     public void testFile() throws IOException, ServletException {
       if (descriptor.getId() == null) {
         runErrorTest();
         return;
       }
       
-      verifyDirectory(base, "out");
-      verifyDirectory(base, "cxtm");
-      verifyDirectory(base, "baseline");
+      FileUtils.verifyDirectory(base, "out");
+      FileUtils.verifyDirectory(base, "cxtm");
 
       String id = descriptor.getId();
       
@@ -130,8 +128,8 @@ public class TMRAPTestGenerator implements TestCaseGeneratorIF {
           + id + ".cxtm";
 
       // Path to the baseline.
-      String baseline = base + "baseline" + File.separator
-          + id + ".cxtm";
+      String baseline = FileUtils.getTestInputFile(testdataDirectory, "baseline",
+          id + ".cxtm");
 
       PrintWriter pw = new PrintWriter(new FileWriter(out));
       runRapServlet(base, pw, 
@@ -159,10 +157,9 @@ public class TMRAPTestGenerator implements TestCaseGeneratorIF {
       //     + id + ".ltm"))).write(importedTM);
 
       // Compare 'out' with 'baseline'.
-      assertTrue("The output of the test with id " + id
-          + " does not match the baseline: " + cxtm + " " + baseline, FileUtils.compare(cxtm, baseline));
+      Assert.assertTrue("The output of the test with id " + id
+          + " does not match the baseline: " + cxtm + " " + baseline, FileUtils.compareFileToResource(cxtm, baseline));
     }
-  }
   
   /**
    * A unifying topic is generated when a topic occurrs in multiple topicmaps
@@ -226,7 +223,7 @@ public class TMRAPTestGenerator implements TestCaseGeneratorIF {
     Hashtable paramsTable = TMRAPTestUtils.tabularizeParameters(params);
     
     Hashtable initParams = new Hashtable();
-    initParams.put("source_config", "WEB-INF/config/tm-sources.xml");
+    initParams.put("source_config", FileUtils.getTestInputFile(testdataDirectory, "WEB-INF/config/tm-sources.xml"));
     FakeServletContext servletContext = new FakeServletContext(base, new Hashtable(), initParams);
     
     FakeServletConfig servletConfig = new FakeServletConfig(servletContext,

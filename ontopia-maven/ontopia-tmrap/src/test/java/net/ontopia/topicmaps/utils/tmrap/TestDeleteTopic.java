@@ -7,13 +7,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import javax.servlet.ServletException;
 
-import net.ontopia.topicmaps.utils.tmrap.RAPServlet;
+import org.junit.Test;
+import org.junit.Assert;
 
 public class TestDeleteTopic extends TestTMRAPOperation {
-
-  public TestDeleteTopic() {
-    super("TestDeleteTopic");
-  }
 
   // FIXME: improve tests to access TMs directly
   // FIXME: test what happens if non-existent topic is deleted
@@ -25,6 +22,7 @@ public class TestDeleteTopic extends TestTMRAPOperation {
    * Delete the topic italy from the i18n topic map.
    * Check that the topic no longer exists
    */
+  @Test
   public void testDelete() throws ServletException, IOException {
     // The topic "italy" already exists; we just assume this without
     // doing any further testing.
@@ -42,12 +40,13 @@ public class TestDeleteTopic extends TestTMRAPOperation {
         "topicmap=i18n.ltm&identifier" +
             "=http://www.topicmaps.org/xtm/1.0/country.xtm%23IT",
           paramsTable, rapServlet, stringWriter, 200);
-    assertEquals(23, canonicalizeXTM(stringWriter.toString()).length());
+    Assert.assertEquals(23, canonicalizeXTM(stringWriter.toString()).length());
   }
   
   /**
    * Get one topic from two different topic maps.
    */
+  @Test
   public void testTopicsFromTwoMaps() throws ServletException, IOException {
     // We assume, without proof, that "italy" exists in both TMs
     StringWriter stringWriter = new StringWriter();
@@ -63,6 +62,6 @@ public class TestDeleteTopic extends TestTMRAPOperation {
         "identifier=http://www.topicmaps.org/xtm/1.0/country.xtm%23IT",
           paramsTable, rapServlet, stringWriter, 200);
     String fragment = stringWriter.toString();
-    assertEquals(23, canonicalizeXTM(fragment).length());
+    Assert.assertEquals(23, canonicalizeXTM(fragment).length());
   }
 }
