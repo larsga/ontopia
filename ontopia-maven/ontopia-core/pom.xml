@@ -148,6 +148,14 @@
 			<version>2.7.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.2-507.jdbc3</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
