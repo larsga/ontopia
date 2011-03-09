@@ -18,6 +18,7 @@ import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.schema.core.SchemaIF;
 import net.ontopia.topicmaps.schema.core.SchemaReaderIF;
 import net.ontopia.topicmaps.schema.core.SchemaSyntaxException;
+import net.ontopia.utils.StreamUtils;
 
 /**
  * PUBLIC: Reader that reads OSL schemas from their XML representation
@@ -29,8 +30,10 @@ public class OSLSchemaReader extends AbstractXMLFormatReader
   /**
    * PUBLIC: Creates a reader bound to the given URI.
    */
-  public OSLSchemaReader(String uri) throws MalformedURLException {
-    source = new InputSource(uri);
+  public OSLSchemaReader(String uri) throws MalformedURLException, IOException {
+    source = uri.startsWith("classpath:") 
+      ? new InputSource(StreamUtils.getInputStream(uri)) 
+      : new InputSource(uri);
     base_address = new URILocator(uri);
   }
   
