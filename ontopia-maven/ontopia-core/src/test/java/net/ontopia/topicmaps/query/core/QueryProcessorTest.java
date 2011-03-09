@@ -1166,7 +1166,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     addMatch(matches, "GCC", getTopicById("lmg"));
     addMatch(matches, "GCC", getTopicById("silje"));
     
-    String url = FileUtils.getTestInputFile("query", "grandchild.tl");
+    String url = FileUtils.getTransferredTestInputFile("query", "grandchild.tl").toURL().toString();
 
     verifyQuery(matches,
                 "import \"" + url + "\" as fam " +
