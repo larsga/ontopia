@@ -23,7 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * A source file should be of the form:
  * <tests>
- *   <test id="..." uri="...>
+ *   <test id="..." uri="...">
  *   <test exception="..." uri="...">
  * <test>
  * 
