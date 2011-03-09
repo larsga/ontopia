@@ -217,11 +217,11 @@ public class XTMTopicMapReader extends AbstractXMLFormatReader
     
     // Parse input source
     try {
-      if (log.isInfoEnabled()) {
-        log.info("Parsing source " + source.getSystemId());
+      if (log.isDebugEnabled()) {
+        log.debug("Parsing source " + source.getSystemId());
         if (source.getEncoding() != null)
-          log.info("Encoding: " + source.getEncoding());
-        log.info("Parser: " + parser + " (namespace support: " + parser.getFeature("http://xml.org/sax/features/namespaces") + ")");
+          log.debug("Encoding: " + source.getEncoding());
+        log.debug("Parser: " + parser + " (namespace support: " + parser.getFeature("http://xml.org/sax/features/namespaces") + ")");
       }
       parser.parse(source);
       // log.info("Done.");
@@ -241,7 +241,7 @@ public class XTMTopicMapReader extends AbstractXMLFormatReader
     // Get hold of all topic maps and set iterator property
     Collection tms = handler.getTopicMaps();
     topicmaps = tms.iterator();
-    log.info("Read " + tms.size() + " topic map(s).");
+    log.debug("Read " + tms.size() + " topic map(s).");
 
     // Process class-instance associations
     Iterator it = tms.iterator();
