@@ -15,6 +15,9 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.OntopiaRuntimeException;
 
+import net.ontopia.utils.ResourcesDirectoryReader;
+import net.ontopia.utils.URIUtils;
+
 /**
  * INTERNAL: Abstract class implementing TopicMapSourceIF; locates
  * topic map file references from a given directory on the local file
@@ -197,7 +200,7 @@ public abstract class AbstractPathTopicMapSource
     if ((suffix == null) && (filter==this))
       throw new OntopiaRuntimeException("'suffix' property for filter has not "+
                                         "been set");
-    refmap = refreshFromFilesystem();
+    refmap = (path.startsWith("classpath:")) ? refreshFromClasspath() : refreshFromFilesystem();
   }
   
   protected Map refreshFromFilesystem() {
@@ -226,6 +229,28 @@ public abstract class AbstractPathTopicMapSource
         if (ref != null)
           newmap.put(id, ref);
         
+      } catch (MalformedURLException e) {
+        throw new OntopiaRuntimeException(e);
+      }
+    }
+    return newmap;
+  }
+
+  protected Map refreshFromClasspath() {
+    if (!filter.equals(this)) {
+      throw new OntopiaRuntimeException("AbstractPathTopicMapSource.refreshFromClasspath does not yet support filtering");
+    }
+    Map newmap = new HashMap();
+    ResourcesDirectoryReader reader = new ResourcesDirectoryReader(path.substring("classpath:".length()), suffix);
+    for (String resource : reader.getResources()) {
+      try {
+        String filename = resource.substring(resource.lastIndexOf("/") + 1);
+        String id = filename;
+        URL url = new URL(URIUtils.getURI("classpath:" + resource).getAddress());
+        TopicMapReferenceIF ref = createReference(url, id, filename);
+        if (ref != null) {
+          newmap.put(id, ref);
+        }
       } catch (MalformedURLException e) {
         throw new OntopiaRuntimeException(e);
       }
