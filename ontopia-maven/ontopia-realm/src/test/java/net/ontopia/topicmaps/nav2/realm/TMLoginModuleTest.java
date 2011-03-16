@@ -30,8 +30,8 @@ public class TMLoginModuleTest extends TestCase {
     super(name);
   }
 
-@Test
-public void testLoginModulePlaintextSucce() throws Exception{
+  @Test
+  public void testLoginModulePlaintextSucce() throws Exception{
     String[] tokens = new String[] {
       "plaintext", "feil",
       "plaintext", "hemmelig1",

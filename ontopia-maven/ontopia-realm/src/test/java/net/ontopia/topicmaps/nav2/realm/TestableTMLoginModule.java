@@ -3,11 +3,10 @@
 
 package net.ontopia.topicmaps.nav2.realm;
 
-import java.io.InputStream;
-import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
+import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
+import net.ontopia.utils.FileUtils;
 import org.junit.Ignore;
 
 /**
@@ -17,16 +16,17 @@ import org.junit.Ignore;
 
 @Ignore
 public class TestableTMLoginModule extends TMLoginModule {
+
+  private final static String testdataDirectory = "realm";
   
   /**
    * INTERNAL: Return a topicmap via a hard-coded file-path.
    */
-	@Override
+  @Override
   protected TopicMapIF getTopicMap() {
     try {
-		InputStream in = this.getClass().getClassLoader().getResourceAsStream("net/ontopia/topicmaps/nav2/realm/" + topicmapId);
-		LTMTopicMapReader reader = new LTMTopicMapReader(in, URILocator.create("test:tmloginmodule.ltm"));
-		return reader.read();
+      String topicmapFile = FileUtils.getTestInputFile(testdataDirectory, "tmloginmodule.ltm");
+      return ImportExportUtils.getReader(topicmapFile).read();
     } catch (java.io.IOException e) {
       throw new OntopiaRuntimeException(e);
     } 
