@@ -28,6 +28,9 @@
 		<module>ontopia-viz</module>
 		<module>ontopia-classify</module>
 		<module>ontopia-realm</module>
+		
+		<!-- Web Apps -->
+		<module>webapp-root</module>
 	</modules>
 	
 	<build>
