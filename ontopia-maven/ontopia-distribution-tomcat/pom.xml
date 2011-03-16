@@ -60,6 +60,12 @@
 			<artifactId>ontopia-tmrap</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>webapp-root</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
 	</dependencies>
 	
 	<profiles>

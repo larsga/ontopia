@@ -39,10 +39,19 @@
 		</fileSet>
 	</fileSets>
 
-	<!-- copy ontopia jars and dependencies to tomcat/lib/ontopia -->
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>apache-tomcat/lib/ontopia</outputDirectory>
+			<excludes>
+				<exclude>*:war:*</exclude>
+			</excludes>
+		</dependencySet>
+		
+		<!-- add ROOT webapp -->
+		<dependencySet>
+			<includes><include>net.ontopia.maven:webapp-root:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>ROOT.war</outputFileNameMapping>
 		</dependencySet>
 	</dependencySets>
 	
