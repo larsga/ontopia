@@ -31,6 +31,10 @@
 		
 		<!-- Web Apps -->
 		<module>webapp-root</module>
+		
+		<!-- Distribution -->
+		<module>ontopia-distribution-tomcat</module>
+		
 	</modules>
 	
 	<build>

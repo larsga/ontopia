@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>ontopia-dist</id>
+	
+	<formats>
+		<format>dir</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+	
+	<fileSets>
+		<!-- Move tomcat to the correct location -->
+		<fileSet>
+			<directory>target/apache-tomcat-6.0.32/apache-tomcat-6.0.32</directory>
+			<outputDirectory>apache-tomcat</outputDirectory>
+			<excludes>
+				<!-- exclude the default webapps -->
+				<exclude>webapps/**</exclude>
+				
+				<!-- exclude all runnable files, copied later with correct mods -->
+				<exclude>bin/*.sh</exclude>
+			</excludes>
+		</fileSet>
+		
+		<!-- chmod runnable files -->
+		<fileSet>
+			<directory>target/apache-tomcat-6.0.32/apache-tomcat-6.0.32/bin</directory>
+			<outputDirectory>apache-tomcat/bin</outputDirectory>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+		</fileSet>
+			
+		<!-- copy modified configuration to tomcat/conf -->
+		<fileSet>
+			<directory>src/main/assembly/resources/tomcat</directory>
+			<outputDirectory>apache-tomcat</outputDirectory>
+		</fileSet>
+	</fileSets>
+
+	<!-- copy ontopia jars and dependencies to tomcat/lib/ontopia -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>apache-tomcat/lib/ontopia</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+	
+</assembly>
