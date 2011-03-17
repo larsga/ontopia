@@ -482,9 +482,16 @@ public final class TagUtils {
           throw new OntopiaRuntimeException(ioe);
         }
         // pre-cat the real directory
-        String path = props.getProperty(Velocity.FILE_RESOURCE_LOADER_PATH, ".");
-        path = scontext.getRealPath(path);
-        props.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, path);
+        String path = props.getProperty(Velocity.FILE_RESOURCE_LOADER_PATH, null);
+        if (path != null) {
+          path = scontext.getRealPath(path);
+          props.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, path);
+        } else {
+          // no directory set, use default loader (classpath) for default templates
+          props.setProperty("resource.loader", "class");
+          props.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+          props.setProperty("class.resource.loader.cache", "true");
+        }
         try {
           vengine.init(props);
         } catch (Exception e) {
