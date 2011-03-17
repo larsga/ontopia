@@ -31,6 +31,7 @@
 		
 		<!-- Web Apps -->
 		<module>webapp-root</module>
+		<module>webapp-accessctl</module>
 		
 		<!-- Distribution -->
 		<module>ontopia-distribution-tomcat</module>

@@ -1,10 +1,14 @@
-//$Id: AccessctlRandomizedTester.java,v 1.2 2005/05/06 10:58:31 opland Exp $
+//$Id: AccessctlRandomizedTest.java,v 1.2 2005/05/06 10:58:31 opland Exp $
 
-package net.ontopia.topicmaps.nav2.webapps.accessctl.test;
+package net.ontopia.topicmaps.nav2.webapps.accessctl;
 
-import net.ontopia.topicmaps.webed.test.AbstractWebBasedTestCase;
+//import net.ontopia.topicmaps.webed.test.AbstractWebBasedTestCase;
 
-import com.meterware.httpunit.*;
+import com.meterware.httpunit.Button;
+import com.meterware.httpunit.HTMLElement;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebLink;
+import com.meterware.httpunit.WebResponse;
 import java.io.IOException;
 import java.util.Random;
 
@@ -13,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import net.ontopia.utils.StringUtils;
+import net.ontopia.topicmaps.webed.AbstractWebBasedTestCase;
+import org.junit.Test;
 
 /**
  * INTERNAL.
@@ -22,9 +28,9 @@ import net.ontopia.utils.StringUtils;
  * webpage, sometimes changing fields and checkboxes on those webpages.
  * Stops after visiting as many webpages as specified by VISIT_LIMIT.
  */
-public class AccessctlRandomizedTester extends AbstractWebBasedTestCase {
+public class AccessctlRandomizedTest extends AbstractWebBasedTestCase {
   // initialization of logging facility
-  private static Logger log = LoggerFactory.getLogger(AccessctlRandomizedTester.class.getName());
+  private static Logger log = LoggerFactory.getLogger(AccessctlRandomizedTest.class.getName());
 
   // The number of webpages visited so far.
   protected int visitCount;
@@ -41,12 +47,11 @@ public class AccessctlRandomizedTester extends AbstractWebBasedTestCase {
   
   private WebResponse resp;
 
-
   /**
    * Create a new tester.
    * @param aName
    */
-  public AccessctlRandomizedTester(String aName) {
+  public AccessctlRandomizedTest(String aName) {
     super(aName);
     visitCount = 0;
     random = new Random();
@@ -55,6 +60,13 @@ public class AccessctlRandomizedTester extends AbstractWebBasedTestCase {
     users = 0;
     userGroups = 0;
   }
+
+  protected void setUp() throws Exception {
+    super.setUp();
+    // different webapp default
+    webedTestApplication = System.getProperty("net.ontopia.webed.test.testApplicationPath", "/accessctl");
+    webedTestLocation = System.getProperty("net.ontopia.webed.test.testServerLocation", "http://127.0.0.1:8080") + webedTestApplication;
+  }
   
   /**
    * Moves from webpage to webpage, possibly filling modifying fields and
@@ -62,6 +74,7 @@ public class AccessctlRandomizedTester extends AbstractWebBasedTestCase {
    * @throws IOException
    * @throws SAXException
    */
+  @Test
   public void testAtRandom () throws IOException, SAXException {
     // Maintain old user group
     getPage("index.jsp");

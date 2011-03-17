@@ -1,4 +1,4 @@
-<%@ include file="../fragment/common-header.jsp" %>
+<%@ include file="fragment/common-header.jsp" %>
 
 <HTML>
 <HEAD>

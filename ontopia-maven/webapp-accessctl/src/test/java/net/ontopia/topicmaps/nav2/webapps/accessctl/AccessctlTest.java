@@ -1,11 +1,20 @@
 //$Id: AccessctlTest.java,v 1.7 2005/05/06 10:59:31 opland Exp $
 
-package net.ontopia.topicmaps.nav2.webapps.accessctl.test;
+package net.ontopia.topicmaps.nav2.webapps.accessctl;
 
-import net.ontopia.topicmaps.webed.test.AbstractWebBasedTestCase;
-
-import com.meterware.httpunit.*;
 import java.io.IOException;
+import com.meterware.httpunit.Button;
+import com.meterware.httpunit.HTMLElement;
+import com.meterware.httpunit.WebForm;
+import com.meterware.httpunit.WebLink;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebTable;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import net.ontopia.topicmaps.webed.AbstractWebBasedTestCase;
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
@@ -25,10 +34,18 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
   
   private WebResponse resp;
 
+  protected void setUp() throws Exception {
+    super.setUp();
+    // different webapp default
+    webedTestApplication = System.getProperty("net.ontopia.webed.test.testApplicationPath", "/accessctl");
+    webedTestLocation = System.getProperty("net.ontopia.webed.test.testServerLocation", "http://127.0.0.1:8080") + webedTestApplication;
+  }
+
   /**
    * Logs in and out.
    * @throws Exception
    */
+  @Test
   public void testLogin() throws Exception {
     
     getPage("index.jsp");
@@ -44,6 +61,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * Changes the password to "secret" (required by other test cases).
    * @throws Exception
    */
+  @Test
   public void testPasswordChange () throws Exception {
     getPage("index.jsp");
     
@@ -79,6 +97,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * it in collapsed and expanded form.
    * @throws Exception
    */
+  @Test
   public void testMain() throws Exception {
     getPage("index.jsp");
     clickOn("Click here to enter the Administrator Main Page.");
@@ -106,6 +125,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * Tests manipulation of user groups.
    * @throws Exception
    */
+  @Test
   public void testUserGroupChange () throws Exception {
     // Maintain old user group
     getPage("index.jsp");
@@ -168,6 +188,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * Tests the use of checkboxes.
    * @throws Exception
    */
+  @Test
   public void testPrivilegeCheckBox() throws Exception {
     getPage("index.jsp");
     clickOn("Click here to enter the Administrator Main Page.");
@@ -205,6 +226,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * Tests manipulation of users.
    * @throws Exception
    */
+  @Test
   public void testUserChange () throws Exception {
     getPage("index.jsp");
     clickOn("Click here to enter the Administrator Main Page.");
@@ -274,6 +296,7 @@ public class AccessctlTest extends AbstractWebBasedTestCase {
    * Test manipulation of privileges.
    * @throws Exception
    */
+  @Test
   public void testPrivilegeChange () throws Exception {
     getPage("index.jsp");
     clickOn("Click here to enter the Administrator Main Page.");
