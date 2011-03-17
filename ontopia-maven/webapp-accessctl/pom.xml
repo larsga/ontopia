@@ -41,14 +41,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>net.ontopia.maven</groupId>
-			<artifactId>ontopia-webed</artifactId>
-			<version>${project.parent.version}</version>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
@@ -59,13 +51,40 @@
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>httpunit</groupId>
 			<artifactId>httpunit</artifactId>
 			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.ontopia.maven</groupId>
+			<artifactId>ontopia-webed</artifactId>
+			<version>${project.parent.version}</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
+
+	<profiles>
+		<!-- generate a skinny war for the distribution -->
+		<profile>
+			<id>ontopia-distribution-tomcat</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<finalName>accessctl</finalName>
