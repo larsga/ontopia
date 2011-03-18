@@ -19,6 +19,17 @@
 				
 				<!-- exclude all runnable files, copied later with correct mods -->
 				<exclude>bin/*.sh</exclude>
+				
+				<!-- exclude catalina.bat and setclasspath.bat, is replaced later -->
+				<exclude>bin/catalina.bat</exclude>
+				<exclude>bin/setclasspath.bat</exclude>
+				
+				<!-- exclude server.xml, catalina.properties -->
+				<!--
+					Disabled because this is a tomcat 5 
+					<exclude>conf/server.xml</exclude>
+				-->
+				<exclude>conf/catalina.properties</exclude>
 			</excludes>
 		</fileSet>
 		
@@ -30,6 +41,11 @@
 			<includes>
 				<include>*.sh</include>
 			</includes>
+			
+			<!-- except catalina.sh, is replaced later -->
+			<excludes>
+				<exclude>catalina.sh</exclude>
+			</excludes>
 		</fileSet>
 			
 		<!-- copy modified configuration to tomcat/conf -->
