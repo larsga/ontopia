@@ -124,13 +124,13 @@
 							<daemon>true</daemon>
 						</configuration>
 					</execution>
-					<!--execution>
+					<execution>
 						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
+						<phase>test</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
-					</execution-->
+					</execution>
 				</executions>
 			</plugin>
 
