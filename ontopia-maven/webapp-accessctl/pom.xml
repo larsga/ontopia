@@ -43,15 +43,16 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
+			<version>1.2</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>httpunit</groupId>
 			<artifactId>httpunit</artifactId>
@@ -77,6 +78,7 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1.1</version>
 						<configuration>
 							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
 						</configuration>
@@ -116,16 +118,10 @@
 					<useTestClasspath>true</useTestClasspath>
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
-					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
 					<userRealms>
 						<userRealm implementation="org.mortbay.jetty.security.HashUserRealm">
 							<name>Form-Based Authenticiation Area</name>
-							<config>src/test/resources/realm.properties</config>
+							<config>${basedir}/src/test/resources/realm.properties</config>
 						</userRealm>
 					</userRealms>
 				</configuration>
