@@ -60,11 +60,26 @@
 			<artifactId>ontopia-tmrap</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		
+		<!-- Webapps -->
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>webapp-root</artifactId>
 			<version>${project.parent.version}</version>
 			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>webapp-accessctl</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+		
+		<!-- Webapp dependencies -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
 	

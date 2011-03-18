@@ -69,6 +69,13 @@
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>ROOT.war</outputFileNameMapping>
 		</dependencySet>
+		
+		<!-- add accessctl webapp -->
+		<dependencySet>
+			<includes><include>net.ontopia.maven:webapp-accessctl:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>accessctl.war</outputFileNameMapping>
+		</dependencySet>
 	</dependencySets>
 	
 </assembly>
