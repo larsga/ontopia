@@ -65,16 +65,23 @@
 		
 		<!-- add ROOT webapp -->
 		<dependencySet>
-			<includes><include>net.ontopia.maven:webapp-root:war</include></includes>
+			<includes><include>*:webapp-root:war</include></includes>
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>ROOT.war</outputFileNameMapping>
 		</dependencySet>
 		
 		<!-- add accessctl webapp -->
 		<dependencySet>
-			<includes><include>net.ontopia.maven:webapp-accessctl:war</include></includes>
+			<includes><include>*:webapp-accessctl:war</include></includes>
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>accessctl.war</outputFileNameMapping>
+		</dependencySet>
+		
+		<!-- add xmltools webapp -->
+		<dependencySet>
+			<includes><include>*:webapp-xmltools:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>xmltools.war</outputFileNameMapping>
 		</dependencySet>
 	</dependencySets>
 	
