@@ -24,14 +24,14 @@
 <logic:set name="successor">
   <tm:lookup indicator="http://psi.ontopia.net/i18n/#successor"/></logic:set>
 
-<output:treediagram
+<%-- output:treediagram
   src          = "pngtree.jsp"
   assoctype    = "derived-from"
   parentrole   = "predecessor"
   childrole    = "successor"
   current      = "script"
   description  = "Family tree"
-  linktemplate = "script.jsp?id=%id%"/>
+  linktemplate = "script.jsp?id=%id%"/ --%> <%-- commented by PK because net.ontopia.topicmaps.nav2.taglibs.output.TreeDiagramTag does not exist --%>
 
 </template:put>
 

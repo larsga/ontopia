@@ -12,7 +12,7 @@
 
 <%!
   private TopicIF getTopicById(TopicMapIF topicmap, String id) {
-    TopicMapStoreIF store = topicmap.getTransaction().getStore();
+    TopicMapStoreIF store = topicmap.getStore();
     LocatorIF loc = store.getBaseAddress().resolveAbsolute("#" + id);
     return (TopicIF) topicmap.getObjectByItemIdentifier(loc);
   }
