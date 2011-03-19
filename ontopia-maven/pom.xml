@@ -32,6 +32,7 @@
 		<!-- Web Apps -->
 		<module>webapp-root</module>
 		<module>webapp-accessctl</module>
+		<module>webapp-omnigator</module>
 		<module>webapp-xmltools</module>
 		
 		<!-- Distribution -->
