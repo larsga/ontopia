@@ -118,6 +118,13 @@
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>ontopoly.war</outputFileNameMapping>
 		</dependencySet>
+		
+		<!-- add manage -->
+		<dependencySet>
+			<includes><include>*:webapp-manager:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>manage.war</outputFileNameMapping>
+		</dependencySet>
 	</dependencySets>
 	
 </assembly>

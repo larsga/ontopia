@@ -94,6 +94,12 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>webapp-manager</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>webapp-i18n</artifactId>
 			<version>${project.parent.version}</version>
 			<type>war</type>
