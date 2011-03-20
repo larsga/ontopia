@@ -33,8 +33,9 @@
 		<module>webapp-root</module>
 		<module>webapp-accessctl</module>
 		<module>webapp-i18n</module>
-		<module>webapp-omnigator</module>
 		<module>webapp-xmltools</module>
+		<module>webapp-omnigator</module>
+		<module>webapp-ontopoly</module>
 		
 		<!-- Distribution -->
 		<module>ontopia-distribution-tomcat</module>

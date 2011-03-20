@@ -7,7 +7,7 @@ import ontopoly.model.TopicMap;
 
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapWriterIF;
-import net.ontopia.topicmaps.nav.utils.deciders.TMExporterDecider;
+import net.ontopia.topicmaps.utils.deciders.TMExporterDecider;
 import net.ontopia.topicmaps.utils.ltm.LTMTopicMapWriter;
 import net.ontopia.topicmaps.utils.rdf.RDFTopicMapWriter;
 import net.ontopia.topicmaps.xml.TMXMLWriter;
