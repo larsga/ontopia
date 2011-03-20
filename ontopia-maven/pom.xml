@@ -34,6 +34,7 @@
 		<module>webapp-accessctl</module>
 		<module>webapp-i18n</module>
 		<module>webapp-xmltools</module>
+		<module>webapp-manage</module>
 		<module>webapp-omnigator</module>
 		<module>webapp-ontopoly</module>
 		

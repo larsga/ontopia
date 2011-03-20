@@ -1,4 +1,4 @@
-<%@ page import="java.io.PrintWriter,net.ontopia.products.license.LicenseInfo" %>
+<%@ page import="java.io.PrintWriter" %>
 <html>
 <head>
 <title>License Information</title>
@@ -13,7 +13,7 @@
 <%
   PrintWriter pw = new PrintWriter(out);
   boolean displayKey = false;
-  LicenseInfo.checkLicenseKey(pw, displayKey); 
+  //LicenseInfo.checkLicenseKey(pw, displayKey); 
   pw.flush();
 %>
 </pre>

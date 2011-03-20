@@ -18,8 +18,8 @@ if (rp_id != null) {
   ContextTag ctag = FrameworkUtils.getContextTag(request);
   TopicMapStoreIF store = ctag.getTopicMap().getStore();
   if (store instanceof RDBMSTopicMapStore) {
-    TransactionIF txn = ((RDBMSTopicMapTransaction)store.getTransaction()).getTransaction();
-    StorageCacheIF scache = txn.getStorageAccess().getStorage().getSharedCache();
+    TransactionIF txn = ((RDBMSTopicMapTransaction)((RDBMSTopicMapStore)store).getTransaction()).getTransaction();
+    StorageCacheIF scache = txn.getStorageAccess().getStorage().getStorageCache();
     if (scache != null) {
       IdentityIF identity = null;
       long numid = Long.parseLong(rp_id.substring(1), 10);
@@ -41,12 +41,6 @@ if (rp_id != null) {
         break;
       case 'R':
         identity = txn.getAccessRegistrar().createIdentity(AssociationRole.class, numid);
-        break;
-      case 'F':
-        identity = txn.getAccessRegistrar().createIdentity(Facet.class, numid);
-        break;
-      case 'V':
-        identity = txn.getAccessRegistrar().createIdentity(FacetValue.class, numid);
         break;
       case 'M':
         identity = txn.getAccessRegistrar().createIdentity(TopicMap.class, numid);
