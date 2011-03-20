@@ -41,6 +41,15 @@
 		
 	</modules>
 	
+	<properties>
+		<!-- CXTM test case revisions -->
+		<xtm2.revision>32</xtm2.revision>
+		<xtm21.revision>88</xtm21.revision>
+		<ctm.revision>85</ctm.revision>
+		<jtm.revision>46</jtm.revision>
+		<tmxml.revision>68</tmxml.revision>
+	</properties>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
