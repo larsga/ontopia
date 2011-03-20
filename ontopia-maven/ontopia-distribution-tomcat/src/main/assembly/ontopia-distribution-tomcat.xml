@@ -111,6 +111,13 @@
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>omnigator.war</outputFileNameMapping>
 		</dependencySet>
+		
+		<!-- add ontopoly -->
+		<dependencySet>
+			<includes><include>*:webapp-ontopoly:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>ontopoly.war</outputFileNameMapping>
+		</dependencySet>
 	</dependencySets>
 	
 </assembly>
