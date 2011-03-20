@@ -48,10 +48,24 @@
 			</excludes>
 		</fileSet>
 			
-		<!-- copy modified configuration to tomcat/conf -->
+		<!-- copy modified configuration to distribution -->
 		<fileSet>
-			<directory>src/main/assembly/resources/tomcat</directory>
-			<outputDirectory>apache-tomcat</outputDirectory>
+			<directory>src/main/assembly/resources/</directory>
+			<outputDirectory>.</outputDirectory>
+			<fileMode>0644</fileMode>
+			<excludes>
+				<exclude>apache-tomcat/bin/*.sh</exclude>
+			</excludes>
+		</fileSet>
+		
+		<!-- copy modified startup items to distribution -->
+		<fileSet>
+			<directory>src/main/assembly/resources/apache-tomcat/bin/</directory>
+			<outputDirectory>apache-tomcat/bin</outputDirectory>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>*.sh</include>
+			</includes>
 		</fileSet>
 	</fileSets>
 
