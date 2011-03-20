@@ -97,6 +97,20 @@
 			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
 			<outputFileNameMapping>xmltools.war</outputFileNameMapping>
 		</dependencySet>
+		
+		<!-- add i18n webapp -->
+		<dependencySet>
+			<includes><include>*:webapp-i18n:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>i18n.war</outputFileNameMapping>
+		</dependencySet>
+		
+		<!-- add omnigator -->
+		<dependencySet>
+			<includes><include>*:webapp-omnigator:war</include></includes>
+			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
+			<outputFileNameMapping>omnigator.war</outputFileNameMapping>
+		</dependencySet>
 	</dependencySets>
 	
 </assembly>
