@@ -117,8 +117,10 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1.1</version>
 						<configuration>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+							<packagingIncludes>examples/*.jsp,WEB-INF/web.xml,WEB-INF/config/**,WEB-INF/lib/wicket*.jar,WEB-INF/classes/**</packagingIncludes>
+							<!--packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes-->
 						</configuration>
 					</plugin>
 				</plugins>
