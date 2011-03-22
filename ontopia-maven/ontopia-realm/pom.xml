@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<artifactId>ontopia-parent</artifactId>
@@ -8,18 +8,18 @@
 		<version>5.2.0-SNAPSHOT</version>
 	</parent>
 
-  <artifactId>ontopia-realm</artifactId>
-  <packaging>jar</packaging>
+	<artifactId>ontopia-realm</artifactId>
+	<packaging>jar</packaging>
   
-  <name>Ontopia Realm</name>
+	<name>Ontopia Realm</name>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>ontopia-navigator</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontopia-navigator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>
 
