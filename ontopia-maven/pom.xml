@@ -346,5 +346,10 @@
 			<name>TMAPI.org repository</name>
 			<url>http://www.tmapi.org/maven-repository</url>
 		</repository>
+		<repository>
+			<id>JBoss</id>
+			<name>JBoss repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+		</repository>
 	</repositories>
 </project>
