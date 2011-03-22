@@ -10,15 +10,14 @@
 
 	<artifactId>cxtm-tests</artifactId>
 	<packaging>jar</packaging>
+	
 	<name>CXTM tests</name>
 	<description>CXTM tests.</description>
 	
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
 				<executions>
 					<execution>
 						<phase>compile</phase>
@@ -39,7 +38,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			
 		</plugins>
 	</build>
 	
