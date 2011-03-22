@@ -211,6 +211,11 @@
 				<artifactId>opencsv</artifactId>
 				<version>1.8</version>
 			</dependency>
+			<dependency>
+				<groupId>com.touchgraph</groupId>
+				<artifactId>touchgraph</artifactId>
+				<version>unknown</version>
+			</dependency>
 			
 			<!-- provided dependencies -->
 			<dependency>
