@@ -10,6 +10,7 @@
 
 	<artifactId>ontopia-db2tm</artifactId>
 	<packaging>jar</packaging>
+	
 	<name>Ontopia DB2TM</name>
 	<description>Ontopia DB2TM.</description>
 
@@ -27,27 +28,19 @@
 		<dependency>
 			<groupId>net.sf.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
-			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>8.2-507.jdbc3</version>
-			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 </project>
