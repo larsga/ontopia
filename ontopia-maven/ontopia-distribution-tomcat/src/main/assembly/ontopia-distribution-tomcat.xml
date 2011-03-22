@@ -55,7 +55,16 @@
 			<fileMode>0644</fileMode>
 			<excludes>
 				<exclude>apache-tomcat/bin/*.sh</exclude>
+				<exclude>bin/**</exclude>
 			</excludes>
+		</fileSet>
+		
+		<!-- copy vizdesktop files -->
+		<fileSet>
+			<directory>src/main/assembly/resources/bin</directory>
+			<outputDirectory>bin</outputDirectory>
+			<fileMode>0755</fileMode>
+			<filtered>true</filtered>
 		</fileSet>
 		
 		<!-- copy modified startup items to distribution -->
