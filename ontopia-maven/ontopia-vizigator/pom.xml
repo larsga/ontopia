@@ -8,7 +8,7 @@
 		<version>5.2.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>ontopia-viz</artifactId>
+	<artifactId>ontopia-vizigator</artifactId>
 	<packaging>jar</packaging>
 	
 	<name>Ontopia Vizigator</name>

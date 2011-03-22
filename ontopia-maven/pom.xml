@@ -25,7 +25,7 @@
 		<module>ontopia-contentstore</module>
 		<module>ontopia-db2tm</module>
 		<module>ontopia-tmrap</module>
-		<module>ontopia-viz</module>
+		<module>ontopia-vizigator</module>
 		<module>ontopia-classify</module>
 		<module>ontopia-realm</module>
 		
