@@ -10,9 +10,9 @@
 
 	<artifactId>ontopia-contentstore</artifactId>
 	<packaging>jar</packaging>
+	
 	<name>Ontopia Content Store</name>
 	<description>Ontopia Content Store.</description>
-	<url>http://todo</url>
 
 	<dependencies>
 		<dependency>
@@ -28,14 +28,10 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.2</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
