@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="copy-shared-docbook-resources">
+
+	<target name="main">
+		<!-- default documentation directory is final part of project artifactId -->
+		<!-- e.g. ontopia-webed -> webed, webapp-ontopoly -> ontopoly -->
+		<!-- this can be overwritten by providing a comma separated property 'documentation.directories' -->
+		<propertyregex property="documentation.directories" input="${project.artifactId}"
+			regexp="([^\.]*)-([^\.]*)" select="\2" override="false"/>
+		<foreach list="${documentation.directories}" param="documentation.directory" target="copy-resources" inheritall="true"/>
+	</target>
+
+	<!-- copy all shared resources -->
+	<target name="copy-resources">
+		<copy todir="target/site/docbook/${documentation.directory}">
+			<fileset dir="../src/docbook/resources"/>
+		</copy>
+	</target>
+
+</project>
