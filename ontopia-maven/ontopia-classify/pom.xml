@@ -67,4 +67,13 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>docbook-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

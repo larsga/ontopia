@@ -82,6 +82,15 @@
 					<version>2.2</version>
 				</plugin>
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>docbook-maven-plugin</artifactId>
+					<version>1.0.0-alpha-1</version>
+					<configuration>
+						 <!-- file part of path is skipped, only directory part is used and 'xhtml/docbook.xsl' is appended -->
+						<stylesheetLocation>${project.parent.basedir}/src/docbook/stylesheets/docbook2html.xslt</stylesheetLocation>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>de.jflex</groupId>
 					<artifactId>maven-jflex-plugin</artifactId>
 					<version>1.4.3</version>
