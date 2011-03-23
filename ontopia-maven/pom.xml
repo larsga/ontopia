@@ -178,6 +178,11 @@
 						<groupId>xerces</groupId>
 						<artifactId>xercesImpl</artifactId>
 					</exclusion>
+					<exclusion>
+						<!-- subdependency stax has compile dependency to junit -->
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>
