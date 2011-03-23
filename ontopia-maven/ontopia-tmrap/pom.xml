@@ -49,9 +49,7 @@
 						<configuration>
 							<target>
 								<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
-								<ant antfile="../src/docbook/ant/build.xml">
-									<target name="main"/>
-								</ant>
+								<ant antfile="../src/docbook/ant/build.xml" target="main"/>
 							</target>
 						</configuration>
 					</execution>
