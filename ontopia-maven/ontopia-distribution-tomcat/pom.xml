@@ -109,12 +109,10 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
 		</dependency>
 	</dependencies>
 	
@@ -134,7 +132,6 @@
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.0.6</version>
 						<configuration>
 							<container>
 								<containerId>tomcat6x</containerId>
@@ -158,17 +155,10 @@
 					<!-- run assembly on package, after tomcat getter -->
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>2.2.1</version>
 						<executions>
 							<execution>
 								<id>distro-assembly</id>
-								<phase>package</phase>
-								<goals>
-									<goal>single</goal>
-								</goals>
 								<configuration>
-									<appendAssemblyId>false</appendAssemblyId>
-									<attach>false</attach>
 									<descriptors>
 										<descriptor>src/main/assembly/ontopia-distribution-tomcat.xml</descriptor>
 									</descriptors>
@@ -180,7 +170,6 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.2</version>
 						<executions>
 							<execution>
 								<id>generate-rdbms-schema-generic</id>
