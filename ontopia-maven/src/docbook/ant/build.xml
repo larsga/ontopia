@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <project name="copy-shared-docbook-resources">
 
+	<!-- adds the ant-contrib tasks (propertyregex and foreach used below) -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
 	<target name="main">
 		<!-- default documentation directory is final part of project artifactId -->
 		<!-- e.g. ontopia-webed -> webed, webapp-ontopoly -> ontopoly -->

@@ -214,7 +214,6 @@
 						<id>copy-shared-docbook-resources</id>
 						<configuration>
 							<target>
-								<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
 								<property name="documentation.directories" value=".,engine,misc,query,rdbms,schema"/>
 								<ant antfile="../src/docbook/ant/build.xml" target="main"/>
 							</target>
