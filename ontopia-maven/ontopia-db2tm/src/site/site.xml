@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- rest is inherited from parent -->
+	<body>
+		<menu ref="parent"/>
+		
+		<menu name="Ontopia DB2TM Documentation">
+			<item name="DB2TM, User's Guide" href="docbook/db2tm/user-guide.html"/>
+		</menu>
+		
+		<menu ref="reports"/>
+	</body>
+</project>
