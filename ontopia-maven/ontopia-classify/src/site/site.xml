@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- rest is inherited from parent -->
+	<body>
+		<menu ref="parent"/>
+		
+		<menu name="Ontopia Automated Classification">
+			<item name="Developer's Guide" href="docbook/classify/dev-guide.html"/>
+		</menu>
+		
+		<menu ref="reports"/>
+	</body>
+</project>
