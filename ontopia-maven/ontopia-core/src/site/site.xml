@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- rest is inherited from parent -->
+	<body>
+		<menu ref="parent"/>
+		
+		<menu name="Ontopia Core Documentation">
+			<item name="General">
+				<item name="What's new in this release?" href="docbook/whatsnew.html"/>
+				<item name="Installation and getting started" href="docbook/install.html"/>
+				<item name="License" href="docbook/license.txt"/>
+				<item name="Third-party license information" href="docbook/copyrights.txt"/>
+			</item>
+			<item name="Engine-specific documents">
+				<item name="The Ontopia Topic Maps Engine, Developer's Guide" href="docbook/engine/devguide.html"/>
+			</item>
+			<item name="RDBMS Backend Connector">
+				<item name="The Ontopia RDBMS Backend Connector, Installation Guide" href="docbook/rdbms/install.html"/>
+				<item name="The Ontopia RDBMS Backend Connector, Developer's Guide" href="docbook/rdbms/devguide.html"/>
+			</item>
+			<item name="Query language">
+				<item name="tolog — Tutorial" href="docbook/query/tutorial.html"/>
+				<item name="tolog — Predicate Reference" href="docbook/query/predicate-reference.html"/>
+			</item>
+			<item name="Schema language">
+				<item name="The Ontopia Schema Language, Tutorial" href="docbook/schema/tutorial.html"/>
+				<item name="The Ontopia Schema Language, Reference Guide" href="docbook/schema/spec.html"/>
+			</item>
+			<item name="Technology notes">
+				<item name="The Linear Topic Map Notation, Definition and introduction, version 1.3" href="docbook/misc/ltm.html"/>
+				<item name="The RTM RDF to topic maps mapping, Definition and introduction" href="docbook/misc/rdf2tm.html"/>
+			</item>
+		</menu>
+		
+		<menu ref="reports"/>
+	</body>
+</project>
