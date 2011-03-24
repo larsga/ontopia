@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- rest is inherited from parent -->
+	<body>
+		<menu ref="parent"/>
+		
+		<menu name="Ontopia Navigator Framework">
+			<item name="Configuration Guide" href="docbook/navigator/config.html"/>
+			<item name="Developer's Guide" href="docbook/navigator/navguide.html"/>
+			<item name="Tag Library Reference" href="docbook/navigator/tolog-taglib.html"/>
+			<item name="User Management Guide" href="docbook/navigator/userman.html"/>
+		</menu>
+		
+		<menu ref="reports"/>
+	</body>
+</project>
