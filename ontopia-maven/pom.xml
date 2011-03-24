@@ -73,6 +73,10 @@
 					</dependencies>
 					<executions>
 						<execution>
+							<phase>site</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
 							<id>copy-shared-docbook-resources</id>
 						</execution>
 					</executions>
@@ -107,6 +111,9 @@
 						 <!-- file part of path is skipped, only directory part is used and 'xhtml/docbook.xsl' is appended -->
 						<stylesheetLocation>${project.parent.basedir}/src/docbook/stylesheets/docbook2html.xslt</stylesheetLocation>
 					</configuration>
+					<executions>
+						<execution><phase>site</phase><goals><goal>transform</goal></goals></execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>de.jflex</groupId>
@@ -394,7 +401,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	
 	<repositories>
 		<repository>
 			<id>Ontopia</id>
