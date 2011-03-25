@@ -1,3 +1,0 @@
-CXTM Tests module
-
-  The CXTM Tests module provides Ontopia with test files for the XTM2, XTM2.1, CTM, JTM and TM/XML test cases in {{{../ontopia-core}Ontopia Core}}. These test files are collected from the {{{http://sourceforge.net/projects/cxtm-tests/}cxtm project}}.
