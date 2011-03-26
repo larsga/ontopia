@@ -55,25 +55,21 @@
 			<fileMode>0644</fileMode>
 			<excludes>
 				<exclude>apache-tomcat/bin/*.sh</exclude>
-				<exclude>bin/**</exclude>
+				<exclude>bin/*.sh</exclude>
+				<exclude>tests/*.sh</exclude>
 			</excludes>
 		</fileSet>
 		
-		<!-- copy vizdesktop files -->
+		<!-- copy executable files -->
 		<fileSet>
-			<directory>src/main/assembly/resources/bin</directory>
-			<outputDirectory>bin</outputDirectory>
+			<directory>src/main/assembly/resources</directory>
+			<outputDirectory>.</outputDirectory>
 			<fileMode>0755</fileMode>
 			<filtered>true</filtered>
-		</fileSet>
-				
-		<!-- copy modified startup items to distribution -->
-		<fileSet>
-			<directory>src/main/assembly/resources/apache-tomcat/bin/</directory>
-			<outputDirectory>apache-tomcat/bin</outputDirectory>
-			<fileMode>0755</fileMode>
 			<includes>
-				<include>*.sh</include>
+				<include>apache-tomcat/bin/*.sh</include>
+				<include>bin/*.sh</include>
+				<include>tests/*.sh</include>
 			</includes>
 		</fileSet>
 	</fileSets>
