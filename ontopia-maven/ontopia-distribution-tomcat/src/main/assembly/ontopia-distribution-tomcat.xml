@@ -176,5 +176,20 @@
 			</unpackOptions>
 		</dependencySet>
 	</dependencySets>
+
+	<moduleSets>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<binaries>
+				<attachmentClassifier>tests</attachmentClassifier>
+				<outputDirectory>tests/lib</outputDirectory>
+				<includes>
+					<include>**/target/*-tests.jar</include>
+				</includes>
+				<includeDependencies>false</includeDependencies>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
 	
 </assembly>
