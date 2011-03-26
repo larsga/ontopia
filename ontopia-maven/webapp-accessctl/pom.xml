@@ -32,23 +32,6 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<!-- generate a skinny war for the distribution -->
-		<profile>
-			<id>ontopia-distribution-tomcat</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<build>
 		<finalName>accessctl</finalName>
 		<plugins>

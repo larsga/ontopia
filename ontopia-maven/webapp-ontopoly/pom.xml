@@ -111,21 +111,6 @@
 	</build>
 
 	<profiles>
-		<!-- generate a skinny war for the distribution -->
-		<profile>
-			<id>ontopia-distribution-tomcat</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<packagingIncludes>examples/*.jsp,WEB-INF/web.xml,WEB-INF/config/**,WEB-INF/lib/wicket*.jar,WEB-INF/classes/**</packagingIncludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		
 		<profile>
 			<id>selenium</id>
 			<activation>

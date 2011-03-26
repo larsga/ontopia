@@ -66,7 +66,7 @@
 			<fileMode>0755</fileMode>
 			<filtered>true</filtered>
 		</fileSet>
-		
+				
 		<!-- copy modified startup items to distribution -->
 		<fileSet>
 			<directory>src/main/assembly/resources/apache-tomcat/bin/</directory>
@@ -95,50 +95,89 @@
 		<!-- add ROOT webapp -->
 		<dependencySet>
 			<includes><include>*:webapp-root:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>ROOT.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/ROOT</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add accessctl webapp -->
 		<dependencySet>
 			<includes><include>*:webapp-accessctl:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>accessctl.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/accessctl</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add xmltools webapp -->
 		<dependencySet>
 			<includes><include>*:webapp-xmltools:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>xmltools.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/xtmltools</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add i18n webapp -->
 		<dependencySet>
 			<includes><include>*:webapp-i18n:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>i18n.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/i18n</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add omnigator -->
 		<dependencySet>
 			<includes><include>*:webapp-omnigator:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>omnigator.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/omnigator</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add ontopoly -->
 		<dependencySet>
 			<includes><include>*:webapp-ontopoly:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>ontopoly.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/ontopoly</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<includes>
+					<include>examples/*.jsp</include>
+					<include>WEB-INF/web.xml</include>
+					<include>WEB-INF/config/**</include>
+					<include>WEB-INF/lib/wicket*.jar</include>
+					<include>WEB-INF/classes/**</include>
+				</includes>
+			</unpackOptions>
 		</dependencySet>
 		
 		<!-- add manage -->
 		<dependencySet>
 			<includes><include>*:webapp-manager:war</include></includes>
-			<outputDirectory>apache-tomcat/webapps/</outputDirectory>
-			<outputFileNameMapping>manage.war</outputFileNameMapping>
+			<outputDirectory>apache-tomcat/webapps/manage</outputDirectory>
+			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			</unpackOptions>
 		</dependencySet>
 	</dependencySets>
 	
