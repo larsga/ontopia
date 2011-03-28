@@ -23,7 +23,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class MergeToXTMTestCase {
     
-  private final static String testdataDirectory = "merge-to-xtm";
+  private final static String testdataDirectory = "merge";
 
   @Parameters
   public static List generateTests() {
