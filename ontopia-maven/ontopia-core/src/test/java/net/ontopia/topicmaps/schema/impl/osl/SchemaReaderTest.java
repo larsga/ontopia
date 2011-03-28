@@ -40,7 +40,7 @@ public class SchemaReaderTest extends AbstractSchemaTestCase {
            !schema.isStrict());
   }
 
-  @Test
+  @Test(expected=SchemaSyntaxException.class)
   public void testDoctype() throws IOException, SchemaSyntaxException {
     OSLSchema schema = (OSLSchema) readSchema("in", "doctype.xml");
 
