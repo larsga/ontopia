@@ -44,6 +44,7 @@
 				<groupId>org.apache.axis2</groupId>
 				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
 				<configuration>
+					<wsdlFile>${basedir}/src/main/axis2/service.wsdl</wsdlFile>
 					<packageName>net.ontopia.topicmaps.utils.tmrap.axis2</packageName>
 					<generateServerSide>true</generateServerSide>
 					<generateServerSideInterface>true</generateServerSideInterface>
