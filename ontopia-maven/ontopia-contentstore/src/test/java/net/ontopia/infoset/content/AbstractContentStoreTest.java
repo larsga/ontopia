@@ -8,7 +8,9 @@ import java.util.*;
 import net.ontopia.utils.StreamUtils;
 import net.ontopia.utils.StringUtils;
 import junit.framework.TestCase;
+import org.junit.Ignore;
 
+@Ignore
 public abstract class AbstractContentStoreTest extends TestCase {
   protected ContentStoreIF store;
   
