@@ -72,9 +72,6 @@
 									tofile="${project.build.outputDirectory}/META-INF/webed-form.tld"/>
 							</target>
 						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
