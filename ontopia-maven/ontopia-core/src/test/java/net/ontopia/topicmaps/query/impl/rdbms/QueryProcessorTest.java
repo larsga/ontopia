@@ -36,7 +36,7 @@ public class QueryProcessorTest
     if (importer instanceof XTMTopicMapReader)
       ((XTMTopicMapReader) importer).setValidation(false);
     importer.importInto(topicmap);
-
+	
     // NOTE: Query processor must have base set, because of the way
     // the test suite looks up source locators.
     //! processor = new QueryProcessor(topicmap, base);
@@ -49,7 +49,8 @@ public class QueryProcessorTest
       topicmap = store.getTopicMap();
       builder = topicmap.getBuilder();
       //! processor = new QueryProcessor(topicmap);
-      processor = QueryUtils.createQueryProcessor(topicmap);
+      String filename = FileUtils.getTestInputFile(testdataDirectory, "");
+      processor = QueryUtils.createQueryProcessor(topicmap, URIUtils.getURI(filename));
     } catch (Exception e) {
       throw new OntopiaRuntimeException(e);
     }
