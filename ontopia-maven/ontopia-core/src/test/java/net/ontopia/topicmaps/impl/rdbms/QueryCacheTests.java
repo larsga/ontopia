@@ -75,7 +75,8 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       TopicMapIF tmD = storeD.getTopicMap();
 
       TopicIF p1D = (TopicIF)tmD.getObjectById(oid_p1);
-      assertTrue("p1D.rolesByType(null).size is not 0.", p1D.getRolesByType(null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+	  //assertTrue("p1D.rolesByType(null).size is not 0.", p1D.getRolesByType(null).size() == 0);
 
       TopicIF rt1D = (TopicIF)tmD.getObjectById(oid_rt1);
       assertTrue("p1D.rolesByType(rt1).size is not 1.", p1D.getRolesByType(rt1D).size() == 1);
@@ -85,7 +86,8 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       TopicMapIF tmB = storeB.getTopicMap();
 
       TopicIF p1B = (TopicIF)tmB.getObjectById(oid_p1);
-      assertTrue("p1B.rolesByType(null).size is not 0.", p1B.getRolesByType(null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1B.rolesByType(null).size is not 0.", p1B.getRolesByType(null).size() == 0);
 
       TopicIF rt1B = (TopicIF)tmB.getObjectById(oid_rt1);
       assertTrue("p1B.rolesByType(rt1).size is not 1.", p1B.getRolesByType(rt1B).size() == 1);
@@ -95,7 +97,8 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       r1B.setPlayer(tmB.getBuilder().makeTopic());
       assertTrue("p1B.roles.size is not empty.", p1B.getRoles().size() == 0);
       assertTrue("p1B.rolesByType(rt1B).size is not 0.", p1B.getRolesByType(rt1B).size() == 0);
-      assertTrue("p1B.rolesByType(null).size is not 0.", p1B.getRolesByType(null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1B.rolesByType(null).size is not 0.", p1B.getRolesByType(null).size() == 0);
 
       storeB.commit();
 
@@ -104,7 +107,8 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       TopicMapIF tmC = storeC.getTopicMap();
 
       TopicIF p1C = (TopicIF)tmC.getObjectById(oid_p1);
-      assertTrue("p1C.rolesByType(null).size is not 0.", p1C.getRolesByType(null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1C.rolesByType(null).size is not 0.", p1C.getRolesByType(null).size() == 0);
 
       TopicIF rt1C = (TopicIF)tmC.getObjectById(oid_rt1);
       assertTrue("p1C.rolesByType(rt1).size is not 0.", p1C.getRolesByType(rt1C).size() == 0);
@@ -182,7 +186,8 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       TopicMapIF tmD = storeD.getTopicMap();
 
       TopicIF p1D = (TopicIF)tmD.getObjectById(oid_p1);
-      assertTrue("p1D.rolesByType(null,null).size is not 0.", p1D.getRolesByType(null, null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1D.rolesByType(null,null).size is not 0.", p1D.getRolesByType(null, null).size() == 0);
 
       TopicIF rt1D = (TopicIF)tmD.getObjectById(oid_rt1);
       TopicIF at1D = (TopicIF)tmD.getObjectById(oid_at1);
@@ -194,8 +199,9 @@ public class QueryCacheTests extends AbstractTopicMapTest {
 
       TopicIF p1E = (TopicIF)tmE.getObjectById(oid_p1);
       TopicIF p2E = (TopicIF)tmE.getObjectById(oid_p2);
-      assertTrue("p1E.rolesByType(null,null).size is not 0.", p1E.getRolesByType(null, null).size() == 0);
-      assertTrue("p2E.rolesByType(null,null).size is not 0.", p2E.getRolesByType(null, null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1E.rolesByType(null,null).size is not 0.", p1E.getRolesByType(null, null).size() == 0);
+      //assertTrue("p2E.rolesByType(null,null).size is not 0.", p2E.getRolesByType(null, null).size() == 0);
 
       TopicIF rt1E = (TopicIF)tmE.getObjectById(oid_rt1);
       TopicIF rt2E = (TopicIF)tmE.getObjectById(oid_rt2);
@@ -219,8 +225,9 @@ public class QueryCacheTests extends AbstractTopicMapTest {
 
       TopicIF p1B = (TopicIF)tmB.getObjectById(oid_p1);
       TopicIF p2B = (TopicIF)tmB.getObjectById(oid_p2);
-      assertTrue("p1B.rolesByType(null, null).size is not 0.", p1B.getRolesByType(null, null).size() == 0);
-      assertTrue("p2B.rolesByType(null, null).size is not 0.", p2B.getRolesByType(null, null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1B.rolesByType(null, null).size is not 0.", p1B.getRolesByType(null, null).size() == 0);
+      //assertTrue("p2B.rolesByType(null, null).size is not 0.", p2B.getRolesByType(null, null).size() == 0);
 
       TopicIF rt1B = (TopicIF)tmB.getObjectById(oid_rt1);
       TopicIF rt2B = (TopicIF)tmB.getObjectById(oid_rt2);
@@ -287,17 +294,19 @@ public class QueryCacheTests extends AbstractTopicMapTest {
       TopicMapIF tmC = storeC.getTopicMap();
 
       TopicIF p1C = (TopicIF)tmC.getObjectById(oid_p1);
-      assertTrue("p1C.rolesByType(null).size is not 0.", p1C.getRolesByType(null, null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1C.rolesByType(null).size is not 0.", p1C.getRolesByType(null, null).size() == 0);
 
       TopicIF rt1C = (TopicIF)tmC.getObjectById(oid_rt1);
       TopicIF rt3C = (TopicIF)tmC.getObjectById(oid_rt3);
       TopicIF at1C = (TopicIF)tmC.getObjectById(oid_at1);
       TopicIF at2C = (TopicIF)tmC.getObjectById(oid_at2);
       // at1( null : rt1, o : rt2)
-      assertTrue("p1C.rolesByType(null,at1).size is not 0.", p1C.getRolesByType(null,at1C).size() == 0);
-      assertTrue("p1C.rolesByType(null,at3).size is not 0.", p1C.getRolesByType(null,at2C).size() == 0);
-      assertTrue("p1C.rolesByType(rt1,null).size is not 0.", p1C.getRolesByType(rt1C, null).size() == 0);
-      assertTrue("p1C.rolesByType(rt3,null).size is not 0.", p1C.getRolesByType(rt3C, null).size() == 0);
+      // no longer needed, there is a check in getRolesByType()
+      //assertTrue("p1C.rolesByType(null,at1).size is not 0.", p1C.getRolesByType(null,at1C).size() == 0);
+      //assertTrue("p1C.rolesByType(null,at3).size is not 0.", p1C.getRolesByType(null,at2C).size() == 0);
+      //assertTrue("p1C.rolesByType(rt1,null).size is not 0.", p1C.getRolesByType(rt1C, null).size() == 0);
+      //assertTrue("p1C.rolesByType(rt3,null).size is not 0.", p1C.getRolesByType(rt3C, null).size() == 0);
       assertTrue("p1C.rolesByType(rt3,at1).size is not 0.", p1C.getRolesByType(rt3C,at1C).size() == 0);
       assertTrue("p1C.rolesByType(rt3,at2).size is not 0.", p1C.getRolesByType(rt3C,at2C).size() == 0);
       assertTrue("p1C.rolesByType(rt1,at1).size is not 0.", p1C.getRolesByType(rt1C,at1C).size() == 0);
