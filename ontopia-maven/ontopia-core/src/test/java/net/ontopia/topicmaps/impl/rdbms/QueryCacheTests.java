@@ -76,7 +76,7 @@ public class QueryCacheTests extends AbstractTopicMapTest {
 
       TopicIF p1D = (TopicIF)tmD.getObjectById(oid_p1);
       // no longer needed, there is a check in getRolesByType()
-	  //assertTrue("p1D.rolesByType(null).size is not 0.", p1D.getRolesByType(null).size() == 0);
+      //assertTrue("p1D.rolesByType(null).size is not 0.", p1D.getRolesByType(null).size() == 0);
 
       TopicIF rt1D = (TopicIF)tmD.getObjectById(oid_rt1);
       assertTrue("p1D.rolesByType(rt1).size is not 1.", p1D.getRolesByType(rt1D).size() == 1);
