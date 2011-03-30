@@ -32,7 +32,7 @@ public final class Ontopia {
   static {
 	
     try {
-      InputStream i = StreamUtils.getInputStream("net/ontopia/Ontopia.info");
+      InputStream i = StreamUtils.getInputStream("classpath:net/ontopia/Ontopia.info");
 
       BufferedReader r = new BufferedReader(new InputStreamReader(i));
 
