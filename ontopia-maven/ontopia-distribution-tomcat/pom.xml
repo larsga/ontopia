@@ -158,7 +158,13 @@
 						<executions>
 							<execution>
 								<id>distro-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
 								<configuration>
+									<appendAssemblyId>false</appendAssemblyId>
+									<attach>false</attach>
 									<descriptors>
 										<descriptor>src/main/assembly/ontopia-distribution-tomcat.xml</descriptor>
 									</descriptors>
