@@ -117,7 +117,7 @@
 	</dependencies>
 	
 	<properties>
-		<rdbms-schema>${basedir}/src/main/resources/rdbms-schema.xml</rdbms-schema>
+		<rdbms-schema>classpath:net/ontopia/topicmaps/impl/rdbms/config/schema.xml</rdbms-schema>
 		<rdbms-setup>${basedir}/target/${project.artifactId}-${project.version}/rdbms/setup/</rdbms-setup>
 		<rdbms-create-postfix>.create.sql</rdbms-create-postfix>
 		<rdbms-drop-postfix>.drop.sql</rdbms-drop-postfix>
