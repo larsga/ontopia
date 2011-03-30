@@ -195,6 +195,9 @@
 				<includeDependencies>false</includeDependencies>
 				<unpack>false</unpack>
 			</binaries>
+			<excludes>
+				<exclude>*:ontopia-testrunner:*</exclude>
+			</excludes>
 		</moduleSet>
 	</moduleSets>
 	
