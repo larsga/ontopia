@@ -62,6 +62,10 @@
 			<fileset dir="../ontopia-vizigator/src/docbook/resources/vizigator"/>
 			<fileset dir="../src/docbook/resources"/>
 		</copy>
+		
+		<!-- jill.xtm -->
+		<copy file="../ontopia-distribution-tomcat/src/main/assembly/resources/topicmaps/jill.xtm"
+			tofile="target/docbook-collected/resources/navigator/jill.xtm"/>
 	</target>
 	
 	<!-- Collects all the ontopoly documentation that is included in the WAR -->

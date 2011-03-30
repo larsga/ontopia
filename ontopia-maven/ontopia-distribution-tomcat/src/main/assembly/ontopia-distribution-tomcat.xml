@@ -76,6 +76,14 @@
 			<outputDirectory>doc</outputDirectory>
 		</fileSet>
 	</fileSets>
+	
+	<files>
+		<file>
+			<source>src/main/assembly/resources/topicmaps/jill.xtm</source>
+			<outputDirectory>apache-tomcat/webapps/omnigator/doc/navigator</outputDirectory>
+			<fileMode>644</fileMode>
+		</file>
+	</files>
 
 	<dependencySets>
 		<dependencySet>
