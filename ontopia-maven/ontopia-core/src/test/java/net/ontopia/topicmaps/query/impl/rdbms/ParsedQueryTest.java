@@ -19,10 +19,6 @@ public class ParsedQueryTest
   
   private final static String testdataDirectory = "query";
 
-  public ParsedQueryTest(String name) {
-    super(name);
-  }
-  
   // ===== Helper methods (topic maps)
   
   protected void load(String filename) throws IOException {

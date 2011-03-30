@@ -12,30 +12,27 @@ import net.ontopia.topicmaps.query.spi.AbstractSearchResult;
 import net.ontopia.topicmaps.query.spi.SearcherIF;
 import net.ontopia.topicmaps.query.spi.SearchResultIF;
 
+import org.junit.Test;
+
 public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
 
   private static final String DECL = "import \"urn:x-java:net.ontopia.topicmaps.query.core.DynamicSearcherPredicateTest$ExactSearcher\" as fulltext ";
   
-  public DynamicSearcherPredicateTest(String name) {
-    super(name);
-  }
-
-  public void tearDown() {
-    closeStore();
-  }  
-
+  @Test
   public void testNoHits1() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
     findNothing(DECL + "fulltext:exact($O, \"blah\")?");
   }
   
+  @Test
   public void testNoHits2() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
     findNothing(DECL + "fulltext:exact($O, \"blah\", $S)?");
   }
   
+  @Test
   public void testCNoScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -46,6 +43,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "fulltext:exact($O, \"c\")?");
   }
   
+  @Test
   public void testCScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -56,6 +54,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "fulltext:exact($O, \"c\", $S)?");
   }
   
+  @Test
   public void testDNoScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -66,6 +65,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "fulltext:exact($O, \"d\")?");
   }
   
+  @Test
   public void testDScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -77,6 +77,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "fulltext:exact($O, \"d\", $S)?");
   }
   
+  @Test
   public void testDorFNoScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -88,6 +89,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "{ fulltext:exact($O, \"d\") | fulltext:exact($O, \"f\") }?");
   }
   
+  @Test
   public void testDorFScore() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -100,6 +102,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "{ fulltext:exact($O, \"d\", $S) | fulltext:exact($O, \"f\", $S) }?");
   }
   
+  @Test
   public void testDorFScoreAndTopics() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -114,6 +117,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 DECL + "select $T, $O, $S from { fulltext:exact($O, \"d\", $S) | fulltext:exact($O, \"f\", $S) }, topic-name($T, $N), value($N, $O)?");
   }
   
+  @Test
   public void testBandInstancesOfT1() throws InvalidQueryException, IOException {
     load("fulltext.ltm");
     
@@ -124,6 +128,7 @@ public class DynamicSearcherPredicateTest extends AbstractPredicateTest {
                 "select $T, $O, $S from instance-of($T, t1), topic-name($T, $N), value($N, $O), fulltext:unknown($O, \"c\", $S)?");
   }
 
+  @Test
   public void testUnknownSubjectLocator()
     throws InvalidQueryException, IOException {
     // tests what happens if a searcher returns a subject locator that does

@@ -8,25 +8,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.Test;
+
 public class NotEqualsPredicateTest extends AbstractPredicateTest {
-  
-  public NotEqualsPredicateTest(String name) {
-    super(name);
-  }
-
-  /// setup
-
-  public void tearDown() {    
-    closeStore();
-  }
   
   /// tests
 
+  @Test
   public void testNotEqualsFalse() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     findNothing("topic1 /= topic1?");
   }
 
+  @Test
   public void testNotEqualsTrue() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     List matches = new ArrayList();
@@ -34,6 +28,7 @@ public class NotEqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic1 /= topic2?");
   }
 
+  @Test
   public void testNotEqualsString() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -49,6 +44,7 @@ public class NotEqualsPredicateTest extends AbstractPredicateTest {
   }
 
   // bug caused by optimizer doing /= before all arguments bound (no number)
+  @Test
   public void testNotEqualsReordering() throws InvalidQueryException, IOException {
     load("factbook.ltm");
 

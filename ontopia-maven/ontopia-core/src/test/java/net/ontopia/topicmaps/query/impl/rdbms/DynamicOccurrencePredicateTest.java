@@ -8,10 +8,6 @@ import java.io.IOException;
 public class DynamicOccurrencePredicateTest
   extends net.ontopia.topicmaps.query.core.DynamicOccurrencePredicateTest {
   
-  public DynamicOccurrencePredicateTest(String name) {
-    super(name);
-  }
-  
   protected void load(String filename) throws IOException {
     RDBMSTestUtils.load(this, filename);
   }

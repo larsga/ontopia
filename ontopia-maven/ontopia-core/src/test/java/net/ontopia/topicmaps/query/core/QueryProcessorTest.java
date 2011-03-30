@@ -16,6 +16,10 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.query.impl.basic.QueryMatches;
 import net.ontopia.utils.FileUtils;
 
+import org.junit.Test;
+import org.junit.Assert;
+import org.junit.Before;
+
 // TODO:
 //  - move tests that are really tests of specific predicates out
 //    of here
@@ -23,18 +27,11 @@ import net.ontopia.utils.FileUtils;
 
 public class QueryProcessorTest extends AbstractQueryTest {
   
-  public QueryProcessorTest(String name) {
-    super(name);
-  }
-
   /// context management
 
+  @Before
   public void setUp() {
     QueryMatches.initialSize = 1;
-  }
-
-  public void tearDown() {
-    closeStore();
   }
 
   /// constants for various options
@@ -47,6 +44,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// empty topic map
   
+  @Test
   public void testEmptyDirectInstanceOfAB() throws InvalidQueryException {
     makeEmpty();
     findNothing("direct-instance-of($A, $B)?");
@@ -54,6 +52,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// instance-of topic map
   
+  @Test
   public void testDirectInstanceOfAB() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -66,6 +65,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, $B)?");
   }
   
+  @Test
   public void testDirectInstanceOfaB() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -75,6 +75,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of(topic1, $B)?");
   }
 
+  @Test
   public void testDirectInstanceOfAb() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -85,6 +86,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, type1)?");
   }
 
+  @Test
   public void testDirectInstanceOfab() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -94,11 +96,13 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of(topic1, type1)?");
   }
 
+  @Test
   public void testDirectInstanceOfWrong() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     findNothing("direct-instance-of(topic1, type2)?");
   }
 
+  @Test
   public void testSubjectIndicatorRef() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -109,6 +113,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, i\"http://psi.ontopia.net/test/#1\")?");
   }
 
+  @Test
   public void testSubjectAddressRef() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -119,6 +124,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, a\"http://psi.ontopia.net/test/#2\")?");
   }  
 
+  @Test
   public void testSimpleCount() throws InvalidQueryException, IOException{
     load("instance-of.ltm");
 
@@ -133,6 +139,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "instance-of($INST, $CLASS)?");
   }
 
+  @Test
   public void testZeroCount() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -145,6 +152,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "instance-of($INST, topic4)?");
   }
 
+  @Test
   public void testZeroCount2() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -162,6 +170,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   /// subclasses topic map
   
+  @Test
   public void testDirectInstanceOfABSub() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -174,6 +183,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, $B)?");
   }
   
+  @Test
   public void testDirectInstanceOfaBSub() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -183,6 +193,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of(topic1, $B)?");
   }
 
+  @Test
   public void testDirectInstanceOfAbSub() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -193,6 +204,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, type1)?");
   }
 
+  @Test
   public void testDirectInstanceOfabSub() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -202,11 +214,13 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of(topic1, type1)?");
   }
 
+  @Test
   public void testDirectInstanceOfWrongSub() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
     findNothing("direct-instance-of(topic1, type2)?");
   }
   
+  @Test
   public void testSimpleSelect() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -223,6 +237,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($M : mother, $F : father, $C : child)?");
   }
 
+  @Test
   public void testDoubleSelect() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -239,6 +254,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($M : mother, $F : father, $C : child)?");
   }
   
+  @Test
   public void testRuleGrandchild() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -256,6 +272,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($C : father, $M : mother, $GC : child).");
   }
 
+  @Test
   public void testRuleGrandchild2() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -273,6 +290,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($C : father, $M : mother, $GC : child).");
   }
 
+  @Test
   public void testRuleGrandchild3() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -285,6 +303,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($C : father, $M : mother, $GC : child).");
   }
 
+  @Test
   public void testUsingTwoRules() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -307,6 +326,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($F : father, $M : mother, $C : child). ");
   }
 
+  @Test
   public void testUsingTwoRules2() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -329,6 +349,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood($F : father, $M : mother, $C : child). ");
   }
   
+  @Test
   public void testTwoLevelsOfRule() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -348,6 +369,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "is-father($C, $GC). ");
   }
 
+  @Test
   public void testTwoLevelsOfRule2() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -369,6 +391,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   // motivated by the bug LMG discovered when doing the wumpus agent
   // never reported
+  @Test
   public void testRuleWithConstant() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -388,6 +411,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   // motivated by the bug LMG discovered when doing the wumpus agent
   // never reported
+  @Test
   public void testRuleWithConstantTwoLevels()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -408,6 +432,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "parenthood(edvin : father, $M : mother, $CC : child).");
   }
 
+  @Test
   public void testRuleWithConstantArguments()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -427,6 +452,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "father-of(lmg, kfg)?");
   }
 
+  @Test
   public void testOrQuery() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -439,6 +465,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "   parenthood($F : father, $P : mother, trygve : child) }? ");
   }
 
+  @Test
   public void testOrOneFails() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -450,6 +477,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "   trygve /= trygve }? ");
   }
   
+  @Test
   public void testOrRule() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -463,6 +491,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "    parenthood($F : father, $P : mother, $C : child) }. ");
   }
 
+  @Test
   public void testRuleCount() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -486,6 +515,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "    parenthood($F : father, $P : mother, $C : child) }. ");
   }
 
+  @Test
   public void testRecursiveOr() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -505,6 +535,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "    parenthood($F : father, $A : mother, $D : child) }.");
   }
 
+  @Test
   public void testRecursiveOr2() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -524,6 +555,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // switches rule parameter order around, to test HierarchyWalkerRulePredicate
+  @Test
   public void testRecursiveOr3() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -543,6 +575,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // adds an extra, superfluous, argument, to stress HierarchyWalkerRulePredicate
+  @Test
   public void testRecursiveOr4() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -564,6 +597,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // checks what happens with a simple fact test
+  @Test
   public void testRecursiveFacts() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -580,6 +614,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // checks what happens with a simple fact test that is false
+  @Test
   public void testRecursiveMyths() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -594,6 +629,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // checks what happens when the order in the recursive rule is wrong
+  @Test
   public void testRecursiveBug1229() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
@@ -621,6 +657,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "limit 4?");
   }
   
+  @Test
   public void testNotWithNotEquals() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -633,6 +670,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "not($C /= lmg)?");
   }
 
+  @Test
   public void testNotWithInstanceOf() throws InvalidQueryException,IOException{
     load("family.ltm");
 
@@ -653,6 +691,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "not(instance-of($C, father))?");
   }
   
+  @Test
   public void testNotWithOr() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -673,6 +712,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   }
 
   // motivated by bug found writing TM converter
+  @Test
   public void testOrWithNots() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -685,6 +725,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "  not(instance-of($PERSON, father)) }?");
   }
   
+  @Test
   public void testNotWithUnboundVariable() throws InvalidQueryException, IOException{
     load("potato.ltm");
 
@@ -706,6 +747,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// bug #662
 
+  @Test
   public void testTwoLevelRules() throws InvalidQueryException, IOException {
     load("bug662.xtm");
 
@@ -723,6 +765,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "   child-of($A, $B) }. ");
   }
 
+  @Test
   public void testOtherTwoLevelRule() throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -744,6 +787,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   }
 
+  @Test
   public void testOtherTwoLevelRule2()throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -765,6 +809,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// sorting tests
 
+  @Test
   public void testOrderByNonTopics() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -779,6 +824,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "reifies($REIFIER, $REIFIED) order by $REIFIED?");
   }
 
+  @Test
   public void testOrderingOfNullTopics() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -803,6 +849,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $GF, $F?");
   }
 
+  @Test
   public void testOrderingOfNullStrings() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -824,6 +871,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $D, $T?");
   }
 
+  @Test
   public void testOrderingOfNullTMObjects() throws InvalidQueryException, IOException{
     load("jill.xtm");
 
@@ -870,6 +918,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   /// parameter reference tests
 
+  @Test
   public void testInstanceOfaBParameter() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -880,6 +929,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "instance-of(%param%, $B)?", args);
   }
   
+  @Test
   public void testDirectInstanceOfaBParameter() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -890,6 +940,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of(%param%, $B)?", args);
   }
 
+  @Test
   public void testInstanceOfAbParameter() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -901,6 +952,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "instance-of($A, %param%)?", args);
   }
   
+  @Test
   public void testDirectInstanceOfAbParameter() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -912,6 +964,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "direct-instance-of($A, %param%)?", args);
   }
 
+  @Test
   public void testChildrenOfAParameter() throws InvalidQueryException,IOException{
     load("family.ltm");
 
@@ -927,6 +980,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "parenthood(%param% : mother, $C : child)?", args);
   }
 
+  @Test
   public void testParamAsThirdArg() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -943,6 +997,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "related(asle, $ASSOC, %param%)?", args);
   }
 
+  @Test
   public void testUnspecifiedParam() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -951,6 +1006,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   /// other tests
 
+  @Test
   public void testParamIsWrongType()
     throws InvalidQueryException, IOException {
     makeEmpty();
@@ -959,12 +1015,13 @@ public class QueryProcessorTest extends AbstractQueryTest {
       Map params = new HashMap();
       params.put("str", new Integer(5));
       processor.execute("resource($R, %str%)?", params);      
-      fail("Successfully passed integer parameter to predicate requiring string");
+      Assert.fail("Successfully passed integer parameter to predicate requiring string");
     } catch (InvalidQueryException e) {
       // this is what we were testing for
     }
   }
   
+  @Test
   public void testRuleWithWrongNumberOfArgs()
     throws InvalidQueryException, IOException {
     
@@ -976,7 +1033,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
     try {
       processor.execute("grandchild(edvin, kjellaug)?");
-      fail("Successfully called 3-argument rule with 2 arguments");
+      Assert.fail("Successfully called 3-argument rule with 2 arguments");
     } catch (InvalidQueryException e) {
       // this is what we were testing for
     }
@@ -984,6 +1041,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// LIMIT/OFFSET tests
 
+  @Test
   public void testLimitWithOrder() throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -997,6 +1055,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "instance-of($A, human) order by $A limit 4?");
   }
 
+  @Test
   public void testOffsetWithOrder() throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -1008,6 +1067,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "instance-of($A, human) order by $A offset 15?");
   }
 
+  @Test
   public void testOffsetWithOrderAndLimit1() throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -1022,6 +1082,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "instance-of($A, human) order by $A limit 5 offset 1?");
   }
 
+  @Test
   public void testOffsetWithOrderAndLimit2() throws InvalidQueryException,IOException{
     load("family2.ltm");
 
@@ -1032,6 +1093,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                "instance-of($A, human) order by $A limit 1 offset 5?");
   }
 
+  @Test
   public void testOffsetZero() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -1044,6 +1106,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "instance-of($A, $B) offset 0?");
   }
 
+  @Test
   public void testLimitZero() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -1053,6 +1116,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// count and duplicate removal tests
 
+  @Test
   public void testCountWithDuplicates1() throws InvalidQueryException, IOException {
     load("synonyms.ltm");
 
@@ -1074,6 +1138,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "                     synonym($A,$C), synonym($C,$B) }.");
   }
 
+  @Test
   public void testCountWithDuplicates2() throws InvalidQueryException, IOException {
     load("synonyms.ltm");
 
@@ -1089,6 +1154,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "                     synonym($A,$C), synonym($C,$B) }.");
   }
 
+  @Test
   public void testCountWithDuplicates3() throws InvalidQueryException, IOException {
     load("synonyms.ltm");
 
@@ -1112,6 +1178,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   /// test optional clause
 
+  @Test
   public void testOptionalClause() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -1130,12 +1197,14 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "  { parenthood($P : child, $F : father) }?");
   }
 
+  @Test
   public void testOptionalClauseEmpty() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
     getParseError("  instance-of($P, female), { }?");
   }
 
+  @Test
   public void testOptionalClauseOrdering() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
@@ -1155,6 +1224,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   /// test modules
 
+  @Test
   public void testImportModuleAbsolute() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -1173,6 +1243,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
+  @Test
   public void testImportModuleRelative() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -1189,6 +1260,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
+  @Test
   public void testImportModuleBang() throws InvalidQueryException, IOException {
     makeEmpty();
 
@@ -1199,6 +1271,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   /// ordering tests
 
 
+  @Test
   public void testCountSortDesc() throws InvalidQueryException, IOException{
     load("subclasses.ltm");
 
@@ -1214,6 +1287,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $INST desc?");
   }
 
+  @Test
   public void testCountSortAsc() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -1229,6 +1303,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $INST asc?");
   }
 
+  @Test
   public void testSortByString() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 
@@ -1247,6 +1322,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $DESC asc?");
   }  
 
+  @Test
   public void testSortSortName() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -1263,6 +1339,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $FATHER?");
   }
 
+  @Test
   public void testSortSortName1() throws InvalidQueryException, IOException {
     load("sort1.ltm");
 
@@ -1276,6 +1353,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQueryOrder(matches, "topic($T) order by $T?");
   }
   
+  @Test
   public void testSortSortName2() throws InvalidQueryException, IOException {
     load("sort2.ltm");
 
@@ -1290,6 +1368,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQueryOrder(matches, "topic($T) order by $T?");
   }
 
+  @Test
   public void testSortSortName3() throws InvalidQueryException, IOException {
     load("sort3.ltm");
 
@@ -1304,6 +1383,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQueryOrder(matches, "topic($T) order by $T?");
   }
 
+  @Test
   public void testSortSortName4() throws InvalidQueryException, IOException {
     load("sort4.ltm");
 
@@ -1319,6 +1399,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQueryOrder(matches, "topic($T) order by $T?");
   }
 
+  @Test
   public void testSortTypedNames() throws InvalidQueryException, IOException {
     load("typed-names.xtm"); // see bug #1893
 
@@ -1335,6 +1416,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   
   /// type-related problems
 
+  @Test
   public void testMixingStringsAndObjects() throws InvalidQueryException, IOException {
     load("jill.xtm");
     
@@ -1393,6 +1475,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "order by $OPERA desc?");
   }  
 
+//   @Test
 //   public void testOptimizer() throws InvalidQueryException, IOException {
 //     load("opera.ltm");
 
@@ -1404,12 +1487,14 @@ public class QueryProcessorTest extends AbstractQueryTest {
 //                 "  type($ROLE, $TYPE), association-role($ASSOC, $ROLE)?");
 //   }
 
+  @Test
   public void testFailurePredicate() throws InvalidQueryException, IOException {
     // motivated by bug #903
     load("family.ltm");
     findNothing("trygve($T, $V) order by $T?");
   }
 
+  @Test
   public void testRuleTypeInferencing() throws InvalidQueryException, IOException {
     // motivated by bug #998
     load("family.ltm");
@@ -1430,6 +1515,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                      "order by $C desc?");    
   }
 
+  @Test
   public void testOptionalClauseInferencing()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -1443,6 +1529,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "topic($A), { association($A) }?");
   }
 
+  @Test
   public void testOptionalClauseInferencing2()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -1459,6 +1546,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
   // previous test could be met by shorting out topic-name predicate
   // based on knowledge that $A can't be a topic name, but this test
   // raises the bar so that solution won't be enough
+  @Test
   public void testOptionalClauseInferencing3()
     throws InvalidQueryException, IOException {
     load("jill.xtm");
@@ -1476,6 +1564,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "{ topic-name($B, $A), topicmap($C) }, topic($A), reifies($A, $C)?");
   }
   
+  @Test
   public void testNotClauseInferencing() 
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -1489,6 +1578,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "not(topic-name($B, $A)), topic($A)?");
   }
 
+  @Test
   public void testMergingOfObjectAsType()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -1501,6 +1591,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   }
 
+  @Test
   public void testTypeTheoryMerging()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -1514,6 +1605,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   }
 
+  @Test
   public void testBug1005()
     throws InvalidQueryException, IOException {
     load("bug1005.ltm");
@@ -1528,6 +1620,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 
   }
 
+  @Test
   public void testBug1233()
     throws InvalidQueryException, IOException {
     load("opera.ltm");
@@ -1545,6 +1638,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "not(scope($SCOPE, $N))?");
   }
 
+  @Test
   public void testBug1232() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
@@ -1565,6 +1659,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "topic-matches($TOPIC, \"nerone\")?");
   }
 
+  @Test
   public void testBug1083a() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -1580,6 +1675,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "has-name(lmg, $N)?");
   }
 
+  @Test
   public void testBug1083b() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -1587,6 +1683,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "is-father(lmg)?");
   }
 
+  @Test
   public void testBug1378() throws InvalidQueryException, IOException {
     load("null-name.xtm");
 
@@ -1599,6 +1696,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "topic($A) order by $A?");
   }
 
+  @Test
   public void testBug2019() throws InvalidQueryException, IOException {
     load("bug2019.ltm");
 
@@ -1611,6 +1709,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 // FIXME: the problem here is that the behaviour of count() is
 // undefined.  we will define it before progressing on this bug.
   
+//   @Test  
 //   public void testBug1347() throws InvalidQueryException, IOException {
 //     load("family.ltm");
 
@@ -1620,6 +1719,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 //     verifyQuery(matches, "select count($X) from direct-instance-of(silje, $X)?");
 //   }
 
+  @Test
   public void testShortCircuitingOrClause1() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
@@ -1632,6 +1732,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
 								"  date-of-birth($P, \"1866-07-23\") } ?");
 	}
 
+  @Test
   public void testShortCircuitingOrClause2() throws InvalidQueryException, IOException {
     makeEmpty();
 
@@ -1648,6 +1749,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "select $A, $B from $A = 5, { $B = 3 || $A < 4, $B = 1 || $A = 5, $B = 2 }?");
 	}
 
+  @Test
   public void testBug2149() throws InvalidQueryException, IOException {
     makeEmpty();
 
@@ -1658,6 +1760,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "select $X from { $X = 1 | $X = \"2\" } order by $X?");
 	}
 
+  @Test
   public void testShortCircuitingOR1() throws InvalidQueryException, IOException {
     makeEmpty();
 
@@ -1667,6 +1770,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "select $X from { $X = 1 || $X = 2 }?");
 	}
 
+  @Test
   public void testShortCircuitingOR2() throws InvalidQueryException, IOException {
     makeEmpty();
 
@@ -1676,6 +1780,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
     verifyQuery(matches, "select $X, $Y from $X = 4, { $X < 1, $Y = 1 || $X > 2, $Y = 2 || $X > 3, $Y = 3 }?");
 	}
   
+  @Test
   public void testCircularRuleReferences() throws InvalidQueryException, IOException {
     load("circular-rule.ltm");
 
@@ -1690,6 +1795,7 @@ public class QueryProcessorTest extends AbstractQueryTest {
                 "select $Z from a(x1, $Z)?");
   }
 
+  @Test
   public void testIssue208() throws InvalidQueryException, IOException {
     load("family.ltm");
 

@@ -20,10 +20,6 @@ public abstract class AbstractRDBMSQueryTest extends AbstractQueryTest {
 
   private final static String testdataDirectory = "tmsync";
   
-  public AbstractRDBMSQueryTest(String name) {
-    super(name);
-  }
-  
   // ===== Helper methods (topic maps)
 
   protected void load(String filename) throws IOException {

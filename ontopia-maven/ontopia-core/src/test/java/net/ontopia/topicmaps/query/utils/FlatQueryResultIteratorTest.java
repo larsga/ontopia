@@ -13,20 +13,21 @@ import java.util.List;
 import net.ontopia.topicmaps.query.core.InvalidQueryException;
 import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 
+import org.junit.Test;
+import org.junit.Assert;
+
 public class FlatQueryResultIteratorTest extends AbstractQueryTest {
   
-  public FlatQueryResultIteratorTest(String name) {
-    super(name);
-  }
-
   /// tests
 
+  @Test
   public void testNoResults() throws InvalidQueryException, IOException {
     load("family.ltm");
     verifyResult(Collections.EMPTY_SET, "instance-of($PA, mother)?");    
     closeStore();   
   }
 
+  @Test
   public void testSingleRowOfResults() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -42,6 +43,7 @@ public class FlatQueryResultIteratorTest extends AbstractQueryTest {
     closeStore();      
   }
 
+  @Test
   public void testTwoRowsOfResults() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -67,12 +69,12 @@ public class FlatQueryResultIteratorTest extends AbstractQueryTest {
     Iterator it = new FlatQueryResultIterator(processor.execute(query));
     while (it.hasNext()) {
       Object value = it.next();
-      assertTrue("value not found in expected results: " + value,
+      Assert.assertTrue("value not found in expected results: " + value,
                  result.contains(value));
       result.remove(value);
     }
 
-    assertTrue("expected values not found: " + result, result.isEmpty());
+    Assert.assertTrue("expected values not found: " + result, result.isEmpty());
   }  
   
 }

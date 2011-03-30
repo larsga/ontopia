@@ -14,18 +14,13 @@ import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
-public class RolePlayerPredicateTest extends AbstractPredicateTest {
-  
-  public RolePlayerPredicateTest(String name) {
-    super(name);
-  }
+import org.junit.Test;
 
-  public void tearDown() {
-    closeStore();
-  }
+public class RolePlayerPredicateTest extends AbstractPredicateTest {
   
   /// tests
 
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -44,6 +39,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player($ROLE, $PLAYER)?");
   }  
 
+  @Test
   public void testBothBoundTrue() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -55,6 +51,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player(@" + role.getObjectId() + ", larer)?");
   }
 
+  @Test
   public void testBothBoundFalse() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -65,6 +62,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player(@" + role.getObjectId() + ", gdm)?");
   } 
 
+  @Test
   public void testCrossJoin() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -74,6 +72,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "topic($TOPIC), role-player($TOPIC, $ROLE)?");
   } 
   
+  @Test
   public void testRolePlayerPredicate0() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF player = builder.makeTopic();
@@ -83,6 +82,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player($ROLE, @" + player.getObjectId() + ")?");
   }
 
+  @Test
   public void testRolePlayerPredicate1() throws InvalidQueryException, IOException {
     makeEmpty();
 		TopicIF atype = builder.makeTopic();
@@ -97,6 +97,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player($ROLE, @" + player.getObjectId() + ")?");
   }
 
+  @Test
   public void testRolePlayerPredicate2() throws InvalidQueryException, IOException {
     makeEmpty();
 		TopicIF atype = builder.makeTopic();
@@ -114,6 +115,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player($ROLE, @" + player.getObjectId() + ")?");
   }
 
+  @Test
   public void testRolePlayerPredicate3() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -136,6 +138,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player($ROLE, @" + player.getObjectId() + ")?");
   }
 
+  @Test
   public void testRolePlayerPredicate1b() throws InvalidQueryException, IOException {
     makeEmpty();
 		TopicIF atype = builder.makeTopic();
@@ -150,6 +153,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player(@" + role.getObjectId() + ", $PLAYER)?");
   }
 
+  @Test
   public void testRolePlayerPredicate2b() throws InvalidQueryException, IOException {
     makeEmpty();
 		TopicIF atype = builder.makeTopic();
@@ -167,6 +171,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player(@" + role.getObjectId() + ", $PLAYER)?");
   }
 
+  @Test
   public void testRolePlayerPredicate3b() throws InvalidQueryException, IOException {
     makeEmpty();
 		TopicIF atype = builder.makeTopic();
@@ -188,6 +193,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "role-player(@" + role.getObjectId() + ", $PLAYER)?");
   }
 
+  @Test
   public void testTypeHoistUnapplicable() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -200,6 +206,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "select $B from role-player($A, $B), type($A, employee)?");
   }
 
+  @Test
   public void testTypeHoistUnapplicable2() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -214,6 +221,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "type($A, employee), role-player($A, lmg)?");
   }
 
+  @Test
   public void testTypeHoistUnapplicable3() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -230,6 +238,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  type($R, employee)?");
   }
 
+  @Test
   public void testTypeHoistUnapplicable4() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -248,6 +257,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  type($R2, $RT)?");              // we get only 'employee' roles
   }
 
+  @Test
   public void testTypeHoistUnapplicable5() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -266,6 +276,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  not(type($R, cohab))?");
   }
 
+  @Test
   public void testTypeHoistUnapplicable6() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -287,6 +298,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  type($R, $RT)?");
   }
   
+  @Test
   public void testTypeHoistLiteral() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -306,6 +318,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "type($R, employee)?");
   }
 
+  @Test
   public void testTypeHoistLiteral2() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -326,6 +339,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "type($R, owner)?");
   }
   
+  @Test
   public void testTypeHoistVariable() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -349,6 +363,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  type($R, $RT)?");
   }
 
+  @Test
   public void testTypeHoistVariable2() throws InvalidQueryException, IOException {
     load("assocs.ltm");
 
@@ -374,6 +389,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "  type($R, $RT)?");
   }
   
+  @Test
   public void testTypeHoistParameter()
     throws InvalidQueryException, IOException {
     load("assocs.ltm");
@@ -397,6 +413,7 @@ public class RolePlayerPredicateTest extends AbstractPredicateTest {
                 "type($R, %type%)?", params);
   }
 
+  @Test
   public void testTypeHoistParameter2()
     throws InvalidQueryException, IOException {
     load("assocs.ltm");

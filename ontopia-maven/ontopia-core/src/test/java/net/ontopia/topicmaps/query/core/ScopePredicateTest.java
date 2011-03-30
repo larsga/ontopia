@@ -13,20 +13,11 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.ScopedIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
+import org.junit.Test;
+
 public class ScopePredicateTest extends AbstractPredicateTest {
   
-  public ScopePredicateTest(String name) {
-    super(name);
-  }
-
-  /// setup
-
-  public void tearDown() {    
-    closeStore();
-  }
-
-  /// setup
-
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -48,6 +39,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "scope($SCOPED, $THEME)?");
   }
 
+  @Test
   public void testCrossJoin() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -67,6 +59,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     }
   }
   
+  @Test
   public void testTopicNameBothBound() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF theme = builder.makeTopic();
@@ -80,6 +73,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "scope(@" + thing.getObjectId() + ", @" + theme.getObjectId() + ")?");
   }
   
+  @Test
   public void testTopicNameBothUnbound() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF theme = builder.makeTopic();
@@ -94,6 +88,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name(@" + topic.getObjectId() + ", $THING), scope($THING, $THEME)?");
   }
   
+  @Test
   public void testTopicNameBound() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF theme = builder.makeTopic();
@@ -107,6 +102,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "scope(@" + thing.getObjectId() + ", $THEME)?");
   }
   
+  @Test
   public void testTopicNameUnbound() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF theme = builder.makeTopic();
@@ -121,6 +117,7 @@ public class ScopePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name(@" + topic.getObjectId() + ", $THING), scope($THING, @" + theme.getObjectId() + ")?");
   }
   
+  @Test
   public void testSpecificTopicNameNoScope() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF type = builder.makeTopic();

@@ -17,20 +17,13 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TMObjectIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
+import org.junit.Test;
+
 public class ItemIdentifierPredicateTest extends AbstractPredicateTest {
   
-  public ItemIdentifierPredicateTest(String name) {
-    super(name);
-  }
-
-  /// setup
-
-  public void tearDown() {    
-    closeStore();
-  }
-
   /// tests
 
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -71,6 +64,7 @@ public class ItemIdentifierPredicateTest extends AbstractPredicateTest {
     }
   }
   
+  @Test
   public void testTopicToLocator() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -81,6 +75,7 @@ public class ItemIdentifierPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "item-identifier(ontopia, $LOCATOR)?");
   }
 
+  @Test
   public void testLocatorToTopic() throws InvalidQueryException, IOException {
     load("jill.xtm");
     LocatorIF base = topicmap.getStore().getBaseAddress();
@@ -91,6 +86,7 @@ public class ItemIdentifierPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "item-identifier($TOPIC, \"" + base.resolveAbsolute("#ontopia").getAddress() + "\")?");
   }
 
+  @Test
   public void testBothBoundFalse() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     LocatorIF base = topicmap.getStore().getBaseAddress();
@@ -99,6 +95,7 @@ public class ItemIdentifierPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "item-identifier(type2, \"" + base.resolveAbsolute("#type1").getAddress() + "\")?");
   }
 
+  @Test
   public void testBothBoundTrue() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     LocatorIF base = topicmap.getStore().getBaseAddress();

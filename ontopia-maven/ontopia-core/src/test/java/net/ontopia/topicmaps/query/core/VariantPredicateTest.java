@@ -13,14 +13,13 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 
+import org.junit.Test;
+
 public class VariantPredicateTest extends AbstractPredicateTest {
   
-  public VariantPredicateTest(String name) {
-    super(name);
-  }
-
   /// tests
   
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -44,6 +43,7 @@ public class VariantPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
+  @Test
   public void testWithSpecificParent() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -55,6 +55,7 @@ public class VariantPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
+  @Test
   public void testCrossJoin() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -66,6 +67,7 @@ public class VariantPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
+  @Test
   public void testWithSpecificVariant() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -80,6 +82,7 @@ public class VariantPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
+  @Test
   public void testWithBothBoundTrue() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -94,6 +97,7 @@ public class VariantPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
   
+  @Test
   public void testWithBothBoundFalse() throws InvalidQueryException, IOException {
     load("family.ltm");
 

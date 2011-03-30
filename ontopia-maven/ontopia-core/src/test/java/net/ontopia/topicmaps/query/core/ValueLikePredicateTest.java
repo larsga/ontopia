@@ -11,18 +11,13 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
 
+import org.junit.Test;
+
 public class ValueLikePredicateTest extends AbstractPredicateTest {
   
-  public ValueLikePredicateTest(String name) {
-    super(name);
-  }
-
-  public void tearDown() {
-    closeStore();
-  }
-
   /// tests
 
+  @Test
   public void testWithSpecificOccurrenceAndString()
     throws InvalidQueryException, IOException {
     load("int-occs.ltm");
@@ -35,6 +30,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
     getParseError("value-like(@" + oid + ", \"topic1\")?");
   }
 
+  @Test
   public void testWithSpecificTopicAndVariable() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -43,6 +39,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "value-like(topic1, $VALUE)?");
   }
 
+  @Test
   public void testWithSpecificTopicAndString() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -51,6 +48,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "value-like(topic1, \"topic1\")?");
   }
 
+  @Test
   public void testWithUnboundBoth1() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 
@@ -58,6 +56,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
     getParseError("value-like($FOO, $VALUE)?");
   }
 
+  @Test
   public void testWithUnboundBoth2() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 
@@ -66,6 +65,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "topic($TOPIC), value-like($TOPIC, $VALUE)?");
   }
 
+  @Test
   public void testWithUnboundPatternValue() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 
@@ -76,6 +76,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
     getParseError("value-like(@" + oid + ", $VALUE)?");
   }
   
+  @Test
   public void testWithAnyObject() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -89,6 +90,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                          "  topic-name($TOPIC, $BNAME)?");
   }
   
+  @Test
   public void testWithScoreBound() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -97,6 +99,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                   "  topic-name($TOPIC, $BNAME)?");
   }
   
+  @Test
   public void testWithScoreAbove001() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -110,6 +113,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                          "  topic-name($TOPIC, $BNAME), $SCORE > 0.01?");
   }
   
+  @Test
   public void testWithScoreAbove001Ordered() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -119,6 +123,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
             "  order by $SCORE, $TOPIC desc limit 2 offset 1?");
   } 
   
+  @Test
   public void testWithScoreAbove095() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -133,6 +138,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
     }
   }
   
+  @Test
   public void testWithScoreBetween006and007() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -141,6 +147,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "  topic-name($TOPIC, $BNAME), $SCORE < 0.06, $SCORE > 0.07?");
   }
   
+  @Test
   public void testWithScoreBetween095and070() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -154,6 +161,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
     }
   }
   
+  @Test
   public void testWithEscapedQuotes() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -163,6 +171,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "  topic-name($TOPIC, $BNAME)?");
   }
 
+  @Test
   public void testWithSingleQuote() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -172,6 +181,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
   }
 
   // see bug #955
+  @Test
   public void testWithEmptyString() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -180,6 +190,7 @@ public class ValueLikePredicateTest extends AbstractPredicateTest {
                 "  topic-name($TOPIC, $BNAME)?");
   }
 
+  @Test
   public void testBug987() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 

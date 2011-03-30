@@ -8,10 +8,6 @@ import java.io.IOException;
 public class DynamicSearcherPredicateTest
   extends net.ontopia.topicmaps.query.core.DynamicSearcherPredicateTest {
   
-  public DynamicSearcherPredicateTest(String name) {
-    super(name);
-  }
-  
   protected void load(String filename) throws IOException {
     RDBMSTestUtils.load(this, filename);
   }

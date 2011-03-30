@@ -8,10 +8,6 @@ import java.io.IOException;
 public class ValueLikePredicateTest
   extends net.ontopia.topicmaps.query.core.ValueLikePredicateTest {
   
-  public ValueLikePredicateTest(String name) {
-    super(name);
-  }
-
   protected void load(String filename) throws IOException {
     RDBMSTestUtils.load(this, filename);
   }

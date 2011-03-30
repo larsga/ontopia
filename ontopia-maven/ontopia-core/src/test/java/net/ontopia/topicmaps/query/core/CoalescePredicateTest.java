@@ -9,23 +9,19 @@ import java.util.List;
 
 import net.ontopia.topicmaps.core.TopicIF;
 
+import org.junit.Test;
+
 public class CoalescePredicateTest extends AbstractPredicateTest {
   
-  public CoalescePredicateTest(String name) {
-    super(name);
-  }
-
-  public void tearDown() {
-    closeStore();
-  }
-
   /// tests 
   
+  @Test
   public void testNotBoundTrueOne() throws IOException {
     load("bb-test.ltm");
     getParseError("coalesce($TOPIC, thequeen)?");
   }
   
+  @Test
   public void testNotBoundTrueFirst() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -36,6 +32,7 @@ public class CoalescePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "coalesce($TOPIC, thequeen, horse)?");
   }
   
+  @Test
   public void testNotBoundTrueFirstVariable() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -46,6 +43,7 @@ public class CoalescePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "select $TOPIC from $QUEEN = thequeen, coalesce($TOPIC, $QUEEN, horse)?");
   }
   
+  @Test
   public void testNotBoundTrueSecondVariable() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -57,18 +55,21 @@ public class CoalescePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "select $DESC from { $X = thequeen | $X = gdm}, { beskrivelse($X, $BESKRIVELSE) }, coalesce($DESC, $BESKRIVELSE, \"Foobar\")?");
   }
   
+  @Test
   public void testBoundTrueFirst() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
     verifyQuery("coalesce(thequeen, thequeen, horse)?");
   }
   
+  @Test
   public void testBoundTrueSecond() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
     findNothing("coalesce(thequeen, horse, thequeen)?");
   }  
 
+  @Test
   public void testBoundVariables() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 

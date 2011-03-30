@@ -15,20 +15,13 @@ import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
+import org.junit.Test;
+
 public class TypePredicateTest extends AbstractPredicateTest {
-  
-  public TypePredicateTest(String name) {
-    super(name);
-  }
-
-  /// setup
-
-  public void tearDown() {    
-    closeStore();
-  }
   
   /// tests
 
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -65,6 +58,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($TYPED, $TOPIC)?");
   }  
 
+  @Test
   public void testCrossJoin() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -73,6 +67,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
                 "$TYPE /= i\"http://psi.topicmaps.org/iso13250/model/topic-name\"?");
   } 
   
+  @Test
   public void testTopicType() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF type = builder.makeTopic();
@@ -83,6 +78,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($THING, @" + type.getObjectId() + ")?");
   }
 
+  @Test
   public void testTopicNameType() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF type1 = builder.makeTopic();
@@ -98,6 +94,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type(@" + bname2.getObjectId() + ", $TYPE)?");
   }
 
+  @Test
   public void testTopicNameType2() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF type1 = builder.makeTopic();
@@ -113,6 +110,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($BNAME, @" + type2.getObjectId() + ")?");
   }
 
+  @Test
   public void testTopicNameType3() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF type1 = builder.makeTopic();
@@ -130,6 +128,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($BNAME, $TYPE)?");
   }
 
+  @Test
   public void testRoleType() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -144,6 +143,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type(@" + role.getObjectId() + ", $TYPE)?");
   }
 
+  @Test
   public void testRoleType2() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -160,6 +160,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type(@" + role.getObjectId() + ", $TYPE)?");
   }
 
+  @Test
   public void testTypeRole() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -174,6 +175,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($ROLE, @" + rtype.getObjectId() + ")?");
   }
 
+  @Test
   public void testTypeRole2() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -191,6 +193,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type($ROLE, @" + rtype.getObjectId() + ")?");
   }
 
+  @Test
   public void testBothBoundTrue() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -207,6 +210,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "type(@" + role.getObjectId() + ", @" + rtype.getObjectId() + ")?");
   }
 
+  @Test
   public void testBothBoundFalse() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -222,6 +226,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
   }
 
   // bug found by Stian Lavik
+  @Test
   public void testTypeInNot() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -246,6 +251,7 @@ public class TypePredicateTest extends AbstractPredicateTest {
 
   // bug found by LMG by accident
 
+  @Test
   public void testTypeWithOneArgument() throws InvalidQueryException, IOException {
     makeEmpty();
     getParseError("select $ATYPE, $RTYPE from " +

@@ -11,18 +11,13 @@ import net.ontopia.topicmaps.core.AssociationIF;
 import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
+import org.junit.Test;
+
 public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   
-  public DynamicAssociationPredicateTest(String name) {
-    super(name);
-  }
-
-  public void tearDown() {
-    closeStore();
-  }
-
   /// tests
   
+  //! @Test
   //! public void testWithNullPlayer() throws InvalidQueryException, IOException {
   //!   makeEmpty();
   //!   TopicIF atype = builder.makeTopic();
@@ -43,6 +38,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   //!               rtype2.getObjectId() + ")?");
   //! }
   //! 
+  //! @Test
   //! public void testWithNullFirstPlayer() throws InvalidQueryException, IOException {
   //!   makeEmpty();
   //!   TopicIF atype = builder.makeTopic();
@@ -63,6 +59,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   //!               ", $PLAYER : @" + rtype1.getObjectId() + ")?");
   //! }
   //! 
+  //! @Test
   //! public void testWithNullRoletype() throws InvalidQueryException, IOException {
   //!   makeEmpty();
   //!   TopicIF atype = builder.makeTopic();
@@ -82,6 +79,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   //!               player1.getObjectId() + ")?");
   //! }
 
+  @Test
   public void testWithUnary() throws InvalidQueryException, IOException {
     makeEmpty();
     TopicIF atype = builder.makeTopic();
@@ -102,23 +100,27 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   
   /// family topic map
 
+  @Test
   public void testAssocNomatches() throws InvalidQueryException, IOException{
     load("family.ltm");
     findNothing("parenthood(petter : mother, may : father, $C : child)?");
   }
 
+  @Test
   public void testAssocNomatchesSyntaxProblem1()
     throws InvalidQueryException, IOException{
     load("family.ltm");
     findNothing("parenthood(petter: mother, may : father, $C : child)?");
   }
 
+  @Test
   public void testAssocNomatchesSyntaxProblem2()
     throws InvalidQueryException, IOException{
     load("family.ltm");
     findNothing("parenthood(petter : mother, may : father, $C: child)?");
   }
   
+  @Test
   public void testAssocSimple() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -131,6 +133,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                 "parenthood(may : mother, petter : father, $C : child)?");
   }
 
+  @Test
   public void testAssocTwoVars() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -146,6 +149,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                 "parenthood(may : mother, $F : father, $C : child)?");
   }
 
+  @Test
   public void testSymmetricAssoc() throws InvalidQueryException, IOException {
     load("factbook.ltm");
 
@@ -155,6 +159,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                 "borders-with($A : country, $A : country)?");
   }
 
+  @Test
   public void testTernarySymmetric() throws InvalidQueryException, IOException{
     load("partners.ltm");
 
@@ -175,6 +180,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                      "order by $POS?");
   }
 
+  @Test
   public void testAssocDouble() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -206,6 +212,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   /// role matching tests
 
   // this test was motivated by bug #476
+  @Test
   public void testSameRole() throws InvalidQueryException, IOException {
     load("factbook.ltm");
 
@@ -225,6 +232,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                          "$C1 /= $C2?");
   }
 
+  @Test
   public void testBordersThreeCountries() throws InvalidQueryException, IOException {
     load("factbook.ltm");
 
@@ -238,6 +246,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
               "  borders-with($C : country, $N3 : country), $N1 /= $N3, $N2 /= $N3?");
   }
   
+  @Test
   public void testSameRoleConstant() throws InvalidQueryException, IOException {
     load("factbook.ltm");
 
@@ -249,6 +258,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "borders-with(norway : country, $N : country)?");
   }
 
+  @Test
   public void testSameRolePlayedManyTimesInBadlyFuckingDesignedTopicMapCourtesyOfRobert() throws InvalidQueryException, IOException {
     load("uc-literature.xtm");
 
@@ -270,6 +280,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   }
 
   // inconsistent use of role types
+  @Test
   public void testBug1293() throws InvalidQueryException, IOException {
     load("bug1293.ltm");
 
@@ -284,6 +295,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
 
   /// bug #655
 
+  @Test
   public void testUnaryAssoc() throws InvalidQueryException, IOException {
     load("bug655.ltm");
 
@@ -294,6 +306,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
 
   /// type testing
 
+  @Test
   public void testLiteralType() throws InvalidQueryException, IOException {
     load("bug662.xtm");
 
@@ -305,6 +318,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                 "example-of(@" + rid + " : illustrated, $E : example)?");
   }
 
+  @Test
   public void testTypeWithBounds() throws InvalidQueryException, IOException {
     load("bug662.xtm");
 
@@ -313,6 +327,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
                 "example-of($R1 : illustrated, $R2 : example)?");
   }
 
+  @Test
   public void testTypeWithBounds2() throws InvalidQueryException, IOException {
     load("bug662.xtm");
 
@@ -323,6 +338,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
 
   /// same variable twice
 
+//   @Test
 //   public void testBug972() throws InvalidQueryException, IOException {
 //     load("opera.ltm");
 
@@ -342,6 +358,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
 //   }
 
   // need to also test outside satisfyWhenBound
+  @Test
   public void testBug972b() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
@@ -355,6 +372,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
     verifyQuerySubset(matches, "killed-by($SUICIDE : victim, $SUICIDE : perpetrator)?"); 
   }
 
+//   @Test
 //   public void testBug1017() throws InvalidQueryException, IOException {
 //     load("partners.ltm");
 
@@ -367,6 +385,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
 //   }
 
   /// unnumbered bug reported by KN
+  //! @Test
   //! public void testNullPlayer() throws InvalidQueryException, IOException {
   //!   load("null-player.xtm");
 	//! 
@@ -378,6 +397,7 @@ public class DynamicAssociationPredicateTest extends AbstractPredicateTest {
   //!               "select $OTEMA from supertema($OTEMA, kultur)?");
   //! }
 
+  //! @Test
   //! public void testBug2001() throws InvalidQueryException, IOException {
   //!   load("null-role-type.xtm");
 	//! 

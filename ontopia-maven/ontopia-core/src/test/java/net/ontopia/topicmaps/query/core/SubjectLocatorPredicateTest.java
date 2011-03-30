@@ -12,18 +12,13 @@ import java.util.List;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
-public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
-  
-  public SubjectLocatorPredicateTest(String name) {
-    super(name);
-  }
+import org.junit.Test;
 
-  public void tearDown() {
-    closeStore();    
-  }
+public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
   
   /// tests
 
+  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -40,6 +35,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "subject-locator($TOPIC, $LOCATOR)?");
   }
   
+  @Test
   public void testTopicToLocator() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -49,6 +45,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "subject-locator(type2, $LOCATOR)?");
   }
   
+  @Test
   public void testTopicToNoLocator() throws InvalidQueryException, IOException {
     // motivated by bug #1453
     load("instance-of.ltm");
@@ -64,6 +61,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
                 "subject-locator($TOPIC, $LOCATOR)?");
   }
   
+  @Test
   public void testLocatorToTopic() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -73,6 +71,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "subject-locator($TOPIC, \"http://psi.ontopia.net/test/#2\")?");
   }
 
+  @Test
   public void testBothBoundFalse() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -81,6 +80,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "subject-locator(type1, \"http://psi.ontopia.net/test/#2\")?");
   }
 
+  @Test
   public void testBothBoundTrue() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -90,6 +90,7 @@ public class SubjectLocatorPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "subject-locator(type2, \"http://psi.ontopia.net/test/#2\")?");
   }
 
+  @Test
   public void testBug1290() throws InvalidQueryException, IOException {
     load("opera.ltm");
 
