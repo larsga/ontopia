@@ -25,10 +25,7 @@
 				<exclude>bin/setclasspath.bat</exclude>
 				
 				<!-- exclude server.xml, catalina.properties -->
-				<!--
-					Disabled because this is a tomcat 5 
-					<exclude>conf/server.xml</exclude>
-				-->
+				<exclude>conf/server.xml</exclude>
 				<exclude>conf/catalina.properties</exclude>
 			</excludes>
 		</fileSet>
