@@ -80,7 +80,7 @@
 	<files>
 		<file>
 			<source>src/main/assembly/resources/topicmaps/jill.xtm</source>
-			<outputDirectory>apache-tomcat/webapps/omnigator/doc/navigator</outputDirectory>
+			<outputDirectory>apache-tomcat/webapps/omnigator/docs/navigator</outputDirectory>
 			<fileMode>644</fileMode>
 		</file>
 	</files>

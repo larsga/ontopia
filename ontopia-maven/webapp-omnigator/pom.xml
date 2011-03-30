@@ -84,7 +84,7 @@
 						<configuration>
 							<resourceDirectory>target/docbook-collected/resources</resourceDirectory>
 							<sourceDirectory>target/docbook-collected</sourceDirectory>
-							<outputDirectory>target/${build.finalName}/doc</outputDirectory>
+							<outputDirectory>target/${build.finalName}/docs</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
