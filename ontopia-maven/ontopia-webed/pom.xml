@@ -68,8 +68,8 @@
 							<target name="main">
 								<!-- TLD file needs to be either in a Jar file or in webapp directory for Apache Jasper -->
 								<!-- This statement copies it to the designated Maven directory -->
-								<copy file="src/test/webapp/WEB-INF/jsp/webed-form.tld"
-									tofile="${project.build.outputDirectory}/META-INF/webed-form.tld"/>
+								<copy file="src/main/resources/META-INF/webed-form.tld"
+									tofile="src/test/webapp/WEB-INF/jsp/webed-form.tld"/>
 							</target>
 						</configuration>
 					</execution>
