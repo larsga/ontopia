@@ -7,49 +7,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.utils.TestUtils;
 
 public abstract class AbstractTMObjectTest extends AbstractTopicMapTest {
   protected static final String MSG_NULL_ARGUMENT = "null is not a valid argument.";
 
-  protected TopicMapReferenceIF topicmapRef;
-  protected TopicMapIF topicmap;       // topic map of object being tested
   protected TMObjectIF    object;      // object being tested
   protected TMObjectIF    parent;      // parent of object being tested, if any
-  protected TopicMapBuilderIF builder; // builder used for creating new objects
 
   public AbstractTMObjectTest(String name) {
     super(name);
-  }
-
-
-  public void setUp() {
-    factory = TestUtils.getFactory(this.getClass());
-
-    // Get a new topic map object from the factory.
-    topicmapRef = factory.makeTopicMapReference();
-    try {
-      topicmap = topicmapRef.createStore(false).getTopicMap();
-      // Get the builder of that topic map.
-      builder = topicmap.getBuilder();
-    } catch (java.io.IOException e) {
-      throw new OntopiaRuntimeException(e);
-    }
-  }
-
-  public void tearDown() {
-    if (topicmapRef != null) {
-      // Inform the factory that the topic map is not needed anymore.
-      topicmap.getStore().close();
-      factory.releaseTopicMapReference(topicmapRef);
-      // Reset the member variables.
-      topicmapRef = null;
-      topicmap = null;
-      builder = null;
-    }
   }
 
   protected abstract TMObjectIF makeObject();

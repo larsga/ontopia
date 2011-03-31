@@ -195,7 +195,7 @@ public class ClassInstanceIndexTest extends AbstractIndexTest {
     TopicIF topic = builder.makeTopic();
     TopicNameIF inst = builder.makeTopicName(topic, "");
 
-    TopicIF defaultNameType = topicMap.getTopicBySubjectIdentifier(PSI
+    TopicIF defaultNameType = topicmap.getTopicBySubjectIdentifier(PSI
         .getSAMNameType());
     
     assertTrue("not exactly one default name type basename",

@@ -6,18 +6,11 @@ package net.ontopia.topicmaps.core.index;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import net.ontopia.topicmaps.core.AbstractTopicMapTest;
-
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
 
 public abstract class AbstractIndexTest extends AbstractTopicMapTest {
   
-  protected TopicMapReferenceIF topicmapRef;
-  protected TopicMapIF topicMap;
-  protected TopicMapBuilderIF builder;
   protected Object _ix;
   
   // The expected exception message if NULL is passed to a function
@@ -29,29 +22,10 @@ public abstract class AbstractIndexTest extends AbstractTopicMapTest {
   }
 
   protected Object setUp(String indexInterface) {
-
-    factory = TestUtils.getFactory(this.getClass());
-
-    topicmapRef = factory.makeTopicMapReference();
-    try {
-      topicMap = topicmapRef.createStore(false).getTopicMap();
-      assertTrue("Null topic map!", topicMap != null);
-      
-      builder = topicMap.getBuilder();
-      assertTrue("Null builder!", builder != null);
-      
-      _ix = topicMap.getIndex("net.ontopia.topicmaps.core.index." + indexInterface);
-      assertTrue("Null " + indexInterface, _ix != null);
-    } catch (java.io.IOException e) {
-      throw new OntopiaRuntimeException(e);
-    }
+    super.setUp();
+    _ix = topicmap.getIndex("net.ontopia.topicmaps.core.index." + indexInterface);
+    assertTrue("Null " + indexInterface, _ix != null);
     return _ix;
-  }
-
-  protected void tearDown() {
-    // NOTE: setUp() is in concrete class.
-    topicMap.getStore().close();
-    factory.releaseTopicMapReference(topicmapRef);
   }
 
   protected void testNull(String methodName, String paramType) {

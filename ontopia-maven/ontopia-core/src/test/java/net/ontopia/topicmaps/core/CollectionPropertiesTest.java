@@ -3,9 +3,6 @@
 package net.ontopia.topicmaps.core;
 
 import java.lang.reflect.*;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
-import net.ontopia.utils.OntopiaRuntimeException;
-import net.ontopia.utils.TestUtils;
 
 /**
  * This class is the base class for all test cases which test the collection properties
@@ -14,38 +11,10 @@ import net.ontopia.utils.TestUtils;
 public class CollectionPropertiesTest extends AbstractTopicMapTest
 {
 
-  protected TopicMapReferenceIF topicmapRef;
-  protected TopicMapIF topicmap;
-  protected TopicMapBuilderIF builder;
-
   public CollectionPropertiesTest(String name) {
     super(name);
   }
 
-  protected void setUp() /*throws Exception*/ {
-
-    factory = TestUtils.getFactory(this.getClass());
-    
-    // Get a new topic map object from the factory.
-    topicmapRef = factory.makeTopicMapReference();
-    try {
-      topicmap = topicmapRef.createStore(false).getTopicMap();
-      assertTrue("Null topic map!" , topicmap != null);
-      
-      // Get the topic map factory of that topic map.
-      builder = topicmap.getBuilder();     
-      assertTrue("Null builder!", builder != null);
-    } catch (java.io.IOException e) {
-      throw new OntopiaRuntimeException(e);
-    }
-  }
-
-  public void tearDown() {
-    // Inform the factory that the topic map is not needed anymore.
-    topicmap.getStore().close();
-    factory.releaseTopicMapReference(topicmapRef);
-  }
-  
   protected void testMethod(Object obj, String methodName, String propType) {
     Class cls = obj.getClass();
     Class parmCls[] = new Class[1];

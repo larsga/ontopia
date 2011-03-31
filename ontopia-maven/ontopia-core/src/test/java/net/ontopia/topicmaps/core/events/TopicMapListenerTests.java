@@ -7,14 +7,10 @@ import java.util.*;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
 import net.ontopia.utils.TestUtils;
 
 public class TopicMapListenerTests extends AbstractTopicMapTest {
 
-  protected TopicMapReferenceIF topicmapRef;
-  protected TopicMapIF topicmap;       // topic map of object being tested
-  protected TopicMapBuilderIF builder; // builder used for creating new objects
   protected TesterListener listener;
   
   public TopicMapListenerTests(String name) {
@@ -45,13 +41,8 @@ public class TopicMapListenerTests extends AbstractTopicMapTest {
   }
 
   public void tearDown() {
-    // Inform the factory that the topic map is not needed anymore.
-    topicmap.getStore().close();
     TopicMapEvents.removeTopicListener(topicmapRef, listener);
-    factory.releaseTopicMapReference(topicmapRef);
-    // Reset the member variables.
-    topicmap = null;
-    builder = null;
+    super.tearDown();
   }
 
   // --- Test cases
