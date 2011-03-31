@@ -21,11 +21,18 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
+		</dependency>
+		
+		<!-- 
+			vizlet jar 
+			does NOT overwrite navigator completely due to size stripping in assembly
+		-->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ontopia-vizigator</artifactId>
+			<version>${project.version}</version>
+			<classifier>vizlet</classifier>
 		</dependency>
 	</dependencies>
 
@@ -54,7 +61,9 @@
 					<execution>
 						<id>collect-omnigator-docs</id>
 						<phase>prepare-package</phase>
-						<goals><goal>run</goal></goals>
+						<goals>
+							<goal>run</goal>
+						</goals>
 						<configuration>
 							<target>
 								<ant antfile="../src/docbook/ant/build.xml" target="collect-omnigator-docs"/>
@@ -80,11 +89,39 @@
 					<execution>
 						<id>collect-omnigator-docs</id>
 						<phase>prepare-package</phase>
-						<goals><goal>transform</goal></goals>
+						<goals>
+							<goal>transform</goal>
+						</goals>
 						<configuration>
 							<resourceDirectory>target/docbook-collected/resources</resourceDirectory>
 							<sourceDirectory>target/docbook-collected</sourceDirectory>
 							<outputDirectory>target/${build.finalName}/docs</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>ontopia-vizigator</artifactId>
+									<version>${project.version}</version>
+									<classifier>vizlet</classifier>
+									<outputDirectory>${project.build.directory}/${build.finalName}/plugins/viz</outputDirectory>
+									<destFileName>ontopia-vizlet.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
 						</configuration>
 					</execution>
 				</executions>
