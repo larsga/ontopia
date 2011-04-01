@@ -135,6 +135,8 @@ public class RelatedTopicsTest {
     // FIXME: no defined order for associations, unfortunately
   }
 
+  /* Disabled because the file kb-example-ontopoly.xtm does not exist anywhere
+
   @Test
   public void testBinariesOntopoly() throws IOException { // same as testBinaries, except ontopoly topicmap
     // initialize
@@ -183,6 +185,7 @@ public class RelatedTopicsTest {
                assocs.size() == 3);
     // FIXME: no defined order for associations, unfortunately
   }
+  */
 
   @Test
   public void testBinariesWithExplicitHiding() throws IOException {
