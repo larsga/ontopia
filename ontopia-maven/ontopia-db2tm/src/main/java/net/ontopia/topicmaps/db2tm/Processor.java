@@ -11,6 +11,8 @@ import net.ontopia.topicmaps.utils.*;
 import net.ontopia.utils.*;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
+import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
+import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +22,37 @@ import org.slf4j.LoggerFactory;
  */
 public class Processor {
 
+  public static int NEVER_COMMIT_MODE = 0;
+  public static int RELATIONAL_COMMIT_MODE = 1;
+  public static int TUPLE_COMMIT_MODE = 2;
+  public static int COUNT_COMMIT_MODE = 3;
+  public static int DEFAULT_COMMIT_MODE = NEVER_COMMIT_MODE;
+
   private static final LocatorIF LOC_SYNCHRONIZATION_STATE =
     URIUtils.getURILocator("http://psi.ontopia.net/db2tm/synchronization-state");
+
+  private static TopicMapIF doCommit(TopicMapIF topicmap) throws IOException {
+    TopicMapStoreIF store = topicmap.getStore();
+    TopicMapReferenceIF reference = store.getReference();
+    store.commit();
+    if (!(store instanceof InMemoryTopicMapStore)) {
+      store.close();
+      store = reference.createStore(false);
+    } //never forget!
+    topicmap = store.getTopicMap();
+
+    // force a GC
+    System.gc();
+
+    return topicmap;
+  }
+
+  private static String commitModeToString(int usedCommitMode, int usedCommitCount) {
+    if (usedCommitMode == RELATIONAL_COMMIT_MODE) return "relational";
+    if (usedCommitMode == TUPLE_COMMIT_MODE) return "tuple";
+    if (usedCommitMode == COUNT_COMMIT_MODE) return "count (" + usedCommitCount + ")";
+    return "unknown";
+  }
     
   private Processor() {
   }
@@ -45,6 +76,21 @@ public class Processor {
       // set up context object
       ctx.setMapping(rmapping);
       ctx.setTopicMap(topicmap);
+
+      int topLevelCommitMode = NEVER_COMMIT_MODE; // default
+      int topLevelCommitCount = -1;
+
+      // figure out the commit mode
+      String cm = rmapping.getCommitMode();
+      if (cm != null) {
+        if (cm.equals("relation")) topLevelCommitMode = RELATIONAL_COMMIT_MODE;
+        if (cm.equals("tuple")) topLevelCommitMode = TUPLE_COMMIT_MODE;
+        if (cm.startsWith("count:")) {
+          topLevelCommitMode = COUNT_COMMIT_MODE;
+          topLevelCommitCount = Integer.parseInt(cm.substring(6));
+        }
+      }
+
       if (baseloc != null)
         ctx.setBaseLocator(baseloc);
       else {
@@ -63,13 +109,13 @@ public class Processor {
         Iterator riter = rels.iterator();
         while (riter.hasNext()) {
           Relation relation = (Relation)riter.next();
-      
+
           // do not process non-listed relations
           if (relnames != null && !relnames.contains(relation.getName())) {
             log.debug("  ignoring relation: " + relation.getName());
             continue;
           } else {
-            log.debug("  adding relation: " + relation.getName());
+            log.info("  adding relation: " + relation.getName());
           }
       
           int rtuples = 0;
@@ -79,6 +125,22 @@ public class Processor {
           // set current relation
           ctx.setRelation(relation);
       
+          // figure out commit mode for this relation
+          int usedCommitMode = NEVER_COMMIT_MODE; // default
+          int usedCommitCount = -1;
+          cm = relation.getCommitMode();
+          if (cm == null) {
+            usedCommitMode = topLevelCommitMode;
+            usedCommitCount = topLevelCommitCount;
+          } else {
+            if (cm.equals("relation")) usedCommitMode = RELATIONAL_COMMIT_MODE;
+            if (cm.equals("tuple")) usedCommitMode = TUPLE_COMMIT_MODE;
+            if (cm.startsWith("count:")) {
+              usedCommitMode = COUNT_COMMIT_MODE;
+              usedCommitCount = Integer.parseInt(cm.substring(6));
+            }
+          }
+
           // changelog synchronization; set start order values
           Collection syncs = relation.getSyncs();
           if (!syncs.isEmpty()) {
@@ -89,6 +151,10 @@ public class Processor {
               log.debug("New order value: " + sync.getTable() + "=" + maxOrderValue);
               setStartOrder(sync, ctx, maxOrderValue);
             }
+          }
+
+          if (usedCommitMode > NEVER_COMMIT_MODE) {
+            log.info("  using commit mode: " + commitModeToString(usedCommitMode, usedCommitCount));
           }
           
           // loop over tuples        
@@ -102,7 +168,24 @@ public class Processor {
             addTuple(relation, tuple, ctx);
             rstime2 += (System.currentTimeMillis()-time);
             rtuples++;
+            if (usedCommitMode == TUPLE_COMMIT_MODE) {
+              topicmap = doCommit(topicmap);
+              ctx.setTopicMap(topicmap);
+            }
+
+            if ((usedCommitMode == COUNT_COMMIT_MODE) && (rtuples % usedCommitCount == 0)) {
+              topicmap = doCommit(topicmap);
+              ctx.setTopicMap(topicmap);
+              log.info("    committed after " + rtuples + " tuples ");
+            }
           }
+
+          // commit if needed
+          if ((usedCommitMode == RELATIONAL_COMMIT_MODE) || (usedCommitMode == COUNT_COMMIT_MODE)) {
+            topicmap = doCommit(topicmap);
+            ctx.setTopicMap(topicmap);
+          }
+
           log.info("    Added " + rtuples + " tuples from " + relation.getName() + ", " + 
                     (System.currentTimeMillis()-rstime1) + "/" + rstime2 + " ms");
           ttuples += rtuples;
@@ -863,26 +946,26 @@ public class Processor {
       if (type == null)
         throw new DB2TMInputException("Occurrence type not found", entity, tuple, field.getType());
 
-			String occvalue = value;
-			LocatorIF occDatatype = DataTypes.TYPE_STRING;
+                        String occvalue = value;
+                        LocatorIF occDatatype = DataTypes.TYPE_STRING;
       if (field.getDatatype() != null) {
         String datatype = Utils.expandPrefixedValue(field.getDatatype(), ctx);
         if (datatype.equals(DataTypes.TYPE_URI)) {
           occvalue = ctx.getBaseLocator().resolveAbsolute(value).getAddress();
-					occDatatype = DataTypes.TYPE_URI;
+                                        occDatatype = DataTypes.TYPE_URI;
         } else {
-					occDatatype = URILocator.create(datatype);
+                                        occDatatype = URILocator.create(datatype);
         }
       }
       
       OccurrenceIF oc = (OccurrenceIF)ctx.reuseOldFieldValue(topic, fieldIndex);
       if (oc == null) {
-				// FIXME: rewrite so that we can set occurrence value directly
-				oc = ctx.getBuilder().makeOccurrence(topic, type, occvalue, occDatatype); 
+                                // FIXME: rewrite so that we can set occurrence value directly
+                                oc = ctx.getBuilder().makeOccurrence(topic, type, occvalue, occDatatype); 
         addScope(oc, field.getScope(), entity, tuple, ctx);
         log.debug("      +O "  + topic + " " + oc);
       } else {
-				oc.setValue(occvalue, occDatatype);
+                                oc.setValue(occvalue, occDatatype);
         log.debug("      =O "  + topic + " " + oc);
       }
       // notify context
@@ -910,7 +993,7 @@ public class Processor {
         TopicIF _type = _occ.getType();
         if (ObjectUtils.different(_type, type)) continue;
 
-				// FIXME: compare datatype?
+                                // FIXME: compare datatype?
 
         // check scope
         if (!compareScope(field.getScope(), _occ.getScope(), entity, tuple, ctx)) continue;
@@ -935,10 +1018,10 @@ public class Processor {
     while (iter.hasNext()) {
       OccurrenceIF _occ = (OccurrenceIF)iter.next();
       // check value or locator
-			String _value = _occ.getValue();
-			if (ObjectUtils.different(_value, value)) continue;
+                        String _value = _occ.getValue();
+                        if (ObjectUtils.different(_value, value)) continue;
 
-			// FIXME: compare datatype?
+                        // FIXME: compare datatype?
 
       // check type
       TopicIF _type = _occ.getType();
