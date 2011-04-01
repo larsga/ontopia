@@ -13,13 +13,14 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.TopicMapStoreIF;
+import junit.framework.TestCase;
 
 /**
  * INTERNAL: Tests that tests various aspects about the query caches
  * used by the RDBMS Backend Connector.
  */
 
-public class QueryCacheTests extends AbstractTopicMapTest {
+public class QueryCacheTests extends TestCase {
   
   public QueryCacheTests(String name) {
     super(name);

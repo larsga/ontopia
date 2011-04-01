@@ -10,13 +10,14 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
+import junit.framework.TestCase;
 
 /**
  * INTERNAL: Tests that verify that LocatorIF lookups work correctly
  * in a committed and reopened topic map store.
  */
 
-public class ObjectLookupTests extends AbstractTopicMapTest {
+public class ObjectLookupTests extends TestCase {
   
   private final static String testdataDirectory = "various";
 

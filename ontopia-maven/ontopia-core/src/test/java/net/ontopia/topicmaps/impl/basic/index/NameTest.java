@@ -18,8 +18,9 @@ import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.topicmaps.core.index.NameIndexIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
 import net.ontopia.topicmaps.utils.ltm.LTMTopicMapReader;
+import junit.framework.TestCase;
 
-public class NameTest extends AbstractTopicMapTest {
+public class NameTest extends TestCase {
   protected NameIndexIF index;
   protected TopicMapBuilderIF builder;
   protected TopicMapIF topicmap;

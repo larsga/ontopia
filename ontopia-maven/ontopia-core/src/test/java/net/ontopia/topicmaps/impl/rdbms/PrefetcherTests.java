@@ -28,13 +28,14 @@ import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
+import junit.framework.TestCase;
 
 /** 
  * INTERNAL: Tests that tests the prefetching code used with the
  * RDBMS Backend Connector and the in-memory tolog implementation.  
  */
 
-public class PrefetcherTests extends AbstractTopicMapTest {
+public class PrefetcherTests extends TestCase {
   
   private final static String testdataDirectory = "various";
 

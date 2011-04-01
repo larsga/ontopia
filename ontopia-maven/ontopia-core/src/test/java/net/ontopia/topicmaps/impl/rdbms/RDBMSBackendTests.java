@@ -30,13 +30,14 @@ import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
+import junit.framework.TestCase;
 
 /**
  * INTERNAL: Tests that tests various aspects about the RDBMS Backend
  * Connector.
  */
 
-public class RDBMSBackendTests extends AbstractTopicMapTest {
+public class RDBMSBackendTests extends TestCase {
   
   public RDBMSBackendTests(String name) {
     super(name);

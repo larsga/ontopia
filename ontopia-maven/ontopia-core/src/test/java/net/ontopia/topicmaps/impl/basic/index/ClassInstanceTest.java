@@ -13,8 +13,9 @@ import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
 import net.ontopia.topicmaps.core.index.ClassInstanceIndexIF;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import junit.framework.TestCase;
 
-public class ClassInstanceTest extends AbstractTopicMapTest {
+public class ClassInstanceTest extends TestCase {
     protected ClassInstanceIndexIF index;
     protected TopicMapBuilderIF builder;
     protected TopicMapIF topicmap;
