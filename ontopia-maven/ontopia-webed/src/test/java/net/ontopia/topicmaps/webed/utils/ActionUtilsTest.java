@@ -35,8 +35,8 @@ public class ActionUtilsTest extends TestCase {
     super.setUp();
     // only read in registry once (we are not modifying it)
     if (registry == null) {
-      String configFile = FileUtils.getTestInputFile(testdataDirectory, "actionConfig.xml");
-      ActionConfigurator ac = new ActionConfigurator("omnieditor", "/", configFile);
+      File realFile = FileUtils.getTransferredTestInputFile(testdataDirectory, "actionConfig.xml");
+      ActionConfigurator ac = new ActionConfigurator("omnieditor", realFile.getParent(), "actionConfig.xml");
       ac.readAndWatchRegistry();
       registry = ac.getRegistry();
     }
