@@ -8,7 +8,7 @@ import java.lang.reflect.*;
  * This class is the base class for all test cases which test the collection properties
  * handling of the different implementations of the core topic map interfaces.
  */
-public class CollectionPropertiesTest extends AbstractTopicMapTest
+public abstract class CollectionPropertiesTest extends AbstractTopicMapTest
 {
 
   public CollectionPropertiesTest(String name) {

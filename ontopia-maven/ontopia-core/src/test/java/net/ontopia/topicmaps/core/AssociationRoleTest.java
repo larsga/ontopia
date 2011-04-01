@@ -3,7 +3,7 @@
 
 package net.ontopia.topicmaps.core;
 
-public class AssociationRoleTest extends AbstractTypedTest {
+public abstract class AssociationRoleTest extends AbstractTypedTest {
   protected AssociationRoleIF role;
   
   public AssociationRoleTest(String name) {
@@ -56,7 +56,7 @@ public class AssociationRoleTest extends AbstractTypedTest {
 
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     AssociationIF assoc = builder.makeAssociation(builder.makeTopic());
     parent = assoc;

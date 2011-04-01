@@ -7,9 +7,8 @@ import java.util.*;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
-import net.ontopia.utils.TestUtils;
 
-public class TopicMapListenerTests extends AbstractTopicMapTest {
+public abstract class TopicMapListenerTests extends AbstractTopicMapTest {
 
   protected TesterListener listener;
   
@@ -25,19 +24,15 @@ public class TopicMapListenerTests extends AbstractTopicMapTest {
     throw new UnsupportedOperationException();
   }
 
-  public void setUp() {
+  public void setUp() throws Exception {
     // Get a new topic map object from the factory.
-    factory = TestUtils.getFactory(this.getClass());
+    factory = getFactory();
     topicmapRef = factory.makeTopicMapReference();
     listener = new TesterListener();
     TopicMapEvents.addTopicListener(topicmapRef, listener);
-    try {
-      topicmap = topicmapRef.createStore(false).getTopicMap();
-      // Get the builder of that topic map.
-      builder = topicmap.getBuilder();
-    } catch (java.io.IOException e) {
-      throw new OntopiaRuntimeException(e);
-    }
+    topicmap = topicmapRef.createStore(false).getTopicMap();
+    // Get the builder of that topic map.
+    builder = topicmap.getBuilder();
   }
 
   public void tearDown() {

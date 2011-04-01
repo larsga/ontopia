@@ -10,14 +10,14 @@ import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.infoset.impl.basic.GenericLocator;
 
-public class OccurrenceIndexTest extends AbstractIndexTest {
+public abstract class OccurrenceIndexTest extends AbstractIndexTest {
   protected OccurrenceIndexIF ix;
   
   public OccurrenceIndexTest(String name) {
     super(name);
   }
 
-  protected void setUp() {
+  protected void setUp() throws Exception {
     ix = (OccurrenceIndexIF)super.setUp("OccurrenceIndexIF");
   }
 

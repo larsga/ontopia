@@ -9,9 +9,8 @@ import net.ontopia.infoset.core.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.TestUtils;
   
-public class TopicModificationTests extends AbstractTopicMapTest {
+public abstract class TopicModificationTests extends AbstractTopicMapTest {
 
   protected TopicIF bart;
   protected TesterListener listener;
@@ -20,27 +19,22 @@ public class TopicModificationTests extends AbstractTopicMapTest {
     super(name);
   }
   
-  public void setUp() {
+  public void setUp() throws Exception {
     // get a new topic map object from the factory.
-    factory = TestUtils.getFactory(this.getClass());
+    factory = getFactory();
     topicmapRef = factory.makeTopicMapReference();
     listener = new TesterListener();
     TopicMapEvents.addTopicListener(topicmapRef, listener);
-    try {
-      // load topic map
-      topicmap = topicmapRef.createStore(false).getTopicMap();
-      ImportExportUtils.getImporter(FileUtils.getTestInputFile("various", "bart.ltm")).importInto(topicmap);
-      topicmap.getStore().commit();
-      
-      // get the builder of that topic map.
-      builder = topicmap.getBuilder();
+    // load topic map
+    topicmap = topicmapRef.createStore(false).getTopicMap();
+    ImportExportUtils.getImporter(FileUtils.getTestInputFile("various", "bart.ltm")).importInto(topicmap);
+    topicmap.getStore().commit();
+    
+    // get the builder of that topic map.
+    builder = topicmap.getBuilder();
 
-      // get test topic
-      bart = topicmap.getTopicBySubjectIdentifier(Locators.getURILocator("test:bart"));
-      
-    } catch (java.io.IOException e) {
-      throw new OntopiaRuntimeException(e);
-    }
+    // get test topic
+    bart = topicmap.getTopicBySubjectIdentifier(Locators.getURILocator("test:bart"));
   }
 
   public void tearDown() {

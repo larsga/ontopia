@@ -15,7 +15,7 @@ import net.ontopia.infoset.impl.basic.GenericLocator;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.FileUtils;
 
-public class OccurrenceTest extends AbstractTypedScopedTest {
+public abstract class OccurrenceTest extends AbstractTypedScopedTest {
   protected OccurrenceIF occurrence;
   
   public OccurrenceTest(String name) {
@@ -190,7 +190,7 @@ public class OccurrenceTest extends AbstractTypedScopedTest {
   
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     TopicIF topic = builder.makeTopic();
     parent = topic;

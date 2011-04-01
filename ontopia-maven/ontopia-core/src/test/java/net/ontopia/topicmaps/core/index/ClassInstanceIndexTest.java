@@ -10,7 +10,7 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.utils.PSI;
 
-public class ClassInstanceIndexTest extends AbstractIndexTest {
+public abstract class ClassInstanceIndexTest extends AbstractIndexTest {
   
   protected ClassInstanceIndexIF clsix;
   protected TopicIF type;
@@ -19,7 +19,7 @@ public class ClassInstanceIndexTest extends AbstractIndexTest {
     super(name);
   }
 
-  protected void setUp() {
+  protected void setUp() throws Exception {
     clsix = (ClassInstanceIndexIF) super.setUp("ClassInstanceIndexIF");
     type = builder.makeTopic();
   }

@@ -2,9 +2,9 @@ package net.ontopia.topicmaps.impl.rdbms;
 
 import net.ontopia.topicmaps.core.TestFactoryIF;
 
-public class TopicNameTest extends net.ontopia.topicmaps.core.TopicNameTest {
+public class CollectionPropertiesTest extends net.ontopia.topicmaps.core.CollectionPropertiesTest {
 
-  public TopicNameTest(String name) {
+  public CollectionPropertiesTest(String name) {
     super(name);
   }
 

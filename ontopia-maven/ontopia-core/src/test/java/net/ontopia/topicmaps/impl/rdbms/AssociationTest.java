@@ -2,9 +2,9 @@ package net.ontopia.topicmaps.impl.rdbms;
 
 import net.ontopia.topicmaps.core.TestFactoryIF;
 
-public class TopicNameTest extends net.ontopia.topicmaps.core.TopicNameTest {
+public class AssociationTest extends net.ontopia.topicmaps.core.AssociationTest {
 
-  public TopicNameTest(String name) {
+  public AssociationTest(String name) {
     super(name);
   }
 

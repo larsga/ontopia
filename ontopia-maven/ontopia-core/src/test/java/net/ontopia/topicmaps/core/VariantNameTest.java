@@ -11,14 +11,14 @@ import net.ontopia.infoset.impl.basic.GenericLocator;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.FileUtils;
 
-public class VariantNameTest extends AbstractScopedTest {
+public abstract class VariantNameTest extends AbstractScopedTest {
   protected VariantNameIF variant;
     
   public VariantNameTest(String name) {
     super(name);
   }
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     TopicIF topic = builder.makeTopic();
     TopicNameIF basename = builder.makeTopicName(topic, "");

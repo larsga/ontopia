@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.core;
 import java.net.MalformedURLException;
 import net.ontopia.infoset.impl.basic.URILocator;
 
-public class TopicTest extends AbstractTMObjectTest {
+public abstract class TopicTest extends AbstractTMObjectTest {
   protected TopicIF topic;
   
   public TopicTest(String name) {
@@ -420,7 +420,7 @@ public class TopicTest extends AbstractTMObjectTest {
   
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     topic = builder.makeTopic();
     parent = topicmap;

@@ -9,7 +9,7 @@ import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 
-public class NameIndexTest extends AbstractIndexTest {
+public abstract class NameIndexTest extends AbstractIndexTest {
   
   protected NameIndexIF ix;
 
@@ -17,7 +17,7 @@ public class NameIndexTest extends AbstractIndexTest {
     super(name);
   }
 
-  protected void setUp() {
+  protected void setUp() throws Exception {
     ix = (NameIndexIF)super.setUp("NameIndexIF");
   }
   

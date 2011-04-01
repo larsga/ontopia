@@ -8,7 +8,7 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 
-public class ScopeIndexTest extends AbstractIndexTest {
+public abstract class ScopeIndexTest extends AbstractIndexTest {
 
   protected ScopeIndexIF ix;
   protected TopicIF theme1, theme2;
@@ -17,7 +17,7 @@ public class ScopeIndexTest extends AbstractIndexTest {
     super(name);
   }
 
-  protected void setUp() {
+  protected void setUp() throws Exception {
     ix = (ScopeIndexIF)super.setUp("ScopeIndexIF");
     theme1 = builder.makeTopic();
     theme2 = builder.makeTopic();

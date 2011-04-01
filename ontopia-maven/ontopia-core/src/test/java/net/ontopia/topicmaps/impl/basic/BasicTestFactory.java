@@ -5,9 +5,9 @@ package net.ontopia.topicmaps.impl.basic;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.entry.*;
 
-public class CoreTestGenerator extends AbstractCoreTestGenerator implements AbstractCoreTestGenerator.FactoryIF {
+public class BasicTestFactory implements TestFactoryIF {
 
-  public FactoryIF getFactory() {
+  public TestFactoryIF getFactory() {
     return this;
   }
 

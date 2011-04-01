@@ -1,4 +1,4 @@
-package net.ontopia.topicmaps.impl.rdbms;
+package net.ontopia.topicmaps.impl.basic;
 
 import net.ontopia.topicmaps.core.TestFactoryIF;
 
@@ -9,7 +9,7 @@ public class TopicNameTest extends net.ontopia.topicmaps.core.TopicNameTest {
   }
 
   protected TestFactoryIF getFactory() throws Exception {
-    return new RDBMSTestFactory();
+    return new BasicTestFactory();
   }
 
 }

@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.core;
  * This class tests a TopicMapStoreIF implementation.
  */
 
-public class TopicMapStoreTest extends AbstractTopicMapTest {
+public abstract class TopicMapStoreTest extends AbstractTopicMapTest {
   
   public TopicMapStoreTest(String name) {
     super(name);

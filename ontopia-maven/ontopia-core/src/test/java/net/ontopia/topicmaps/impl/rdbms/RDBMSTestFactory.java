@@ -8,15 +8,13 @@ import net.ontopia.utils.*;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.entry.*;
 import net.ontopia.persistence.proxy.*;
-import net.ontopia.topicmaps.impl.rdbms.*;
 
-public class CoreTestGenerator extends AbstractCoreTestGenerator
-  implements AbstractCoreTestGenerator.FactoryIF {
+public class RDBMSTestFactory implements TestFactoryIF {
 
   //! protected RDBMSStorage storage;
   protected RDBMSTopicMapSource source;
   
-  public CoreTestGenerator() throws IOException {
+  public RDBMSTestFactory() throws IOException {
     //! storage = new RDBMSStorage(System.getProperty("net.ontopia.topicmaps.impl.rdbms.PropertyFile"));
     source = new RDBMSTopicMapSource();
     source.setPropertyFile(System.getProperty("net.ontopia.topicmaps.impl.rdbms.PropertyFile"));
@@ -24,7 +22,7 @@ public class CoreTestGenerator extends AbstractCoreTestGenerator
     source.setSupportsDelete(true);
   }
   
-  public FactoryIF getFactory() {
+  public TestFactoryIF getFactory() {
     return this;
   }
 

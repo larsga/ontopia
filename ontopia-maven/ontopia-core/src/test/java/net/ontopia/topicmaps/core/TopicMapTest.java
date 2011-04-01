@@ -6,7 +6,7 @@ package net.ontopia.topicmaps.core;
 import java.net.MalformedURLException;
 import net.ontopia.infoset.impl.basic.URILocator;
 
-public class TopicMapTest extends AbstractTMObjectTest {
+public abstract class TopicMapTest extends AbstractTMObjectTest {
 
   protected TopicMapIF tm;
   // The expected exception message if NULL is passed to a function
@@ -292,7 +292,7 @@ public class TopicMapTest extends AbstractTMObjectTest {
   
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     tm = topicmap;
     object = tm;

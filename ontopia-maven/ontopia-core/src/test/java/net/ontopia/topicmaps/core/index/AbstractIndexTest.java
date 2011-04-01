@@ -21,7 +21,7 @@ public abstract class AbstractIndexTest extends AbstractTopicMapTest {
     super(name);
   }
 
-  protected Object setUp(String indexInterface) {
+  protected Object setUp(String indexInterface) throws Exception {
     super.setUp();
     _ix = topicmap.getIndex("net.ontopia.topicmaps.core.index." + indexInterface);
     assertTrue("Null " + indexInterface, _ix != null);

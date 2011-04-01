@@ -3,7 +3,7 @@
 
 package net.ontopia.topicmaps.core;
 
-public class TopicNameTest extends AbstractTypedScopedTest {
+public abstract class TopicNameTest extends AbstractTypedScopedTest {
   protected TopicNameIF basename;
   
   public TopicNameTest(String name) {
@@ -90,7 +90,7 @@ public class TopicNameTest extends AbstractTypedScopedTest {
     
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     TopicIF topic = builder.makeTopic();
     parent = topic;

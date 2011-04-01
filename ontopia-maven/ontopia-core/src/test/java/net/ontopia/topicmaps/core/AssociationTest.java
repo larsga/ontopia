@@ -3,7 +3,7 @@
 
 package net.ontopia.topicmaps.core;
 
-public class AssociationTest extends AbstractTypedScopedTest {
+public abstract class AssociationTest extends AbstractTypedScopedTest {
   protected AssociationIF assoc;
   
   public AssociationTest(String name) {
@@ -143,7 +143,7 @@ public class AssociationTest extends AbstractTypedScopedTest {
     
   // --- Internal methods
 
-  public void setUp() {
+  public void setUp() throws Exception {
     super.setUp();
     assoc = builder.makeAssociation(builder.makeTopic());
     object = assoc;

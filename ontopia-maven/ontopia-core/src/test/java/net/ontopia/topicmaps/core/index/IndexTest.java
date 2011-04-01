@@ -10,7 +10,7 @@ import net.ontopia.topicmaps.core.TopicMapIF;
  * Performs a series of tests on the index interfaces.
  */
 
-public class IndexTest extends AbstractTopicMapTest {  
+public abstract class IndexTest extends AbstractTopicMapTest {  
 
   public IndexTest(String name) {
     super(name);
