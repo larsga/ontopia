@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.ontopia.infoset.core.LocatorIF;
+import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 import net.ontopia.topicmaps.core.TopicMapIF;
@@ -17,6 +18,7 @@ import net.ontopia.topicmaps.nav2.portlets.pojos.Menu;
 import net.ontopia.topicmaps.nav2.portlets.pojos.Menu.Heading;
 import net.ontopia.topicmaps.nav2.portlets.pojos.Menu.Item;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.topicmaps.utils.PSI;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.FileUtils;
 
@@ -854,10 +856,18 @@ public class MenuTest {
 
     // test menu
     Menu menu = new Menu(topic);
-    Assert.assertEquals(23, tm.getTopics().size());
+	
+	// names must have types, check presence
+	TopicIF tname = tm.getTopicBySubjectIdentifier(PSI.getSAMNameType());
+	Assert.assertNotNull(tname);
+	
+	// 23 topics + nametype = 24
+    Assert.assertEquals(24, tm.getTopics().size());
     Assert.assertEquals(6, tm.getAssociations().size());
     menu.delete();
-    Assert.assertEquals(20, tm.getTopics().size());
+	
+	// 20 topics + nametype = 21
+    Assert.assertEquals(21, tm.getTopics().size());
     Assert.assertEquals(1, tm.getAssociations().size());
 
     Assert.assertNull(topic.getTopicMap());
