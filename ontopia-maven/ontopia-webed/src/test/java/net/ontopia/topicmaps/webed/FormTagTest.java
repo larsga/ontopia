@@ -149,12 +149,14 @@ public class FormTagTest extends AbstractWebBasedTestCase {
         + "/test/FormTag/testLockingEL.jsp");
   }
 
+  /* Disabled because FormTag's velocity no longer reacts to readonly
   public void testReadonlyTrue() throws Exception {
     WebResponse success = wc.getResponse(webedTestLocation
         + "/test/FormTag/testReadonlyTrue.jsp");
     assertTrue("Form element found in read-only page",
                success.getForms().length == 0);
   }
+  */
 
   public void testReadonlyFalse() throws Exception {
     WebResponse success = wc.getResponse(webedTestLocation
