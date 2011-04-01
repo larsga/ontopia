@@ -4,7 +4,7 @@
   <using prefix='fd' subject-identifier='http://psi.bergen.kommune.no/portal/'></using>
 
   <sources>
-    <jdbc id="jdbc" propfile='/tmp/grove.postgresql.props'/>
+    <jdbc id="jdbc" propfile='classpath:db2tm.h2.props'/>
   </sources>
 
   <relation name='jdst' columns='a b c d' synctype='changelog'>

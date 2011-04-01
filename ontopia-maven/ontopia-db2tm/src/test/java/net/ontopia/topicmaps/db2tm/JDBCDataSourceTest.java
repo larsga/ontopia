@@ -23,14 +23,14 @@ public class JDBCDataSourceTest {
   private static final boolean DEBUG_LTM = false; // keep off in CVS
 
   // NOTE: these are hardcoded for the time being
-  String propfile = "/tmp/grove.postgresql.props";
+  String propfile = "classpath:db2tm.h2.props";
 
   private final static String testdataDirectory = "db2tm";
 
   @Test
   public void testReaders() throws Exception {
     
-    ConnectionFactoryIF cf = new DefaultConnectionFactory(PropertyUtils.loadProperties(new File(propfile)), false);
+    ConnectionFactoryIF cf = new DefaultConnectionFactory(PropertyUtils.loadProperties(StreamUtils.getInputStream(propfile)), false);
     Connection conn = cf.requestConnection();
     try {
       // create tables
@@ -139,7 +139,7 @@ public class JDBCDataSourceTest {
   @Test
   public void testSecondary() throws Exception {
     
-    ConnectionFactoryIF cf = new DefaultConnectionFactory(PropertyUtils.loadProperties(new File(propfile)), false);
+    ConnectionFactoryIF cf = new DefaultConnectionFactory(PropertyUtils.loadProperties(StreamUtils.getInputStream(propfile)), false);
     Connection conn = cf.requestConnection();
     try {
       // create tables

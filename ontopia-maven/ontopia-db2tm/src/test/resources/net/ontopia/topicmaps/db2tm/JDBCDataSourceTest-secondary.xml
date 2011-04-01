@@ -4,7 +4,7 @@
   <using prefix='px' subject-identifier='test:secondary/'></using>
 
   <sources>
-    <jdbc id="jdbc" propfile='/tmp/grove.postgresql.props'/>
+    <jdbc id="jdbc" propfile='classpath:db2tm.h2.props'/>
   </sources>
 
   <relation name='first' columns='a b c d' synctype='changelog'>
