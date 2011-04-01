@@ -101,11 +101,11 @@ public class JSPAttributeTest {
 
   @Test
   public void testDoubleStaticMethod() throws Exception {
-    runJSPTestNotFound("jspattr-double.jsp",
+    runJSPTest("jspattr-double.jsp",
                        makeMap("foo", new StaticObject()));
   }
   static class StaticObject {
-    public static Object getBar() { return "badvalue"; }
+    public static Object getBar() { return "barvalue"; }
   }
 
   @Test
