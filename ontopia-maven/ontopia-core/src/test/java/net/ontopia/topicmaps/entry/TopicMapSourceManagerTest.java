@@ -4,8 +4,9 @@ package net.ontopia.topicmaps.entry;
 
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import junit.framework.TestCase;
 
-public class TopicMapSourceManagerTest extends AbstractTopicMapTest {
+public class TopicMapSourceManagerTest extends TestCase {
   TopicMapSourceManager manager;
 
   public TopicMapSourceManagerTest(String name) {
