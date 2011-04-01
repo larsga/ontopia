@@ -6,16 +6,25 @@ import java.io.IOException;
 import java.util.Map;
 import net.ontopia.topicmaps.core.TopicIF;
 
-import org.junit.Test;
-import org.junit.Assert;
-
 // FIXME: test merges of non-topics
 
 public class MergeTest extends AbstractQueryTest {
   
+  public MergeTest(String name) {
+    super(name);
+  }
+
+  /// context management
+
+  public void setUp() {
+  }
+
+  public void tearDown() {
+    closeStore();
+  }
+
   /// empty topic map
   
-  @Test
   public void testEmptyMerge() throws InvalidQueryException {
     makeEmpty();
     update("merge $A, $B from direct-instance-of($A, $B)");
@@ -23,7 +32,6 @@ public class MergeTest extends AbstractQueryTest {
 
   /// instance-of topic map
 
-  @Test
   public void testSelfMerge() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -31,11 +39,10 @@ public class MergeTest extends AbstractQueryTest {
     
     update("merge topic1, topic1");
 
-    Assert.assertTrue("wrong number of topics after merge",
+    assertTrue("wrong number of topics after merge",
                topicmap.getTopics().size() == before);
   }
   
-  @Test
   public void testStaticMerge() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -45,20 +52,19 @@ public class MergeTest extends AbstractQueryTest {
     
     update("merge topic1, topic2");
 
-    Assert.assertTrue("wrong number of topics after merge",
+    assertTrue("wrong number of topics after merge",
                topicmap.getTopics().size() == (before - 1));
-    Assert.assertTrue("topic1 not available after merge",
+    assertTrue("topic1 not available after merge",
                getTopicById("topic1") != null);
-    Assert.assertTrue("topic2 not available after merge",
+    assertTrue("topic2 not available after merge",
                getTopicById("topic2") != null);
-    Assert.assertTrue("topics not same after merge",
+    assertTrue("topics not same after merge",
                getTopicById("topic2") == getTopicById("topic1"));
 
-    Assert.assertTrue("both topics still attached to TM after merge",
+    assertTrue("both topics still attached to TM after merge",
                topic1.getTopicMap() == null || topic2.getTopicMap() == null);
   }
 
-  @Test
   public void testDynamicMerge() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -68,20 +74,19 @@ public class MergeTest extends AbstractQueryTest {
     
     update("merge $A, $B from $A = topic1, $B = topic2");
 
-    Assert.assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
+    assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
                topicmap.getTopics().size() == (before - 1));
-    Assert.assertTrue("topic1 not available after merge",
+    assertTrue("topic1 not available after merge",
                getTopicById("topic1") != null);
-    Assert.assertTrue("topic2 not available after merge",
+    assertTrue("topic2 not available after merge",
                getTopicById("topic2") != null);
-    Assert.assertTrue("topics not same after merge",
+    assertTrue("topics not same after merge",
                getTopicById("topic2") == getTopicById("topic1"));
 
-    Assert.assertTrue("both topics still attached to TM after merge",
+    assertTrue("both topics still attached to TM after merge",
                topic1.getTopicMap() == null || topic2.getTopicMap() == null);
   }
 
-  @Test
   public void testDynamicMerge2() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -91,20 +96,19 @@ public class MergeTest extends AbstractQueryTest {
     
     update("merge $A, topic2 from $A = topic1");
 
-    Assert.assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
+    assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
                topicmap.getTopics().size() == (before - 1));
-    Assert.assertTrue("topic1 not available after merge",
+    assertTrue("topic1 not available after merge",
                getTopicById("topic1") != null);
-    Assert.assertTrue("topic2 not available after merge",
+    assertTrue("topic2 not available after merge",
                getTopicById("topic2") != null);
-    Assert.assertTrue("topics not same after merge",
+    assertTrue("topics not same after merge",
                getTopicById("topic2") == getTopicById("topic1"));
 
-    Assert.assertTrue("both topics still attached to TM after merge",
+    assertTrue("both topics still attached to TM after merge",
                topic1.getTopicMap() == null || topic2.getTopicMap() == null);
   }
   
-  @Test
   public void testManyMerges() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
 
@@ -115,32 +119,31 @@ public class MergeTest extends AbstractQueryTest {
     // merges topic1, topic2, topic3, and topic4 into a single topic
     update("merge $A, $B from instance-of($A, $C), instance-of($B, $D)");
 
-    Assert.assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
+    assertTrue("wrong number of topics after merge: " + topicmap.getTopics().size(),
                topicmap.getTopics().size() == (before - 3));
-    Assert.assertTrue("topic1 not available after merge",
+    assertTrue("topic1 not available after merge",
                getTopicById("topic1") != null);
-    Assert.assertTrue("topic2 not available after merge",
+    assertTrue("topic2 not available after merge",
                getTopicById("topic2") != null);
-    Assert.assertTrue("topic3 not available after merge",
+    assertTrue("topic3 not available after merge",
                getTopicById("topic3") != null);
-    Assert.assertTrue("topic4 not available after merge",
+    assertTrue("topic4 not available after merge",
                getTopicById("topic4") != null);
 
-    Assert.assertTrue("topics not same after merge (1, 2)",
+    assertTrue("topics not same after merge (1, 2)",
                getTopicById("topic1") == getTopicById("topic2"));
-    Assert.assertTrue("topics not same after merge (1, 3)",
+    assertTrue("topics not same after merge (1, 3)",
                getTopicById("topic1") == getTopicById("topic3"));
-    Assert.assertTrue("topics not same after merge (1, 4)",
+    assertTrue("topics not same after merge (1, 4)",
                getTopicById("topic1") == getTopicById("topic4"));
-    Assert.assertTrue("topics not same after merge (2, 3)",
+    assertTrue("topics not same after merge (2, 3)",
                getTopicById("topic2") == getTopicById("topic3"));
-    Assert.assertTrue("topics not same after merge (2, 4)",
+    assertTrue("topics not same after merge (2, 4)",
                getTopicById("topic2") == getTopicById("topic4"));
-    Assert.assertTrue("topics not same after merge (3, 4)",
+    assertTrue("topics not same after merge (3, 4)",
                getTopicById("topic3") == getTopicById("topic4"));
   }
   
-  @Test
   public void testParam() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -151,15 +154,14 @@ public class MergeTest extends AbstractQueryTest {
 
     update("merge superclass, %topic%", params);
 
-    Assert.assertTrue("topic still attached to TM after merge",
+    assertTrue("topic still attached to TM after merge",
                subclass.getTopicMap() == null);
-    Assert.assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
+    assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
                superclass.getTopicNames().size() == 2);
-    Assert.assertTrue("wrong number of topics after merge",
+    assertTrue("wrong number of topics after merge",
                topicmap.getTopics().size() == (topics - 1));
   }  
 
-  @Test
   public void testParam2() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -170,15 +172,14 @@ public class MergeTest extends AbstractQueryTest {
 
     update("merge superclass, $A from $A = %topic%", params);
 
-    Assert.assertTrue("topic still attached to TM after merge",
+    assertTrue("topic still attached to TM after merge",
                subclass.getTopicMap() == null);
-    Assert.assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
+    assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
                superclass.getTopicNames().size() == 2);
-    Assert.assertTrue("wrong number of topics after merge",
+    assertTrue("wrong number of topics after merge",
                topicmap.getTopics().size() == (topics - 1));
   }
 
-  @Test
   public void testParam3() throws InvalidQueryException, IOException {
     load("subclasses.ltm");
 
@@ -189,29 +190,26 @@ public class MergeTest extends AbstractQueryTest {
 
     update("merge $A, %topic% from $A = superclass", params);
 
-    Assert.assertTrue("topic still attached to TM after merge",
+    assertTrue("topic still attached to TM after merge",
                subclass.getTopicMap() == null);
-    Assert.assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
+    assertTrue("name lost after merge: " + superclass.getTopicNames().size(),
                superclass.getTopicNames().size() == 2);
-    Assert.assertTrue("wrong number of topics after merge",
+    assertTrue("wrong number of topics after merge",
                topicmap.getTopics().size() == (topics - 1));
   }
 
   /// error tests
     
-  @Test
   public void testVariableButNoFrom() throws InvalidQueryException {
     makeEmpty();
     updateError("merge $A, topic1");
   }
 
-  @Test
   public void testNoSuchParam() throws InvalidQueryException {
     makeEmpty();
     updateError("merge %A%, topic1");
   }
 
-  @Test
   public void testTopicAndTopicMap() throws InvalidQueryException {
     makeEmpty();
     updateError("merge topic1, $TM from topicmap($TM)");

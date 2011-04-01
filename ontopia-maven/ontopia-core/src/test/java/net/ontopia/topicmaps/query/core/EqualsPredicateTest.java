@@ -8,19 +8,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.Test;
-
 public class EqualsPredicateTest extends AbstractPredicateTest {
+  
+  public EqualsPredicateTest(String name) {
+    super(name);
+  }
+
+  /// setup
+
+  public void tearDown() {    
+    closeStore();
+  }
   
   /// tests
 
-  @Test
   public void testEqualsFalse() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     findNothing("topic1 = topic2?");
   }
 
-  @Test
   public void testEqualsTrue() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     List matches = new ArrayList();
@@ -28,7 +34,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches,"topic1 = topic1?");
   }
 
-  @Test
   public void testEqualsString() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -41,7 +46,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
 		"$DESC = \"topic2\"?");
   }
 
-  @Test
   public void testVariableEqualsTopic() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -51,7 +55,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "$TOPIC = topic4?");
   }
 
-  @Test
   public void testVariableEqualsTopic2() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -61,7 +64,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic4 = $TOPIC?");
   }
 
-  @Test
   public void testEqualsAssocDouble() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -97,7 +99,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
                 "parenthood($C2 : father, $M : mother, $GC : child)?");
   }  
 
-  @Test
   public void testVariableEqualsTopic3() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -107,7 +108,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic($TOPIC), $TOPIC = topic4?");
   }
 
-  @Test
   public void testVariableEqualsTopic4() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -117,7 +117,6 @@ public class EqualsPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "$TOPIC = topic4, topic($TOPIC)?");
   }
 
-  @Test
   public void testUnboundVariable() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 

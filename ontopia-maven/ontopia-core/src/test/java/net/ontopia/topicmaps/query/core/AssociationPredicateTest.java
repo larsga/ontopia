@@ -9,13 +9,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-
 public class AssociationPredicateTest extends AbstractPredicateTest {
+  
+  public AssociationPredicateTest(String name) {
+    super(name);
+  }
+
+  public void tearDown() {
+    closeStore();
+  }
 
   /// tests
   
-  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -27,7 +32,6 @@ public class AssociationPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "association($TOPIC)?");
   }
 
-  @Test
   public void testWithSpecificAssociationFalse()
     throws InvalidQueryException, IOException {
     load("jill.xtm");
@@ -36,7 +40,6 @@ public class AssociationPredicateTest extends AbstractPredicateTest {
                 "association(jill-ontopia-topic)?");
   }
 
-  @Test
   public void testWithSpecificAssociationTrue()
     throws InvalidQueryException, IOException {
     load("jill.xtm");
@@ -47,7 +50,6 @@ public class AssociationPredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "association(jill-ontopia-association)?");
   }
 
-  @Test
   public void testQMOverwriteProblem() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -70,7 +72,6 @@ public class AssociationPredicateTest extends AbstractPredicateTest {
                 "{ association($OBJECT) | topicmap($OBJECT) }?");
   }
   
-  @Test
   public void testFiltering() throws InvalidQueryException, IOException {
     load("family.ltm");
 

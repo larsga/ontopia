@@ -8,6 +8,10 @@ import java.io.IOException;
 public class RolePlayerPredicateTest
   extends net.ontopia.topicmaps.query.core.RolePlayerPredicateTest {
   
+  public RolePlayerPredicateTest(String name) {
+    super(name);
+  }
+  
   protected void load(String filename) throws IOException {
     RDBMSTestUtils.load(this, filename);
   }

@@ -9,152 +9,133 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-import org.junit.Assert;
-
 public class QueryParserTest extends AbstractQueryTest {
   
+  public QueryParserTest(String name) {
+    super(name);
+  }
+
+  public void tearDown() {
+    closeStore();
+  }
+
   /// simple syntax errors
 
-  @Test
   public void testBadFragmentRef() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, drit)?");
   }
   
-  @Test
   public void testBadObjectIdRef() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, @1)?");
   }
 
-  @Test
   public void testBadSourceLocRef() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, s\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadIndicatorRef() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, i\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadAddressRef() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, a\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadObjectIdRefPair1() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B : @1)?");
   }
 
-  @Test
   public void testBadSourceLocRefPair1() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B : s\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadIndicatorRefPair1() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B : i\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadAddressRefPair1() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B : a\"http://www.ontopia.net\")?");
   }
 
-  @Test
   public void testBadObjectIdRefPair2() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, @1 : $B)?");
   }
 
-  @Test
   public void testBadSourceLocRefPair2() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, s\"http://www.ontopia.net\" : $B)?");
   }
 
-  @Test
   public void testBadIndicatorRefPair2() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, i\"http://www.ontopia.net\" : $B)?");
   }
 
-  @Test
   public void testBadAddressRefPair2() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, a\"http://www.ontopia.net\" : $B)?");
   }
 
-  @Test
   public void testBadFragmentRefPredicate() throws InvalidQueryException {
     makeEmpty();
     getParseError("drit($A, $B)?");
   }
 
-  @Test
   public void testBadObjectIdRefPredicate() throws InvalidQueryException {
     makeEmpty();
     getParseError("@1($A, $B)?");
   }
 
-  @Test
   public void testBadSourceLocRefPredicate() throws InvalidQueryException {
     makeEmpty();
     getParseError("s\"http://www.ontopia.net\"($A, $B)?");
   }
 
-  @Test
   public void testBadIndicatorRefPredicate() throws InvalidQueryException {
     makeEmpty();
     getParseError("i\"http://www.ontopia.net\"($A, $B)?");
   }
 
-  @Test
   public void testBadAddressRefPredicate() throws InvalidQueryException {
     makeEmpty();
     getParseError("a\"http://www.ontopia.net\"($A, $B)?");
   }
 
-  @Test
   public void testRelativeSourceLocator() throws InvalidQueryException, IOException {
     load("parser-misc.ltm");
     findNothing("instance-of($A, s\"#country\")?");
   }
 
-  @Test
   public void testRelativeIndicator() throws InvalidQueryException, IOException {
     load("parser-misc.ltm");
     findNothing("instance-of($A, i\"#country1\")?");
   }
 
-  @Test
   public void testRelativeSubject() throws InvalidQueryException, IOException {
     load("parser-misc.ltm");
     findNothing("instance-of($A, a\"#country1\")?");
   }
 
-  @Test
   public void testNotEqualsPredicate() throws InvalidQueryException, IOException {
     load("instance-of.ltm");
     getParseError("/=(@1, @2)?");
   }
 
-  @Test
   public void testColonInVarName() {
     makeEmpty();
     getParseError("instance-of($A, $B:B)?");
   }
 
-  @Test
   public void testColonInIdentifier() {
     makeEmpty();
     getParseError("instance-of($A, B:B)?");
@@ -162,86 +143,72 @@ public class QueryParserTest extends AbstractQueryTest {
   
   /// semantic errors
 
-  @Test
   public void testInstanceOfABC() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B, $C)?");
   }
 
-  @Test
   public void testDirectInstanceOfABC() throws InvalidQueryException {
     makeEmpty();
     getParseError("direct-instance-of($A, $B, $C)?");
   }
 
-  @Test
   public void testSelectNonExistentVariable() throws InvalidQueryException {
     makeEmpty();
     getParseError("select $D from instance-of($A, $B)?");
   }
 
-  @Test
   public void testCountNonExistentVariable() throws InvalidQueryException {
     makeEmpty();
     getParseError("select count($D) from instance-of($A, $B)?");
   }
 
-  @Test
   public void testOrderNonExistentVariable() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A, $B) order by $D?");
   }
 
-  @Test
   public void testInstanceOfPair() throws InvalidQueryException {
     makeEmpty();
     getParseError("instance-of($A : $B, $C : $D)?");
   }
 
-  @Test
   public void testDirectInstanceOfPair() throws InvalidQueryException {
     makeEmpty();
     getParseError("direct-instance-of($A : $B, $C : $D)?");
   }
   
-  @Test
   public void testNotEqualsUnbound() {
     makeEmpty();
     getParseError("$A /= $B?");
   }
 
-  @Test
   public void testUnknownAssoc() throws InvalidQueryException, IOException {
     load("family.ltm");
     getParseError("child-of($A : mother, $B : child)?");
   }
 
-  @Test
   public void testUnknownAssocRole() throws InvalidQueryException, IOException{
     load("family.ltm");
     getParseError("parenthood($A : mother, $B : child, $C : ftaher)?");
   }
 
-  @Test
   public void testAssocNoRole() throws InvalidQueryException, IOException{
     load("family.ltm");
     getParseError("parenthood($A : mother, $B : child, $C)?");
   }
 
-  @Test
   public void testAssocRoleVariable() throws InvalidQueryException, IOException{
     load("family.ltm");
     getParseError("parenthood($A : mother, $B : child, $C : $FATHER)?");
   }
 
-  @Test
   public void testOrderByUnknown() throws InvalidQueryException, IOException{
     load("family.ltm");
     getParseError("parenthood($A : mother, $B : child, $C : father) " +
                   "order by $D?");
   }
 
-  @Test
   public void testOrderByUnselected() throws InvalidQueryException,IOException{
     load("family.ltm");
     getParseError("select $A from " +
@@ -251,7 +218,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// special pair problems
 
-  @Test
   public void testPairWithString() throws InvalidQueryException,IOException{
     load("family.ltm");
     getParseError("select $A from " +
@@ -259,7 +225,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "order by $B?");
   }
 
-  @Test
   public void testPairWithString2() throws InvalidQueryException,IOException{
     load("family.ltm");
     getParseError("select $A from " +
@@ -269,13 +234,11 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// special not equals problems
   
-  @Test
   public void testNotEqualsPair() throws InvalidQueryException,IOException{
     load("family.ltm");
     getParseError("kfg /= kfg : father?");
   }
   
-  @Test
   public void testNotEqualsPair2() throws InvalidQueryException,IOException{
     load("family.ltm");
     getParseError("kfg : father /= kfg?");
@@ -283,7 +246,6 @@ public class QueryParserTest extends AbstractQueryTest {
   
   /// uppercase/lowercase problems
   
-  @Test
   public void testOrderDescLC() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -297,7 +259,6 @@ public class QueryParserTest extends AbstractQueryTest {
                      "order by $C desc?");
   }
 
-  @Test
   public void testOrderAscLC() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -311,7 +272,6 @@ public class QueryParserTest extends AbstractQueryTest {
                      "order by $C asc?");
   }
 
-  @Test
   public void testKeywordCase() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -325,7 +285,6 @@ public class QueryParserTest extends AbstractQueryTest {
       "oRDer bY $C aSC?");
   }
 
-  @Test
   public void testVariableCase() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -338,7 +297,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "parenthood($C : mother, petter : father, $c : child)?");
   }
 
-  @Test
   public void testIdentifierCase() throws InvalidQueryException, IOException{
     load("family.ltm");
     findNothing("parenthood(may : mother, petter : father, TRYGVE : child)?");
@@ -346,13 +304,11 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// keyword conflicts
 
-  @Test
   public void testCountCountry() throws InvalidQueryException, IOException{
     load("parser-misc.ltm");
     findNothing("instance-of($A, country)?");
   }
 
-  @Test
   public void testKeywordInString() throws InvalidQueryException, IOException {
     load("parser-misc.ltm");
     
@@ -367,7 +323,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// subtler errors
 
-  @Test
   public void testDuplicateSelect() throws InvalidQueryException, IOException{
     load("family.ltm");
     getParseError("select $F, $F from instance-of($F, father)?");
@@ -378,7 +333,6 @@ public class QueryParserTest extends AbstractQueryTest {
     getParseError("instance-of($F, father)? order by $F");
   }
 
-  @Test
   public void testUnusedRuleParameter() throws InvalidQueryException, IOException {
     load("family.ltm");
     getParseError("parent-of($P, $C) :- { " +
@@ -391,7 +345,6 @@ public class QueryParserTest extends AbstractQueryTest {
   
   /// earlier parser bugs
 
-  @Test
   public void testInfiniteLoop() throws InvalidQueryException, IOException{
     load("instance-of.ltm");
     getParseError("instance-of($FAM, type1\")?");
@@ -399,14 +352,12 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// LIMIT/OFFSET tests
   
-  @Test
   public void testNegativeOffset() throws InvalidQueryException,IOException{
     load("family2.ltm");
     
     getParseError("instance-of($A, human) order by $A offset -10?");
   }
 
-  @Test
   public void testNegativeLimit() throws InvalidQueryException,IOException{
     load("family2.ltm");
     
@@ -415,7 +366,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// comment tests
   
-  @Test
   public void testBasicComment() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -430,7 +380,6 @@ public class QueryParserTest extends AbstractQueryTest {
                      "order by $C desc?");
   }
   
-  @Test
   public void testNestedComment() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -445,7 +394,6 @@ public class QueryParserTest extends AbstractQueryTest {
                      "order by $C desc?");
   }
   
-  @Test
   public void testBadComment1() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -454,7 +402,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "order by $C desc?");
   }
   
-  @Test
   public void testBadComment2() throws InvalidQueryException, IOException{
     load("family.ltm");
 
@@ -463,7 +410,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "order by $C desc?");
   }
 
-  @Test
   public void testCommentWithNewline() throws InvalidQueryException {
     makeEmpty();
     List matches = new ArrayList();
@@ -474,7 +420,6 @@ public class QueryParserTest extends AbstractQueryTest {
   
   /// prefix binding tests
 
-  @Test
   public void testSubjectIndicatorBinding() throws InvalidQueryException, IOException{
     load("bb-test.ltm");
     
@@ -490,7 +435,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($TOPIC, bb:bbtopic)?");
   }
 
-  @Test
   public void testSubjectIndicatorBinding2() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -507,7 +451,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($T, bb:bbtopic), ont:description($T, $B)?");
   }
 
-  @Test
   public void testSubjectIndicatorBinding3() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -520,7 +463,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "bb:pupilinclass($P : bb:student, $C : bb:class)?");
   }
 
-  @Test
   public void testSIBError() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -528,7 +470,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "bb:pupilinclass($P : bb:student, $C : bb:clasS)?");
   }
 
-  @Test
   public void testSIBError2() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -536,7 +477,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "bb:pupilinclass($P : bb:student, $C : bb:clasS)?");
   }
 
-  @Test
   public void testSrclocBinding() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -549,7 +489,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "bb:elev-klasse($P : bb:elev, $C : bb:klasse)?");
   }
 
-  @Test
   public void testSubjlocBinding() throws InvalidQueryException,IOException{
     load("instance-of.ltm");
     
@@ -562,7 +501,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($T, test:2)?");
   }
 
-  @Test
   public void testBizarreError() throws InvalidQueryException, IOException {
     load("rdf-test-case.ltm");
 
@@ -576,7 +514,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// scope tests
  
-  @Test
   public void testRuleInQuery() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -595,7 +532,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "grandchild(edvin, kjellaug, $GCC)?");
   }
  
-  @Test
   public void testRuleLocalToQuery() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -617,7 +553,6 @@ public class QueryParserTest extends AbstractQueryTest {
     getParseError("grandchild(edvin, kjellaug, $GCC)?");
   }
   
-  @Test
   public void testRuleOverBuiltin() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -625,7 +560,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "instance-of($A, $B)?");
   }
 
-  @Test
   public void testRuleOverBuiltin2() throws InvalidQueryException, IOException {
     load("shadow.ltm");
 
@@ -635,7 +569,6 @@ public class QueryParserTest extends AbstractQueryTest {
     verifyQuery(matches, "topicmap($TM)?");
   }
 
-  @Test
   public void testDuplicatePrefix1() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -644,7 +577,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
-  @Test
   public void testDuplicatePrefix2() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -653,7 +585,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
-  @Test
   public void testDuplicateRule() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -661,7 +592,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
-  @Test
   public void testImportNonexistent() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -669,7 +599,6 @@ public class QueryParserTest extends AbstractQueryTest {
                   "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
-  @Test
   public void testImportLoop() throws InvalidQueryException, IOException {
     load("family.ltm");
     
@@ -679,7 +608,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// topics not used as assoc/occ types
 
-  @Test
   public void testNonPredicateTopicAsAssocPredicate()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -688,7 +616,6 @@ public class QueryParserTest extends AbstractQueryTest {
   }
 
 
-  @Test
   public void testNonPredicateTopicAsOccPredicate()
     throws InvalidQueryException, IOException {
     load("family.ltm");
@@ -698,14 +625,12 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// type testing
 
-  @Test
   public void testPairToNonAssocPredicate() throws IOException {
     load("family.ltm");
 
     getParseError("instance-of($A, $B : mother)?");
   }
 
-  @Test
   public void testTypeErrorInRule() throws IOException {
     load("family.ltm");
     
@@ -719,7 +644,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// predicate caching tests
 
-//   @Test
 //   public void testDoWeRunOutOfMemory() throws IOException, InvalidQueryException {
 //     // this verifies that the predicate status caching does not cause us to run
 //     // out of memory
@@ -731,7 +655,6 @@ public class QueryParserTest extends AbstractQueryTest {
   
   /// string literal tests
   
-  @Test
   public void testStringQuoting() throws InvalidQueryException, IOException {
     load("string-with-quotes.ltm");
 
@@ -741,7 +664,6 @@ public class QueryParserTest extends AbstractQueryTest {
     verifyQuery(matches, "occ($TOPIC, \"An \"\"unquoted\"\" string\")?");
   }
 
-  @Test
   public void testNeverEndingString() throws InvalidQueryException, IOException {
     load("string-with-quotes.ltm");
     
@@ -761,7 +683,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// pre-parsed context tests
 
-  @Test
   public void testPredecldUsing() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
     
@@ -777,7 +698,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($TOPIC, bb:bbtopic)?");
   }
 
-  @Test
   public void testPredecldUsing2() throws InvalidQueryException,IOException{
     load("bb-test.ltm");
     
@@ -794,7 +714,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($T, bb:bbtopic), ont:description($T, $B)?");
   }
   
-  @Test
   public void testPredeclOverride() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
     
@@ -811,7 +730,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "instance-of($TOPIC, bb:bbtopic)?");
   }
 
-  @Test
   public void testPredecldImport() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -828,7 +746,6 @@ public class QueryParserTest extends AbstractQueryTest {
                 "fam:grandchild(edvin, kjellaug, $GCC)?");
   }
 
-  @Test
   public void testPredecldRule() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -849,7 +766,6 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// tests for known bugs
 
-  @Test
   public void testBug1143() throws InvalidQueryException, IOException {
     load("family.ltm");
     findNothing("grandchild($GF, $GM, $GC) :- " +
@@ -862,25 +778,21 @@ public class QueryParserTest extends AbstractQueryTest {
 
   /// tests for dots in names
   
-  @Test
   public void testNoDotInVariables() throws IOException {
     load("family.ltm");
     getParseError("topic($P.P)?");
   }
   
-  @Test
   public void testNoDotInId() throws IOException {
     load("family.ltm");
     getParseError("using foo.o for i\"http://foo.foo/foo\" topic($T)?");
   }
   
-  @Test
   public void testNoDotInId2() throws IOException {
     load("family.ltm");
     getParseError("topic($T), $T=t.t?");
   }
   
-  @Test
   public void testNoDotInParameter() throws IOException, InvalidQueryException {
     load("family.ltm");
     Map argumentMap = new HashMap();
@@ -889,14 +801,13 @@ public class QueryParserTest extends AbstractQueryTest {
     argumentMap.put("T.T", queryResult.getValue(0));
     try {
       processor.execute("topic(%T.T%)?", argumentMap);
-      Assert.fail("The query \"topic(%T.T%)?\", which has a '.' in a parameter"
+      fail("The query \"topic(%T.T%)?\", which has a '.' in a parameter"
           + " parsed without failure, but should have caused"
           + "InvalidQueryException");
     } catch (InvalidQueryException e) {
     }
   }
 
-  @Test
   public void testURISyntaxError() throws IOException, InvalidQueryException {
     load("family.ltm");
     getParseError("occurrence($T, $O), type($O, i\"http://psi.ontopia.net/#foo#\")?");

@@ -14,13 +14,14 @@ import net.ontopia.topicmaps.core.OccurrenceIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 
-import org.junit.Test;
-
 public class ResourcePredicateTest extends AbstractPredicateTest {
   
+  public ResourcePredicateTest(String name) {
+    super(name);
+  }
+
   /// tests
 
-  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -55,7 +56,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testCompletelyOpen2() throws InvalidQueryException, IOException {
     load("uri-vn.xtm");
 
@@ -90,7 +90,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
   
-  @Test
   public void testOccurrenceResource() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -106,7 +105,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testLookupOccurrence() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -122,7 +120,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testLookupVariant() throws InvalidQueryException, IOException {
     load("uri-vn.xtm");
 
@@ -138,7 +135,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testBothBoundTrue() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -155,7 +151,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
   }
 
 
-  @Test
   public void testBothBoundFalse() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -170,7 +165,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testBothBoundFalseVariant() throws InvalidQueryException, IOException {
     load("uri-vn.xtm");
 
@@ -185,7 +179,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testBothBoundTrueVariant() throws InvalidQueryException, IOException {
     load("uri-vn.xtm");
 
@@ -201,7 +194,6 @@ public class ResourcePredicateTest extends AbstractPredicateTest {
     closeStore();    
   }
 
-  @Test
   public void testGetVariantLocator() throws InvalidQueryException, IOException {
     load("uri-vn.xtm");
 

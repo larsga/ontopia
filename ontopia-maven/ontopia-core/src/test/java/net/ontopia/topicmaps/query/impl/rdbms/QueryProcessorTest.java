@@ -20,6 +20,10 @@ public class QueryProcessorTest
   
   private final static String testdataDirectory = "query";
 
+  public QueryProcessorTest(String name) {
+    super(name);
+  }
+  
   protected void load(String filename) throws IOException {
     filename = FileUtils.getTestInputFile(testdataDirectory, filename);
 

@@ -13,13 +13,18 @@ import java.util.Map;
 import net.ontopia.topicmaps.core.TopicNameIF;
 import net.ontopia.topicmaps.core.TopicIF;
 
-import org.junit.Test;
-
 public class TopicNamePredicateTest extends AbstractPredicateTest {
+  
+  public TopicNamePredicateTest(String name) {
+    super(name);
+  }
+
+  public void tearDown() {
+    closeStore();
+  }
   
   /// tests
   
-  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -37,7 +42,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name($TOPIC, $BNAME)?");
   }
 
-  @Test
   public void testWithSpecificTopic() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -47,7 +51,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name(marriage, $BNAME)?");
   }
 
-  @Test
   public void testWithOccurrences() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -55,7 +58,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
                 "occurrence(white-horse, $OCC), topic-name($T, $OCC)?");
   }
 
-  @Test
   public void testWithSpecificTopicName() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -68,7 +70,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name($TOPIC, @" + bn.getObjectId() + ")?");
   }
   
-  @Test
   public void testWithBothBoundTrue() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -81,7 +82,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name(marriage, @" + bn.getObjectId() + ")?");
   }
   
-  @Test
   public void testWithBothBoundFalse() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -92,7 +92,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "topic-name(parenthood, @" + bn.getObjectId() + ")?");
   }
   
-  @Test
   public void testTypeConflict() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -100,7 +99,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
                 "topicmap($TM), topic-name($TM, $BN)?");
   }
 
-  @Test
   public void testTypeConflict2() throws InvalidQueryException, IOException {
     load("family2.ltm");
     
@@ -108,7 +106,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
                 "topic-name(@" + topicmap.getObjectId() + ", $BN)?");
   }
 
-  @Test
   public void testTypeConflict3() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -119,7 +116,6 @@ public class TopicNamePredicateTest extends AbstractPredicateTest {
                 "topic-name(%topic%, $BN)?", params);
   }
 
-  @Test
   public void testTypeConflict4() throws InvalidQueryException, IOException {
     load("family2.ltm");
 

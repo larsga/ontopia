@@ -13,11 +13,12 @@ import net.ontopia.topicmaps.core.AssociationRoleIF;
 import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.TopicMapBuilderIF;
 
-import org.junit.Test;
-
 public class RolePredicateTest extends AbstractQueryTest {
   
-  @Test
+  public RolePredicateTest(String name) {
+    super(name);
+  }
+
   public void testRolePlayerPredicate0() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -31,7 +32,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate1() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -50,7 +50,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate2() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -72,7 +71,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate3() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -99,7 +97,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate1b() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -118,7 +115,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate2b() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");
@@ -140,7 +136,6 @@ public class RolePredicateTest extends AbstractQueryTest {
     closeStore();
   }
 
-  @Test
   public void testRolePlayerPredicate3b() throws InvalidQueryException, IOException {
     makeEmpty();
     base = new URILocator("http://www.example.com");

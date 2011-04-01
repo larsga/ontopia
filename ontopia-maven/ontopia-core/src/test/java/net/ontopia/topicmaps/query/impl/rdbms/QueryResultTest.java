@@ -19,6 +19,10 @@ public class QueryResultTest
   
   private final static String testdataDirectory = "query";
 
+  public QueryResultTest(String name) {
+    super(name);
+  }
+
   protected void load(String filename) throws IOException {
     filename = FileUtils.getTestInputFile(testdataDirectory, filename);
 

@@ -9,13 +9,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-
 public class TopicPredicateTest extends AbstractPredicateTest {
   
+  public TopicPredicateTest(String name) {
+    super(name);
+  }
+
   /// tests
   
-  @Test
   public void testCompletelyOpen() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -28,7 +29,6 @@ public class TopicPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testWithSpecificTopic() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -39,7 +39,6 @@ public class TopicPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testWithSpecificNonTopic() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -49,7 +48,6 @@ public class TopicPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testWithCrossJoin() throws InvalidQueryException, IOException {
     load("jill.xtm");
 
@@ -59,7 +57,6 @@ public class TopicPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testFiltering() throws InvalidQueryException, IOException {
     load("family.ltm");
 

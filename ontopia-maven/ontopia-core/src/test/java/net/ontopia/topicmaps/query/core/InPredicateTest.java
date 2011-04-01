@@ -7,15 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 public class InPredicateTest extends AbstractPredicateTest {
 	
   protected final String IMPORT_EXPERIMENTAL = "import \"http://psi.ontopia.net/tolog/experimental/\" as exp ";
   
+  public InPredicateTest(String name) {
+    super(name);
+  }
+
   /// tests
 
-  @Test
   public void testHumanInList() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -28,7 +29,6 @@ public class InPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testFemaleInList() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -39,7 +39,6 @@ public class InPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testMaleInList() throws InvalidQueryException, IOException {
     load("family2.ltm");
 
@@ -51,7 +50,6 @@ public class InPredicateTest extends AbstractPredicateTest {
     closeStore();
   }
 
-  @Test
   public void testHumanNotInList() throws InvalidQueryException, IOException {
     load("family2.ltm");
 

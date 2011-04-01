@@ -15,13 +15,18 @@ import net.ontopia.topicmaps.core.TopicIF;
 import net.ontopia.topicmaps.core.VariantNameIF;
 import net.ontopia.utils.ObjectUtils;
 
-import org.junit.Test;
-
 public class ValuePredicateTest extends AbstractPredicateTest {
+  
+  public ValuePredicateTest(String name) {
+    super(name);
+  }
+
+  public void tearDown() {
+    closeStore();
+  }  
   
   /// tests
 
-  @Test
   public void testGenerateAll() throws InvalidQueryException, IOException {
     load("jill.xtm");
     
@@ -54,7 +59,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
     verifyQuery(matches, "value($OBJ, $VALUE)?");
   }
 
-  @Test
   public void testWithSpecificObject() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
     
@@ -62,7 +66,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                 "value(topic1, $VALUES)?");
   }
 
-  @Test
   public void testWithSpecificObjectAndString()
     throws InvalidQueryException, IOException {
     load("int-occs.ltm");
@@ -71,7 +74,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                 "value(topic1, \"topic1\")?");
   }
   
-  @Test
   public void testWithAnyObjectNoMatch() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -80,7 +82,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                 "  topic-name($TOPIC, $BNAME)?");
   }
 
-  @Test
   public void testWithAnyObjectBNMatch() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -92,7 +93,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                          "  topic-name($TOPIC, $BNAME)?");
   }
 
-  @Test
   public void testWithAnyObjectOccMatch() throws InvalidQueryException, IOException {
     load("int-occs.ltm");
 
@@ -104,7 +104,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                          "  occurrence($TOPIC, $OCC)?");
   }
 
-  @Test
   public void testWithAnyObjectVariantMatch() throws InvalidQueryException,
                                                      IOException {
     load("family.ltm");
@@ -118,7 +117,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                          "  topic-name($TOPIC, $BNAME)?");
   }
 
-  @Test
   public void testGetTopicNameValue() throws InvalidQueryException, IOException {
     load("family.ltm");
 
@@ -130,7 +128,6 @@ public class ValuePredicateTest extends AbstractPredicateTest {
                          "  topic-name(lms, $BNAME)?");
   }
 
-  @Test
   public void testValueInRule() throws InvalidQueryException, IOException {
     load("bb-test.ltm");
 
@@ -149,14 +146,12 @@ public class ValuePredicateTest extends AbstractPredicateTest {
   }
 
 
-  @Test
   public void testValueOfValue() throws InvalidQueryException, IOException {
     load("family.ltm");
     findNothing(OPT_TYPECHECK_OFF +
                 "value($A, $A)?");
   }
 
-  @Test
   public void testWithSingleQuote() throws InvalidQueryException, IOException {
     load("family.ltm");
     findNothing("select $TOPIC from " +
