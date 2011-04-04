@@ -101,6 +101,8 @@ public class JDBCDataSource implements DataSourceIF {
           relation = mapping.getRelation(schema_name + "." + table_name);
         if (relation == null)
           relation = mapping.getRelation(table_name);
+        if (relation == null)
+          relation = mapping.getRelation(table_name.toLowerCase());
 
         if (relation != null)
           relations.add(relation);
@@ -128,7 +130,9 @@ public class JDBCDataSource implements DataSourceIF {
     try {
       // get datatypes
       Map cdatatypes = getColumnTypes(changelog.getTable(), conn);
-      int ocoltype = ((Integer)cdatatypes.get(changelog.getOrderColumn())).intValue();
+      Integer oct = (Integer)cdatatypes.get(changelog.getOrderColumn());
+      if (oct == null) oct = (Integer)cdatatypes.get(changelog.getOrderColumn().toUpperCase());
+      int ocoltype = oct.intValue();
       
       // prepare, bind and execute statement
       StringBuffer sb = new StringBuffer();
@@ -166,6 +170,18 @@ public class JDBCDataSource implements DataSourceIF {
     } finally {
       rs.close();
     }
+    if (datatypes.isEmpty()) {
+      // try with uppercase
+      rs = conn.getMetaData().getColumns(null, null, table.toUpperCase(), null);
+      try {
+        while(rs.next()) {
+          datatypes.put(rs.getString(4), new Integer(rs.getInt(5)));
+        }
+      } finally {
+        rs.close();
+      }
+    }
+    
     return datatypes;
   }
   
@@ -417,16 +433,23 @@ public class JDBCDataSource implements DataSourceIF {
           throw new DB2TMInputException("Relation '" + relation.getName() + "' does not exist.");
         coltypes = new int[rcols.length];
         for (int i=0; i < rcols.length; i++) {
-          if (rdatatypes.containsKey(rcols[i]))
+          if (rdatatypes.containsKey(rcols[i])) {
             coltypes[i] = ((Integer)rdatatypes.get(rcols[i])).intValue();
-          else
+          } else if (rdatatypes.containsKey(rcols[i].toUpperCase())) {
+            coltypes[i] = ((Integer)rdatatypes.get(rcols[i].toUpperCase())).intValue();
+          } else {
             throw new DB2TMInputException("Column '" + rcols[i] + "' in relation '" + relation.getName() + "' does not exist.");
+          }
         }
         Map cdatatypes = getColumnTypes(changelog.getTable(), conn);
         if (cdatatypes.isEmpty())
           throw new DB2TMInputException("Relation '" + changelog.getTable() + "' does not exist.");
-        acoltype = ((Integer)cdatatypes.get(changelog.getActionColumn())).intValue();
-        ocoltype = ((Integer)cdatatypes.get(changelog.getOrderColumn())).intValue();
+        Integer act = (Integer)cdatatypes.get(changelog.getActionColumn());
+        if (act == null) act = (Integer)cdatatypes.get(changelog.getActionColumn().toUpperCase());
+        Integer oct = (Integer)cdatatypes.get(changelog.getOrderColumn());
+        if (oct == null) oct = (Integer)cdatatypes.get(changelog.getOrderColumn().toUpperCase());
+        acoltype = act.intValue();
+        ocoltype = oct.intValue();
         
         // FIXME: consider locking strategy. lock table?
 

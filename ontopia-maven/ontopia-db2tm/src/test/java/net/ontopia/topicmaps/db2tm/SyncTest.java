@@ -340,8 +340,7 @@ public class SyncTest {
   // --- Internal methods
 
   private Connection getConnection() throws SQLException, IOException {
-    String propfile = System.getProperty("net.ontopia.topicmaps.impl.rdbms.PropertyFile");
-    Map props = PropertyUtils.loadProperties(propfile);
+    Map props = PropertyUtils.loadPropertiesFromClassPath("db2tm.h2.props");
     props.put("net.ontopia.topicmaps.impl.rdbms.ConnectionPool", "false");
     DefaultConnectionFactory cf = new DefaultConnectionFactory(props, false);
     return cf.requestConnection();
