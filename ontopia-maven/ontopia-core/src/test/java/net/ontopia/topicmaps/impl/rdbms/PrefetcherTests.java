@@ -43,6 +43,11 @@ public class PrefetcherTests extends TestCase {
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   protected TopicIF getTopic(TopicMapIF tm, String psi) {
     try {
       return tm.getTopicBySubjectIdentifier(new URILocator(psi));

@@ -10,8 +10,14 @@ import net.ontopia.topicmaps.xml.*;
 import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.utils.URIUtils;
+import org.junit.BeforeClass;
 
 public class CanonicalXTMimportIntoTests extends net.ontopia.topicmaps.xml.CanonicalXTMimportIntoTests {
+
+  @BeforeClass
+  public static void checkDatabasePresence() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+  }
 
   public CanonicalXTMimportIntoTests(String root, String filename) {
     super(root, filename);

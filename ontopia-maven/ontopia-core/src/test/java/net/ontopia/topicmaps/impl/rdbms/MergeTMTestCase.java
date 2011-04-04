@@ -11,10 +11,16 @@ import net.ontopia.topicmaps.utils.MergeUtils;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 
 public class MergeTMTestCase extends net.ontopia.topicmaps.utils.MergeTMTestCase {
 
   private final static String testdataDirectory = "merge";
+
+  @BeforeClass
+  public static void checkDatabasePresence() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+  }
 
   // --- Test case class
 

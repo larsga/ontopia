@@ -11,6 +11,11 @@ public class RDBMSSingleTopicMapSourceTest extends AbstractTopicMapSourceTest {
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   // --- Test cases
 
   public void testSource() {

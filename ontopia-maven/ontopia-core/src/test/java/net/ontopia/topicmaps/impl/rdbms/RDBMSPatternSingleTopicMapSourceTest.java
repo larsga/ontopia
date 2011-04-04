@@ -12,6 +12,11 @@ public class RDBMSPatternSingleTopicMapSourceTest
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   // --- Test cases
 
   public void testSource() {

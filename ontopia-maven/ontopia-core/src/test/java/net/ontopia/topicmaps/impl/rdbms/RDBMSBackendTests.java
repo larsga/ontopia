@@ -43,6 +43,11 @@ public class RDBMSBackendTests extends TestCase {
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   protected TopicMapReferenceIF createReference(String id, String title, StorageIF storage, long topicmap_id, LocatorIF base_address) {
     RDBMSTopicMapSource source = new RDBMSTopicMapSource(); // create empty source just for supports methods
     source.setPropertyFile(System.getProperty("net.ontopia.topicmaps.impl.rdbms.PropertyFile"));

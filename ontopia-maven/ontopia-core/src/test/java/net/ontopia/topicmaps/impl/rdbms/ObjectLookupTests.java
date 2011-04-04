@@ -25,6 +25,11 @@ public class ObjectLookupTests extends TestCase {
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   public void testLookups() throws IOException {
     
     String file = FileUtils.getTestInputFile(testdataDirectory, "topicmap-object-lookup.xtm");

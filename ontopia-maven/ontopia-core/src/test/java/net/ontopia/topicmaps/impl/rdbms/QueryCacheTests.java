@@ -26,6 +26,11 @@ public class QueryCacheTests extends TestCase {
     super(name);
   }
 
+  public void setUp() throws Exception {
+    RDBMSTestFactory.checkDatabasePresence();
+    super.setUp();
+  }
+
   /**
    * INTERNAL: Test TopicIF.getRolesByType(TopicIF rtype). Verify that
    * the query caches is reset whenever the roles of a topic
