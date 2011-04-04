@@ -213,22 +213,11 @@
     <test>net.ontopia.xml.test.PrettyPrinterTest</test>
   </group>
 
-  <property>
-    <name>net.ontopia.topicmaps.impl.basic.test.CoreTestGenerator</name>
-    <value>net.ontopia.topicmaps.core.test.TopicNameTest net.ontopia.topicmaps.core.test.VariantNameTest net.ontopia.topicmaps.core.test.AssociationTest net.ontopia.topicmaps.core.test.AssociationRoleTest net.ontopia.topicmaps.core.test.OccurrenceTest net.ontopia.topicmaps.core.test.TopicTest net.ontopia.topicmaps.core.test.TopicMapTest net.ontopia.topicmaps.core.test.CollectionPropertiesTest net.ontopia.topicmaps.core.index.test.IndexTest net.ontopia.topicmaps.core.test.TopicMapStoreTest net.ontopia.topicmaps.core.index.test.ClassInstanceIndexTest net.ontopia.topicmaps.core.index.test.OccurrenceIndexTest net.ontopia.topicmaps.core.index.test.NameIndexTest net.ontopia.topicmaps.core.index.test.ScopeIndexTest net.ontopia.topicmaps.core.events.test.TopicMapListenerTests net.ontopia.topicmaps.core.events.test.TopicModificationTests</value>
-  </property>
-
   <group>
     <name>net.ontopia.topicmaps.impl.basic</name>
     <test>net.ontopia.topicmaps.impl.basic.test.CoreTestGenerator</test>
     <test>net.ontopia.topicmaps.impl.basic.test.PackageTest</test>
   </group>
-
-  <property>
-    <name>net.ontopia.topicmaps.impl.rdbms.test.CoreTestGenerator</name>
-    <value>net.ontopia.topicmaps.core.test.TopicNameTest net.ontopia.topicmaps.core.test.VariantNameTest net.ontopia.topicmaps.core.test.AssociationTest net.ontopia.topicmaps.core.test.AssociationRoleTest net.ontopia.topicmaps.core.test.OccurrenceTest net.ontopia.topicmaps.core.test.TopicTest net.ontopia.topicmaps.core.test.TopicMapTest net.ontopia.topicmaps.core.test.CollectionPropertiesTest net.ontopia.topicmaps.core.index.test.IndexTest net.ontopia.topicmaps.core.test.TopicMapStoreTest net.ontopia.topicmaps.core.index.test.ClassInstanceIndexTest net.ontopia.topicmaps.core.index.test.OccurrenceIndexTest net.ontopia.topicmaps.core.index.test.NameIndexTest net.ontopia.topicmaps.core.index.test.ScopeIndexTest net.ontopia.topicmaps.core.events.test.TopicMapListenerTests net.ontopia.topicmaps.core.events.test.TopicModificationTests</value>
-    <!-- Note: this list should always be that same as for the impl.basic test generator -->
-  </property>
 
   <group>
     <name>net.ontopia.topicmaps.impl.rdbms</name>
