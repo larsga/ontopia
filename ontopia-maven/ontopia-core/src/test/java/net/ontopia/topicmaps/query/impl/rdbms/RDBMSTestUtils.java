@@ -12,6 +12,7 @@ import net.ontopia.topicmaps.impl.rdbms.RDBMSTopicMapStore;
 import net.ontopia.topicmaps.query.core.AbstractQueryTest;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
+import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.utils.OntopiaRuntimeException;
 import net.ontopia.utils.FileUtils;
 import net.ontopia.utils.URIUtils;
@@ -35,6 +36,8 @@ public class RDBMSTestUtils {
     store.setBaseAddress(test.base);
     
     TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
+    if (importer instanceof XTMTopicMapReader)
+      ((XTMTopicMapReader) importer).setValidation(false);
     importer.importInto(test.topicmap);
 
     // NOTE: Query processor must have base set, because of the way
@@ -49,7 +52,8 @@ public class RDBMSTestUtils {
       test.topicmap = store.getTopicMap();
       test.builder = test.topicmap.getBuilder();
       //! test.processor = new QueryProcessor(test.topicmap);
-      test.processor = QueryUtils.createQueryProcessor(test.topicmap);
+      String filename = FileUtils.getTestInputFile(testdataDirectory, "");
+      test.processor = QueryUtils.createQueryProcessor(test.topicmap, URIUtils.getURI(filename));
     } catch (Exception e) {
       throw new OntopiaRuntimeException(e);
     }
