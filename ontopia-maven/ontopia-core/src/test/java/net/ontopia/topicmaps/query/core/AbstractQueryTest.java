@@ -31,7 +31,6 @@ import net.ontopia.topicmaps.xml.TMXMLReader;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.utils.ImportExportUtils;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.TestUtils;
 import net.ontopia.utils.URIUtils;
 import org.xml.sax.InputSource;
 
@@ -58,11 +57,11 @@ public abstract class AbstractQueryTest extends TestCase {
   }
   
   protected TopicIF getTopicById(String id) {
-    return TestUtils.getTopicById(topicmap, base, id);
+    return (TopicIF) topicmap.getObjectByItemIdentifier(base.resolveAbsolute("#"+id));
   }
 
   protected TMObjectIF getObjectById(String id) {
-    return TestUtils.getObjectById(topicmap, base, id);
+    return topicmap.getObjectByItemIdentifier(base.resolveAbsolute("#"+id));
   }
 
   protected void closeStore() {

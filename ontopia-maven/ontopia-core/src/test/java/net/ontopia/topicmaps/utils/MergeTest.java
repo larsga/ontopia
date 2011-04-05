@@ -10,13 +10,13 @@ import java.util.Iterator;
 import java.net.MalformedURLException;
 import junit.framework.TestCase;
 import net.ontopia.topicmaps.impl.basic.InMemoryTopicMapStore;
+import net.ontopia.infoset.core.LocatorIF;
 import net.ontopia.infoset.impl.basic.URILocator;
 import net.ontopia.topicmaps.core.*;
 import net.ontopia.topicmaps.xml.XTMTopicMapReader;
 import net.ontopia.topicmaps.xml.CanonicalTopicMapWriter;
 import net.ontopia.utils.ObjectUtils;
 import net.ontopia.utils.FileUtils;
-import net.ontopia.utils.TestUtils;
 import net.ontopia.utils.URIUtils;
 
 public class MergeTest extends TestCase {
@@ -609,8 +609,9 @@ public class MergeTest extends TestCase {
 
   public void testMergeDuplicateAssociations() throws IOException {
     TopicMapIF tm = ImportExportUtils.getReader(FileUtils.getTestInputFile("various", "merge-duplicate-assoc.ltm")).read();
-    TopicIF puccini1 = TestUtils.getTopicById(tm, "puccini1");
-    TopicIF puccini2 = TestUtils.getTopicById(tm, "puccini2");
+    LocatorIF base = tm.getStore().getBaseAddress();
+    TopicIF puccini1 = (TopicIF) tm.getObjectByItemIdentifier(base.resolveAbsolute("#puccini1"));
+    TopicIF puccini2 = (TopicIF) tm.getObjectByItemIdentifier(base.resolveAbsolute("#puccini2"));
     
     MergeUtils.mergeInto(puccini1, puccini2);
 
