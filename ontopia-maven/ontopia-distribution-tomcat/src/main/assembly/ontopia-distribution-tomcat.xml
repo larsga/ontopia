@@ -180,7 +180,7 @@
 					<include>WEB-INF/web.xml</include>
 					<include>WEB-INF/config/**</include>
 					<include>WEB-INF/lib/wicket*.jar</include>
-					<include>WEB-INF/classes/**</include>
+					<include>WEB-INF/classes/ontopoly/**</include>
 				</includes>
 			</unpackOptions>
 		</dependencySet>
