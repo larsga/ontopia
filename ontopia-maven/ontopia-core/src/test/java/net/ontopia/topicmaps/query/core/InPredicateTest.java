@@ -6,7 +6,9 @@ package net.ontopia.topicmaps.query.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Ignore;
 
+@Ignore //disabled: EXPERIMENTAL predicate
 public class InPredicateTest extends AbstractPredicateTest {
 	
   protected final String IMPORT_EXPERIMENTAL = "import \"http://psi.ontopia.net/tolog/experimental/\" as exp ";
