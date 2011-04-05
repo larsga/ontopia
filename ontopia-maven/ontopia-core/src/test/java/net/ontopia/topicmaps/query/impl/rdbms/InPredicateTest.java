@@ -4,7 +4,9 @@
 package net.ontopia.topicmaps.query.impl.rdbms;
 
 import java.io.IOException;
+import org.junit.Ignore;
 
+@Ignore // disabled: EXPERIMENTAL predicate
 public class InPredicateTest
   extends net.ontopia.topicmaps.query.core.InPredicateTest {
   
