@@ -48,7 +48,6 @@
     <group-ref>fulltext</group-ref>
     <group-ref>navigator</group-ref>
     <group-ref>schema</group-ref>
-    <group-ref>viz</group-ref>
   </group>
   
   <group>
@@ -152,11 +151,6 @@
     <group-ref>net.ontopia.topicmaps.nav2.utils</group-ref>
     <!-- NOTE: realm test commented out because of 1.4 dependency -->
     <group-ref>net.ontopia.topicmaps.nav2.realm</group-ref> 
-  </group>
-
-  <group>
-    <name>viz</name>
-    <test>net.ontopia.topicmaps.viz.test.ResourceBundlesTest</test>
   </group>
 
   <group>
