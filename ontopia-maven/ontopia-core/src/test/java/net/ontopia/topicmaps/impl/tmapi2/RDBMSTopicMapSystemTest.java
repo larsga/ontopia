@@ -9,6 +9,9 @@ import org.tmapi.core.TopicMapExistsException;
 import org.tmapi.core.TopicMapSystem;
 import org.tmapi.core.TopicMapSystemFactory;
 
+import org.junit.Ignore;
+
+@Ignore
 public class RDBMSTopicMapSystemTest 
   extends TestCase {
 

@@ -170,15 +170,6 @@
 				<artifactId>maven-jflex-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<testExcludes>
-						<!-- disable RDBMS TMAPI test -->
-						<exclude>**/net/ontopia/topicmaps/impl/tmapi2/RDBMSTopicMapSystemTest.java</exclude>
-					</testExcludes>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>docbook-maven-plugin</artifactId>
 			</plugin>
