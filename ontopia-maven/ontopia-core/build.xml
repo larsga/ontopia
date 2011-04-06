@@ -2,7 +2,7 @@
 <project name="cxtm-tests" default="usage" basedir=".">
 
 	<property name="downloads.directory" value="target/downloads"/>
-	<property name="classes.directory" value="target/classes"/>
+	<property name="classes.directory" value="target/test-classes"/>
 	<property name="package.directory" value="${classes.directory}/net/ontopia/testdata"/>
 	
 	<!-- the following properties are inherited from maven:
@@ -73,7 +73,7 @@
 	</target>
 	
 	<target name="usage">
-		<echo>This build file is to be used from the maven cxtm-tests Ontopia module, please do not run it manually.</echo>
+		<echo>This build file is to be used from the ontopia-core Ontopia Maven module, please do not run it manually.</echo>
 	</target>
 	
 </project>

@@ -18,7 +18,6 @@
 	</scm>
 
 	<modules>
-		<module>cxtm-tests</module>
 		<module>ontopia-core</module>
 		<module>ontopia-navigator</module>
 		<module>ontopia-webed</module>
