@@ -46,7 +46,6 @@
     <group-ref>query</group-ref>
     <group-ref>engine</group-ref>
     <group-ref>fulltext</group-ref>
-    <group-ref>navigator</group-ref>
     <group-ref>schema</group-ref>
   </group>
   
@@ -140,17 +139,6 @@
   <group>
     <name>proxy</name>
     <group-ref>net.ontopia.topicmaps.impl.proxy</group-ref>
-  </group>
-
-  <!-- Navigator 2nd generation test groups -->
-  <group>
-    <name>navigator</name>
-    <group-ref>net.ontopia.topicmaps.nav2.impl.basic</group-ref>
-    <group-ref>net.ontopia.topicmaps.nav2.impl.framework</group-ref>
-    <group-ref>net.ontopia.topicmaps.nav2.plugins</group-ref>
-    <group-ref>net.ontopia.topicmaps.nav2.utils</group-ref>
-    <!-- NOTE: realm test commented out because of 1.4 dependency -->
-    <group-ref>net.ontopia.topicmaps.nav2.realm</group-ref> 
   </group>
 
   <group>
@@ -277,38 +265,8 @@
   </group>
 
   <group>
-    <name>net.ontopia.topicmaps.nav2.impl.basic</name>
-    <test>net.ontopia.topicmaps.nav2.impl.basic.test.EncryptedModuleTest</test>
-  </group>
-
-  <group>
-    <name>net.ontopia.topicmaps.nav2.impl.framework</name>
-    <test>net.ontopia.topicmaps.nav2.impl.framework.test.TaglibFrameworkTestCaseGenerator</test>
-    <test>net.ontopia.topicmaps.nav2.impl.framework.test.UserTest</test>
-    <test>net.ontopia.topicmaps.nav2.impl.framework.test.JSPAttributeTest</test>
-  </group>
-
-  <group>
-    <name>net.ontopia.topicmaps.nav2.plugins</name>
-    <test>net.ontopia.topicmaps.nav2.plugins.test.DefaultPluginTest</test>
-    <test>net.ontopia.topicmaps.nav2.plugins.test.PluginContentHandlerTest</test>
-  </group>
-  
-  <group>
-    <name>net.ontopia.topicmaps.nav2.utils</name>
-    <test>net.ontopia.topicmaps.nav2.utils.test.NavigatorConfigurationTest</test>
-    <test>net.ontopia.topicmaps.nav2.utils.test.ModuleReaderTest</test>
-  </group>
-  
-  <group>
     <name>net.ontopia.topicmaps.nav2.realm</name>
     <test>net.ontopia.topicmaps.nav2.realm.test.TMLoginModuleTest</test>
-  </group>
-  
-  <group>
-    <name>net.ontopia.topicmaps.nav2.portlets.pojos</name>
-    <test>net.ontopia.topicmaps.nav2.portlets.pojos.test.RelatedTopicsTest</test>
-    <test>net.ontopia.topicmaps.nav2.portlets.pojos.test.MenuTest</test>
   </group>
   
   <!-- ======================================================================= -->
