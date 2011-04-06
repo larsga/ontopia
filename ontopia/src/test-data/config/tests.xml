@@ -28,9 +28,4 @@
     <test>org.tmapi.index.TestLiteralIndex</test>
   </group>
 
-  <group>
-    <name>autogen</name>
-    <test>net.ontopia.autogen.modules.framework.test.TraceTest</test>
-  </group>
-
 </test-collection>
