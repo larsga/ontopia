@@ -137,6 +137,48 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- Add TMAPI test cases -->
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.tmapi</groupId>
+									<artifactId>tmapi-tests</artifactId>
+									<version>${tmapi.version}</version>
+									<outputDirectory>${project.build.directory}/test-classes/</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+							<excludes>**/TopicMapSystemFactory.*</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<!-- Has not tests, but is not abstract nor named Abstract -->
+						<exclude>**/TMAPITestCase**</exclude>
+						
+						<!-- Test runners -->
+						<exclude>**/tmapi/AllTests**</exclude>
+						<exclude>**/tmapi/core/AllCoreTests**</exclude>
+						<exclude>**/tmapi/index/AllIndexTests**</exclude>
+						
+						<!-- Tests disabled in the trunk, see issue 383 -->
+						<exclude>**/tmapi/core/TestTopicMapSystemFactory**</exclude>
+						<exclude>**/tmapi/core/TestRFC3986**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
 				<configuration>
