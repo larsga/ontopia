@@ -47,7 +47,6 @@
     <group-ref>engine</group-ref>
     <group-ref>fulltext</group-ref>
     <group-ref>navigator</group-ref>
-    <group-ref>webed</group-ref>
     <group-ref>schema</group-ref>
     <group-ref>viz</group-ref>
   </group>
@@ -318,75 +317,6 @@
     <test>net.ontopia.topicmaps.nav2.portlets.pojos.test.MenuTest</test>
   </group>
   
-  <!-- === Container for all Webed Tests === -->
-  <group>
-    <name>webed</name>
-    <group-ref>net.ontopia.topicmaps.webed.impl.test</group-ref>
-    <group-ref>net.ontopia.topicmaps.webed.utils.test</group-ref>
-    <group-ref>net.ontopia.topicmaps.webed.webapps.test</group-ref>
-    <group-ref>net.ontopia.topicmaps.webed.impl.actions.test</group-ref>
-  </group>
-  
-  <!-- Webed Basic Tests -->
-  <group>
-    <name>net.ontopia.topicmaps.webed.impl.test</name>
-    <test>net.ontopia.topicmaps.webed.impl.basic.test.ActionResponseTest</test>
-    <test>net.ontopia.topicmaps.webed.impl.basic.test.ActionForwardPageTest</test>
-  </group>
-  
-  <!-- Webed Utils Tests -->
-  <group>
-    <name>net.ontopia.topicmaps.webed.utils.test</name>
-    <test>net.ontopia.topicmaps.webed.utils.test.ReqParamUtilsTest</test>
-    <test>net.ontopia.topicmaps.webed.utils.test.ActionConfigContentHandlerTest</test>
-    <test>net.ontopia.topicmaps.webed.utils.test.ActionConfigContentHandlerErrorTest</test>
-    <test>net.ontopia.topicmaps.webed.utils.test.ActionUtilsTest</test>
-    <test>net.ontopia.topicmaps.webed.utils.test.NamedLockManagerTest</test>
-  </group>
-  
-  <!-- Webed Action Library tests -->
-  <group>
-    <name>net.ontopia.topicmaps.webed.impl.actions.test</name>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetForwardAction</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestCreateAssoc</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestCreateTopic</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestEvaluateLTM</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestRemoveTheme</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestTologDelete</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAssignRolePlayer</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddSourceLocator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddTheme</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestDelete</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestRemoveType</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetSourceLocator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetType</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestTologDelete</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAssignRolePlayer</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetPlayer</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddSubjectIndicator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddType</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestRemoveSubjectIndicator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestTopicRemoveType</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetSubjectIndicator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestTopicSetType</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddBasename</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetValue</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddExtOccurrence</test> 
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddIntOccurrence</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestLastModifiedAt</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetLocator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestOccSetValue</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddExtVariant</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestAddIntVariant</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestVarSetLocator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestVarSetValue</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetLocator2</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestOccSetValue2</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetSubjectIndicator2</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestSetSubjectLocator</test>
-    <test>net.ontopia.topicmaps.webed.impl.actions.test.TestOSLValidate</test>
-  </group>
-  
   <!-- ======================================================================= -->
 
   <group>
@@ -540,28 +470,6 @@
     <name>content</name>
     <test>net.ontopia.infoset.content.test.InMemoryContentStoreTest</test>
     <test>net.ontopia.infoset.content.test.FileContentStoreTest</test>
-  </group>
-
-  <property>
-   <name>net.ontopia.webed.test.testApplicationPath</name>
-   <value>/webedtest</value>
-  </property>
- 
-  <property>
-   <name>net.ontopia.webed.test.testServerLocation</name>
-   <value>http://127.0.0.1:8080</value>
-  </property>
-
-  <group>
-   <name>WebedUsage</name>
-   <test>net.ontopia.topicmaps.webed.test.ActionIdTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.ButtonTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.CheckboxTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.FieldTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.FormTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.InvokeTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.ListTagTest</test>
-   <test>net.ontopia.topicmaps.webed.test.GeneralActionTest</test>
   </group>
 
   <group>
