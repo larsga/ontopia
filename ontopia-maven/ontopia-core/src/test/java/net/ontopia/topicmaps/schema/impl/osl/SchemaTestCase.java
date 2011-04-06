@@ -43,7 +43,7 @@ public class SchemaTestCase extends AbstractSchemaTestCase {
 
   @Parameters
   public static Collection<String[]> params() throws IOException {
-    String config = FileUtils.getTestInputFile("schema", "config", "config.xml");
+    String config = FileUtils.getTestInputFile(testdataDirectory, "config", "config.xml");
     InputStream in = StreamUtils.getInputStream(config);
     
     try {
