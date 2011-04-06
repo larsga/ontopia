@@ -264,11 +264,6 @@
     <test>net.ontopia.topicmaps.impl.basic.index.test.NameTest</test>
   </group>
 
-  <group>
-    <name>net.ontopia.topicmaps.nav2.realm</name>
-    <test>net.ontopia.topicmaps.nav2.realm.test.TMLoginModuleTest</test>
-  </group>
-  
   <!-- ======================================================================= -->
 
   <group>
