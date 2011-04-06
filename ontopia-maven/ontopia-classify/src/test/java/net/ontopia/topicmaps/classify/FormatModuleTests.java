@@ -1,12 +1,14 @@
 
 package net.ontopia.topicmaps.classify;
 
-import org.junit.Assert;
-import org.junit.Test;
+import junit.framework.TestCase;
 
-public class FormatModuleTestCase {
+public class FormatModuleTests extends TestCase {
   
-  @Test
+  public FormatModuleTests(String name) {
+    super(name);
+  }
+  
   public void testFormats() {
     FormatModuleIF xml = new XMLFormatModule();
     matchIdentifierTrue(xml, "foo.xml");
@@ -33,7 +35,7 @@ public class FormatModuleTestCase {
     ClassifiableContent cc = new ClassifiableContent();
     cc.setIdentifier(identifier);
     cc.setContent(new byte[] {});
-    Assert.assertTrue("Format module " + fm + " did not match identifier " + cc.getIdentifier(), fm.matchesIdentifier(cc));
+    assertTrue("Format module " + fm + " did not match identifier " + cc.getIdentifier(), fm.matchesIdentifier(cc));
   }
   
 }
