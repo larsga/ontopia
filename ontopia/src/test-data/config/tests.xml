@@ -467,12 +467,6 @@
   </group>
 
   <group>
-    <name>content</name>
-    <test>net.ontopia.infoset.content.test.InMemoryContentStoreTest</test>
-    <test>net.ontopia.infoset.content.test.FileContentStoreTest</test>
-  </group>
-
-  <group>
     <name>tmxml</name>
     <test>net.ontopia.topicmaps.xml.test.TMXMLReadErrorTests</test>
     <test>net.ontopia.topicmaps.xml.test.CanonicalTMXMLReaderTests</test>
