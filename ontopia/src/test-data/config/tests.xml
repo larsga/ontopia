@@ -156,7 +156,6 @@
     <!-- NOTE: realm test commented out because of 1.4 dependency -->
     <group-ref>net.ontopia.topicmaps.nav2.realm</group-ref> 
     <group-ref>TMRAP</group-ref>
-    <group-ref>ontopoly</group-ref>
   </group>
 
   <group>
@@ -616,26 +615,6 @@
     <test>net.ontopia.topicmaps.classify.test.DowncaseNormalizerTestCase</test>
     <test>net.ontopia.topicmaps.classify.test.SnowballStemmerTestCase</test>
     <test>net.ontopia.topicmaps.classify.test.FormatModuleTests</test>
-  </group>
-
-  <group>
-    <name>ontopoly</name>
-    <!--test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestAbstractFieldType</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestAssociationField</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestAssociationType</test>  
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestCardinality</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestDataType</test>  
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestFieldAssignment</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestFieldInstance</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestFieldValue</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestIdentityField</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestInterfaceControl</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestNameType</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestOccurrenceType</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestRoleType</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestTopic</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestTopicMap</test>
-    <test>net.ontopia.topicmaps.nav2.webapps.ontopoly.model.test.TestTopicType</test-->
   </group>
 
   <!--
