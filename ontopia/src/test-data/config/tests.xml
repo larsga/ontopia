@@ -50,7 +50,6 @@
     <group-ref>webed</group-ref>
     <group-ref>schema</group-ref>
     <group-ref>db2tm</group-ref>
-    <!--group-ref>classify</group-ref-->
     <group-ref>viz</group-ref>
   </group>
   
@@ -607,16 +606,6 @@
     <test>net.ontopia.topicmaps.db2tm.test.SyncTest</test>
   </group>
   
-  <group>
-    <name>classify</name>
-    <test>net.ontopia.topicmaps.classify.test.DefaultTokenizerTestCase</test>
-    <test>net.ontopia.topicmaps.classify.test.SpecialCharNormalizerTestCase</test>
-    <test>net.ontopia.topicmaps.classify.test.JunkNormalizerTestCase</test>
-    <test>net.ontopia.topicmaps.classify.test.DowncaseNormalizerTestCase</test>
-    <test>net.ontopia.topicmaps.classify.test.SnowballStemmerTestCase</test>
-    <test>net.ontopia.topicmaps.classify.test.FormatModuleTests</test>
-  </group>
-
   <!--
   <property>
     <name>net.ontopia.test.TestRunner.debug</name>
