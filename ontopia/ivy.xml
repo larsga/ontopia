@@ -1,8 +1,0 @@
-<ivy-module version="2.0">
-  <dependencies defaultconfmapping="*->default">
-
-    <dependency org="saxon" name="saxon" rev="6.5.3" conf="build" />
-    <dependency org="org.tmapi" name="tmapi-tests" rev="2.0.2" conf="build"/>
-	
-  </dependencies>
-</ivy-module>
