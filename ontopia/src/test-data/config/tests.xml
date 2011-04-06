@@ -49,7 +49,6 @@
     <group-ref>navigator</group-ref>
     <group-ref>webed</group-ref>
     <group-ref>schema</group-ref>
-    <group-ref>db2tm</group-ref>
     <group-ref>viz</group-ref>
   </group>
   
@@ -593,19 +592,6 @@
     -->
   </group>
 
-  <group>
-    <name>db2tm</name>
-    <test>net.ontopia.topicmaps.db2tm.test.DB2TMTestGenerator</test>
-    <test>net.ontopia.topicmaps.db2tm.test.RelationMappingTestCase</test>
-    <test>net.ontopia.topicmaps.db2tm.test.FunctionsTestCase</test>
-  </group>
-
-  <group>
-    <name>db2tm-rdbms</name>
-    <group-ref>db2tm</group-ref>
-    <test>net.ontopia.topicmaps.db2tm.test.SyncTest</test>
-  </group>
-  
   <!--
   <property>
     <name>net.ontopia.test.TestRunner.debug</name>
