@@ -149,7 +149,6 @@
 									<outputDirectory>${project.build.directory}/test-classes/</outputDirectory>
 								</artifactItem>
 							</artifactItems>
-							<excludes>**/TopicMapSystemFactory.*</excludes>
 						</configuration>
 					</execution>
 				</executions>
@@ -166,7 +165,7 @@
 						<exclude>**/tmapi/core/AllCoreTests**</exclude>
 						<exclude>**/tmapi/index/AllIndexTests**</exclude>
 						
-						<!-- Tests disabled in the trunk, see issue 383 -->
+						<!-- TMAPI tests disabled following issue 383 -->
 						<exclude>**/tmapi/core/TestTopicMapSystemFactory**</exclude>
 						<exclude>**/tmapi/core/TestRFC3986**</exclude>
 					</excludes>
