@@ -138,31 +138,6 @@
   </target>
 
   <!-- ======================================================================
-       Bootstrap
-       ====================================================================== -->
-
-  <target name="jar.ontoboot" depends="init">
-    <echo>Creating engine runtime jar file...</echo>
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="${optimize}" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            classpathref="project.classpath"
-            includeantruntime="false">
-      <patternset>
-        <include name="net/ontopia/ant/TestTask.java" />
-        <include name="net/ontopia/ant/TemplateTexenTask.java" />
-      </patternset>
-    </javac>
-    <delete file="${3rdparty.path}/ontoboot.jar" />
-    <jar basedir="${build.classes}" jarfile="${3rdparty.path}/ontoboot.jar">
-      <patternset>
-        <include name="net/ontopia/ant/TestTask.class" />
-        <include name="net/ontopia/ant/TemplateTexenTask.class" />
-      </patternset>
-    </jar>
-  </target>
-  
-  <!-- ======================================================================
         Build cleanup
        ====================================================================== -->
 
