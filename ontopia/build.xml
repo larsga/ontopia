@@ -76,22 +76,6 @@
     <antcall inheritRefs="true" target="dist.viz.collect" />
     <antcall inheritRefs="true" target="dist.tmrap.collect" />
     
-    <!-- Collect product tests -->
-    <antcall inheritRefs="true" target="dist.engine.test.collect" />
-    <antcall inheritRefs="true" target="dist.navigator.test.collect" />
-    <antcall inheritRefs="true" target="dist.fulltext.test.collect" />
-    <antcall inheritRefs="true" target="dist.query.test.collect" />
-    <antcall inheritRefs="true" target="dist.schema.test.collect" />
-    <antcall inheritRefs="true" target="dist.webed.test.collect" />
-    <antcall inheritRefs="true" target="dist.viz.test.collect" />
-    <antcall inheritRefs="true" target="dist.db2tm.test.collect" />
-    <antcall inheritRefs="true" target="dist.tmrap.test.collect" />
-    <antcall inheritRefs="true" target="dist.rdbms.test.collect" />
-    
-    <!-- Test configuration -->
-    <copy file="${test.path}/config/tests.xml" todir="${dist.path}/tests/test-data" />
-    <copy file="${src.path}/dist/tests/tests-ontopia.xml" tofile="${dist.path}/tests/test-data/tests-ontopia.xml" />
-    
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}-tests.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/apache-tomcat/common/lib" />
@@ -227,132 +211,6 @@
     
   </target>
   
-  <target name="compile.ontopia.test">
-    <echo>Compiling test cases for net.ontopia...</echo>
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="false" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            classpathref="project.classpath" source="1.5"
-            includeantruntime="false">
-      <patternset refid="sources.test.ontopia.core" />
-    </javac>
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="false" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            classpathref="project.classpath" source="1.5"
-            includeantruntime="false">
-      <patternset refid="sources.test.ontopia.aux" />
-    </javac>
-    <!-- copy db2tm mapping files -->
-    <copy todir="${build.classes}/net/ontopia/topicmaps/db2tm/test" overwrite="yes">
-      <fileset dir="${java.path}/net/ontopia/topicmaps/db2tm/test">
-        <include name="*.xml" />
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="jar.ontopia.test">
-    <property name="dist.name" value="ontopia" />
-    <delete file="${build.jars}/${dist.name}-tests.jar" />
-    <jar basedir="${build.classes}" jarfile="${build.jars}/${dist.name}-tests.jar" manifest="${src.path}/dist/manifests/manifest-ontopia-tests.mf">
-      <patternset refid="classes.test.engine" />
-      <patternset refid="classes.test.tmapi" />
-      <patternset refid="classes.test.navigator" />
-      <patternset refid="classes.test.fulltext" />
-      <patternset refid="classes.test.query" />
-      <patternset refid="classes.test.schema" />
-      <patternset refid="classes.test.webed" />
-      <patternset refid="classes.test.db2tm" />
-      <patternset refid="classes.test.rdbms" />
-      <patternset refid="classes.test.classify" />
-      <patternset refid="classes.test.viz" />
-    </jar>
-  </target>
-  
-  <target name="dist.engine.test.collect" depends="download-xtm2, download-xtm21, download-tmxml, download-ctm, download-jtm">
-    
-    <!-- Test data -->
-    <copy todir="${dist.path}/tests/test-data/canonical/baseline">
-      <fileset dir="${test.path}/canonical/baseline" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/canonical/in">
-      <fileset dir="${test.path}/canonical/in" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/canonical/extra">
-      <fileset dir="${test.path}/canonical/extra" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/canonical/errors">
-      <fileset dir="${test.path}/canonical/errors" />
-    </copy>
-    <mkdir dir="${dist.path}/tests/test-data/canonical/out" />
-    
-    <copy todir="${dist.path}/tests/test-data/merge/baseline">
-      <fileset dir="${test.path}/merge/baseline" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/merge/in">
-      <fileset dir="${test.path}/merge/in" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/metadata">
-      <fileset dir="${test.path}/metadata" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/various">
-      <fileset dir="${test.path}/various" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/ltm/baseline">
-      <fileset dir="${test.path}/ltm/baseline" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/ltm/in">
-      <fileset dir="${test.path}/ltm/in" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/ltm/extra">
-      <fileset dir="${test.path}/ltm/extra" />
-    </copy>
-    
-    <copy todir="${dist.path}/tests/test-data/rdf/baseline">
-      <fileset dir="${test.path}/rdf/baseline" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/rdf/err">
-      <fileset dir="${test.path}/rdf/err" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/rdf/in">
-      <fileset dir="${test.path}/rdf/in" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/rdf/various">
-      <fileset dir="${test.path}/rdf/various" />
-    </copy>
-    <mkdir dir="${dist.path}/tests/test-data/rdf/out" />
-    
-    <copy todir="${dist.path}/tests/test-data/tm2rdf/in">
-      <fileset dir="${test.path}/rdf/in" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/tm2rdf/baseline">
-      <fileset dir="${test.path}/tm2rdf/baseline" />
-    </copy>
-    <mkdir dir="${dist.path}/tests/test-data/rm2rdf/tmp" />
-    
-    <copy todir="${dist.path}/tests/test-data/tmrap">
-      <fileset dir="${test.path}/tmrap" />
-    </copy>
-    
-    <copy todir="${dist.path}/tests/test-data/tmsync">
-      <fileset dir="${test.path}/tmsync" />
-    </copy>
-    
-    <copy todir="${dist.path}/tests/test-data/xtm2">
-      <fileset dir="${test.path}/xtm2" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/xtm21">
-      <fileset dir="${test.path}/xtm21" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/tmxml">
-      <fileset dir="${test.path}/tmxml" />
-    </copy>
-    <copy todir="${dist.path}/tests/test-data/cxtm">
-      <fileset dir="${test.path}/cxtm" />
-    </copy>
-    
-  </target>
-  
   <!-- - - - Collect navigator runtime components  - - - - - - - - - - - - - -->
   
   <target name="dist.navigator.collect">
@@ -473,46 +331,10 @@
     <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/tomcat-docs" />
   </target>
   
-  <target name="dist.navigator.test.collect">
-    
-    <!-- Navigator test files and configuration -->
-    <copy todir="${dist.path}/tests/test-data/nav2">
-      <fileset dir="${test.path}/nav2" />
-    </copy>
-    
-    <copy todir="${dist.path}/tests/test-data/ontopoly">
-      <fileset dir="${test.path}/ontopoly" />
-    </copy>
-    
-  </target>
-  
-  <!-- - - - Collect fulltext components - - - - - - - - - - - - - - - - - - -->
-  <target name="dist.fulltext.collect">
-    
-  </target>
-  
-  <target name="dist.fulltext.test.collect">
-    
-  </target>
-  
-  <target name="dist.db2tm.test.collect">
-    
-    <copy todir="${dist.path}/tests/test-data/db2tm">
-      <fileset dir="${test.path}/db2tm">
-        <exclude name="out" />
-      </fileset>
-    </copy>
-    
-  </target>
-  
   <!-- - - - Collect tmrap components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.tmrap.collect">
     
     <unzip src="${src.path}/webapps/tmrap/tmrap.zip" dest="${dist.path}/apache-tomcat/webapps/" />
-    
-  </target>
-  
-  <target name="dist.tmrap.test.collect">
     
   </target>
   
@@ -538,38 +360,7 @@
     <copy file="${src.path}/dist/rdbms/ontopia-terracotta.xml" todir="${dist.path}/rdbms/clustering" />
     
   </target>
-  
-  <target name="dist.rdbms.test.collect">
-    
-  </target>
-  
-  <target name="dist.schema.test.collect">
-    
-    <!-- Test data -->
-    <copy todir="${dist.path}/tests/test-data/schema">
-      <fileset dir="${test.path}/schema" />
-    </copy>
-    
-  </target>
-  
-  <target name="dist.query.test.collect">
-    
-    <!-- Test data -->
-    <copy todir="${dist.path}/tests/test-data/query">
-      <fileset dir="${test.path}/query" />
-    </copy>
-    
-  </target>
-  
-  <target name="dist.webed.test.collect">
-    
-    <!-- Test data -->
-    <copy todir="${dist.path}/tests/test-data/webed">
-      <fileset dir="${test.path}/webed" />
-    </copy>
-    
-  </target>
-  
+
   <!-- - - - Collect viz components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.viz.collect">
     
