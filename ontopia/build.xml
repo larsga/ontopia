@@ -2014,35 +2014,7 @@
       <patternset refid="sources.dummyLoggers" />
     </javac>
   </target>
-  
-  <!-- ======================================================================
-       Ontopia topic map realm
-       ==================================================================== -->
-  
-  <!-- Patterns -->
-  <patternset id="sources.topicmaprealm">
-    <include name="net/ontopia/topicmaps/nav2/realm/*.java" />
-  </patternset>
-  
-  <patternset id="classes.topicmaprealm">
-    <include name="net/ontopia/topicmaps/nav2/realm/*.class" />
-  </patternset>
-  
-  <target name="jar.topicmaprealm">
-    <echo>Compiling topicmaprealm classes...</echo>
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="${optimize}" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            classpathref="project.classpath" source="1.5"
-            includeantruntime="false">
-      <patternset refid="sources.topicmaprealm" />
-    </javac>
-    <echo>Building topicmaprealm jar file...</echo>
-    <jar basedir="${build.classes}" jarfile="${build.jars}/ontopia-realm.jar">
-      <patternset refid="classes.topicmaprealm" />
-    </jar>
-  </target>
-  
+
   <!-- ======================================================================
        Posting online docs
        ======================================================================
