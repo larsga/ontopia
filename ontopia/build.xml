@@ -34,18 +34,6 @@
   
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
-
-    <echo>Copying vizigator resources ... </echo>
-    <copy file="${java.path}/net/ontopia/topicmaps/viz/logo.gif" tofile="${build.classes}/net/ontopia/topicmaps/viz/logo.gif" />
-    <copy todir="${build.classes}/net/ontopia/topicmaps/viz/" overwrite="yes">
-      <fileset dir="${java.path}/net/ontopia/topicmaps/viz/">
-        <patternset>
-          <include name="messages.properties" />
-          <include name="messages_*.properties" />
-        </patternset>
-      </fileset>
-    </copy>
-    
     <echo>Copying classify resources ... </echo>
     <copy todir="${build.classes}/net/ontopia/topicmaps/classify/lang" overwrite="yes">
       <fileset dir="${java.path}/net/ontopia/topicmaps/classify/lang">
