@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <project name="ontopia" default="bootstrap" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-
-  <target name="test" depends="init, download-xtm2, download-xtm21, download-tmxml, download-ctm, download-jtm">
-    <property name="test.config" value="${test.path}/config/tests.xml" />
-    <property name="test.name" value="complete-non-rdbms" />
-    <echo>Using configuration file '${test.config}'.</echo>
-    <echo>Tests: '${test.name}'. </echo>
-    <java classname="net.ontopia.test.TestRunner" fork="true" classpathref="project.classpath.test">
-      <jvmarg value="-Dnet.ontopia.xml.Slf4jSaxErrorHandler.ignoreNamespaceErrors=true" />
-      <jvmarg value="-Dnet.ontopia.test.root=${test.path}" />
-      <arg value="--loglevel=ERROR" />
-      <arg value="${test.config}" />
-      <arg value="${test.name}" />
-    </java>
-  </target>
-  
-  <!-- - - - Ontopia distribution  - - - - - - - - - - - - - - - - - - - - -->
-  
   <target name="dist.ontopia" depends="init,check-jvm" description="builds the full ontopia distribution">
     <echo>Generating jar digests...</echo>
     <java classname="net.ontopia.product.JarDigests" fork="true" classpathref="project.classpath">
@@ -24,6 +7,5 @@
       <arg value=".*\.jar" />
       <arg value="${dist.path}/lib/digests.txt" />
     </java>
-    
   </target>
 </project>
