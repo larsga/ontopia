@@ -23,12 +23,6 @@
     <copy file="${build.jars}/${dist.name}-tests.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/apache-tomcat/common/lib" />
     
-    <!-- Copy templates -->
-    <mkdir dir="${dist.path}/config/vm-templates" />
-    <copy todir="${dist.path}/config/vm-templates">
-      <fileset dir="${src.path}/webapps/webedtest/WEB-INF/templates" />
-    </copy>
-    
     <echo>Generating jar digests...</echo>
     <java classname="net.ontopia.product.JarDigests" fork="true" classpathref="project.classpath">
       <arg value="${dist.path}/lib/" />
