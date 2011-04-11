@@ -1106,9 +1106,6 @@
   
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
-    <echo>Copy tolog Service Descriptor...</echo>
-    <mkdir dir="${build.classes}/META-INF/services" />
-    <copy file="${java.path}/net/ontopia/topicmaps/query/impl/service/tolog.service" tofile="${build.classes}/META-INF/services/net.ontopia.topicmaps.query.core.QueryProcessorFactoryIF" />
     
     <echo>Compiling TMAPI code...</echo>
     <mkdir dir="${build.classes}/META-INF/services" />
