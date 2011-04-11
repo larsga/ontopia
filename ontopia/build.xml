@@ -18,9 +18,6 @@
   <!-- - - - Ontopia distribution  - - - - - - - - - - - - - - - - - - - - -->
   
   <target name="dist.ontopia" depends="init,check-jvm" description="builds the full ontopia distribution">
-    
-    <copy file="${build.jars}/${dist.name}-tests.jar" todir="${dist.path}/lib" />
-    
     <echo>Generating jar digests...</echo>
     <java classname="net.ontopia.product.JarDigests" fork="true" classpathref="project.classpath">
       <arg value="${dist.path}/lib/" />
