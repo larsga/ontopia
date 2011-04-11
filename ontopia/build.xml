@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <project name="ontopia" default="bootstrap" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
-  <target name="generate-rdbms-schema">
-    <java classname="net.ontopia.persistence.rdbms.DDLWriter" fork="true" classpathref="project.classpath">
-      <arg value="${src.path}/dist/rdbms/rdbms-schema.xml" />
-      <arg value="${database}" />
-      <arg value="${platforms}" />
-      <arg value="${dist.path}/rdbms/setup/${id}.create.sql" />
-      <arg value="${dist.path}/rdbms/setup/${id}.drop.sql" />
-    </java>
-  </target>
-  
-  <!-- ======================================================================
-       Unit tests
-       ====================================================================== -->
-  
   <target name="test" depends="init, download-xtm2, download-xtm21, download-tmxml, download-ctm, download-jtm">
     <property name="test.config" value="${test.path}/config/tests.xml" />
     <property name="test.name" value="complete-non-rdbms" />
@@ -29,52 +15,9 @@
     </java>
   </target>
   
-  <!-- ======================================================================
-       Ontopia distributions
-       ==================================================================== -->
-  
-  <target name="check-jvm">
-    <property name="jvm.version" value="1.5" />
-    <java classname="net.ontopia.products.CheckJVMVersion" failonerror="true" classpathref="project.classpath">
-      <arg value="${jvm.version}" />
-    </java>
-  </target>
-  
-  <target name="dist.ontopia.echo">
-    <echo>Building ${dist.title}...</echo>
-    <echo> - version is '${dist.version}'</echo>
-    <echo> - compiler is '${build.compiler}'</echo>
-    <echo> - jvm is '${ant.java.version}'</echo>
-  </target>
-  
   <!-- - - - Ontopia distribution  - - - - - - - - - - - - - - - - - - - - -->
   
   <target name="dist.ontopia" depends="init,check-jvm" description="builds the full ontopia distribution">
-    
-    <antcall inheritRefs="true" target="dist.ontopia.echo" />
-    
-    <!-- compile and build jar files -->
-    <antcall inheritRefs="true" target="dist.jar.ontopia.body" />
-    
-    <!-- Clean distribution directory -->
-    <delete dir="${build.tmp}" />
-    <delete dir="${dist.path}" />
-    <mkdir dir="${dist.path}" />
-    
-    <!-- Collect product structures -->
-    <antcall inheritRefs="true" target="dist.product.collect" />
-    <antcall inheritRefs="true" target="dist.engine.collect" />
-    <antcall inheritRefs="true" target="dist.query.collect" />
-    <antcall inheritRefs="true" target="dist.fulltext.collect" />
-    <antcall inheritRefs="true" target="dist.schema.collect" />
-    <antcall inheritRefs="true" target="dist.webed.collect" />
-    <antcall inheritRefs="true" target="dist.navigator.collect" />
-    <!-- viz and tmrap must be placed after this task -->
-    <antcall inheritRefs="true" target="dist.db2tm.collect" />
-    <antcall inheritRefs="true" target="dist.rdbms.collect" />
-    <antcall inheritRefs="true" target="dist.classify.collect" />
-    <antcall inheritRefs="true" target="dist.viz.collect" />
-    <antcall inheritRefs="true" target="dist.tmrap.collect" />
     
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}-tests.jar" todir="${dist.path}/lib" />
@@ -93,16 +36,6 @@
       <arg value="${dist.path}/lib/digests.txt" />
     </java>
     
-    <!-- Package the distribution -->
-    <zip destFile="${build.dists}/${dist.zipfile}" duplicate="preserve">
-      <zipfileset dir="${build.dists}" filemode="755" includes="${dist.dir}/apache-tomcat/bin/*.sh" />
-      <zipfileset dir="${build.dists}" filemode="755" includes="${dist.dir}/tests/*.sh" />
-      <zipfileset dir="${build.dists}">
-        <include name="${dist.dir}/**/*" />
-        <exclude name="${dist.dir}/apache-tomcat/bin/*.sh" />
-        <exclude name="${dist.dir}/tests/*.sh" />
-      </zipfileset>
-    </zip>
   </target>
   
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
@@ -156,7 +89,6 @@
     <echo>Collecting navigator runtime components...</echo>
     
     <!-- Build Ontopia realm -->
-    <antcall inheritRefs="true" target="jar.topicmaprealm" />
     <copy file="${build.jars}/ontopia-realm.jar" tofile="${dist.path}/apache-tomcat/server/lib/ontopia-realm.jar" overwrite="yes" />
     
     <!-- Collect omnigator web application -->
@@ -248,28 +180,8 @@
     <replace file="${dist.path}/apache-tomcat/webapps/omnigator/fragments/tagline-header.jsp" token="@VERSION@" value="${dist.version}" />
     <replace file="${dist.path}/apache-tomcat/webapps/omnigator/fragments/tagline-header.jsp" token="@DATE@" value="${build.date}" />
     
-    <!-- Add i18n web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.i18n" />
-    
-    <!-- Add xmltools web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.xmltools" />
-    
-    <!-- Add manage web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.manage" />
-    
-    <!-- Add ontopoly web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.ontopoly" />
-    
   </target>
 
-  <target name="delete.tomcat.webapps" unless="keep.tomcat.webapps">
-    <echo>Deleting tomcat web applications</echo>
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/server/webapps/manager" />
-    <delete quiet="true" file="${dist.path}/apache-tomcat/conf/Catalina/localhost/manager.xml" />
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/webdav" />
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/tomcat-docs" />
-  </target>
-  
   <!-- - - - Collect tmrap components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.tmrap.collect">
     
@@ -303,8 +215,6 @@
   <!-- - - - Collect viz components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.viz.collect">
     
-    <antcall inheritRefs="true" target="jar.vizlet" />
-    
     <!-- Copy jar-files -->
     <copy todir="${dist.path}/apache-tomcat/webapps/omnigator/plugins/viz" file="${build.jars}/ontopia-vizlet.jar" overwrite="yes" />
     
@@ -324,25 +234,6 @@
     
   </target>
   
-  <target name="dist.viz.test.collect">
-  </target>
-  
-  <!-- ======================================================================
-       Dummy logger classes - used by vizlet
-       ==================================================================== -->
-  
-  <patternset id="sources.dummyLoggers">
-    <include name="org/apache/log4j/*.java" />
-    <include name="org/apache/log4j/spi/*.java" />
-    <include name="org/slf4j/*.java" />
-  </patternset>
-  
-  <patternset id="classes.dummyLoggers">
-    <include name="org/apache/log4j/*.class" />
-    <include name="org/apache/log4j/spi/*.class" />
-    <include name="org/slf4j/*.class" />
-  </patternset>
-  
   <target name="compile.dummyLoggers">
     <echo>Compiling dummy logger classes...</echo>
     <javac srcdir="${java.path}" destdir="${build.classes}" 
@@ -351,56 +242,6 @@
             includeantruntime="false">
       <patternset refid="sources.dummyLoggers" />
     </javac>
-  </target>
-
-  <!-- ======================================================================
-       Posting online docs
-       ======================================================================
-       
-       This target is used to produce a documentation bundle which can
-       be uploaded to ontopia.net so that we have all the product
-       documentation available online.
-       
-       The target will produce build/ontopia-docs.zip 
-  -->
-  
-  <target name="doc.ontopia" depends="init">
-    <echo>Generating docs in ${dist.path}/doc...</echo>
-    
-    <!-- Create doc directory -->
-    <delete dir="${dist.path}/doc" />
-    <mkdir dir="${dist.path}/doc" />
-    
-    <!-- finally, package it -->
-    <zip destFile="${build.dists}/ontopia-docs.zip" duplicate="preserve">
-      <zipfileset dir="${dist.path}">
-        <include name="doc/**/*" />
-      </zipfileset>
-    </zip>    
-  </target>
-  
-  <!-- ======================================================================
-       Apache Ivy utilities
-       ==================================================================== -->
-
-  <target name="ivy.make-pom" depends="init">
-    <ivy:makepom ivyfile="${basedir}/ivy.xml" pomfile="${basedir}/pom.xml">
-     <mapping conf="build" scope="compile"/>
-     <mapping conf="build" scope="runtime"/>
-    </ivy:makepom>  
-  </target>
-
-  <target name="ivy.deploy-local" depends="init">
-    <exec executable="mvn">
-      <arg value="install:install-file" />
-      <arg value="-DgroupId=net.ontopia" />
-      <arg value="-DartifactId=ontopia-engine" />
-      <arg value="-Dversion=${dist.version.major}.${dist.version.minor}.${dist.version.micro}-SNAPSHOT" />
-      <arg value="-Dpackaging=jar" />
-      <arg value="-Dfile=${basedir}/build/jars/ontopia.jar" />
-      <arg value="-DpomFile=${basedir}/pom.xml" />
-      <arg value="-DcreateChecksum=true" />
-    </exec>
   </target>
 
 </project>
