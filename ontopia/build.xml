@@ -212,36 +212,4 @@
     
   </target>
 
-  <!-- - - - Collect viz components  - - - - - - - - - - - - - - - - - - - -->
-  <target name="dist.viz.collect">
-    
-    <!-- Copy jar-files -->
-    <copy todir="${dist.path}/apache-tomcat/webapps/omnigator/plugins/viz" file="${build.jars}/ontopia-vizlet.jar" overwrite="yes" />
-    
-    <copy file="${build.jars}/ontopia-vizlet.jar" tofile="${dist.path}/extras/ontopia-vizlet.jar" />
-    <copy file="${build.jars}/signed-vizlet.jar" tofile="${dist.path}/extras/signed-vizlet.jar" />
-    
-    <!-- VizPlugin configurations -->
-    <property name="vizcfg" value="${dist.path}/apache-tomcat/webapps/omnigator/WEB-INF/topicmaps/" />
-    <copy file="${topicmaps.path}/i18n.ltm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/mondial.xtm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/tm-standards.xtm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/ItalianOpera.ltm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/xmltools-tm.xtm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/KanzakisConcerts.rdf.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/pokemon.ltm.viz" todir="${vizcfg}" />
-    <copy file="${topicmaps.path}/support-kb.ltm.viz" todir="${vizcfg}" />
-    
-  </target>
-  
-  <target name="compile.dummyLoggers">
-    <echo>Compiling dummy logger classes...</echo>
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="${optimize}" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" source="1.5"
-            includeantruntime="false">
-      <patternset refid="sources.dummyLoggers" />
-    </javac>
-  </target>
-
 </project>
