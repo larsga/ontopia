@@ -2035,37 +2035,6 @@
     
   </target>
   
-  <!-- - - - Update product class - - - - - - - - - - - - - - - - - - - - - -->
-  
-  <patternset id="sources.product">
-    <include name="net/ontopia/utils/StreamUtils.java" />
-    <include name="net/ontopia/net/MD5.java" />
-    <include name="net/ontopia/product/CreateProductClass.java" />
-  </patternset>
-  
-  <target name="prepare.product.class">
-    <!-- Bump build numbers and update product version information -->
-    <delete file="${build.classes}/net/ontopia/Ontopia.class" />
-    <delete file="${src.path}/java/net/ontopia/Ontopia.java" />
-    <javac srcdir="${java.path}" destdir="${build.classes}" 
-            optimize="${optimize}" deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            includeantruntime="false" 
-            classpathref="project.classpath" source="1.5">
-      <patternset refid="sources.product" />
-    </javac>
-    <java classname="net.ontopia.product.CreateProductClass" fork="true" classpathref="project.classpath">
-      <arg value="${src.path}/java/net/ontopia/" />
-      <!-- class target dictionary -->
-      <arg value="Ontopia" />
-      <arg value="${dist.version.major}" />
-      <arg value="${dist.version.minor}" />
-      <arg value="${dist.version.micro}" />
-      <arg value="${build.user}" />
-      <arg value="${dist.version.beta}" />
-    </java>
-  </target>
-  
   <!-- - - - Collect schema components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.schema.collect">
     
