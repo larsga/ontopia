@@ -31,11 +31,4 @@
     </java>
     
   </target>
-  
-  <!-- - - - Collect tmrap components  - - - - - - - - - - - - - - - - - - - -->
-  <target name="dist.tmrap.collect">
-    
-    <unzip src="${src.path}/webapps/tmrap/tmrap.zip" dest="${dist.path}/apache-tomcat/webapps/" />
-    
-  </target>
 </project>
