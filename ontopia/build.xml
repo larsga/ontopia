@@ -1250,17 +1250,6 @@
     </jar>
   </target>
   
-  <!-- - - - Collect web applications - - - - - - - - - - - - - - - - - - - -->
-  
-  <target name="dist.ontopia.webapp.accessctl">
-    <!-- Add accessctl web application -->
-    <copy todir="${dist.path}/apache-tomcat/webapps/accessctl">
-      <fileset dir="${src.path}/webapps/accessctl" />
-    </copy>
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/accessctl/WEB-INF/topicmaps" />
-    <copy file="${src.path}/webapps/accessctl/WEB-INF/topicmaps/userman.ltm" tofile="${dist.path}/apache-tomcat/webapps/omnigator/WEB-INF/topicmaps/userman.ltm" overwrite="yes" />
-  </target>
-  
   <!-- - - - Collect common product structure - - - - - - - - - - - - - - - -->
   
   <target name="dist.product.collect">
