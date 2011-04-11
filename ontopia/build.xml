@@ -1252,26 +1252,6 @@
   
   <!-- - - - Collect web applications - - - - - - - - - - - - - - - - - - - -->
   
-  <target name="dist.ontopia.webapp.i18n">
-    <!-- Add i18n web application -->
-    <echo>Adding i18n web application...</echo>
-    <copy todir="${dist.path}/apache-tomcat/webapps/i18n">
-      <fileset dir="${src.path}/webapps/i18n" />
-    </copy>
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/i18n/WEB-INF/work" />
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/i18n/WEB-INF/classes" />
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/i18n/WEB-INF/lib" />
-  </target>
-  
-  <target name="dist.ontopia.webapp.xmltools">
-    <!-- Add xmltools web application -->
-    <copy todir="${dist.path}/apache-tomcat/webapps/xmltools">
-      <fileset dir="${src.path}/webapps/xmltools" />
-    </copy>
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/xmltools/WEB-INF/classes" />
-    <delete quiet="true" dir="${dist.path}/apache-tomcat/webapps/xmltools/WEB-INF/lib" />
-  </target>
-  
   <target name="dist.ontopia.webapp.manage">
     <!-- Add manage web application -->
     <copy todir="${dist.path}/apache-tomcat/webapps/manage">
