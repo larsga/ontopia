@@ -961,15 +961,6 @@
     <copy file="${test.path}/config/tests.xml" todir="${dist.path}/tests/test-data" />
     <copy file="${src.path}/dist/tests/tests-ontopia.xml" tofile="${dist.path}/tests/test-data/tests-ontopia.xml" />
     
-    <!-- Test scripts -->
-    <copy file="${src.path}/dist/tests/runtests-ontopia.sh" tofile="${dist.path}/tests/runtests-ontopia.sh" />
-    <copy file="${src.path}/dist/tests/runtests-ontopia.bat" tofile="${dist.path}/tests/runtests-ontopia.bat" />
-    <copy file="${src.path}/dist/tests/runtests-rdbms.sh" tofile="${dist.path}/tests/runtests-rdbms.sh" />
-    <copy file="${src.path}/dist/tests/runtests-rdbms.bat" tofile="${dist.path}/tests/runtests-rdbms.bat" />
-    
-    <!-- Fix permissions -->
-    <chmod dir="${dist.path}/tests" perm="a+rx" includes="*.sh" />
-    
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}-tests.jar" todir="${dist.path}/lib" />
     <copy file="${build.jars}/${dist.name}.jar" todir="${dist.path}/apache-tomcat/common/lib" />
@@ -979,18 +970,6 @@
     <copy todir="${dist.path}/config/vm-templates">
       <fileset dir="${src.path}/webapps/webedtest/WEB-INF/templates" />
     </copy>
-    
-    <!-- Vizigator -->
-    <mkdir dir="${dist.path}/bin" />
-    <copy file="${src.path}/dist/vizigator/vizdesktop.bat" tofile="${dist.path}/bin/vizdesktop.bat" />
-    <copy file="${src.path}/dist/vizigator/vizdesktop.sh" tofile="${dist.path}/bin/vizdesktop.sh" />
-    <chmod dir="${dist.path}/bin" perm="a+rx" includes="*.sh" />
-    
-    <!-- Add accessctl web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.accessctl" />
-    
-    <!-- Replace ROOT web application -->
-    <antcall inheritRefs="true" target="dist.ontopia.webapp.toplevel" />
     
     <!-- Generate javadoc -->
     <antcall inheritRefs="true" target="javadoc.ontopia" />
