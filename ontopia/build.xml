@@ -1252,13 +1252,6 @@
   
   <!-- - - - Collect web applications - - - - - - - - - - - - - - - - - - - -->
   
-  <target name="dist.ontopia.webapp.manage">
-    <!-- Add manage web application -->
-    <copy todir="${dist.path}/apache-tomcat/webapps/manage">
-      <fileset dir="${src.path}/webapps/manage" />
-    </copy>
-  </target>
-  
   <target name="dist.ontopia.webapp.accessctl">
     <!-- Add accessctl web application -->
     <copy todir="${dist.path}/apache-tomcat/webapps/accessctl">
