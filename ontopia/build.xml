@@ -49,14 +49,4 @@
     <unzip src="${src.path}/webapps/tmrap/tmrap.zip" dest="${dist.path}/apache-tomcat/webapps/" />
     
   </target>
-  
-  <!-- - - - Collect rdbms components  - - - - - - - - - - - - - - - - - - - -->
-  <target name="dist.rdbms.collect">
-    
-    <!-- Collection clustering configuration -->
-    <mkdir dir="${dist.path}/rdbms/clustering" />
-    <copy file="${src.path}/dist/rdbms/ontopia-terracotta.xml" todir="${dist.path}/rdbms/clustering" />
-    
-  </target>
-
 </project>
