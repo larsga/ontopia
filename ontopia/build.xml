@@ -1980,15 +1980,6 @@
     </war>
   </target>
   
-  <target name="dist.ontopia.webapp.toplevel">
-    
-    <echo>Replacing ROOT web application...</echo>
-    <delete dir="${dist.path}/apache-tomcat/webapps/ROOT" />
-    <copy todir="${dist.path}/apache-tomcat/webapps/ROOT">
-      <fileset dir="${src.path}/webapps/toplevel" />
-    </copy>
-  </target>
-  
   <!-- ======================================================================
        Dummy logger classes - used by vizlet
        ==================================================================== -->
