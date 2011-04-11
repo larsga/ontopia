@@ -41,10 +41,6 @@
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
 
-    <echo>Copying rdbms resources...</echo>
-    <copy file="${java.path}/net/ontopia/topicmaps/impl/rdbms/config/mapping.xml" tofile="${build.classes}/net/ontopia/topicmaps/impl/rdbms/config/mapping.xml" overwrite="yes" />
-    <copy file="${java.path}/net/ontopia/topicmaps/impl/rdbms/config/queries.xml" tofile="${build.classes}/net/ontopia/topicmaps/impl/rdbms/config/queries.xml" overwrite="yes" />
-    
     <echo>Copying vizigator resources ... </echo>
     <copy file="${java.path}/net/ontopia/topicmaps/viz/logo.gif" tofile="${build.classes}/net/ontopia/topicmaps/viz/logo.gif" />
     <copy todir="${build.classes}/net/ontopia/topicmaps/viz/" overwrite="yes">
