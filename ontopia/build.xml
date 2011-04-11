@@ -1106,11 +1106,6 @@
   
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
-    
-    <echo>Compiling TMAPI code...</echo>
-    <mkdir dir="${build.classes}/META-INF/services" />
-    <copy file="${java.path}/net/ontopia/topicmaps/impl/tmapi2/tmsf.service" tofile="${build.classes}/META-INF/services/org.tmapi.core.TopicMapSystemFactory" />
-    
     <patternset id="sources.ontopia.core">
       <patternset refid="sources.engine" />
       <patternset refid="sources.tmapi" />
