@@ -105,70 +105,9 @@
     </zip>
   </target>
   
-  <target name="dist.jar.ontopia.body" depends="check-jvm,prepare.product.class,clean.classes,compile.ontopia,compile.ontopia.test,jar.ontopia.test,jar.ontopia" description="builds the ontopia.jar file">
-  </target>
-  
-  <target name="dist.jar.ontopia" depends="init,dist.jar.ontopia.body" description="builds the ontopia.jar file">
-  </target>
-  
-  <target name="jar.ontopia">
-    <property name="dist.name" value="ontopia" />
-    <delete file="${build.jars}/${dist.name}.jar" />
-    <jar basedir="${build.classes}" jarfile="${build.jars}/${dist.name}.jar" manifest="${src.path}/dist/manifests/manifest-ontopia.mf">
-      <patternset refid="classes.engine" />
-      <patternset refid="classes.tmapi" />
-      <patternset refid="classes.navigator" />
-      <patternset refid="classes.fulltext" />
-      <patternset refid="classes.query" />
-      <patternset refid="classes.schema" />
-      <patternset refid="classes.webed" />
-      <patternset refid="classes.viz" />
-      <patternset refid="images.viz" />
-      <patternset refid="resources.viz" />
-      <patternset refid="classes.db2tm" />
-      <patternset refid="classes.rdbms" />
-      <patternset refid="classes.classify" />
-    </jar>
-  </target>
-  
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
-    <patternset id="sources.ontopia.core">
-      <patternset refid="sources.engine" />
-      <patternset refid="sources.tmapi" />
-      <patternset refid="sources.query" />
-      <patternset refid="sources.schema" />
-      <patternset refid="sources.fulltext" />
-      <patternset refid="sources.rdbms" />
-    </patternset>
-    
-    <patternset id="sources.ontopia.aux">
-      <patternset refid="sources.db2tm" />
-      <patternset refid="sources.viz" />
-      <patternset refid="sources.navigator" />
-      <patternset refid="sources.webed" />
-      <patternset refid="sources.classify" />
-    </patternset>
-    
-    <echo>Compiling net.ontopia classes...</echo>
-    <javac srcdir="${java.path}" 
-            destdir="${build.classes}" 
-            optimize="${optimize}" 
-            deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            includeantruntime="false" 
-            classpathref="project.classpath" source="1.5">
-      <patternset refid="sources.ontopia.core" />
-    </javac>
-    <javac srcdir="${java.path}" 
-            destdir="${build.classes}" 
-            optimize="${optimize}" 
-            deprecation="${deprecation}" 
-            debug="${debug}" debuglevel="${debuglevel}" 
-            includeantruntime="false" 
-            classpathref="project.classpath" source="1.5">
-      <patternset refid="sources.ontopia.aux" />
-    </javac>
+
     <echo>Copying RelaxNG schemas</echo>
     <copy file="${java.path}/net/ontopia/topicmaps/xml/tmxml.rnc" tofile="${build.classes}/net/ontopia/topicmaps/xml/tmxml.rnc" overwrite="yes" />
     <copy file="${java.path}/net/ontopia/topicmaps/db2tm/db2tm.rnc" tofile="${build.classes}/net/ontopia/topicmaps/db2tm/db2tm.rnc" overwrite="yes" />
