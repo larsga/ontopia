@@ -32,17 +32,6 @@
     
   </target>
   
-  <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
-  <target name="compile.ontopia">
-    <echo>Copying classify resources ... </echo>
-    <copy todir="${build.classes}/net/ontopia/topicmaps/classify/lang" overwrite="yes">
-      <fileset dir="${java.path}/net/ontopia/topicmaps/classify/lang">
-        <include name="*" />
-      </fileset>
-    </copy>
-    
-  </target>
-  
   <!-- - - - Collect tmrap components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.tmrap.collect">
     
