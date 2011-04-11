@@ -41,10 +41,6 @@
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
 
-    <echo>Copying RelaxNG schemas</echo>
-    <copy file="${java.path}/net/ontopia/topicmaps/xml/tmxml.rnc" tofile="${build.classes}/net/ontopia/topicmaps/xml/tmxml.rnc" overwrite="yes" />
-    <copy file="${java.path}/net/ontopia/topicmaps/db2tm/db2tm.rnc" tofile="${build.classes}/net/ontopia/topicmaps/db2tm/db2tm.rnc" overwrite="yes" />
-    
     <echo>Copying TLDs to META-INF...</echo>
     <copy todir="${build.classes}/META-INF/" overwrite="yes">
       <fileset dir="${src.path}/webapps/webedtest/WEB-INF/jsp/">
