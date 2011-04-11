@@ -1998,49 +1998,6 @@
       </patternset>
     </javac>
     
-    <echo>Generating database schemas...</echo>
-    <mkdir dir="${dist.path}/rdbms/setup" />
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="generic" />
-      <param name="database" value="generic" />
-      <param name="platforms" value="generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="oracle8" />
-      <param name="database" value="oracle" />
-      <param name="platforms" value="oracle8,oracle,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="oracle9i" />
-      <param name="database" value="oracle" />
-      <param name="platforms" value="oracle9i,oracle,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="oracle10g" />
-      <param name="database" value="oracle" />
-      <param name="platforms" value="oracle10g,oracle,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="postgresql" />
-      <param name="database" value="postgresql" />
-      <param name="platforms" value="postgresql,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="sqlserver" />
-      <param name="database" value="sqlserver" />
-      <param name="platforms" value="sqlserver,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="mysql" />
-      <param name="database" value="mysql" />
-      <param name="platforms" value="mysql,generic" />
-    </antcall>
-    <antcall inheritRefs="true" target="generate-rdbms-schema">
-      <param name="id" value="h2" />
-      <param name="database" value="generic" />
-      <param name="platforms" value="generic" />
-    </antcall>
-    
     <!-- Collect documentation -->
     <mkdir dir="${dist.path}/doc/rdbms" />
     <copy file="${doc.path}/rdbms/install.xml.html" tofile="${dist.path}/doc/rdbms/install.html" />
