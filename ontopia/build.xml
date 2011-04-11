@@ -102,12 +102,6 @@
       <fileset dir="${src.path}/webapps/webedtest/WEB-INF/templates" />
     </copy>
     
-    <!-- Generate javadoc -->
-    <antcall inheritRefs="true" target="javadoc.ontopia" />
-    <copy todir="${dist.path}/doc/api">
-      <fileset dir="${build.javadoc}/ontopia" />
-    </copy>
-    
     <echo>Generating jar digests...</echo>
     <java classname="net.ontopia.product.JarDigests" fork="true" classpathref="project.classpath">
       <arg value="${dist.path}/lib/" />
@@ -125,67 +119,6 @@
         <exclude name="${dist.dir}/tests/*.sh" />
       </zipfileset>
     </zip>
-  </target>
-  
-  <target name="javadoc.ontopia">
-    <delete dir="${build.javadoc}/ontopia" />
-    <mkdir dir="${build.javadoc}/ontopia" />
-    <javadoc packagenames="
-                           ${dist.engine.packagenames},
-                           ${dist.navigator.packagenames},
-                           ${dist.query.packagenames},
-                           ${dist.schema.packagenames},
-                           ${dist.webed.packagenames},
-                           ${dist.db2tm.packagenames},
-                           ${dist.rdbms.packagenames}
-                           " sourcepath="${java.path}" destdir="${build.javadoc}/ontopia" 
-                           author="true" version="true" use="true" public="true" 
-                           windowtitle="Ontopia" 
-                           doctitle="Ontopia API documentation" 
-                           header="&lt;img src='{@docroot}/logo.gif'&gt;" 
-                           bottom="&lt;i&gt;Copyright &#169; 2000-2010 &lt;a href='http://www.ontopia.net'&gt;Ontopia&lt;/a&gt;.&lt;/i&gt;" 
-                           classpathref="project.classpath">
-      <group title="Core Topic Map Packages" packages="net.ontopia.topicmaps.*" />
-      <group title="Core Information Set Packages" packages="net.ontopia.infoset.*" />
-      <group title="Query Engine Packages" packages="net.ontopia.topicmaps.query.*" />
-      <group title="Full-text Integration Packages" packages="net.ontopia.infoset.fulltext.*" />
-      <group title="Schema Tools Packages" packages="net.ontopia.topicmaps.schema.*" />
-      <group title="Web Editor Packages" packages="net.ontopia.topicmaps.webed.*" />
-      <group title="Navigator Framework Packages" packages="net.ontopia.topicmaps.nav.*:net.ontopia.topicmaps.nav2.*" />
-      <group title="RDBMS Backend Connector Packages" packages="net.ontopia.topicmaps.impl.rdbms" />
-    </javadoc>
-    <replace file="${build.javadoc}/ontopia/overview-frame.html" token="{@docroot}" value="." />
-    <copy file="${doc.path}/ontopia/logo.gif" todir="${build.javadoc}/ontopia" />
-  </target>
-  
-  <target name="javadoc.ontopia.dev" depends="init">
-    <delete dir="${build.javadoc}/ontopia-dev" />
-    <mkdir dir="${build.javadoc}/ontopia-dev" />
-    <javadoc packagenames="
-                           ${dev.engine.packagenames},
-                           ${dev.navigator.packagenames},
-                           ${dev.fulltext.packagenames},
-                           ${dev.query.packagenames},
-                           ${dev.schema.packagenames},
-                           ${dev.webed.packagenames},
-                           ${dev.rdbms.packagenames}
-                           " sourcepath="${java.path}" destdir="${build.javadoc}/ontopia-dev" 
-                           author="true" version="true" use="true" public="true" 
-                           windowtitle="Ontopia" doctitle="Ontopia API documentation" 
-                           header="&lt;img src='{@docroot}/logo.gif'&gt;" 
-                           bottom="&lt;i&gt;Copyright &#169; 2000-2010 &lt;a href='http://www.ontopia.net'&gt;Ontopia&lt;/a&gt;. All Rights Reserved.&lt;/i&gt;" 
-                           classpathref="project.classpath">
-      <group title="Core Topic Map Packages" packages="net.ontopia.topicmaps.*" />
-      <group title="Core Information Set Packages" packages="net.ontopia.infoset.*" />
-      <group title="Query Engine Packages" packages="net.ontopia.topicmaps.query.*" />
-      <group title="Full-text Integration Packages" packages="net.ontopia.infoset.fulltext.*" />
-      <group title="Schema Tools Packages" packages="net.ontopia.topicmaps.schema.*" />
-      <group title="Web Editor Packages" packages="net.ontopia.topicmaps.webed.*" />
-      <group title="Navigator Framework Packages" packages="net.ontopia.topicmaps.nav.*:net.ontopia.topicmaps.nav2.*" />
-      <group title="RDBMS Backend Connector Packages" packages="net.ontopia.topicmaps.impl.rdbms" />
-    </javadoc>
-    <replace file="${build.javadoc}/ontopia-dev/overview-frame.html" token="{@docroot}" value="." />
-    <copy file="${doc.path}/ontopia/logo.gif" todir="${build.javadoc}/ontopia-dev" />
   </target>
   
   <target name="dist.jar.ontopia.body" depends="check-jvm,prepare.product.class,clean.classes,compile.ontopia,compile.ontopia.test,jar.ontopia.test,jar.ontopia" description="builds the ontopia.jar file">
@@ -756,12 +689,6 @@
     <delete dir="${dist.path}/doc" />
     <mkdir dir="${dist.path}/doc" />
     
-    <!-- Get javadoc -->
-    <antcall inheritRefs="true" target="javadoc.ontopia" />
-    <copy todir="${dist.path}/doc/api">
-      <fileset dir="${build.javadoc}/ontopia" />
-    </copy>
-
     <!-- finally, package it -->
     <zip destFile="${build.dists}/ontopia-docs.zip" duplicate="preserve">
       <zipfileset dir="${dist.path}">
