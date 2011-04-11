@@ -53,20 +53,6 @@
   <!-- - - - Collect rdbms components  - - - - - - - - - - - - - - - - - - - -->
   <target name="dist.rdbms.collect">
     
-    <!-- Collect sample database property -->
-    <mkdir dir="${dist.path}/rdbms/config" />
-    <copy todir="${dist.path}/rdbms/config/">
-      <fileset dir="${src.path}/dist/rdbms/">
-        <include name="db.oracle8.props" />
-        <include name="db.oracle9i.props" />
-        <include name="db.oracle10g.props" />
-        <include name="db.postgresql.props" />
-        <include name="db.sqlserver.props" />
-        <include name="db.mysql.props" />
-        <include name="db.h2.props" />
-      </fileset>
-    </copy>
-    
     <!-- Collection clustering configuration -->
     <mkdir dir="${dist.path}/rdbms/clustering" />
     <copy file="${src.path}/dist/rdbms/ontopia-terracotta.xml" todir="${dist.path}/rdbms/clustering" />
