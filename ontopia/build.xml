@@ -48,9 +48,6 @@
   <target name="dist.navigator.collect">
     <echo>Collecting navigator runtime components...</echo>
     
-    <!-- Build Ontopia realm -->
-    <copy file="${build.jars}/ontopia-realm.jar" tofile="${dist.path}/apache-tomcat/server/lib/ontopia-realm.jar" overwrite="yes" />
-    
     <!-- Collect omnigator web application -->
     <copy todir="${dist.path}/apache-tomcat/webapps/omnigator">
       <fileset dir="${src.path}/webapps/omnigator" />
