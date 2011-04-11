@@ -41,20 +41,6 @@
   <!-- Makes sure that all neccessary classes are compiled before packaging ontopia.jar -->
   <target name="compile.ontopia">
 
-    <echo>Copying TLDs to META-INF...</echo>
-    <copy todir="${build.classes}/META-INF/" overwrite="yes">
-      <fileset dir="${src.path}/webapps/webedtest/WEB-INF/jsp/">
-        <include name="*.tld" />
-      </fileset>
-    </copy>
-    
-    <echo>Copying webed resources...</echo>
-    <copy todir="${build.classes}/" overwrite="yes">
-      <fileset dir="${basedir}/src/webapps/webedtest/WEB-INF/templates/">
-        <include name="*.vm" />
-      </fileset>
-    </copy>
-    
     <echo>Copying rdbms resources...</echo>
     <copy file="${java.path}/net/ontopia/topicmaps/impl/rdbms/config/mapping.xml" tofile="${build.classes}/net/ontopia/topicmaps/impl/rdbms/config/mapping.xml" overwrite="yes" />
     <copy file="${java.path}/net/ontopia/topicmaps/impl/rdbms/config/queries.xml" tofile="${build.classes}/net/ontopia/topicmaps/impl/rdbms/config/queries.xml" overwrite="yes" />
