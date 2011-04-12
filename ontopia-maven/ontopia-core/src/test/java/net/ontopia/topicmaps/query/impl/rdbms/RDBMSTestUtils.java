@@ -22,28 +22,22 @@ import org.junit.Ignore;
 
 @Ignore
 public class RDBMSTestUtils {
-  
+
   private final static String testdataDirectory = "query";
 
   // ===== Helper methods (topic maps)
 
   public static void load(AbstractQueryTest test, String filename) throws IOException {
     filename = FileUtils.getTestInputFile(testdataDirectory, filename);
-    
-    try {
-      RDBMSTestFactory.checkDatabasePresence();
-    } catch (SQLException e) {
-      throw new IOException(e);
-    } catch (SAXException e) {
-      throw new IOException(e);
-    }
-    
+
+    checkDatabasePresence();
+
     RDBMSTopicMapStore store = new RDBMSTopicMapStore();
-    test.topicmap = store.getTopicMap();    
+    test.topicmap = store.getTopicMap();
     test.builder = store.getTopicMap().getBuilder();
     test.base = URIUtils.getURI(filename);
     store.setBaseAddress(test.base);
-    
+
     TopicMapImporterIF importer = ImportExportUtils.getImporter(filename);
     if (importer instanceof XTMTopicMapReader)
       ((XTMTopicMapReader) importer).setValidation(false);
@@ -54,9 +48,20 @@ public class RDBMSTestUtils {
     //! test.processor = new QueryProcessor(test.topicmap, test.base);
     test.processor = QueryUtils.createQueryProcessor(test.topicmap, test.base);
   }
-  
+
+  private static void checkDatabasePresence() throws IOException {
+    try {
+      RDBMSTestFactory.checkDatabasePresence();
+    } catch (SQLException e) {
+      throw new IOException(e);
+    } catch (SAXException e) {
+      throw new IOException(e);
+    }
+  }
+
   public static void makeEmpty(AbstractQueryTest test) {
     try {
+      checkDatabasePresence();
       RDBMSTopicMapStore store = new RDBMSTopicMapStore();
       test.topicmap = store.getTopicMap();
       test.builder = test.topicmap.getBuilder();
@@ -67,5 +72,4 @@ public class RDBMSTestUtils {
       throw new OntopiaRuntimeException(e);
     }
   }
-  
 }
