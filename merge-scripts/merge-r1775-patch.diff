@@ -1,0 +1,160 @@
+Index: trunk/ontopia-maven/pom.xml
+===================================================================
+--- trunk/ontopia-maven/pom.xml	(revision 1172)
++++ trunk/ontopia-maven/pom.xml	(working copy)
+@@ -28,6 +28,7 @@
+ 		<module>ontopia-viz</module>
+ 		<module>ontopia-classify</module>
+ 		<module>ontopia-realm</module>
++		<module>ontopoly-editor</module>
+ 		
+ 		<!-- Web Apps -->
+ 		<module>webapp-root</module>
+@@ -36,6 +37,7 @@
+ 		<module>webapp-xmltools</module>
+ 		<module>webapp-omnigator</module>
+ 		<module>webapp-ontopoly</module>
++		<module>webapp-ontopoly-standalone</module>
+ 		
+ 		<!-- Distribution -->
+ 		<module>ontopia-distribution-tomcat</module>
+Index: trunk/ontopia-maven/ontopoly-editor/pom.xml
+===================================================================
+--- trunk/ontopia-maven/ontopoly-editor/pom.xml	(revision 2072)
++++ trunk/ontopia-maven/ontopoly-editor/pom.xml	(working copy)
+@@ -2,21 +2,20 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>net.ontopia</groupId>
+-        <artifactId>ontopoly</artifactId>
++        <groupId>net.ontopia.maven</groupId>
++        <artifactId>ontopia-parent</artifactId>
+         <version>5.2.0-SNAPSHOT</version>
+     </parent>
+ 
+     <name>Ontopoly Editor</name>
+-    <groupId>net.ontopia</groupId>
+     <artifactId>ontopoly-editor</artifactId>
+     <packaging>jar</packaging>
+-    <version>5.2.0-SNAPSHOT</version>
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>net.ontopia</groupId>
+-            <artifactId>ontopia-engine</artifactId>
++            <groupId>${project.groupId}</groupId>
++            <artifactId>ontopia-core</artifactId>
++            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.wicket</groupId>
+Index: trunk/ontopia-maven/webapp-ontopoly/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-ontopoly/pom.xml	(revision 2072)
++++ trunk/ontopia-maven/webapp-ontopoly/pom.xml	(working copy)
+@@ -2,34 +2,22 @@
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+-    <groupId>net.ontopia</groupId>
+-    <artifactId>ontopoly</artifactId>
++    <groupId>net.ontopia.maven</groupId>
++    <artifactId>ontopia-parent</artifactId>
+     <version>5.2.0-SNAPSHOT</version>
+   </parent>
+
+   <name>Ontopoly Web Application (base)</name>
+-  <groupId>net.ontopia</groupId>
+-  <artifactId>ontopoly-webapp-base</artifactId>
++  <artifactId>webapp-ontopoly</artifactId>
+   <packaging>war</packaging>
+-  <version>5.2.0-SNAPSHOT</version>
+
+   <dependencies>
+     <dependency>
+-      <groupId>net.ontopia</groupId>
++      <groupId>${project.groupId}</groupId>
+       <artifactId>ontopoly-editor</artifactId>
+-      <version>5.2.0-SNAPSHOT</version>
++      <version>${project.version}</version>
+     </dependency>
+     <dependency>
+-      <groupId>net.ontopia</groupId>
+-      <artifactId>ontopoly-rest</artifactId>
+-      <version>5.2.0-SNAPSHOT</version>
+-    </dependency>
+-    <dependency>
+-      <groupId>net.ontopia</groupId>
+-      <artifactId>ontopia-engine</artifactId>
+-      <scope>provided</scope>
+-    </dependency>
+-    <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <scope>provided</scope>
+Index: trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml	(revision 2072)
++++ trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml	(working copy)
+@@ -2,40 +2,34 @@
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+-    <groupId>net.ontopia</groupId>
+-    <artifactId>ontopoly</artifactId>
++    <groupId>net.ontopia.maven</groupId>
++    <artifactId>ontopia-parent</artifactId>
+     <version>5.2.0-SNAPSHOT</version>
+   </parent>
+
+   <name>Ontopoly Web Application (standalone)</name>
+-  <groupId>net.ontopia</groupId>
+-  <artifactId>ontopoly-webapp-standalone</artifactId>
++  <artifactId>webapp-ontopoly-standalone</artifactId>
+   <packaging>war</packaging>
+-  <version>5.2.0-SNAPSHOT</version>
+
+   <dependencies>
+     <dependency>
+-      <groupId>net.ontopia</groupId>
+-      <artifactId>ontopoly-webapp-base</artifactId>
+-      <version>5.2.0-SNAPSHOT</version>
++      <groupId>${project.groupId}</groupId>
++      <artifactId>webapp-ontopoly</artifactId>
++      <version>${project.version}</version>
+       <type>war</type>
+     </dependency>
+     <dependency>
+-      <groupId>net.ontopia</groupId>
+-      <artifactId>ontopia-engine</artifactId>
+-    </dependency>
+-    <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+     </dependency>
+-    <dependency>
++    <!--dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-jdk14</artifactId>
+-    </dependency>
++    </dependency-->
+     <dependency>
+       <groupId>com.h2database</groupId>
+       <artifactId>h2</artifactId>
+-      <version>1.2.144</version>
++      <scope>compile</scope>
+     </dependency>
+     <!--dependency>
+         <groupId>org.mortbay.jetty</groupId>
+@@ -63,8 +57,8 @@
+               <!-- empty groupId/artifactId represents the current build -->
+             </overlay>
+             <overlay>
+-              <groupId>net.ontopia</groupId>
+-              <artifactId>ontopoly-webapp-base</artifactId>
++              <groupId>${project.groupId}</groupId>
++              <artifactId>webapp-ontopoly</artifactId>
+             </overlay>
+           </overlays>
+         </configuration>

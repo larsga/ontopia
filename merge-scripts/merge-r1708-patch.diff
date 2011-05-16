@@ -1,0 +1,38 @@
+Index: trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionsTestCase.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionsTestCase.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionsTestCase.java	(working copy)
+@@ -18,21 +18,23 @@
+ 
+   @Test
+   public void testTrim() {
+-    assertEquals("trimEmpty", Functions.trim(""), "");
+-    assertEquals("trimOnlySpaces", Functions.trim("   "), "");
+-    assertEquals("trimBoth", Functions.trim("  Geir Ove "), "Geir Ove");
+-    assertEquals("trimRight", Functions.trim("Geir Ove  "), "Geir Ove");
+-    assertEquals("trimLeft", Functions.trim("  Geir Ove"), "Geir Ove");
++    Assert.assertEquals("trimEmpty", Functions.trim(""), "");
++    Assert.assertEquals("trimOnlySpaces", Functions.trim("   "), "");
++    Assert.assertEquals("trimBoth", Functions.trim("  Geir Ove "), "Geir Ove");
++    Assert.assertEquals("trimRight", Functions.trim("Geir Ove  "), "Geir Ove");
++    Assert.assertEquals("trimLeft", Functions.trim("  Geir Ove"), "Geir Ove");
+   }
+ 
++  @Test
+   public void testStripSpaces() {
+-    assertEquals("stripEmpty", Functions.stripSpaces(""), "");
+-    assertEquals("stripOnlySpaces", Functions.stripSpaces("   "), "");
+-    assertEquals("stripBoth", Functions.stripSpaces("  Geir Ove "), "GeirOve");
+-    assertEquals("stripRight", Functions.stripSpaces("Geir Ove  "), "GeirOve");
+-    assertEquals("stripLeft", Functions.stripSpaces("  Geir Ove"), "GeirOve");
++    Assert.assertEquals("stripEmpty", Functions.stripSpaces(""), "");
++    Assert.assertEquals("stripOnlySpaces", Functions.stripSpaces("   "), "");
++    Assert.assertEquals("stripBoth", Functions.stripSpaces("  Geir Ove "), "GeirOve");
++    Assert.assertEquals("stripRight", Functions.stripSpaces("Geir Ove  "), "GeirOve");
++    Assert.assertEquals("stripLeft", Functions.stripSpaces("  Geir Ove"), "GeirOve");
+   }
+ 
++  @Test
+   public void testSubstring() {
+     Assert.assertEquals("substring", Functions.substring("Geir Ove", "3", "6"), "r O");
+   }

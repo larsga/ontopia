@@ -1,0 +1,36 @@
+Index: trunk/ontopia-maven/ontopia-db2tm/src/main/java/net/ontopia/topicmaps/db2tm/JDBCDataSource.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-db2tm/src/main/java/net/ontopia/topicmaps/db2tm/JDBCDataSource.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-db2tm/src/main/java/net/ontopia/topicmaps/db2tm/JDBCDataSource.java	(working copy)
+@@ -133,10 +133,17 @@
+   public String getMaxOrderValue(Changelog changelog) {
+     try {
+       // get datatypes
+-      Map cdatatypes = getColumnTypes(changelog.getTable(), conn);
+-      Integer oct = (Integer)cdatatypes.get(changelog.getOrderColumn());
+-      if (oct == null) oct = (Integer)cdatatypes.get(changelog.getOrderColumn().toUpperCase());
+-      int ocoltype = oct.intValue();
++      Map<String, Integer> cdatatypes = getColumnTypes(changelog.getTable(), conn);
++      Integer ocoltypeobj = cdatatypes.get(changelog.getOrderColumn());
++      if (ocoltypeobj == null) ocoltypeobj = cdatatypes.get(changelog.getOrderColumn().toUpperCase());
++      int ocoltype;
++      if (ocoltypeobj != null)
++        ocoltype = ocoltypeobj.intValue();
++      else {
++        ocoltype = 12; // varchar
++        throw new DB2TMException("Couldn't find data type of order column '" +
++                 changelog.getOrderColumn() + "'");
++      }
+       
+       // prepare, bind and execute statement
+       StringBuffer sb = new StringBuffer();
+@@ -180,6 +187,9 @@
+     } finally {
+       rs.close();
+     }
++
++    // sometimes the above doesn't produce any results, because some implementations
++    // require uppercase table names here
+     if (datatypes.isEmpty()) {
+       // try with uppercase
+       rs = conn.getMetaData().getColumns(null, null, table.toUpperCase(), null);

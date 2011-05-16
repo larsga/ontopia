@@ -1,0 +1,12 @@
+Index: trunk/ontopia-maven/webapp-ontopoly/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-ontopoly/pom.xml	(revision 2072)
++++ trunk/ontopia-maven/webapp-ontopoly/pom.xml	(working copy)
+@@ -26,6 +26,7 @@
+   </dependencies>
+ 
+ 	<build>
++		<finalName>ontopoly</finalName>
+ 		<plugins>
+ 			<plugin>
+ 				<artifactId>maven-antrun-plugin</artifactId>

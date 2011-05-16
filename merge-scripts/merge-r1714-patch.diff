@@ -1,0 +1,13 @@
+Index: trunk/ontopia-maven/ontopia-navigator/src/test/java/net/ontopia/topicmaps/nav2/impl/framework/JSPAttributeTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-navigator/src/test/java/net/ontopia/topicmaps/nav2/impl/framework/JSPAttributeTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-navigator/src/test/java/net/ontopia/topicmaps/nav2/impl/framework/JSPAttributeTest.java	(working copy)
+@@ -104,7 +104,7 @@
+     runJSPTest("jspattr-double.jsp",
+                        makeMap("foo", new StaticObject()));
+   }
+-  */
++
+   static class StaticObject {
+     public static Object getBar() { return "barvalue"; }
+   }

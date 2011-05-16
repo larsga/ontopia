@@ -1,0 +1,18 @@
+Index: trunk/ontopia-maven/webapp-ontopoly/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-ontopoly/pom.xml	(revision 2072)
++++ trunk/ontopia-maven/webapp-ontopoly/pom.xml	(working copy)
+@@ -36,4 +25,13 @@
+     </dependency>
+   </dependencies>
+ 
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.codehaus.mojo</groupId>
++				<artifactId>docbook-maven-plugin</artifactId>
++			</plugin>
++		</plugins>
++	</build>
++
+ </project>

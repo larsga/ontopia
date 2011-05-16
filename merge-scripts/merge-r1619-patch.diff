@@ -1,0 +1,22 @@
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/xml/XTM2ExporterTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/xml/XTM2ExporterTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/xml/XTM2ExporterTest.java	(working copy)
+@@ -89,6 +89,7 @@
+     handler.check();
+   }
+ 
++  @Test
+   public void testExportItemIdentifiers() throws IOException, SAXException {
+     prepareTopicMap();
+     TopicIF topic = builder.makeTopic();
+@@ -148,7 +149,8 @@
+     }
+ 
+     public void check() {
+-      Assert.assertTrue("element " + element + " not found", foundElement);
++      if (elementRequired)
++        Assert.assertTrue("element " + element + " not found", foundElement);
+       if (allowed == REQUIRED)
+         Assert.assertTrue("attribute " + attribute + " not found", foundAttribute);
+ 

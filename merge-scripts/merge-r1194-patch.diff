@@ -1,0 +1,13 @@
+Index: trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/topicmaps/utils/rdf/RDFTopicMapWriter.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/topicmaps/utils/rdf/RDFTopicMapWriter.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/topicmaps/utils/rdf/RDFTopicMapWriter.java	(working copy)
+@@ -19,7 +19,7 @@
+ import net.ontopia.infoset.impl.basic.URILocator;
+ import net.ontopia.topicmaps.core.*;
+ import net.ontopia.topicmaps.utils.PSI;
+-import net.ontopia.topicmaps.nav.utils.deciders.TMExporterDecider;
++import net.ontopia.topicmaps.utils.deciders.TMExporterDecider;
+ import net.ontopia.topicmaps.query.core.*;
+ import net.ontopia.topicmaps.query.utils.QueryUtils;
+ import com.hp.hpl.jena.rdf.arp.AResource;

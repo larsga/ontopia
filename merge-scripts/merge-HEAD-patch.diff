@@ -1,0 +1,449 @@
+Index: trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/utils/FileUtils.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/utils/FileUtils.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/main/java/net/ontopia/utils/FileUtils.java	(working copy)
+@@ -8,6 +8,7 @@
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.FileNotFoundException;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.OutputStream;
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/utils/CompactHashMapTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/utils/CompactHashMapTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/utils/CompactHashMapTest.java	(working copy)
+@@ -1,17 +1,13 @@
+ 
+-package net.ontopia.utils.test;
++package net.ontopia.utils;
+ 
+ import java.util.*;
+-import net.ontopia.test.*;
+ import net.ontopia.utils.*;
++import junit.framework.TestCase;
+ 
+-public class CompactHashMapTest extends AbstractOntopiaTestCase {
++public class CompactHashMapTest extends TestCase {
+   protected Map map;
+   
+-  public CompactHashMapTest(String name) {
+-    super(name);
+-  }
+-
+   public void setUp() {
+     map = new CompactHashMap();
+   }
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/utils/rdf/RDFWriterCanonicalTestCase.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/utils/rdf/RDFWriterCanonicalTestCase.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/utils/rdf/RDFWriterCanonicalTestCase.java	(working copy)
+@@ -35,7 +35,7 @@
+ 
+   @Parameters
+   public static List generateTests() {
+-    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xtm|.ltm");
++    return FileUtils.getTestInputFiles(testdataDirectory, "in", ".xtm|.ltm|.ctm");
+   }
+ 
+   // --- Canonical test case class
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/AssociationEventsTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/AssociationEventsTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/AssociationEventsTest.java	(working copy)
+@@ -1,4 +1,4 @@
+-package net.ontopia.topicmaps.core.events.test;
++package net.ontopia.topicmaps.core.events;
+ 
+ import java.net.MalformedURLException;
+ import java.util.ArrayList;
+@@ -12,12 +12,13 @@
+ import net.ontopia.topicmaps.core.TopicMapIF;
+ import net.ontopia.topicmaps.core.events.AbstractTopicMapListener;
+ import net.ontopia.topicmaps.core.events.TopicMapEvents;
+-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
++import net.ontopia.topicmaps.core.AbstractTopicMapTest;
+ import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
+ import net.ontopia.topicmaps.utils.ImportExportUtils;
+ import net.ontopia.utils.OntopiaRuntimeException;
++import net.ontopia.utils.FileUtils;
+ 
+-public class AssociationEventsTest extends AbstractTopicMapTest {
++public abstract class AssociationEventsTest extends AbstractTopicMapTest {
+ 
+   protected TopicMapReferenceIF topicmapRef;
+   protected TopicMapIF topicmap;       // topic map of object being tested
+@@ -30,15 +31,16 @@
+   }
+ 
+   @Override
+-  public void setUp() {
++  public void setUp() throws Exception {
+     // get a new topic map object from the factory.
++    factory = getFactory();
+     try {
+       topicmapRef = factory.makeTopicMapReference();
+       listener = new EventListener();
+       TopicMapEvents.addTopicListener(topicmapRef, listener);
+       // load topic map
+       topicmap = topicmapRef.createStore(false).getTopicMap();
+-      ImportExportUtils.getImporter(resolveFileName("various", "alumni.xtm")).importInto(topicmap);
++      ImportExportUtils.getImporter(FileUtils.getTestInputFile("various", "alumni.xtm")).importInto(topicmap);
+       topicmap.getStore().commit();
+       
+       // get the builder of that topic map.
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/EventManagerTests.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/EventManagerTests.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/core/events/EventManagerTests.java	(working copy)
+@@ -1,14 +1,13 @@
+ 
+ // $Id$
+ 
+-package net.ontopia.topicmaps.core.events.test;
++package net.ontopia.topicmaps.core.events;
+ 
+ import java.io.File;
+ import java.util.*;
+ import net.ontopia.utils.OntopiaRuntimeException;
+ import net.ontopia.infoset.core.*;
+ import net.ontopia.topicmaps.core.*;
+-import net.ontopia.topicmaps.core.test.AbstractTopicMapTest;
+ import net.ontopia.topicmaps.core.events.*;
+ import net.ontopia.topicmaps.entry.TopicMapReferenceIF;
+ import net.ontopia.topicmaps.impl.utils.AbstractTopicMapStore;
+@@ -16,7 +15,7 @@
+ import net.ontopia.topicmaps.impl.utils.EventManagerIF;
+ import net.ontopia.topicmaps.utils.ImportExportUtils;
+   
+-public class EventManagerTests extends AbstractTopicMapTest {
++public abstract class EventManagerTests extends AbstractTopicMapTest {
+ 
+   protected TopicMapReferenceIF topicmapRef;
+   protected TopicMapIF topicmap;       // topic map of object being tested
+@@ -27,8 +26,9 @@
+     super(name);
+   }
+   
+-  public void setUp() {
++  public void setUp() throws Exception {
+     // get a new topic map object from the factory.
++    factory = getFactory();
+     topicmapRef = factory.makeTopicMapReference();
+     listener = new TesterListener();
+     try {
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/AssociationEventsTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/AssociationEventsTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/AssociationEventsTest.java	(working copy)
+@@ -0,0 +1,16 @@
++package net.ontopia.topicmaps.impl.basic.events;
++
++import net.ontopia.topicmaps.core.TestFactoryIF;
++import net.ontopia.topicmaps.impl.basic.BasicTestFactory;
++
++public class AssociationEventsTest extends net.ontopia.topicmaps.core.events.AssociationEventsTest {
++
++  public AssociationEventsTest(String name) {
++    super(name);
++  }
++
++  protected TestFactoryIF getFactory() throws Exception {
++    return new BasicTestFactory();
++  }
++
++}
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/EventManagerTests.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/EventManagerTests.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/basic/events/EventManagerTests.java	(working copy)
+@@ -0,0 +1,16 @@
++package net.ontopia.topicmaps.impl.basic.events;
++
++import net.ontopia.topicmaps.core.TestFactoryIF;
++import net.ontopia.topicmaps.impl.basic.BasicTestFactory;
++
++public class EventManagerTests extends net.ontopia.topicmaps.core.events.EventManagerTests {
++
++  public EventManagerTests(String name) {
++    super(name);
++  }
++
++  protected TestFactoryIF getFactory() throws Exception {
++    return new BasicTestFactory();
++  }
++
++}
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/AssociationEventsTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/AssociationEventsTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/AssociationEventsTest.java	(working copy)
+@@ -0,0 +1,16 @@
++package net.ontopia.topicmaps.impl.rdbms.events;
++
++import net.ontopia.topicmaps.core.TestFactoryIF;
++import net.ontopia.topicmaps.impl.rdbms.RDBMSTestFactory;
++
++public class AssociationEventsTest extends net.ontopia.topicmaps.core.events.AssociationEventsTest {
++
++  public AssociationEventsTest(String name) {
++    super(name);
++  }
++
++  protected TestFactoryIF getFactory() throws Exception {
++    return new RDBMSTestFactory();
++  }
++
++}
+Index: trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/EventManagerTests.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/EventManagerTests.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-core/src/test/java/net/ontopia/topicmaps/impl/rdbms/events/EventManagerTests.java	(working copy)
+@@ -0,0 +1,16 @@
++package net.ontopia.topicmaps.impl.rdbms.events;
++
++import net.ontopia.topicmaps.core.TestFactoryIF;
++import net.ontopia.topicmaps.impl.rdbms.RDBMSTestFactory;
++
++public class EventManagerTests extends net.ontopia.topicmaps.core.events.EventManagerTests {
++
++  public EventManagerTests(String name) {
++    super(name);
++  }
++
++  protected TestFactoryIF getFactory() throws Exception {
++    return new RDBMSTestFactory();
++  }
++
++}
+Index: trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionVirtualColumnTest.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionVirtualColumnTest.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/FunctionVirtualColumnTest.java	(working copy)
+@@ -1,28 +1,26 @@
+ 
+-package net.ontopia.topicmaps.db2tm.test;
++package net.ontopia.topicmaps.db2tm;
+ 
+-import net.ontopia.topicmaps.db2tm.*;
+-import net.ontopia.test.AbstractOntopiaTestCase;
++import org.junit.Test;
++import org.junit.Assert;
+ 
+-public class FunctionVirtualColumnTest extends AbstractOntopiaTestCase {
+-
+-  public FunctionVirtualColumnTest(String name) {
+-    super(name);
+-  }
++public class FunctionVirtualColumnTest {
+ 
+   /**
+    * Tests normal, successful execution.
+    */
++  @Test
+   public void testNormal() {
+     FunctionVirtualColumn func = new FunctionVirtualColumn(null, "column", "net.ontopia.topicmaps.db2tm.Functions.trim");
+     func.addParameter(" a ");
+     func.compile();
+-    assertEquals("function returned incorrect value", "a", func.getValue(null));
++    Assert.assertEquals("function returned incorrect value", "a", func.getValue(null));
+   }
+ 
+   /**
+    * Tests error reporting.
+    */
++  @Test
+   public void testNPE() {
+     FunctionVirtualColumn func = new FunctionVirtualColumn(null, "gurble", "net.ontopia.topicmaps.db2tm.Functions.convertDate");
+     func.addParameter("12323");
+@@ -32,12 +30,12 @@
+ 
+     try {
+       func.getValue(null);
+-      fail("ooops! function should fail.");
++      Assert.fail("ooops! function should fail.");
+     } catch (DB2TMInputException e) {
+       String msg = e.getMessage();
+-      assertTrue("error message did not contain name of column",
++      Assert.assertTrue("error message did not contain name of column",
+                  msg.indexOf("gurble") != -1);
+-      assertTrue("error message did not contain input value",
++      Assert.assertTrue("error message did not contain input value",
+                  msg.indexOf("12323") != -1);
+     }
+   }
+Index: trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/ChangelogTestCase.java
+===================================================================
+--- trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/ChangelogTestCase.java	(revision 1172)
++++ trunk/ontopia-maven/ontopia-db2tm/src/test/java/net/ontopia/topicmaps/db2tm/ChangelogTestCase.java	(working copy)
+@@ -1,11 +1,12 @@
+ 
+-package net.ontopia.topicmaps.db2tm.test;
++package net.ontopia.topicmaps.db2tm;
+ 
+ import java.util.Map;
+ import java.util.Iterator;
+ import java.util.ArrayList;
+ import java.util.Collection;
+ import java.util.Collections;
++import java.util.List;
+ import java.io.File;
+ import java.io.FileReader;
+ import java.io.FileOutputStream;
+@@ -17,63 +18,51 @@
+ import net.ontopia.utils.FileUtils;
+ import net.ontopia.utils.StringUtils;
+ import net.ontopia.utils.PropertyUtils;
+-import net.ontopia.test.TestCaseGeneratorIF;
+ import net.ontopia.topicmaps.core.TopicMapIF;
+ import net.ontopia.topicmaps.utils.ImportExportUtils;
+ import net.ontopia.topicmaps.xml.CanonicalXTMWriter;
+-import net.ontopia.topicmaps.db2tm.*;
+ import net.ontopia.persistence.proxy.DefaultConnectionFactory;
+-import net.ontopia.topicmaps.xml.test.AbstractCanonicalTestCase;
+ 
+ import au.com.bytecode.opencsv.CSVReader;
+ 
++import org.junit.Assert;
++import org.junit.Test;
++import org.junit.runner.RunWith;
++import org.junit.runners.Parameterized;
++import org.junit.runners.Parameterized.Parameters;
++
+ /**
+  * INTERNAL: Test for sync with changelogs. Requires H2 database.
+  */
+-public class ChangelogTestGenerator implements TestCaseGeneratorIF {
++@RunWith(Parameterized.class)
++public class ChangelogTestCase {
+   private Connection conn;
+   private Statement stm;
+   
+-  public Iterator generateTests() {
+-    Collection tests = new ArrayList();
+-    String root = AbstractCanonicalTestCase.getTestDirectory();
+-    String base = root + File.separator + "db2tm" + File.separator + "in" +
+-      File.separator + "sync" + File.separator;
+-
+-    // Create test cases for each xml config file in 'in/sync'.
+-    File indir = new File(base);
+-    File[] infiles = indir.listFiles();
+-    if (infiles == null)
+-      return Collections.EMPTY_SET.iterator();
++  private final static String testdataDirectory = "db2tm";
+       
+-    for (int i = 0; i < infiles.length; i++) {
+-      String name = infiles[i].getName ();
+-      if (name.endsWith (".xml"))
+-        tests.add(new ChangelogTestCase(name, indir));
++  @Parameters
++  public static List generateTests() throws IOException {
++    FileUtils.transferTestInputDirectory(testdataDirectory + "/in/sync");
++    return FileUtils.getTestInputFiles(testdataDirectory, "in/sync", ".xml");
+     }
+ 
+-    return tests.iterator();
+-  }
+-
+-  public class ChangelogTestCase extends AbstractCanonicalTestCase {
+-    private File dir;
++    private String base;
+     private String casename;
+ 
+-    public ChangelogTestCase(String xmlfile, File dir) {
+-      super("testFile");
++    public ChangelogTestCase(String root, String xmlfile) {
+       this.casename = xmlfile.substring(0, xmlfile.length() - 4);
+-      this.dir = dir;
++      this.base = FileUtils.getTestdataOutputDirectory() + testdataDirectory;
+     }
+     
++    @Test
+     public void testFile() throws IOException, SQLException {
+-      verifyDirectory(dir.getPath(), "out");
++      FileUtils.verifyDirectory(base, "out");
+       
+-      String cfg = dir.getPath() + File.separator + casename + ".xml";
+-      String tm = dir.getPath() + File.separator + casename + ".ltm";
+-      String out = dir.getPath() + File.separator + "out" +
+-                   File.separator + casename + ".cxtm";
+-      String baseline = dir.getPath() + File.separator + "baseline" +
+-                        File.separator + casename + ".cxtm";
++      String cfg = FileUtils.getTransferredTestInputFile(testdataDirectory, "in", "sync", casename + ".xml").getPath();
++      String tm = FileUtils.getTransferredTestInputFile(testdataDirectory, "in", "sync", casename + ".ltm").getPath();
++      File out = FileUtils.getTestOutputFile(testdataDirectory, "out", casename + ".cxtm");
++      String baseline = FileUtils.getTestInputFile(testdataDirectory, "in/sync/baseline", casename + ".cxtm");
+       
+       // Connect to the DB
+       Connection conn = getConnection();
+@@ -106,13 +95,13 @@
+       fos.close();
+       
+       // Check that the cxtm output matches the baseline.
+-      assertTrue("The canonicalized conversion from " + casename
++      Assert.assertTrue("The canonicalized conversion from " + casename
+           + " does not match the baseline: " + out + " " + baseline,
+-                 FileUtils.compare(out, baseline));
++                 FileUtils.compareFileToResource(out, baseline));
+     }
+     
+     private Connection getConnection() throws SQLException, IOException {
+-      String propfile = dir.getPath() + File.separator + "h2.properties";
++      String propfile = FileUtils.getTransferredTestInputFile(testdataDirectory, "in", "sync", "h2.properties").getPath();
+       Map props = PropertyUtils.loadProperties(propfile);
+       props.put("net.ontopia.topicmaps.impl.rdbms.ConnectionPool", "false");
+       DefaultConnectionFactory cf = new DefaultConnectionFactory(props, false);
+@@ -135,7 +124,7 @@
+       }
+       
+       // open the CSV file
+-      String csv = dir.getPath() + File.separator + file;
++      String csv = FileUtils.getTransferredTestInputFile(testdataDirectory, "in", "sync", file).getPath();
+       FileReader reader = new FileReader(csv);
+       CSVReader csvreader = new CSVReader(reader, ';', '"');
+ 
+@@ -167,7 +156,6 @@
+         tuple = csvreader.readNext();
+       }
+     }
+-  }
+ 
+   // ===== FUNCTION METHODS
+ 
+Index: trunk/ontopia-maven/webapp-omnigator/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-omnigator/pom.xml	(revision 1172)
++++ trunk/ontopia-maven/webapp-omnigator/pom.xml	(working copy)
+@@ -20,6 +20,11 @@
+ 			<version>${project.version}</version>
+ 		</dependency>
+ 		<dependency>
++			<groupId>${project.groupId}</groupId>
++			<artifactId>ontopia-db2tm</artifactId>
++			<version>${project.version}</version>
++		</dependency>
++		<dependency>
+ 			<groupId>javax.servlet</groupId>
+ 			<artifactId>jsp-api</artifactId>
+ 		</dependency>
+Index: trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml
+===================================================================
+--- trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml	(revision 1172)
++++ trunk/ontopia-maven/webapp-ontopoly-standalone/pom.xml	(working copy)
+@@ -19,6 +19,15 @@
+       <type>war</type>
+     </dependency>
+     <dependency>
++      <groupId>${project.groupId}</groupId>
++      <artifactId>ontopia-core</artifactId>
++      <version>${project.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>javax.servlet</groupId>
++      <artifactId>servlet-api</artifactId>
++    </dependency>
++    <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+     </dependency>
